@@ -99,6 +99,12 @@ The application manages several core entities:
 ```
 Changelog:
 - June 23, 2025. Initial setup
+- June 23, 2025. Implemented unified navbar system:
+  * Replaced multiple header/navbar components with single Navbar component
+  * Added conditional project navigation (shows only on project pages)
+  * Updated all routes to follow /project/:projectId/[page-name] pattern
+  * Removed deprecated Header component
+  * All pages now use unified navigation with proper props
 ```
 
 ## User Preferences

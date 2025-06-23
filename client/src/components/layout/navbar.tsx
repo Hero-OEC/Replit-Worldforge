@@ -4,14 +4,6 @@ import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const navigation = [
-  { name: "Timeline", href: "timeline", icon: Clock },
-  { name: "Characters", href: "characters", icon: Users },
-  { name: "Locations", href: "locations", icon: MapPin },
-  { name: "Lore", href: "lore", icon: Sparkles },
-  { name: "Notes", href: "notes", icon: Scroll },
-];
-
 interface NavbarProps {
   projectId?: string;
   projectTitle?: string;
@@ -33,6 +25,15 @@ export default function Navbar({
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const projectNavItems = [
+    { name: "Overview", href: `/project/${projectId}`, icon: BookOpen },
+    { name: "Timeline", href: `/project/${projectId}/timeline`, icon: Clock },
+    { name: "Characters", href: `/project/${projectId}/characters`, icon: Users },
+    { name: "Locations", href: `/project/${projectId}/locations`, icon: MapPin },
+    { name: "Lore", href: `/project/${projectId}/lore`, icon: Sparkles },
+    { name: "Notes", href: `/project/${projectId}/notes`, icon: Scroll },
+  ];
+
   return (
     <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)]">
       {/* Top Navigation Bar */}
@@ -51,13 +52,7 @@ export default function Navbar({
               </div>
             </Link>
             
-            {showProjectNav && projectId && (
-              <Link href={`/project/${projectId}`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  Project Overview
-                </Button>
-              </Link>
-            )}
+{/* Project title will show in the project nav section below */}
           </div>
           
           <div className="flex items-center space-x-4">
@@ -115,12 +110,12 @@ export default function Navbar({
               </div>
               
               <nav className="flex space-x-6">
-                {navigation.map((item) => {
-                  const isActive = location.includes(item.href);
+                {projectNavItems.map((item) => {
+                  const isActive = location === item.href;
                   const Icon = item.icon;
                   
                   return (
-                    <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
+                    <Link key={item.name} href={item.href}>
                       <button
                         className={`flex items-center space-x-2 py-2 px-3 rounded-lg transition-colors ${
                           isActive

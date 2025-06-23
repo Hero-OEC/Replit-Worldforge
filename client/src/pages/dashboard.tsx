@@ -17,6 +17,7 @@ export default function Dashboard() {
   return (
     <>
       <Navbar 
+        showProjectNav={false}
         searchPlaceholder="Search projects..."
         rightContent={
           <Button 
