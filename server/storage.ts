@@ -75,6 +75,145 @@ export class MemStorage implements IStorage {
   private currentMagicSystemId = 1;
   private currentLoreEntryId = 1;
 
+  constructor() {
+    this.seedSampleData();
+  }
+
+  private seedSampleData() {
+    // Sample projects
+    const project1: Project = {
+      id: 1,
+      title: "The Chronicles of Elena",
+      genre: "High Fantasy",
+      description: "A fantasy epic about a young mage discovering her true potential in a world of magic and political intrigue.",
+      status: "active",
+      createdAt: new Date("2024-06-20"),
+      updatedAt: new Date("2024-06-20")
+    };
+
+    const project2: Project = {
+      id: 2,
+      title: "Neon Shadows",
+      genre: "Cyberpunk",
+      description: "A cyberpunk thriller set in Neo-Tokyo where hackers fight against corporate overlords.",
+      status: "planning",
+      createdAt: new Date("2024-06-18"),
+      updatedAt: new Date("2024-06-18")
+    };
+
+    this.projects.set(1, project1);
+    this.projects.set(2, project2);
+    this.currentProjectId = 3;
+
+    // Sample characters for project 1
+    this.characters.set(1, {
+      id: 1,
+      projectId: 1,
+      name: "Elena Brightflame",
+      description: "The protagonist mage",
+      appearance: "Auburn hair, emerald eyes",
+      personality: "Determined and compassionate",
+      backstory: "Orphaned at young age",
+      role: "protagonist",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    // Add more characters to reach the numbers shown in the image
+    for (let i = 2; i <= 12; i++) {
+      this.characters.set(i, {
+        id: i,
+        projectId: 1,
+        name: `Character ${i}`,
+        description: null,
+        appearance: null,
+        personality: null,
+        backstory: null,
+        role: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    // Sample characters for project 2
+    for (let i = 13; i <= 19; i++) {
+      this.characters.set(i, {
+        id: i,
+        projectId: 2,
+        name: `Character ${i}`,
+        description: null,
+        appearance: null,
+        personality: null,
+        backstory: null,
+        role: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    // Sample locations
+    for (let i = 1; i <= 8; i++) {
+      this.locations.set(i, {
+        id: i,
+        projectId: 1,
+        name: `Location ${i}`,
+        description: null,
+        geography: null,
+        culture: null,
+        significance: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    for (let i = 9; i <= 13; i++) {
+      this.locations.set(i, {
+        id: i,
+        projectId: 2,
+        name: `Location ${i}`,
+        description: null,
+        geography: null,
+        culture: null,
+        significance: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    // Sample timeline events
+    for (let i = 1; i <= 25; i++) {
+      this.timelineEvents.set(i, {
+        id: i,
+        projectId: 1,
+        title: `Event ${i}`,
+        description: null,
+        date: null,
+        category: null,
+        order: i,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    for (let i = 26; i <= 43; i++) {
+      this.timelineEvents.set(i, {
+        id: i,
+        projectId: 2,
+        title: `Event ${i}`,
+        description: null,
+        date: null,
+        category: null,
+        order: i - 25,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+
+    this.currentCharacterId = 20;
+    this.currentLocationId = 14;
+    this.currentTimelineEventId = 44;
+  }
+
   // Projects
   async getProjects(): Promise<Project[]> {
     return Array.from(this.projects.values()).sort((a, b) => 
@@ -127,6 +266,7 @@ export class MemStorage implements IStorage {
     const project: Project = {
       id: this.currentProjectId++,
       ...insertProject,
+      status: insertProject.status || "active",
       createdAt: now,
       updatedAt: now,
     };
@@ -188,6 +328,11 @@ export class MemStorage implements IStorage {
     const character: Character = {
       id: this.currentCharacterId++,
       ...insertCharacter,
+      description: insertCharacter.description || null,
+      appearance: insertCharacter.appearance || null,
+      personality: insertCharacter.personality || null,
+      backstory: insertCharacter.backstory || null,
+      role: insertCharacter.role || null,
       createdAt: now,
       updatedAt: now,
     };
@@ -228,6 +373,10 @@ export class MemStorage implements IStorage {
     const location: Location = {
       id: this.currentLocationId++,
       ...insertLocation,
+      description: insertLocation.description || null,
+      geography: insertLocation.geography || null,
+      culture: insertLocation.culture || null,
+      significance: insertLocation.significance || null,
       createdAt: now,
       updatedAt: now,
     };
@@ -268,6 +417,10 @@ export class MemStorage implements IStorage {
     const event: TimelineEvent = {
       id: this.currentTimelineEventId++,
       ...insertEvent,
+      description: insertEvent.description || null,
+      date: insertEvent.date || null,
+      category: insertEvent.category || null,
+      order: insertEvent.order || 0,
       createdAt: now,
       updatedAt: now,
     };
@@ -308,6 +461,11 @@ export class MemStorage implements IStorage {
     const system: MagicSystem = {
       id: this.currentMagicSystemId++,
       ...insertSystem,
+      description: insertSystem.description || null,
+      rules: insertSystem.rules || null,
+      limitations: insertSystem.limitations || null,
+      source: insertSystem.source || null,
+      cost: insertSystem.cost || null,
       createdAt: now,
       updatedAt: now,
     };
@@ -348,6 +506,9 @@ export class MemStorage implements IStorage {
     const entry: LoreEntry = {
       id: this.currentLoreEntryId++,
       ...insertEntry,
+      content: insertEntry.content || null,
+      category: insertEntry.category || null,
+      tags: insertEntry.tags ? insertEntry.tags as string[] : null,
       createdAt: now,
       updatedAt: now,
     };
@@ -362,6 +523,7 @@ export class MemStorage implements IStorage {
     const updatedEntry: LoreEntry = {
       ...entry,
       ...updates,
+      tags: updates.tags ? updates.tags as string[] : entry.tags,
       updatedAt: new Date(),
     };
     this.loreEntries.set(id, updatedEntry);

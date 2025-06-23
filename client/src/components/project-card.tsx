@@ -11,15 +11,62 @@ interface ProjectCardProps {
 }
 
 const genreColors: Record<string, string> = {
-  Fantasy: "bg-purple-100 text-purple-800",
-  "Science Fiction": "bg-indigo-100 text-indigo-800",
-  "Sci-Fi": "bg-indigo-100 text-indigo-800",
-  Cyberpunk: "bg-cyan-100 text-cyan-800",
-  Mystery: "bg-gray-100 text-gray-800",
-  Romance: "bg-pink-100 text-pink-800",
-  Horror: "bg-red-100 text-red-800",
-  "Historical Fiction": "bg-amber-100 text-amber-800",
-  Other: "bg-gray-100 text-gray-800",
+  "High Fantasy": "bg-purple-100 text-purple-800",
+  "Low Fantasy": "bg-purple-100 text-purple-800", 
+  "Urban Fantasy": "bg-purple-100 text-purple-800",
+  "Dark Fantasy": "bg-purple-100 text-purple-800",
+  "Sword & Sorcery": "bg-purple-100 text-purple-800",
+  "Romantic Fantasy": "bg-pink-100 text-pink-800",
+  "Portal Fantasy": "bg-purple-100 text-purple-800",
+  "Fairy Tale Retellings": "bg-purple-100 text-purple-800",
+  "Mythic Fantasy": "bg-purple-100 text-purple-800",
+  "Historical Fantasy": "bg-amber-100 text-amber-800",
+  "Cozy Fantasy": "bg-green-100 text-green-800",
+  "Flintlock Fantasy": "bg-amber-100 text-amber-800",
+  "Progression Fantasy": "bg-blue-100 text-blue-800",
+  "Cultivation (Xianxia / Wuxia)": "bg-orange-100 text-orange-800",
+  "LitRPG": "bg-indigo-100 text-indigo-800",
+  "GameLit": "bg-indigo-100 text-indigo-800",
+  "Dungeon Core": "bg-gray-100 text-gray-800",
+  "Cyberpunk": "bg-cyan-100 text-cyan-800",
+  "Biopunk": "bg-green-100 text-green-800",
+  "Time Travel": "bg-blue-100 text-blue-800",
+  "AI & Robots": "bg-slate-100 text-slate-800",
+  "Dystopian": "bg-red-100 text-red-800",
+  "Post-Apocalyptic": "bg-red-100 text-red-800",
+  "Alien Invasion": "bg-indigo-100 text-indigo-800",
+  "LitRPG Sci-Fi": "bg-indigo-100 text-indigo-800",
+  "Romantic Comedy (Rom-Com)": "bg-pink-100 text-pink-800",
+  "Cozy Mystery": "bg-green-100 text-green-800",
+  "Detective Noir": "bg-gray-100 text-gray-800",
+  "Spy / Espionage": "bg-slate-100 text-slate-800",
+  "Crime Fiction": "bg-red-100 text-red-800",
+  "Techno-thriller": "bg-orange-100 text-orange-800",
+  "Domestic Thriller": "bg-yellow-100 text-yellow-800",
+  "Psychological Horror": "bg-red-100 text-red-800",
+  "Supernatural Horror": "bg-red-100 text-red-800",
+  "Slasher": "bg-red-100 text-red-800",
+  "Gothic Horror": "bg-purple-100 text-purple-800",
+  "Occult Horror": "bg-purple-100 text-purple-800",
+  "Survival Horror": "bg-red-100 text-red-800",
+  "Monster Horror": "bg-red-100 text-red-800",
+  "YA Fantasy": "bg-purple-100 text-purple-800",
+  "YA Sci-Fi": "bg-blue-100 text-blue-800",
+  "YA Romance": "bg-pink-100 text-pink-800",
+  "YA Contemporary": "bg-green-100 text-green-800",
+  "YA Dystopian": "bg-red-100 text-red-800",
+  "YA Thriller": "bg-orange-100 text-orange-800",
+  "YA Paranormal": "bg-purple-100 text-purple-800",
+  "Coming-of-Age": "bg-blue-100 text-blue-800",
+  "Literary Fiction": "bg-amber-100 text-amber-800",
+  "Contemporary Fiction": "bg-green-100 text-green-800",
+  "Slice of Life": "bg-green-100 text-green-800",
+  "Magical Realism": "bg-purple-100 text-purple-800",
+  "Satire": "bg-yellow-100 text-yellow-800",
+  "Drama": "bg-gray-100 text-gray-800",
+  "Alt-History": "bg-amber-100 text-amber-800",
+  "Dark Academia": "bg-slate-100 text-slate-800",
+  "Antihero Fiction": "bg-gray-100 text-gray-800",
 };
 
 const statusColors: Record<string, string> = {
@@ -30,12 +77,12 @@ const statusColors: Record<string, string> = {
 };
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
-  const genreColor = genreColors[project.genre] || genreColors.Other;
+  const genreColor = genreColors[project.genre] || "bg-gray-100 text-gray-800";
   const statusColor = statusColors[project.status] || statusColors.active;
 
   return (
     <Card 
-      className="bg-white shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-[var(--worldforge-card)] shadow-sm border border-[var(--border)] overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
       onClick={onClick}
     >
       <div className="p-6">

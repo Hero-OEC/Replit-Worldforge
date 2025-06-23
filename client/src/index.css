@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(39, 33%, 96%);
+  --background: hsl(40, 28%, 90%);
   --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
+  --muted: hsl(40, 20%, 88%);
   --muted-foreground: hsl(25, 5.3%, 44.7%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
+  --card: hsl(40, 28%, 96%);
   --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
+  --border: hsl(40, 15%, 85%);
+  --input: hsl(40, 15%, 85%);
   --primary: hsl(23, 77%, 54%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary: hsl(40, 20%, 88%);
   --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
+  --accent: hsl(40, 20%, 88%);
   --accent-foreground: hsl(24, 9.8%, 10%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
@@ -26,8 +26,9 @@
   
   /* Custom WorldForge colors */
   --worldforge-primary: hsl(23, 77%, 54%);
-  --worldforge-cream: hsl(39, 33%, 96%);
-  --worldforge-cream-dark: hsl(37, 22%, 91%);
+  --worldforge-cream: hsl(40, 28%, 90%);
+  --worldforge-cream-dark: hsl(40, 20%, 85%);
+  --worldforge-card: hsl(40, 28%, 96%);
 }
 
 .dark {
@@ -79,5 +80,9 @@
   
   .worldforge-cream-dark {
     background-color: var(--worldforge-cream-dark);
+  }
+  
+  .worldforge-card {
+    background-color: var(--worldforge-card);
   }
 }
