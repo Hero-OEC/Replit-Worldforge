@@ -23,23 +23,25 @@ const sampleCharacters = [
   "Shadow Assassin", "Dragon Guardian", "Village Elder"
 ];
 
-// Tag Search Component
+// Tag Search Component with separate search and tags
 interface TagSearchProps {
   items: string[];
   placeholder: string;
-  value: string;
-  onChange: (value: string) => void;
-  onSelect: (item: string) => void;
+  selectedTags: string[];
+  onAddTag: (tag: string) => void;
+  onRemoveTag: (tag: string) => void;
 }
 
-function TagSearch({ items, placeholder, value, onChange, onSelect }: TagSearchProps) {
+function TagSearch({ items, placeholder, selectedTags, onAddTag, onRemoveTag }: TagSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
   
   useEffect(() => {
-    if (value) {
+    if (searchValue) {
       const filtered = items.filter(item => 
-        item.toLowerCase().includes(value.toLowerCase())
+        item.toLowerCase().includes(searchValue.toLowerCase()) &&
+        !selectedTags.includes(item)
       );
       setFilteredItems(filtered);
       setIsOpen(filtered.length > 0);
@@ -47,40 +49,74 @@ function TagSearch({ items, placeholder, value, onChange, onSelect }: TagSearchP
       setFilteredItems([]);
       setIsOpen(false);
     }
-  }, [value, items]);
+  }, [searchValue, items, selectedTags]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    onChange(newValue);
+    setSearchValue(newValue);
   };
 
   const handleSelectItem = (item: string) => {
-    onSelect(item);
+    onAddTag(item);
+    setSearchValue("");
     setIsOpen(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && searchValue && !selectedTags.includes(searchValue)) {
+      onAddTag(searchValue);
+      setSearchValue("");
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <div className="relative">
-      <Input
-        placeholder={placeholder}
-        value={value}
-        onChange={handleInputChange}
-        onFocus={() => {
-          if (filteredItems.length > 0) setIsOpen(true);
-        }}
-      />
-      {isOpen && filteredItems.length > 0 && (
-        <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-          {filteredItems.map((item, index) => (
+    <div className="space-y-2">
+      <div className="relative">
+        <Input
+          placeholder={placeholder}
+          value={searchValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            if (filteredItems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        />
+        {isOpen && filteredItems.length > 0 && (
+          <div className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredItems.map((item, index) => (
+              <div
+                key={index}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                onClick={() => handleSelectItem(item)}
+              >
+                <div className="flex items-center justify-between">
+                  <span>{item}</span>
+                  <Check className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      {/* Selected Tags */}
+      {selectedTags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selectedTags.map((tag, index) => (
             <div
               key={index}
-              className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-              onClick={() => handleSelectItem(item)}
+              className="inline-flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-md text-sm"
             >
-              <div className="flex items-center justify-between">
-                <span>{item}</span>
-                <Check className="w-4 h-4 text-gray-400" />
-              </div>
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => onRemoveTag(tag)}
+                className="ml-1 hover:text-orange-600"
+              >
+                <X className="w-3 h-3" />
+              </button>
             </div>
           ))}
         </div>
@@ -153,8 +189,22 @@ export default function Timeline() {
   const [eventImportance, setEventImportance] = useState("medium");
   const [eventCategory, setEventCategory] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
-  const [eventCharacters, setEventCharacters] = useState("");
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+
+  const eventCategories = [
+    "Character Development",
+    "Discovery", 
+    "Conflict",
+    "Revelation",
+    "Heroic Act",
+    "Political Event",
+    "Romance",
+    "Mystery",
+    "Magic",
+    "Battle",
+    "Traveling"
+  ];
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -349,7 +399,7 @@ export default function Timeline() {
                             setPopupPosition(null);
                           }}
                         >
-                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
                             <span className="text-white font-bold text-sm">{group.events.length}</span>
                           </div>
                         </div>
@@ -359,11 +409,21 @@ export default function Timeline() {
                           className={`relative cursor-pointer transform transition-all duration-200 ${
                             hoveredEvent === group.events[0] ? 'scale-110' : 'hover:scale-105'
                           }`}
-                          onMouseEnter={() => setHoveredEvent(group.events[0])}
-                          onMouseLeave={() => setHoveredEvent(null)}
+                          onMouseEnter={(e) => {
+                            setHoveredEvent(group.events[0]);
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setPopupPosition({
+                              x: rect.left + rect.width / 2,
+                              y: rect.top - 10
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredEvent(null);
+                            setPopupPosition(null);
+                          }}
                           onClick={() => setSelectedEvent(group.events[0])}
                         >
-                          <div className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg border-2 border-white`}>
+                          <div className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg`}>
                             {React.createElement(eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star, {
                               className: "w-6 h-6 text-white"
                             })}
@@ -376,16 +436,20 @@ export default function Timeline() {
                     <div
                       style={{ 
                         left: x, 
-                        top: y + (index % 2 === 0 ? 50 : -40)
+                        top: y + (index % 2 === 0 ? 50 : -70)
                       }}
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="text-sm font-semibold text-gray-800 mb-1">
-                          {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
+                        <div className="bg-white px-2 py-1 rounded-md shadow-sm border border-gray-200 mb-1">
+                          <div className="text-sm font-semibold text-gray-800">
+                            {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
+                          </div>
                         </div>
-                        <div className="text-xs text-gray-600 font-medium">
-                          {group.date}
+                        <div className="bg-amber-100 px-2 py-1 rounded-md">
+                          <div className="text-xs text-amber-800 font-medium">
+                            {group.date}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -395,8 +459,8 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* Multi-event hover popup */}
-          {hoveredDateGroup && hoveredDateGroup.isMultiEvent && popupPosition && (
+          {/* Hover popups */}
+          {popupPosition && (
             <div 
               className="fixed z-50 pointer-events-none"
               style={{ 
@@ -405,59 +469,91 @@ export default function Timeline() {
                 transform: 'translateX(-50%) translateY(-100%)'
               }}
             >
-              <Card className="bg-white border shadow-xl p-4 w-80">
-                <div className="mb-3">
-                  <h3 className="font-semibold text-gray-900 text-lg mb-2">{hoveredDateGroup.date}</h3>
-                  <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
-                </div>
-                
-                <div className="space-y-3 max-h-64">
-                  {hoveredDateGroup.events.map((event: any, index: number) => {
-                    const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
-                    const importance = event.importance as keyof typeof importanceColors;
-                    
-                    return (
-                      <div
-                        key={event.id}
-                        className={`relative p-3 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors ${
-                          hoveredEvent === event ? 'ring-2 ring-orange-300' : ''
-                        }`}
-                        onMouseEnter={() => setHoveredEvent(event)}
-                        onMouseLeave={() => setHoveredEvent(null)}
-                        onClick={() => setSelectedEvent(event)}
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
-                            <EventIcon className="w-4 h-4 text-white" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-gray-900 text-sm">{event.title}</h4>
-                            <p className="text-xs text-gray-600 mt-1 line-clamp-2">{event.description}</p>
-                            <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                              <div className="flex items-center space-x-1">
-                                <MapPin className="w-3 h-3" />
-                                <span>{event.location}</span>
-                              </div>
-                              <div className="flex items-center space-x-1">
-                                <Users className="w-3 h-3" />
-                                <span>{event.characters.join(', ')}</span>
+              {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
+                // Multi-event popup
+                <Card className="bg-white border shadow-xl p-4 w-80">
+                  <div className="mb-3">
+                    <h3 className="font-semibold text-gray-900 text-lg mb-2">{hoveredDateGroup.date}</h3>
+                    <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
+                  </div>
+                  
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {hoveredDateGroup.events.map((event: any, index: number) => {
+                      const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
+                      const importance = event.importance as keyof typeof importanceColors;
+                      
+                      return (
+                        <div
+                          key={event.id}
+                          className="relative p-3 rounded-lg bg-gray-50 border"
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                              <EventIcon className="w-4 h-4 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-medium text-gray-900 text-sm">{event.title}</h4>
+                              <p className="text-xs text-gray-600 mt-1 line-clamp-2">{event.description}</p>
+                              <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                                <div className="flex items-center space-x-1">
+                                  <MapPin className="w-3 h-3" />
+                                  <span>{event.location}</span>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <Users className="w-3 h-3" />
+                                  <span>{event.characters.join(', ')}</span>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-
-                        {hoveredEvent === event && (
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-full"></div>
-                        )}
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mt-4 pt-3 border-t border-gray-200 text-center">
+                    <span className="text-xs text-gray-500">Click on bubble to view details</span>
+                  </div>
+                </Card>
+              ) : hoveredEvent ? (
+                // Single event popup
+                <Card className="bg-white border shadow-xl p-4 w-80">
+                  <div className="flex items-start space-x-3 mb-3">
+                    <div className={`w-10 h-10 ${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                      {React.createElement(eventTypeIcons[hoveredEvent.category as keyof typeof eventTypeIcons] || Star, {
+                        className: "w-5 h-5 text-white"
+                      })}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-lg">{hoveredEvent.title}</h3>
+                      <p className="text-sm text-gray-600 mb-2">{hoveredEvent.date}</p>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Badge className={`${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} text-white`}>
+                          {importanceLabels[hoveredEvent.importance as keyof typeof importanceLabels]}
+                        </Badge>
+                        <Badge variant="outline">{hoveredEvent.category}</Badge>
                       </div>
-                    );
-                  })}
-                </div>
-                
-                <div className="mt-4 pt-3 border-t border-gray-200 text-center">
-                  <span className="text-xs text-gray-500">Click on any event to view details</span>
-                </div>
-              </Card>
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm text-gray-700 mb-3">{hoveredEvent.description}</p>
+                  
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center space-x-2 text-gray-600">
+                      <MapPin className="w-4 h-4" />
+                      <span>{hoveredEvent.location}</span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-gray-600">
+                      <Users className="w-4 h-4" />
+                      <span>{hoveredEvent.characters.join(', ')}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-3 border-t border-gray-200 text-center">
+                    <span className="text-xs text-gray-500">Click to edit event</span>
+                  </div>
+                </Card>
+              ) : null}
             </div>
           )}
         </div>
@@ -518,21 +614,26 @@ export default function Timeline() {
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                    <Input 
-                      placeholder="e.g., Character Development, Discovery..." 
+                    <select 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       value={eventCategory}
                       onChange={(e) => setEventCategory(e.target.value)}
-                    />
+                    >
+                      <option value="">Select a category...</option>
+                      {eventCategories.map((category) => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                     <TagSearch
                       items={sampleLocations}
-                      placeholder="Search or enter location..."
-                      value={eventLocation}
-                      onChange={setEventLocation}
-                      onSelect={setEventLocation}
+                      placeholder="Search locations..."
+                      selectedTags={selectedLocations}
+                      onAddTag={(location) => setSelectedLocations([...selectedLocations, location])}
+                      onRemoveTag={(location) => setSelectedLocations(selectedLocations.filter(l => l !== location))}
                     />
                   </div>
                   
@@ -540,16 +641,10 @@ export default function Timeline() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Characters</label>
                     <TagSearch
                       items={sampleCharacters}
-                      placeholder="Search or enter characters..."
-                      value={eventCharacters}
-                      onChange={setEventCharacters}
-                      onSelect={(char) => {
-                        if (eventCharacters) {
-                          setEventCharacters(eventCharacters + ", " + char);
-                        } else {
-                          setEventCharacters(char);
-                        }
-                      }}
+                      placeholder="Search characters..."
+                      selectedTags={selectedCharacters}
+                      onAddTag={(character) => setSelectedCharacters([...selectedCharacters, character])}
+                      onRemoveTag={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
                     />
                   </div>
                 </div>
@@ -577,8 +672,8 @@ export default function Timeline() {
                           importance: eventImportance,
                           category: eventCategory,
                           description: eventDescription,
-                          location: eventLocation,
-                          characters: eventCharacters
+                          locations: selectedLocations,
+                          characters: selectedCharacters
                         });
                         setShowAddDialog(false);
                         setEventTitle("");
@@ -586,8 +681,8 @@ export default function Timeline() {
                         setEventImportance("medium");
                         setEventCategory("");
                         setEventDescription("");
-                        setEventLocation("");
-                        setEventCharacters("");
+                        setSelectedLocations([]);
+                        setSelectedCharacters([]);
                       }}
                     >
                       Add Event
