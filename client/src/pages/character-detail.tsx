@@ -82,7 +82,7 @@ export default function CharacterDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-100">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
@@ -129,7 +129,7 @@ export default function CharacterDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Side - Portrait */}
             <div className="lg:col-span-1">
-              <Card className="bg-amber-50 border border-amber-200 p-6">
+              <Card className="bg-white border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                     <User className="w-5 h-5 mr-2" />
@@ -150,7 +150,7 @@ export default function CharacterDetail() {
 
                 {/* Character Portrait */}
                 <div className="relative mb-6">
-                  <div className="w-full aspect-[3/4] bg-amber-100 rounded-lg border-2 border-amber-200 flex items-center justify-center overflow-hidden">
+                  <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden">
                     {characterImage ? (
                       <img 
                         src={characterImage} 
@@ -158,7 +158,7 @@ export default function CharacterDetail() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <User className="w-20 h-20 text-amber-400" />
+                      <User className="w-20 h-20 text-gray-400" />
                     )}
                   </div>
                   <input
@@ -172,15 +172,15 @@ export default function CharacterDetail() {
 
                 {/* Basic Info */}
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-amber-200">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Age:</span>
                     <span className="text-sm text-gray-800">{character.age}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-amber-200">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Race:</span>
                     <span className="text-sm text-gray-800">{character.race}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-amber-200">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Class:</span>
                     <span className="text-sm text-gray-800">{character.class}</span>
                   </div>
@@ -195,8 +195,10 @@ export default function CharacterDetail() {
             {/* Right Side - Tabbed Content */}
             <div className="lg:col-span-2">
               <Tabs defaultValue="details" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsList className="grid w-full grid-cols-4 mb-6">
                   <TabsTrigger value="details" className="text-sm">Details</TabsTrigger>
+                  <TabsTrigger value="appearance" className="text-sm">Appearance</TabsTrigger>
+                  <TabsTrigger value="backstory" className="text-sm">Backstory</TabsTrigger>
                   <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
                 </TabsList>
 
@@ -232,60 +234,51 @@ export default function CharacterDetail() {
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
-                        {isEditing ? (
-                          <textarea
-                            value={characterData.backstory || character.backstory}
-                            onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
-                            placeholder="Character's background story..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{character.backstory}</p>
-                        )}
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Magic System Connection</h3>
+                        <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="text-sm text-blue-800">Fire Magic - Advanced Practitioner</span>
+                          <Button variant="outline" size="sm" className="ml-auto text-xs">
+                            View Magic System
+                          </Button>
+                        </div>
                       </div>
+                    </div>
+                  </Card>
+                </TabsContent>
 
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Goals</h3>
-                        {isEditing ? (
-                          <textarea
-                            value={characterData.goals || character.goals}
-                            onChange={(e) => setCharacterData({...characterData, goals: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
-                            placeholder="Character's goals and motivations..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{character.goals}</p>
-                        )}
-                      </div>
+                <TabsContent value="appearance" className="space-y-6">
+                  <Card className="bg-white border border-gray-200 p-6">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
+                      {isEditing ? (
+                        <textarea
+                          value={characterData.appearance || "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training"}
+                          onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
+                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                          placeholder="Describe the character's physical appearance..."
+                        />
+                      ) : (
+                        <p className="text-gray-700">Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training</p>
+                      )}
+                    </div>
+                  </Card>
+                </TabsContent>
 
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Fears</h3>
-                        {isEditing ? (
-                          <textarea
-                            value={characterData.fears || character.fears}
-                            onChange={(e) => setCharacterData({...characterData, fears: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
-                            placeholder="Character's fears and weaknesses..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{character.fears}</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Relationships</h3>
-                        {isEditing ? (
-                          <textarea
-                            value={characterData.relationships || character.relationships}
-                            onChange={(e) => setCharacterData({...characterData, relationships: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
-                            placeholder="Character's relationships with others..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{character.relationships}</p>
-                        )}
-                      </div>
+                <TabsContent value="backstory" className="space-y-6">
+                  <Card className="bg-white border border-gray-200 p-6">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
+                      {isEditing ? (
+                        <textarea
+                          value={characterData.backstory || character.backstory}
+                          onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
+                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                          placeholder="Character's background story..."
+                        />
+                      ) : (
+                        <p className="text-gray-700">{character.backstory}</p>
+                      )}
                     </div>
                   </Card>
                 </TabsContent>
