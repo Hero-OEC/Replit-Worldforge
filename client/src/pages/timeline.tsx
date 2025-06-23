@@ -508,7 +508,7 @@ export default function Timeline() {
             >
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
                 // Multi-event popup
-                <Card className="bg-white border shadow-xl p-4 w-80">
+                <Card className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow">
                   <div className="mb-3">
                     <h3 className="font-semibold text-gray-900 text-lg mb-2">{hoveredDateGroup.date}</h3>
                     <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
@@ -563,7 +563,14 @@ export default function Timeline() {
                 </Card>
               ) : hoveredEvent ? (
                 // Single event popup
-                <Card className="bg-white border shadow-xl p-4 w-80">
+                <Card className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedEvent(hoveredEvent);
+                        setShowEditDialog(true);
+                        setHoveredEvent(null);
+                        setPopupPosition(null);
+                      }}>
                   <div className="flex items-start space-x-3 mb-3">
                     <div className={`w-10 h-10 ${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center flex-shrink-0`}>
                       {React.createElement(eventTypeIcons[hoveredEvent.category as keyof typeof eventTypeIcons] || Star, {
