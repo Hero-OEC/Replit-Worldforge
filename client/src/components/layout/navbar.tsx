@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, Settings, BookOpen, Clock, Users, MapPin, Sparkles, Scroll } from "lucide-react";
+import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -29,6 +30,8 @@ export default function Navbar({
   rightContent 
 }: NavbarProps) {
   const [location] = useLocation();
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)]">
@@ -59,21 +62,42 @@ export default function Navbar({
           
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <Input 
-                type="text" 
-                placeholder={searchPlaceholder}
-                onChange={(e) => onSearch?.(e.target.value)}
-                className="pl-10 pr-4 py-2 w-64 bg-white"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <div 
+                className="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2 w-64 cursor-pointer hover:border-gray-400 transition-colors"
+                onClick={() => setShowSearchDropdown(!showSearchDropdown)}
+              >
+                <Search className="w-4 h-4 text-gray-400 mr-2" />
+                <span className="text-gray-500 flex-1">{searchPlaceholder}</span>
+                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showSearchDropdown ? 'rotate-180' : ''}`} />
+              </div>
+              
+              {showSearchDropdown && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                  <div className="p-3">
+                    <Input 
+                      type="text" 
+                      placeholder={searchPlaceholder}
+                      value={searchTerm}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        onSearch?.(e.target.value);
+                      }}
+                      className="w-full"
+                      autoFocus
+                    />
+                  </div>
+                  {searchTerm && (
+                    <div className="border-t border-gray-100 p-2">
+                      <div className="text-xs text-gray-500 p-2">
+                        Search results will appear here
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             
             {rightContent}
-            
-            <Button variant="outline" size="sm">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Button>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import type { Character, ProjectWithStats } from "@shared/schema";
 
 export default function Characters() {
   const { projectId } = useParams<{ projectId: string }>();
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -73,7 +74,10 @@ export default function Characters() {
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
-            <Button className="bg-orange-500 text-white hover:bg-orange-600">
+            <Button 
+              className="bg-orange-500 text-white hover:bg-orange-600"
+              onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Character
             </Button>
@@ -127,7 +131,11 @@ export default function Characters() {
           {/* Characters Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCharacters.map((character) => (
-              <Card key={character.id} className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6 hover:shadow-md transition-shadow cursor-pointer">
+              <Card 
+                key={character.id} 
+                className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6 hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -175,7 +183,10 @@ export default function Characters() {
               <p className="text-gray-500 mb-6">
                 {searchTerm ? 'Try adjusting your search terms.' : 'Start building your story by adding characters.'}
               </p>
-              <Button className="bg-orange-500 text-white hover:bg-orange-600">
+              <Button 
+                className="bg-orange-500 text-white hover:bg-orange-600"
+                onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Your First Character
               </Button>
