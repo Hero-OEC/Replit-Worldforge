@@ -69,19 +69,13 @@ export default function Characters() {
         searchPlaceholder="Search characters..."
         onSearch={setSearchTerm}
         rightContent={
-          <div className="flex items-center space-x-4">
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
-            <Button 
-              className="bg-orange-500 text-white hover:bg-orange-600"
-              onClick={() => setLocation(`/project/${projectId}/characters/new`)}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Character
-            </Button>
-          </div>
+          <Button 
+            className="bg-orange-500 text-white hover:bg-orange-600"
+            onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Character
+          </Button>
         }
       />
 

@@ -94,12 +94,10 @@ export default function Lore() {
         searchPlaceholder="Search lore and magic..."
         onSearch={setSearchTerm}
         rightContent={
-          <div className="flex items-center space-x-4">
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
-          </div>
+          <Button className="bg-orange-500 text-white hover:bg-orange-600">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Entry
+          </Button>
         }
       />
 

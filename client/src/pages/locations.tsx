@@ -87,16 +87,10 @@ export default function Locations() {
         searchPlaceholder="Search locations..."
         onSearch={setSearchTerm}
         rightContent={
-          <div className="flex items-center space-x-4">
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
-            <Button className="bg-orange-500 text-white hover:bg-orange-600">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Location
-            </Button>
-          </div>
+          <Button className="bg-orange-500 text-white hover:bg-orange-600">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Location
+          </Button>
         }
       />
 

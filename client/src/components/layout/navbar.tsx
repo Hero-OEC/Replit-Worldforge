@@ -52,15 +52,9 @@ export default function Navbar({
             </Link>
             
             {/* Project Navigation Buttons - Only show when inside a project */}
-            {showProjectNav && projectId && projectTitle && (
+            {showProjectNav && projectId && (
               <nav className="flex items-center space-x-1">
                 <div className="w-px h-6 bg-gray-300 mx-4"></div>
-                <div className="flex items-center space-x-2 mr-4">
-                  <div className="w-5 h-5 bg-orange-500 rounded flex items-center justify-center">
-                    <BookOpen className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">{projectTitle}</span>
-                </div>
                 {projectNavItems.map((item) => {
                   const isActive = location === item.href;
                   const Icon = item.icon;
@@ -68,14 +62,14 @@ export default function Navbar({
                   return (
                     <Link key={item.name} href={item.href}>
                       <button
-                        className={`flex items-center space-x-1 py-1.5 px-3 rounded-lg text-sm transition-colors ${
+                        className={`flex items-center space-x-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors min-h-[36px] ${
                           isActive
                             ? "bg-orange-500 text-white"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >
                         <Icon className="w-4 h-4" />
-                        <span className="font-medium">{item.name}</span>
+                        <span>{item.name}</span>
                       </button>
                     </Link>
                   );

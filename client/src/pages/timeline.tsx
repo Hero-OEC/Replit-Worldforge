@@ -53,12 +53,15 @@ export default function Timeline() {
   const { projectId } = useParams<{ projectId: string }>();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
+  const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -68,6 +71,26 @@ export default function Timeline() {
       return response.json();
     },
   });
+
+  // Group events by date
+  const groupEventsByDate = (events: any[]) => {
+    const grouped = events.reduce((acc, event) => {
+      const date = event.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(event);
+      return acc;
+    }, {} as Record<string, any[]>);
+
+    return Object.entries(grouped).map(([date, events]) => ({
+      date,
+      events,
+      isMultiple: events.length > 1
+    }));
+  };
+
+  const dateGroups = groupEventsByDate(sampleEvents);
 
   // Search functionality
   useEffect(() => {
@@ -118,14 +141,14 @@ export default function Timeline() {
     scrollToEvent(searchResults[newIndex].id);
   };
 
-  // Create serpentine path coordinates
-  const createSerpentinePath = (events: any[]) => {
+  // Create serpentine path coordinates for date groups
+  const createSerpentinePath = (dateGroups: any[]) => {
     const pathPoints = [];
     const containerWidth = 1200;
     const rowHeight = 150;
     const eventsPerRow = 5;
     
-    events.forEach((event, index) => {
+    dateGroups.forEach((dateGroup, index) => {
       const row = Math.floor(index / eventsPerRow);
       const col = index % eventsPerRow;
       const isEvenRow = row % 2 === 0;
@@ -135,13 +158,13 @@ export default function Timeline() {
         ((eventsPerRow - 1 - col) * (containerWidth / (eventsPerRow - 1)));
       const y = row * rowHeight + 100;
       
-      pathPoints.push({ x, y, event: { ...event, index } });
+      pathPoints.push({ x, y, dateGroup: { ...dateGroup, index } });
     });
     
     return pathPoints;
   };
 
-  const pathPoints = createSerpentinePath(sampleEvents);
+  const pathPoints = createSerpentinePath(dateGroups);
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
@@ -171,10 +194,7 @@ export default function Timeline() {
               </div>
             )}
             
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+
             <Button 
               className="bg-orange-500 text-white hover:bg-orange-600"
               onClick={() => setShowAddDialog(true)}
@@ -187,6 +207,21 @@ export default function Timeline() {
       />
 
       <main className="p-8 overflow-x-auto">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Clock className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Timeline</h1>
+                <p className="text-gray-600">Track and organize story events chronologically</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Legend */}
         <div className="flex justify-center mb-8">
           <div className="flex items-center space-x-6 bg-[var(--worldforge-card)] px-6 py-3 rounded-lg border border-[var(--border)]">
@@ -224,73 +259,85 @@ export default function Timeline() {
             />
           </svg>
 
-          {/* Timeline Events */}
+          {/* Timeline Date Groups */}
           {pathPoints.map((point, index) => {
-            const event = point.event;
-            const importance = event.importance as keyof typeof importanceColors;
-            const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
+            const dateGroup = point.dateGroup;
+            const events = dateGroup.events;
+            const isMultiple = dateGroup.isMultiple;
+            const firstEvent = events[0];
+            const importance = firstEvent.importance as keyof typeof importanceColors;
+            const EventIcon = isMultiple ? Users : (eventTypeIcons[firstEvent.category as keyof typeof eventTypeIcons] || Star);
             
             return (
               <div
-                key={event.id}
-                id={`event-${event.id}`}
-                className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 transition-all duration-300"
+                key={`date-${dateGroup.date}-${index}`}
+                id={`date-group-${index}`}
+                className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-300"
                 style={{ left: point.x, top: point.y }}
-                onMouseEnter={() => setHoveredEvent(event)}
-                onMouseLeave={() => setHoveredEvent(null)}
-                onClick={() => {
-                  setSelectedEvent(event);
-                  setShowEditDialog(true);
+                onMouseEnter={(e) => {
+                  if (isMultiple) {
+                    setHoveredDateGroup(dateGroup);
+                    setPopupPosition({ x: point.x, y: point.y - 80 });
+                  } else {
+                    setHoveredEvent(firstEvent);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (!isMultiple) {
+                    setHoveredEvent(null);
+                  }
                 }}
               >
                 {/* Event Circle */}
-                <div className={`event-circle w-12 h-12 ${importanceColors[importance]} rounded-full flex items-center justify-center shadow-lg hover:scale-125 transition-all duration-300 hover:shadow-xl relative`}>
+                <div className={`event-circle w-12 h-12 ${isMultiple ? 'bg-gray-800' : importanceColors[importance]} rounded-full flex items-center justify-center shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300 cursor-pointer relative group ${hoveredDateGroup === dateGroup ? 'bg-gray-700' : ''}`}>
                   <EventIcon className="w-6 h-6 text-white" />
                   
-                  {/* Event number */}
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-gray-800 text-white text-xs rounded-full flex items-center justify-center">
-                    {index + 1}
-                  </div>
+                  {/* Multi-event indicator */}
+                  {isMultiple && (
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                      {events.length}
+                    </div>
+                  )}
                 </div>
 
-                {/* Event Label */}
+                {/* Date Label */}
                 <div className="absolute top-16 left-1/2 transform -translate-x-1/2 text-center min-w-max">
                   <div className="bg-[var(--worldforge-card)] px-3 py-2 rounded-lg shadow-sm border border-[var(--border)]">
-                    <p className="text-sm font-medium text-gray-900">{event.title}</p>
-                    <p className="text-xs text-gray-600">{event.date}</p>
+                    <p className="text-sm font-medium text-gray-900">{isMultiple ? `${events.length} Events` : firstEvent.title}</p>
+                    <p className="text-xs text-gray-600">{dateGroup.date}</p>
                   </div>
                 </div>
               </div>
             );
           })}
 
-          {/* Hover Card */}
-          {hoveredEvent && (
+          {/* Single Event Hover Card */}
+          {hoveredEvent && !hoveredDateGroup && (
             <div 
               className="absolute z-50 pointer-events-auto" 
               style={{ 
-                left: Math.max(20, Math.min(pathPoints.find(p => p.event.id === hoveredEvent.id)?.x || 0, 880)) - 160, 
-                top: (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) > 300 ? 
-                  (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) - 200 : 
-                  (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) + 80 
+                left: Math.max(20, Math.min((pathPoints.find(p => p.dateGroup?.events?.some((e: any) => e.id === hoveredEvent.id))?.x || 0), 600)) - 200, 
+                top: (pathPoints.find(p => p.dateGroup?.events?.some((e: any) => e.id === hoveredEvent.id))?.y || 0) > 300 ? 
+                  (pathPoints.find(p => p.dateGroup?.events?.some((e: any) => e.id === hoveredEvent.id))?.y || 0) - 250 : 
+                  (pathPoints.find(p => p.dateGroup?.events?.some((e: any) => e.id === hoveredEvent.id))?.y || 0) + 80 
               }}
               onMouseEnter={() => setHoveredEvent(hoveredEvent)}
               onMouseLeave={() => setHoveredEvent(null)}
             >
-              <Card className="bg-white border border-[var(--border)] p-4 shadow-lg w-80 cursor-pointer hover:shadow-xl transition-shadow"
+              <Card className="bg-white border border-[var(--border)] p-6 shadow-xl w-96 cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all duration-200"
                     onClick={() => {
                       setSelectedEvent(hoveredEvent);
                       setShowEditDialog(true);
                       setHoveredEvent(null);
                     }}>
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">{hoveredEvent.title}</h3>
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="font-semibold text-gray-900 text-lg">{hoveredEvent.title}</h3>
                   <Badge variant="secondary" className={`text-xs ${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} text-white`}>
                     {hoveredEvent.importance}
                   </Badge>
                 </div>
                 
-                <div className="space-y-2 text-sm text-gray-600">
+                <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex items-center space-x-2">
                     <Calendar className="w-4 h-4" />
                     <span>{hoveredEvent.date}</span>
@@ -318,6 +365,81 @@ export default function Timeline() {
                     <Badge variant="secondary">{hoveredEvent.category}</Badge>
                     <span className="text-xs text-gray-500">Click to edit</span>
                   </div>
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* Multi-Event Popup */}
+          {hoveredDateGroup && popupPosition && (
+            <div 
+              ref={popupRef}
+              className="absolute z-50 pointer-events-auto" 
+              style={{ 
+                left: Math.max(20, Math.min(popupPosition.x - 250, 700)),
+                top: popupPosition.y
+              }}
+            >
+              <Card className="bg-white border border-[var(--border)] p-6 shadow-xl w-[500px]">
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-900 text-lg mb-2">{hoveredDateGroup.date}</h3>
+                  <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
+                </div>
+                
+                <div className="space-y-3 max-h-80 overflow-y-auto">
+                  {hoveredDateGroup.events.map((event: any, index: number) => {
+                    const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
+                    const importance = event.importance as keyof typeof importanceColors;
+                    
+                    return (
+                      <div 
+                        key={event.id}
+                        className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors border-l-4"
+                        style={{ borderLeftColor: importanceColors[importance].replace('bg-', '').includes('red') ? '#ef4444' : importanceColors[importance].replace('bg-', '').includes('orange') ? '#f97316' : '#eab308' }}
+                        onMouseEnter={() => setHoveredEvent(event)}
+                        onClick={() => {
+                          setSelectedEvent(event);
+                          setShowEditDialog(true);
+                          setHoveredDateGroup(null);
+                          setPopupPosition(null);
+                        }}
+                      >
+                        <div className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                          <EventIcon className="w-4 h-4 text-white" />
+                        </div>
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-1">
+                            <h4 className="font-medium text-gray-900 truncate">{event.title}</h4>
+                            <Badge variant="secondary" className="text-xs ml-2 flex-shrink-0">
+                              {event.category}
+                            </Badge>
+                          </div>
+                          
+                          <p className="text-sm text-gray-600 line-clamp-2 mb-2">{event.description}</p>
+                          
+                          <div className="flex items-center space-x-4 text-xs text-gray-500">
+                            <div className="flex items-center space-x-1">
+                              <MapPin className="w-3 h-3" />
+                              <span>{event.location}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Users className="w-3 h-3" />
+                              <span>{event.characters.join(', ')}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {hoveredEvent === event && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-full"></div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                <div className="mt-4 pt-3 border-t border-gray-200 text-center">
+                  <span className="text-xs text-gray-500">Click on any event to view details</span>
                 </div>
               </Card>
             </div>
