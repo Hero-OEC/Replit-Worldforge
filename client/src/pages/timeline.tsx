@@ -508,7 +508,14 @@ export default function Timeline() {
             >
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
                 // Multi-event popup
-                <Card className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow">
+                <Card className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedEvent(hoveredDateGroup.events[0]);
+                        setShowEditDialog(true);
+                        setHoveredDateGroup(null);
+                        setPopupPosition(null);
+                      }}>
                   <div className="mb-3">
                     <h3 className="font-semibold text-gray-900 text-lg mb-2">{hoveredDateGroup.date}</h3>
                     <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
@@ -629,8 +636,8 @@ export default function Timeline() {
             }
           }}
         >
-          <Card className="bg-white w-full max-w-4xl max-h-[85vh] relative z-[501]">
-            <div className="p-6 max-h-[85vh] overflow-y-auto">
+          <Card className="bg-white w-full max-w-4xl h-[85vh] relative z-[501] flex flex-col">
+            <div className="p-6 flex-1 overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Add New Event</h2>
                 <Button variant="ghost" size="sm" onClick={() => setShowAddDialog(false)}>
@@ -725,7 +732,9 @@ export default function Timeline() {
                 </div>
               </div>
               
-              <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200 mt-6">
+            </div>
+            <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="flex justify-end space-x-3">
                 <Button variant="outline" onClick={() => setShowAddDialog(false)}>
                   Cancel
                 </Button>
