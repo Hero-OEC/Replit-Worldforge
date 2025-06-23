@@ -471,8 +471,8 @@ export default function Timeline() {
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-white px-3 py-2 rounded-md shadow-sm border border-gray-200">
-                          <div className="text-sm font-semibold text-gray-800 mb-1">
+                        <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
+                          <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
                             {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
                           </div>
                           <div className="text-xs text-gray-600 font-medium">
@@ -523,7 +523,14 @@ export default function Timeline() {
                         <div
                           key={event.id}
                           className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
-                          onClick={() => setSelectedEvent(event)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedEvent(event);
+                            setShowEditDialog(true);
+                            setHoveredDateGroup(null);
+                            setHoveredEvent(null);
+                            setPopupPosition(null);
+                          }}
                         >
                           <div className="flex items-start space-x-3">
                             <div className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
@@ -551,7 +558,7 @@ export default function Timeline() {
                   </div>
                   
                   <div className="mt-4 pt-3 border-t border-gray-200 text-center">
-                    <span className="text-xs text-gray-500">Click on bubble to view details</span>
+                    <span className="text-xs text-gray-500">Click on events to edit details</span>
                   </div>
                 </Card>
               ) : hoveredEvent ? (
@@ -588,8 +595,15 @@ export default function Timeline() {
                     </div>
                   </div>
                   
-                  <div className="mt-4 pt-3 border-t border-gray-200 text-center">
-                    <span className="text-xs text-gray-500">Click to edit event</span>
+                  <div className="mt-4 pt-3 border-t border-gray-200 text-center cursor-pointer"
+                       onClick={(e) => {
+                         e.stopPropagation();
+                         setSelectedEvent(hoveredEvent);
+                         setShowEditDialog(true);
+                         setHoveredEvent(null);
+                         setPopupPosition(null);
+                       }}>
+                    <span className="text-xs text-gray-500 hover:text-gray-700">Click to edit event</span>
                   </div>
                 </Card>
               ) : null}
@@ -608,8 +622,8 @@ export default function Timeline() {
             }
           }}
         >
-          <Card className="bg-white w-full max-w-4xl max-h-[85vh] overflow-hidden relative z-[501]">
-            <div className="p-6">
+          <Card className="bg-white w-full max-w-4xl max-h-[85vh] relative z-[501]">
+            <div className="p-6 max-h-[85vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Add New Event</h2>
                 <Button variant="ghost" size="sm" onClick={() => setShowAddDialog(false)}>
@@ -701,12 +715,15 @@ export default function Timeline() {
                     />
                   </div>
                   
-                  <div className="flex justify-end space-x-3 pt-4">
-                    <Button variant="outline" onClick={() => setShowAddDialog(false)}>
-                      Cancel
-                    </Button>
-                    <Button 
-                      onClick={() => {
+                </div>
+              </div>
+              
+              <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200 mt-6">
+                <Button variant="outline" onClick={() => setShowAddDialog(false)}>
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={() => {
                         console.log("Saving event:", {
                           title: eventTitle,
                           date: eventDate,
@@ -728,8 +745,6 @@ export default function Timeline() {
                     >
                       Add Event
                     </Button>
-                  </div>
-                </div>
               </div>
             </div>
           </Card>
