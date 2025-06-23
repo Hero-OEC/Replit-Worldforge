@@ -82,9 +82,10 @@ function TagSearch({ items, placeholder, selectedTags, onAddTag, onRemoveTag }: 
             if (filteredItems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-gray-50 border-gray-300 focus:bg-white"
         />
         {isOpen && filteredItems.length > 0 && (
-          <div className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-[100] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
@@ -343,7 +344,7 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-8 shadow-sm">
+          <div className="rounded-lg p-8">
             <div 
               ref={timelineRef}
               className="relative mx-auto"
@@ -389,9 +390,17 @@ export default function Timeline() {
                           onMouseEnter={(e) => {
                             setHoveredDateGroup(group);
                             const rect = e.currentTarget.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const popupHeight = 300; // Estimated popup height
+                            
+                            let yPosition = rect.bottom + 10;
+                            if (yPosition + popupHeight > viewportHeight) {
+                              yPosition = rect.top - popupHeight - 10;
+                            }
+                            
                             setPopupPosition({
                               x: rect.left + rect.width / 2,
-                              y: rect.top - 10
+                              y: yPosition
                             });
                           }}
                           onMouseLeave={() => {
@@ -412,9 +421,17 @@ export default function Timeline() {
                           onMouseEnter={(e) => {
                             setHoveredEvent(group.events[0]);
                             const rect = e.currentTarget.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const popupHeight = 250; // Estimated popup height
+                            
+                            let yPosition = rect.bottom + 10;
+                            if (yPosition + popupHeight > viewportHeight) {
+                              yPosition = rect.top - popupHeight - 10;
+                            }
+                            
                             setPopupPosition({
                               x: rect.left + rect.width / 2,
-                              y: rect.top - 10
+                              y: yPosition
                             });
                           }}
                           onMouseLeave={() => {
@@ -436,18 +453,16 @@ export default function Timeline() {
                     <div
                       style={{ 
                         left: x, 
-                        top: y + (index % 2 === 0 ? 50 : -70)
+                        top: y + 50
                       }}
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-white px-2 py-1 rounded-md shadow-sm border border-gray-200 mb-1">
-                          <div className="text-sm font-semibold text-gray-800">
+                        <div className="bg-white px-3 py-2 rounded-md shadow-sm border border-gray-200">
+                          <div className="text-sm font-semibold text-gray-800 mb-1">
                             {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
                           </div>
-                        </div>
-                        <div className="bg-amber-100 px-2 py-1 rounded-md">
-                          <div className="text-xs text-amber-800 font-medium">
+                          <div className="text-xs text-gray-600 font-medium">
                             {group.date}
                           </div>
                         </div>
@@ -462,11 +477,19 @@ export default function Timeline() {
           {/* Hover popups */}
           {popupPosition && (
             <div 
-              className="fixed z-50 pointer-events-none"
+              className="fixed z-50"
               style={{ 
                 left: popupPosition.x,
                 top: popupPosition.y,
-                transform: 'translateX(-50%) translateY(-100%)'
+                transform: 'translateX(-50%)'
+              }}
+              onMouseEnter={() => {
+                // Keep popup visible when hovering over it
+              }}
+              onMouseLeave={() => {
+                setHoveredDateGroup(null);
+                setHoveredEvent(null);
+                setPopupPosition(null);
               }}
             >
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
@@ -477,15 +500,16 @@ export default function Timeline() {
                     <p className="text-sm text-gray-600">{hoveredDateGroup.events.length} events on this date</p>
                   </div>
                   
-                  <div className="space-y-3 max-h-64 overflow-y-auto">
-                    {hoveredDateGroup.events.map((event: any, index: number) => {
+                  <div className="grid grid-cols-1 gap-3">
+                    {hoveredDateGroup.events.slice(0, 3).map((event: any, index: number) => {
                       const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
                       const importance = event.importance as keyof typeof importanceColors;
                       
                       return (
                         <div
                           key={event.id}
-                          className="relative p-3 rounded-lg bg-gray-50 border"
+                          className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                          onClick={() => setSelectedEvent(event)}
                         >
                           <div className="flex items-start space-x-3">
                             <div className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
@@ -493,15 +517,11 @@ export default function Timeline() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <h4 className="font-medium text-gray-900 text-sm">{event.title}</h4>
-                              <p className="text-xs text-gray-600 mt-1 line-clamp-2">{event.description}</p>
+                              <p className="text-xs text-gray-600 mt-1">{event.description.substring(0, 60)}...</p>
                               <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
                                 <div className="flex items-center space-x-1">
                                   <MapPin className="w-3 h-3" />
                                   <span>{event.location}</span>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                  <Users className="w-3 h-3" />
-                                  <span>{event.characters.join(', ')}</span>
                                 </div>
                               </div>
                             </div>
@@ -509,6 +529,11 @@ export default function Timeline() {
                         </div>
                       );
                     })}
+                    {hoveredDateGroup.events.length > 3 && (
+                      <div className="text-center text-xs text-gray-500 pt-2">
+                        +{hoveredDateGroup.events.length - 3} more events
+                      </div>
+                    )}
                   </div>
                   
                   <div className="mt-4 pt-3 border-t border-gray-200 text-center">
@@ -586,6 +611,7 @@ export default function Timeline() {
                       placeholder="Enter event title..." 
                       value={eventTitle}
                       onChange={(e) => setEventTitle(e.target.value)}
+                      className="bg-gray-50 border-gray-300 focus:bg-white"
                     />
                   </div>
                   
@@ -596,12 +622,13 @@ export default function Timeline() {
                         placeholder="Year 1, Day 1" 
                         value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
+                        className="bg-gray-50 border-gray-300 focus:bg-white"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Importance</label>
                       <select 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:bg-white"
                         value={eventImportance}
                         onChange={(e) => setEventImportance(e.target.value)}
                       >
@@ -615,7 +642,7 @@ export default function Timeline() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
                     <select 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:bg-white"
                       value={eventCategory}
                       onChange={(e) => setEventCategory(e.target.value)}
                     >
@@ -653,7 +680,7 @@ export default function Timeline() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea 
-                      className="w-full h-64 px-3 py-2 border border-gray-300 rounded-md resize-none"
+                      className="w-full h-64 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
                       placeholder="Describe the event in detail..."
                       value={eventDescription}
                       onChange={(e) => setEventDescription(e.target.value)}
