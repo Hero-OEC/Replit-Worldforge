@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/navbar";
 import ProjectCard from "@/components/project-card";
@@ -84,7 +84,7 @@ export default function Dashboard() {
                 Organize characters, locations, timelines, and lore all in one place.
               </p>
               <Button
-                onClick={() => setShowNewProjectDialog(true)}
+                onClick={() => setShowProjectDialog(true)}
                 size="lg"
                 className="worldforge-primary text-white hover:bg-orange-600 px-8 py-3 text-lg"
               >
