@@ -185,14 +185,16 @@ export default function Timeline() {
     isMultiEvent: (events as any[]).length > 1
   }));
 
-  // Calculate timeline positions
+  // Calculate timeline positions for serpentine layout
   const timelineWidth = 1200;
-  const timelineHeight = 600;
+  const timelineHeight = 400;
   const pathPoints: number[][] = [];
 
-  // Create serpentine path
-  const rows = 4;
-  const eventsPerRow = Math.ceil(dateGroups.length / rows);
+  // Create serpentine path - 6 events per row, alternating direction
+  const eventsPerRow = 6;
+  const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
+  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
   
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -200,13 +202,13 @@ export default function Timeline() {
     
     let x, y;
     if (row % 2 === 0) {
-      // Left to right
-      x = (col / (eventsPerRow - 1)) * (timelineWidth - 100) + 50;
+      // Left to right for even rows
+      x = 60 + (col * horizontalSpacing);
     } else {
-      // Right to left
-      x = ((eventsPerRow - 1 - col) / (eventsPerRow - 1)) * (timelineWidth - 100) + 50;
+      // Right to left for odd rows
+      x = 60 + ((eventsPerRow - 1 - col) * horizontalSpacing);
     }
-    y = (row / (rows - 1)) * (timelineHeight - 100) + 50;
+    y = 60 + (row * verticalSpacing);
     
     pathPoints.push([x, y]);
   });
@@ -266,22 +268,55 @@ export default function Timeline() {
             </div>
           </div>
 
+          {/* Legend */}
+          <div className="mb-6 flex justify-center">
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">High Importance</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">Medium Importance</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">Low Importance</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">3</span>
+                </div>
+                <span className="text-sm text-gray-600">Multiple Events</span>
+              </div>
+            </div>
+          </div>
+
           {/* Serpentine Timeline */}
-          <div className="bg-[var(--worldforge-card)] border border-[var(--border)] rounded-lg p-8 shadow-sm">
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-8 shadow-sm">
             <div 
               ref={timelineRef}
               className="relative mx-auto"
               style={{ width: timelineWidth, height: timelineHeight }}
             >
               {/* Timeline Path */}
-              <svg className="absolute inset-0 w-full h-full">
-                <path
-                  d={`M ${pathPoints.map(point => point.join(',')).join(' L ')}`}
-                  stroke="#e5e7eb"
-                  strokeWidth="2"
-                  fill="none"
-                  strokeDasharray="5,5"
-                />
+              <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                {pathPoints.length > 1 && pathPoints.map((point, index) => {
+                  if (index === pathPoints.length - 1) return null;
+                  const nextPoint = pathPoints[index + 1];
+                  return (
+                    <line
+                      key={index}
+                      x1={point[0]}
+                      y1={point[1]}
+                      x2={nextPoint[0]}
+                      y2={nextPoint[1]}
+                      stroke="#d69e2e"
+                      strokeWidth="3"
+                      opacity="0.4"
+                    />
+                  );
+                })}
               </svg>
 
               {/* Event Nodes */}
@@ -290,7 +325,7 @@ export default function Timeline() {
                 const isHovered = hoveredDateGroup === group;
                 
                 return (
-                  <div key={group.date} className="absolute transform -translate-x-1/2 -translate-y-1/2">
+                  <div key={group.date}>
                     <div
                       style={{ left: x, top: y }}
                       className="absolute transform -translate-x-1/2 -translate-y-1/2"
@@ -314,13 +349,8 @@ export default function Timeline() {
                             setPopupPosition(null);
                           }}
                         >
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
                             <span className="text-white font-bold text-sm">{group.events.length}</span>
-                          </div>
-                          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                            <span className="text-xs font-medium text-gray-700 bg-white px-2 py-1 rounded shadow">
-                              {group.date}
-                            </span>
                           </div>
                         </div>
                       ) : (
@@ -333,18 +363,31 @@ export default function Timeline() {
                           onMouseLeave={() => setHoveredEvent(null)}
                           onClick={() => setSelectedEvent(group.events[0])}
                         >
-                          <div className={`w-10 h-10 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg`}>
+                          <div className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg border-2 border-white`}>
                             {React.createElement(eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star, {
-                              className: "w-5 h-5 text-white"
+                              className: "w-6 h-6 text-white"
                             })}
-                          </div>
-                          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                            <span className="text-xs font-medium text-gray-700 bg-white px-2 py-1 rounded shadow">
-                              {group.date}
-                            </span>
                           </div>
                         </div>
                       )}
+                    </div>
+
+                    {/* Event Labels */}
+                    <div
+                      style={{ 
+                        left: x, 
+                        top: y + (index % 2 === 0 ? 50 : -40)
+                      }}
+                      className="absolute transform -translate-x-1/2 pointer-events-none"
+                    >
+                      <div className="text-center">
+                        <div className="text-sm font-semibold text-gray-800 mb-1">
+                          {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
+                        </div>
+                        <div className="text-xs text-gray-600 font-medium">
+                          {group.date}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
