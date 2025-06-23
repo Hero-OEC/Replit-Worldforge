@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/layout/header";
 import Dashboard from "@/pages/dashboard";
+import ProjectLayout from "@/pages/project-layout";
 import Timeline from "@/pages/timeline";
 import Characters from "@/pages/characters";
 import Locations from "@/pages/locations";
@@ -30,11 +31,12 @@ function Router() {
         <div className="flex-1 overflow-hidden">
           <Switch>
             <Route path="/" component={Dashboard} />
-            <Route path="/timeline" component={Timeline} />
-            <Route path="/characters" component={Characters} />
-            <Route path="/locations" component={Locations} />
-            <Route path="/magic-systems" component={MagicSystems} />
-            <Route path="/lore" component={Lore} />
+            <Route path="/project/:projectId" component={ProjectLayout} />
+            <Route path="/project/:projectId/timeline" component={Timeline} />
+            <Route path="/project/:projectId/characters" component={Characters} />
+            <Route path="/project/:projectId/locations" component={Locations} />
+            <Route path="/project/:projectId/magic-systems" component={MagicSystems} />
+            <Route path="/project/:projectId/lore" component={Lore} />
             <Route component={NotFound} />
           </Switch>
         </div>

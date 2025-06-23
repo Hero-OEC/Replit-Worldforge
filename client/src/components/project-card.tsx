@@ -1,14 +1,74 @@
 import { format } from "date-fns";
-import { Star, MoreHorizontal, Users, MapPin, Scroll } from "lucide-react";
+import { Star, MoreHorizontal, Users, MapPin, Scroll, Wand2, Sword, Heart, Castle, Sparkles, Book, Crown, FileText, Zap, Bot, Clock, Shield, Eye, Skull, Baby, GraduationCap, Feather, Coffee, Search, UserCheck, Truck, Home, Ghost, Telescope, Rocket, Laugh, Cat, Target, Briefcase, Flame, Mountain, Gamepad2, Dice1 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { ProjectWithStats } from "@shared/schema";
+import { useLocation } from "wouter";
 
 interface ProjectCardProps {
   project: ProjectWithStats;
   onClick?: () => void;
 }
+
+const genreIcons: Record<string, any> = {
+  "High Fantasy": Crown,
+  "Low Fantasy": Wand2,
+  "Urban Fantasy": Castle,
+  "Dark Fantasy": Skull,
+  "Sword & Sorcery": Sword,
+  "Romantic Fantasy": Heart,
+  "Portal Fantasy": Sparkles,
+  "Fairy Tale Retellings": Book,
+  "Mythic Fantasy": Mountain,
+  "Historical Fantasy": Scroll,
+  "Cozy Fantasy": Coffee,
+  "Flintlock Fantasy": Target,
+  "Progression Fantasy": Zap,
+  "Cultivation (Xianxia / Wuxia)": Mountain,
+  "LitRPG": Gamepad2,
+  "GameLit": Dice1,
+  "Dungeon Core": Shield,
+  "Cyberpunk": Bot,
+  "Biopunk": Feather,
+  "Time Travel": Clock,
+  "AI & Robots": Bot,
+  "Dystopian": Flame,
+  "Post-Apocalyptic": Truck,
+  "Alien Invasion": Telescope,
+  "LitRPG Sci-Fi": Rocket,
+  "Romantic Comedy (Rom-Com)": Laugh,
+  "Cozy Mystery": Cat,
+  "Detective Noir": Search,
+  "Spy / Espionage": UserCheck,
+  "Crime Fiction": Target,
+  "Techno-thriller": Zap,
+  "Domestic Thriller": Home,
+  "Psychological Horror": Eye,
+  "Supernatural Horror": Ghost,
+  "Slasher": Skull,
+  "Gothic Horror": Castle,
+  "Occult Horror": Eye,
+  "Survival Horror": Flame,
+  "Monster Horror": Skull,
+  "YA Fantasy": Sparkles,
+  "YA Sci-Fi": Rocket,
+  "YA Romance": Heart,
+  "YA Contemporary": Coffee,
+  "YA Dystopian": Flame,
+  "YA Thriller": Zap,
+  "YA Paranormal": Ghost,
+  "Coming-of-Age": Baby,
+  "Literary Fiction": Book,
+  "Contemporary Fiction": Coffee,
+  "Slice of Life": Home,
+  "Magical Realism": Wand2,
+  "Satire": Laugh,
+  "Drama": FileText,
+  "Alt-History": Clock,
+  "Dark Academia": GraduationCap,
+  "Antihero Fiction": Skull,
+};
 
 const genreColors: Record<string, string> = {
   "High Fantasy": "bg-purple-100 text-purple-800",
@@ -39,7 +99,7 @@ const genreColors: Record<string, string> = {
   "Romantic Comedy (Rom-Com)": "bg-pink-100 text-pink-800",
   "Cozy Mystery": "bg-green-100 text-green-800",
   "Detective Noir": "bg-gray-100 text-gray-800",
-  "Spy / Espionage": "bg-slate-100 text-slate-800",
+  "Spy / Espionage": "bg-gray-100 text-gray-800",
   "Crime Fiction": "bg-red-100 text-red-800",
   "Techno-thriller": "bg-orange-100 text-orange-800",
   "Domestic Thriller": "bg-yellow-100 text-yellow-800",
@@ -77,18 +137,29 @@ const statusColors: Record<string, string> = {
 };
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
+  const [, setLocation] = useLocation();
   const genreColor = genreColors[project.genre] || "bg-gray-100 text-gray-800";
   const statusColor = statusColors[project.status] || statusColors.active;
+  const GenreIcon = genreIcons[project.genre] || Book;
+
+  const handleClick = () => {
+    setLocation(`/project/${project.id}`);
+  };
 
   return (
     <Card 
       className="bg-[var(--worldforge-card)] shadow-sm border border-[var(--border)] overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`p-2 rounded-lg ${genreColor.replace('text-', 'bg-').replace('-800', '-200')}`}>
+                <GenreIcon className={`w-4 h-4 ${genreColor.split(' ')[1]}`} />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">{project.title}</h3>
+            </div>
             <Badge className={`text-xs font-medium ${genreColor}`}>
               {project.genre}
             </Badge>
