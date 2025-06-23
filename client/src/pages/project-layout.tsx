@@ -53,21 +53,47 @@ export default function ProjectLayout() {
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
-      {/* Project Header */}
+      {/* Unified Header */}
       <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] p-6">
         <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-white" />
+              </div>
+              <h1 className="text-xl font-bold text-gray-900">{project.title}</h1>
+            </div>
+            
+            {/* Navigation Tabs */}
+            <nav className="flex space-x-8">
+              {navigation.map((item) => {
+                const isActive = location.includes(item.href);
+                const Icon = item.icon;
+                
+                return (
+                  <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
+                    <button
+                      className={`flex items-center space-x-2 py-2 px-3 rounded-lg transition-colors ${
+                        isActive
+                          ? "bg-orange-500 text-white"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="font-medium">{item.name}</span>
+                    </button>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+          
           <div className="flex items-center space-x-4">
             <Link href="/">
               <Button variant="ghost" size="sm">
                 ← Back to Projects
               </Button>
             </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{project.title}</h1>
-              <p className="text-sm text-gray-600">{project.genre}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
             <Button variant="outline" size="sm">
               <Settings className="w-4 h-4 mr-2" />
               Settings
@@ -75,31 +101,6 @@ export default function ProjectLayout() {
           </div>
         </div>
       </header>
-
-      {/* Navigation Tabs */}
-      <nav className="bg-[var(--worldforge-card)] border-b border-[var(--border)] px-6">
-        <div className="flex space-x-8">
-          {navigation.map((item) => {
-            const isActive = location.includes(item.href);
-            const Icon = item.icon;
-            
-            return (
-              <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
-                <button
-                  className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
-                    isActive
-                      ? "border-[var(--worldforge-primary)] text-[var(--worldforge-primary)]"
-                      : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="font-medium">{item.name}</span>
-                </button>
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
 
       {/* Project Overview */}
       <main className="p-8">
@@ -168,8 +169,8 @@ export default function ProjectLayout() {
                 <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
                   <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6 hover:shadow-md transition-shadow cursor-pointer">
                     <div className="text-center">
-                      <div className="flex items-center justify-center w-12 h-12 bg-[var(--worldforge-primary)] bg-opacity-10 rounded-lg mx-auto mb-4">
-                        <Icon className="w-6 h-6 text-[var(--worldforge-primary)]" />
+                      <div className="flex items-center justify-center w-16 h-16 bg-orange-500 rounded-lg mx-auto mb-4">
+                        <Icon className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="font-medium text-gray-900 mb-2">{item.name}</h3>
                       <p className="text-sm text-gray-600">
