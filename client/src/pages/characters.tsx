@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
@@ -13,6 +15,7 @@ export default function Characters() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
+  const queryClient = useQueryClient();
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -20,6 +23,15 @@ export default function Characters() {
       const response = await fetch(`/api/projects/${projectId}`);
       if (!response.ok) throw new Error("Failed to fetch project");
       return response.json();
+    },
+  });
+
+  const deleteCharacterMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return apiRequest(`/api/characters/${id}`, { method: "DELETE" });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
     },
   });
 
@@ -60,6 +72,13 @@ export default function Characters() {
     character.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this character?")) {
+      console.log("Delete character:", id);
+      // deleteCharacterMutation.mutate(id);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
@@ -96,25 +115,25 @@ export default function Characters() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-4">
+            <Card className="bg-white border border-gray-200 p-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.length}</p>
                 <p className="text-sm text-gray-600">Total Characters</p>
               </div>
             </Card>
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-4">
+            <Card className="bg-white border border-gray-200 p-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Protagonist').length}</p>
                 <p className="text-sm text-gray-600">Protagonists</p>
               </div>
             </Card>
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-4">
+            <Card className="bg-white border border-gray-200 p-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Antagonist').length}</p>
                 <p className="text-sm text-gray-600">Antagonists</p>
               </div>
             </Card>
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-4">
+            <Card className="bg-white border border-gray-200 p-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Ally').length}</p>
                 <p className="text-sm text-gray-600">Supporting</p>
@@ -127,11 +146,13 @@ export default function Characters() {
             {filteredCharacters.map((character) => (
               <Card 
                 key={character.id} 
-                className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6 hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}
+                className="bg-white border border-gray-200 p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
+                  <div 
+                    className="flex items-center space-x-3 flex-1 cursor-pointer"
+                    onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}
+                  >
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                       <User className="w-6 h-6 text-blue-600" />
                     </div>
@@ -142,9 +163,30 @@ export default function Characters() {
                       </Badge>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}>
+                        <Edit3 className="w-4 h-4 mr-2" />
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(character.id);
+                        }}
+                        className="text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
 
                 <p className="text-sm text-gray-600 mb-4 line-clamp-2">{character.description}</p>
@@ -160,12 +202,7 @@ export default function Characters() {
                   </div>
                 </div>
 
-                <div className="flex justify-end mt-4">
-                  <Button size="sm" variant="outline">
-                    <Edit3 className="w-3 h-3 mr-1" />
-                    Edit
-                  </Button>
-                </div>
+
               </Card>
             ))}
           </div>
