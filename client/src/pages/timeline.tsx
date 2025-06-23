@@ -475,7 +475,9 @@ export default function Timeline() {
                   <Clock className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-1">Timeline</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-1">
+                    Timeline
+                  </h1>
                   <p className="text-gray-600 text-lg">
                     Track and organize story events chronologically
                   </p>
@@ -489,7 +491,9 @@ export default function Timeline() {
                     <div className="text-2xl font-bold text-gray-900 mb-1">
                       {sampleEvents.length}
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">Total Events</div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Total Events
+                    </div>
                   </div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -500,7 +504,9 @@ export default function Timeline() {
                           .length
                       }
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">High Priority</div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      High Priority
+                    </div>
                   </div>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -546,31 +552,23 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-8 shadow-inner border border-orange-100">
+          <div className="p-8">
             <div
               ref={timelineRef}
-              className="relative mx-auto bg-white/30 rounded-lg p-6 backdrop-blur-sm"
+              className="relative mx-auto"
               style={{ width: timelineWidth, height: timelineHeight }}
             >
               {/* Timeline Path */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                {pathPoints.length > 1 &&
-                  pathPoints.map((point, index) => {
-                    if (index === pathPoints.length - 1) return null;
-                    const nextPoint = pathPoints[index + 1];
-                    return (
-                      <line
-                        key={index}
-                        x1={point[0]}
-                        y1={point[1]}
-                        x2={nextPoint[0]}
-                        y2={nextPoint[1]}
-                        stroke="#d69e2e"
-                        strokeWidth="3"
-                        opacity="0.4"
-                      />
-                    );
-                  })}
+                {pathPoints.length > 1 && (
+                  <path
+                    d={`M ${pathPoints.map(point => point.join(',')).join(' L ')}`}
+                    stroke="#d69e2e"
+                    strokeWidth="3"
+                    fill="none"
+                    opacity="0.6"
+                  />
+                )}
               </svg>
 
               {/* Event Nodes */}
@@ -660,7 +658,10 @@ export default function Timeline() {
                               }
                             }, 100);
                           }}
-                          onClick={() => setSelectedEvent(group.events[0])}
+                          onClick={() => {
+                            setSelectedEvent(group.events[0]);
+                            setShowEditDialog(true);
+                          }}
                         >
                           <div
                             className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg`}
