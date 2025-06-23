@@ -85,7 +85,7 @@ function TagSearch({ items, placeholder, selectedTags, onAddTag, onRemoveTag }: 
           className="bg-gray-50 border-gray-300 focus:bg-white"
         />
         {isOpen && filteredItems.length > 0 && (
-          <div className="absolute z-[100] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
@@ -295,24 +295,24 @@ export default function Timeline() {
                 </div>
               </div>
               
-              {/* Timeline Overview Stats */}
-              <div className="bg-[var(--worldforge-card)] border border-[var(--border)] rounded-lg p-4 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">Timeline Overview</h3>
-                <p className="text-gray-600 mb-3 text-center text-sm">
-                  Serpentine timeline shows chronological progression. Hover to see details, click to edit.
-                </p>
-                <div className="flex justify-center space-x-6 text-sm text-gray-600">
+              {/* Timeline Stats Cards */}
+              <div className="flex space-x-4">
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex-1">
                   <div className="text-center">
-                    <div className="text-xl font-bold text-gray-900">{sampleEvents.length}</div>
-                    <div>Total Events</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-1">{sampleEvents.length}</div>
+                    <div className="text-sm text-gray-600">Total Events</div>
                   </div>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex-1">
                   <div className="text-center">
-                    <div className="text-xl font-bold text-red-600">{sampleEvents.filter(e => e.importance === 'high').length}</div>
-                    <div>High Priority</div>
+                    <div className="text-2xl font-bold text-red-600 mb-1">{sampleEvents.filter(e => e.importance === 'high').length}</div>
+                    <div className="text-sm text-gray-600">High Priority</div>
                   </div>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex-1">
                   <div className="text-center">
-                    <div className="text-xl font-bold text-blue-600">{sampleEvents.filter(e => e.category === 'Character Development').length}</div>
-                    <div>Character Events</div>
+                    <div className="text-2xl font-bold text-blue-600 mb-1">{sampleEvents.filter(e => e.category === 'Character Development').length}</div>
+                    <div className="text-sm text-gray-600">Character Events</div>
                   </div>
                 </div>
               </div>
@@ -404,12 +404,21 @@ export default function Timeline() {
                             });
                           }}
                           onMouseLeave={() => {
-                            setHoveredDateGroup(null);
-                            setPopupPosition(null);
+                            setTimeout(() => {
+                              if (!popupRef.current?.matches(':hover')) {
+                                setHoveredDateGroup(null);
+                                setPopupPosition(null);
+                              }
+                            }, 100);
                           }}
                         >
-                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                            <span className="text-white font-bold text-sm">{group.events.length}</span>
+                          <div className="relative">
+                            <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                              <Calendar className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                              <span className="text-white font-bold text-xs">{group.events.length}</span>
+                            </div>
                           </div>
                         </div>
                       ) : (
@@ -435,8 +444,12 @@ export default function Timeline() {
                             });
                           }}
                           onMouseLeave={() => {
-                            setHoveredEvent(null);
-                            setPopupPosition(null);
+                            setTimeout(() => {
+                              if (!popupRef.current?.matches(':hover')) {
+                                setHoveredEvent(null);
+                                setPopupPosition(null);
+                              }
+                            }, 100);
                           }}
                           onClick={() => setSelectedEvent(group.events[0])}
                         >
@@ -477,6 +490,7 @@ export default function Timeline() {
           {/* Hover popups */}
           {popupPosition && (
             <div 
+              ref={popupRef}
               className="fixed z-50"
               style={{ 
                 left: popupPosition.x,
@@ -587,14 +601,14 @@ export default function Timeline() {
       {/* Add Event Dialog */}
       {showAddDialog && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[500]"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowAddDialog(false);
             }
           }}
         >
-          <Card className="bg-white w-full max-w-4xl max-h-[85vh] overflow-hidden">
+          <Card className="bg-white w-full max-w-4xl max-h-[85vh] overflow-hidden relative z-[501]">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Add New Event</h2>
