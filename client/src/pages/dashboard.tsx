@@ -1,65 +1,50 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, Plus, Search, Sun } from "lucide-react";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/layout/navbar";
 import ProjectCard from "@/components/project-card";
 import ProjectDialog from "@/components/project-dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import type { ProjectWithStats } from "@shared/schema";
 
 export default function Dashboard() {
-  const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
+  const [showProjectDialog, setShowProjectDialog] = useState(false);
 
   const { data: projects, isLoading: projectsLoading } = useQuery<ProjectWithStats[]>({
     queryKey: ["/api/projects"],
   });
 
   return (
-    <div className="min-h-screen bg-[var(--worldforge-cream)]">
-      {/* Header */}
-      <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 worldforge-primary rounded-lg flex items-center justify-center">
-              <BookOpen className="text-white w-4 h-4" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>
-              <p className="text-xs text-gray-500">Your Creative Writing Companion</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            {/* Search Bar */}
-            <div className="relative">
-              <Input 
-                type="text" 
-                placeholder="Search projects..." 
-                className="pl-10 pr-4 py-2 w-64 bg-white"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            </div>
-            
-            {/* Theme Toggle */}
-            <Button variant="ghost" size="icon">
-              <Sun className="w-4 h-4" />
-            </Button>
-            
-            {/* New Project Button */}
-            <Button 
-              onClick={() => setShowNewProjectDialog(true)} 
-              className="worldforge-primary text-white hover:bg-orange-600"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              New Project
-            </Button>
-          </div>
+    <>
+      <Navbar 
+        searchPlaceholder="Search projects..."
+        rightContent={
+          <Button 
+            onClick={() => setShowProjectDialog(true)}
+            className="bg-orange-500 text-white hover:bg-orange-600"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            New Project
+          </Button>
+        }
+      />
+      
+      <main className="flex-1 p-8 overflow-y-auto">
+        {/* Welcome Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to WorldForge</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Your comprehensive creative writing companion. Organize characters, build worlds, 
+            manage timelines, and bring your stories to life.
+          </p>
         </div>
-      </header>
 
-      <main className="p-8">
+        {/* Projects Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Projects</h2>
-          <p className="text-gray-600">Manage and organize your creative writing projects</p>
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Projects</h2>
+            <p className="text-gray-600">Manage and organize your creative writing projects</p>
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -111,9 +96,9 @@ export default function Dashboard() {
       </main>
 
       <ProjectDialog
-        open={showNewProjectDialog}
-        onOpenChange={setShowNewProjectDialog}
+        open={showProjectDialog}
+        onOpenChange={setShowProjectDialog}
       />
-    </div>
+    </>
   );
 }

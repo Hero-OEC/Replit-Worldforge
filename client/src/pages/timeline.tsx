@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Navbar from "@/components/layout/navbar";
 import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
 
 const importanceColors = {
@@ -90,11 +91,16 @@ export default function Timeline() {
     const element = document.getElementById(`event-${eventId}`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Highlight the event temporarily
-      element.classList.add('ring-4', 'ring-orange-400');
-      setTimeout(() => {
-        element.classList.remove('ring-4', 'ring-orange-400');
-      }, 2000);
+      // Highlight the event temporarily with circular highlight
+      element.classList.add('animate-bounce');
+      const circle = element.querySelector('.event-circle');
+      if (circle) {
+        circle.classList.add('ring-4', 'ring-orange-400', 'ring-opacity-75', 'scale-125');
+        setTimeout(() => {
+          circle.classList.remove('ring-4', 'ring-orange-400', 'ring-opacity-75', 'scale-125');
+          element.classList.remove('animate-bounce');
+        }, 3000);
+      }
     }
   };
 
@@ -139,55 +145,31 @@ export default function Timeline() {
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
-      {/* Unified Header */}
-      <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-900">{project?.title}</h1>
-            </div>
-            
-            {/* Navigation indicator */}
-            <div className="flex items-center space-x-2 text-gray-600">
-              <Clock className="w-4 h-4" />
-              <span className="font-medium">Timeline</span>
-            </div>
-          </div>
-          
+      <Navbar 
+        projectId={projectId}
+        projectTitle={project?.title}
+        showProjectNav={true}
+        searchPlaceholder="Search events..."
+        onSearch={setSearchTerm}
+        rightContent={
           <div className="flex items-center space-x-4">
-            <div className="relative flex items-center">
-              <Input 
-                type="text" 
-                placeholder="Search events..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-20 py-2 w-64 bg-white"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              
-              {searchResults.length > 0 && (
-                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-                  <span className="text-xs text-gray-500">
-                    {currentSearchIndex + 1}/{searchResults.length}
-                  </span>
-                  <button
-                    onClick={() => handleSearchNavigation('prev')}
-                    className="p-1 hover:bg-gray-100 rounded"
-                  >
-                    <ChevronLeft className="w-3 h-3" />
-                  </button>
-                  <button
-                    onClick={() => handleSearchNavigation('next')}
-                    className="p-1 hover:bg-gray-100 rounded"
-                  >
-                    <ChevronRight className="w-3 h-3" />
-                  </button>
-                </div>
-              )}
-            </div>
+            {searchResults.length > 0 && (
+              <div className="flex items-center space-x-1 text-sm text-gray-600">
+                <span>{currentSearchIndex + 1}/{searchResults.length}</span>
+                <button
+                  onClick={() => handleSearchNavigation('prev')}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  <ChevronLeft className="w-3 h-3" />
+                </button>
+                <button
+                  onClick={() => handleSearchNavigation('next')}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+            )}
             
             <Button variant="outline">
               <Filter className="w-4 h-4 mr-2" />
@@ -201,8 +183,8 @@ export default function Timeline() {
               Add Event
             </Button>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       <main className="p-8 overflow-x-auto">
         {/* Legend */}
@@ -262,7 +244,7 @@ export default function Timeline() {
                 }}
               >
                 {/* Event Circle */}
-                <div className={`w-12 h-12 ${importanceColors[importance]} rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform relative`}>
+                <div className={`event-circle w-12 h-12 ${importanceColors[importance]} rounded-full flex items-center justify-center shadow-lg hover:scale-125 transition-all duration-300 hover:shadow-xl relative`}>
                   <EventIcon className="w-6 h-6 text-white" />
                   
                   {/* Event number */}
@@ -287,7 +269,7 @@ export default function Timeline() {
             <div 
               className="absolute z-50 pointer-events-auto" 
               style={{ 
-                left: Math.min(pathPoints.find(p => p.event.id === hoveredEvent.id)?.x || 0, 800), 
+                left: Math.max(20, Math.min(pathPoints.find(p => p.event.id === hoveredEvent.id)?.x || 0, 880)) - 160, 
                 top: (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) > 300 ? 
                   (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) - 200 : 
                   (pathPoints.find(p => p.event.id === hoveredEvent.id)?.y || 0) + 80 

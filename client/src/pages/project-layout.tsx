@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { BookOpen, Clock, Users, MapPin, Sparkles, Scroll, Settings, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Navbar from "@/components/layout/navbar";
 import type { ProjectWithStats } from "@shared/schema";
 
 const navigation = [
   { name: "Timeline", href: "timeline", icon: Clock },
   { name: "Characters", href: "characters", icon: Users },
   { name: "Locations", href: "locations", icon: MapPin },
-  { name: "Lore & Magic", href: "lore", icon: Sparkles },
+  { name: "Lore", href: "lore", icon: Sparkles },
   { name: "Notes", href: "notes", icon: Scroll },
 ];
 
@@ -53,54 +54,12 @@ export default function ProjectLayout() {
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
-      {/* Unified Header */}
-      <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-white" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-900">{project.title}</h1>
-            </div>
-            
-            {/* Navigation Tabs */}
-            <nav className="flex space-x-8">
-              {navigation.map((item) => {
-                const isActive = location.includes(item.href);
-                const Icon = item.icon;
-                
-                return (
-                  <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
-                    <button
-                      className={`flex items-center space-x-2 py-2 px-3 rounded-lg transition-colors ${
-                        isActive
-                          ? "bg-orange-500 text-white"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span className="font-medium">{item.name}</span>
-                    </button>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <Link href="/">
-              <Button variant="ghost" size="sm">
-                ← Back to Projects
-              </Button>
-            </Link>
-            <Button variant="outline" size="sm">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Navbar 
+        projectId={projectId}
+        projectTitle={project.title}
+        showProjectNav={true}
+        searchPlaceholder="Search project..."
+      />
 
       {/* Project Overview */}
       <main className="p-8">
@@ -177,7 +136,7 @@ export default function ProjectLayout() {
                         {item.name === "Timeline" && "Organize story events"}
                         {item.name === "Characters" && "Manage character profiles"}
                         {item.name === "Locations" && "Document world places"}
-                        {item.name === "Lore & Magic" && "Define magical systems"}
+                        {item.name === "Lore" && "Define magical systems"}
                         {item.name === "Notes" && "Keep project notes"}
                       </p>
                     </div>
