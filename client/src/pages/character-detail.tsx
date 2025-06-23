@@ -1,11 +1,13 @@
 import { useState, useRef } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Save, X, User, Upload, Sword } from "lucide-react";
+import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
@@ -19,10 +21,14 @@ export default function CharacterDetail() {
     description: "",
     personality: "",
     backstory: "",
-    goals: "",
-    fears: "",
-    relationships: "",
-    weapons: ""
+    weapons: "",
+    age: "",
+    race: "",
+    class: "",
+    location: "",
+    role: "",
+    appearance: "",
+    magicSystem: ""
   });
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -38,17 +44,17 @@ export default function CharacterDetail() {
   const character = {
     id: 1,
     name: "Elena Brightblade",
+    role: "Protagonist",
     description: "A young mage with incredible potential and a mysterious past.",
     personality: "Determined, compassionate, but sometimes impulsive.",
     backstory: "Born into nobility but discovered her magical abilities late in life.",
-    goals: "To master her magical abilities and protect her kingdom.",
-    fears: "Losing control of her powers and hurting those she loves.",
-    relationships: "Close friend of Marcus, mentored by Archmage Theron.",
     age: "22",
     race: "Human",
     class: "Mage",
     location: "Arcanum City",
-    weapons: "Enchanted Staff of Flames, Crystal Dagger"
+    weapons: "Enchanted Staff of Flames, Crystal Dagger",
+    appearance: "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training",
+    magicSystem: "Fire Magic"
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,10 +80,14 @@ export default function CharacterDetail() {
       description: "",
       personality: "",
       backstory: "",
-      goals: "",
-      fears: "",
-      relationships: "",
-      weapons: ""
+      weapons: "",
+      age: "",
+      race: "",
+      class: "",
+      location: "",
+      role: "",
+      appearance: "",
+      magicSystem: ""
     });
   };
 
@@ -101,7 +111,33 @@ export default function CharacterDetail() {
                   Back to Characters
                 </Button>
               </Link>
-              <h1 className="text-3xl font-bold text-gray-800">{character.name}</h1>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800">{character.name}</h1>
+                <div className="mt-2">
+                  {isEditing ? (
+                    <Select 
+                      value={characterData.role || character.role} 
+                      onValueChange={(value) => setCharacterData({...characterData, role: value})}
+                    >
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Protagonist">Protagonist</SelectItem>
+                        <SelectItem value="Antagonist">Antagonist</SelectItem>
+                        <SelectItem value="Ally">Ally</SelectItem>
+                        <SelectItem value="Enemy">Enemy</SelectItem>
+                        <SelectItem value="Neutral">Neutral</SelectItem>
+                        <SelectItem value="Supporting">Supporting</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                      {character.role}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
             
             <div className="flex items-center space-x-3">
@@ -136,21 +172,27 @@ export default function CharacterDetail() {
                     Portrait
                   </h2>
                   {isEditing && (
-                    <Button
-                      onClick={() => fileInputRef.current?.click()}
-                      variant="outline"
-                      size="sm"
-                      className="text-xs"
-                    >
-                      <Upload className="w-3 h-3 mr-1" />
-                      Upload
-                    </Button>
+                    <div className="text-right">
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs mb-2"
+                      >
+                        <Upload className="w-3 h-3 mr-1" />
+                        Upload
+                      </Button>
+                      <p className="text-xs text-gray-500">
+                        Best: 3:4 ratio<br />
+                        (e.g. 300x400px)
+                      </p>
+                    </div>
                   )}
                 </div>
 
                 {/* Character Portrait */}
                 <div className="relative mb-6">
-                  <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden">
+                  <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden max-w-48">
                     {characterImage ? (
                       <img 
                         src={characterImage} 
@@ -174,19 +216,51 @@ export default function CharacterDetail() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Age:</span>
-                    <span className="text-sm text-gray-800">{character.age}</span>
+                    {isEditing ? (
+                      <Input
+                        value={characterData.age || character.age}
+                        onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
+                        className="w-20 h-6 text-xs text-right"
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-800">{character.age}</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Race:</span>
-                    <span className="text-sm text-gray-800">{character.race}</span>
+                    {isEditing ? (
+                      <Input
+                        value={characterData.race || character.race}
+                        onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
+                        className="w-24 h-6 text-xs text-right"
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-800">{character.race}</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-200">
                     <span className="text-sm font-medium text-gray-600">Class:</span>
-                    <span className="text-sm text-gray-800">{character.class}</span>
+                    {isEditing ? (
+                      <Input
+                        value={characterData.class || character.class}
+                        onChange={(e) => setCharacterData({...characterData, class: e.target.value})}
+                        className="w-24 h-6 text-xs text-right"
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-800">{character.class}</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-sm font-medium text-gray-600">Location:</span>
-                    <span className="text-sm text-gray-800">{character.location}</span>
+                    {isEditing ? (
+                      <Input
+                        value={characterData.location || character.location}
+                        onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
+                        className="w-28 h-6 text-xs text-right"
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-800">{character.location}</span>
+                    )}
                   </div>
                 </div>
               </Card>
@@ -235,13 +309,41 @@ export default function CharacterDetail() {
 
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Magic System Connection</h3>
-                        <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                          <span className="text-sm text-blue-800">Fire Magic - Advanced Practitioner</span>
-                          <Button variant="outline" size="sm" className="ml-auto text-xs">
-                            View Magic System
-                          </Button>
-                        </div>
+                        {isEditing ? (
+                          <div className="space-y-2">
+                            <Select 
+                              value={characterData.magicSystem || character.magicSystem} 
+                              onValueChange={(value) => setCharacterData({...characterData, magicSystem: value})}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select magic system" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Fire Magic">Fire Magic</SelectItem>
+                                <SelectItem value="Water Magic">Water Magic</SelectItem>
+                                <SelectItem value="Earth Magic">Earth Magic</SelectItem>
+                                <SelectItem value="Air Magic">Air Magic</SelectItem>
+                                <SelectItem value="Shadow Magic">Shadow Magic</SelectItem>
+                                <SelectItem value="Light Magic">Light Magic</SelectItem>
+                                <SelectItem value="None">None</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        ) : character.magicSystem && character.magicSystem !== "None" ? (
+                          <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <Wand2 className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm text-blue-800">{character.magicSystem} - Advanced Practitioner</span>
+                            <WouterLink href={`/project/${projectId}/magic-systems`}>
+                              <Button variant="outline" size="sm" className="ml-auto text-xs">
+                                View Magic System
+                              </Button>
+                            </WouterLink>
+                          </div>
+                        ) : (
+                          <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <span className="text-sm text-gray-600">No magic system assigned</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Card>
@@ -253,13 +355,13 @@ export default function CharacterDetail() {
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
                       {isEditing ? (
                         <textarea
-                          value={characterData.appearance || "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training"}
+                          value={characterData.appearance || character.appearance}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
                           className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
                           placeholder="Describe the character's physical appearance..."
                         />
                       ) : (
-                        <p className="text-gray-700">Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training</p>
+                        <p className="text-gray-700">{character.appearance}</p>
                       )}
                     </div>
                   </Card>
