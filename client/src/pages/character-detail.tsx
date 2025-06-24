@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2 } from "lucide-react";
+import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -11,11 +11,166 @@ import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
+// Power/Magic Systems with descriptions
+const powerSystems = [
+  { 
+    name: "Fire Magic", 
+    description: "Manipulation of flames and heat energy. Practitioners can create, control, and extinguish fire.",
+    title: "Pyromancy Arts"
+  },
+  { 
+    name: "Water Magic", 
+    description: "Control over water and ice. Masters can manipulate precipitation, create barriers, and heal.",
+    title: "Hydromantic Arts" 
+  },
+  { 
+    name: "Earth Magic", 
+    description: "Communion with stone, soil, and minerals. Allows for terraforming and defensive magic.",
+    title: "Geomantic Arts"
+  },
+  { 
+    name: "Air Magic", 
+    description: "Mastery over wind and atmosphere. Enables flight, weather control, and sonic attacks.",
+    title: "Aeromantic Arts"
+  },
+  { 
+    name: "Shadow Magic", 
+    description: "Manipulation of darkness and stealth. Grants invisibility, teleportation, and fear effects.",
+    title: "Umbramantic Arts"
+  },
+  { 
+    name: "Light Magic", 
+    description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
+    title: "Lumimantic Arts"
+  },
+  { 
+    name: "Time Magic", 
+    description: "Rare temporal manipulation. Allows limited foresight, slowing time, and minor reversals.",
+    title: "Chronomantic Arts"
+  },
+  { 
+    name: "Mind Magic", 
+    description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
+    title: "Psionic Arts"
+  }
+];
+
+// Character role configuration
+const roleConfig = {
+  "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
+  "Antagonist": { icon: Sword, color: "bg-red-500", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
+  "Enemy": { icon: UserX, color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Neutral": { icon: HelpCircle, color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" },
+  "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
+};
+
+// Power System Search Component
+interface PowerSystemSearchProps {
+  selectedSystems: string[];
+  onAddSystem: (system: string) => void;
+  onRemoveSystem: (system: string) => void;
+}
+
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: PowerSystemSearchProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredSystems, setFilteredSystems] = useState<typeof powerSystems>([]);
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = powerSystems.filter(
+        (system) =>
+          system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+          !selectedSystems.includes(system.name)
+      );
+      setFilteredSystems(filtered);
+      setIsOpen(filtered.length > 0);
+    } else {
+      setFilteredSystems([]);
+      setIsOpen(false);
+    }
+  }, [searchValue, selectedSystems]);
+
+  const handleSelectSystem = (systemName: string) => {
+    onAddSystem(systemName);
+    setSearchValue("");
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="relative">
+        <Input
+          placeholder="Search power systems..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onFocus={() => {
+            if (filteredSystems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+        />
+        {isOpen && filteredSystems.length > 0 && (
+          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredSystems.map((system, index) => (
+              <div
+                key={index}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleSelectSystem(system.name)}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium text-sm">{system.name}</span>
+                    <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+                  </div>
+                  <Check className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Selected Systems */}
+      {selectedSystems.length > 0 && (
+        <div className="space-y-2">
+          {selectedSystems.map((systemName, index) => {
+            const system = powerSystems.find(s => s.name === systemName);
+            return (
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <Wand2 className="w-4 h-4 text-blue-600" />
+                  <div>
+                    <span className="text-sm font-medium text-blue-800">{system?.title || systemName}</span>
+                    <p className="text-xs text-blue-600">{system?.description || "Custom power system"}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onRemoveSystem(systemName)}
+                  className="text-blue-400 hover:text-blue-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CharacterDetail() {
   const { projectId, characterId } = useParams<{ projectId: string; characterId: string }>();
   const [isEditing, setIsEditing] = useState(false);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
   const [characterData, setCharacterData] = useState({
     name: "",
     description: "",
@@ -27,8 +182,7 @@ export default function CharacterDetail() {
     class: "",
     location: "",
     role: "",
-    appearance: "",
-    magicSystem: ""
+    appearance: ""
   });
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -54,8 +208,20 @@ export default function CharacterDetail() {
     location: "Arcanum City",
     weapons: "Enchanted Staff of Flames, Crystal Dagger",
     appearance: "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training",
-    magicSystem: "Fire Magic"
+    powerSystems: ["Fire Magic", "Light Magic"],
+    image: "/api/placeholder/350/450"
   };
+
+  // Initialize power systems when character loads
+  useEffect(() => {
+    if (character.powerSystems) {
+      setSelectedPowerSystems(character.powerSystems);
+    }
+  }, []);
+
+  // Get role configuration
+  const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
+  const RoleIcon = roleInfo.icon;
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -132,9 +298,10 @@ export default function CharacterDetail() {
                       </SelectContent>
                     </Select>
                   ) : (
-                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                      {character.role}
-                    </span>
+                    <div className={`inline-flex items-center space-x-2 px-3 py-1 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
+                      <RoleIcon className="w-4 h-4" />
+                      <span>{character.role}</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -172,32 +339,27 @@ export default function CharacterDetail() {
                     Portrait
                   </h2>
                   {isEditing && (
-                    <div className="text-right">
-                      <Button
-                        onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        size="sm"
-                        className="text-xs mb-2"
-                      >
-                        <Upload className="w-3 h-3 mr-1" />
-                        Upload
-                      </Button>
-                      <p className="text-xs text-gray-500">
-                        Best: 3:4 ratio<br />
-                        (e.g. 300x400px)
-                      </p>
-                    </div>
+                    <Button
+                      onClick={() => fileInputRef.current?.click()}
+                      variant="outline"
+                      size="sm"
+                      className="text-xs"
+                    >
+                      <Upload className="w-3 h-3 mr-1" />
+                      Upload
+                    </Button>
                   )}
                 </div>
 
                 {/* Character Portrait */}
                 <div className="relative mb-6">
-                  <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden max-w-48">
-                    {characterImage ? (
+                  <div className="w-full aspect-[7/9] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ maxWidth: '280px' }}>
+                    {characterImage || character.image ? (
                       <img 
-                        src={characterImage} 
+                        src={characterImage || character.image} 
                         alt={character.name}
                         className="w-full h-full object-cover"
+                        style={{ minHeight: '100%' }}
                       />
                     ) : (
                       <User className="w-20 h-20 text-gray-400" />
@@ -213,53 +375,57 @@ export default function CharacterDetail() {
                 </div>
 
                 {/* Basic Info */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm font-medium text-gray-600">Age:</span>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="text-sm font-medium text-gray-700">Age:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.age || character.age}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                        className="w-20 h-6 text-xs text-right"
+                        className="w-20 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="22"
                       />
                     ) : (
-                      <span className="text-sm text-gray-800">{character.age}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.age}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm font-medium text-gray-600">Race:</span>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.race || character.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                        className="w-24 h-6 text-xs text-right"
+                        className="w-24 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Human"
                       />
                     ) : (
-                      <span className="text-sm text-gray-800">{character.race}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm font-medium text-gray-600">Class:</span>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="text-sm font-medium text-gray-700">Class:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.class || character.class}
                         onChange={(e) => setCharacterData({...characterData, class: e.target.value})}
-                        className="w-24 h-6 text-xs text-right"
+                        className="w-24 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Mage"
                       />
                     ) : (
-                      <span className="text-sm text-gray-800">{character.class}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.class}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-sm font-medium text-gray-600">Location:</span>
+                  <div className="flex justify-between items-center py-3">
+                    <span className="text-sm font-medium text-gray-700">Location:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.location || character.location}
                         onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
-                        className="w-28 h-6 text-xs text-right"
+                        className="w-32 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Arcanum City"
                       />
                     ) : (
-                      <span className="text-sm text-gray-800">{character.location}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.location}</span>
                     )}
                   </div>
                 </div>
@@ -308,40 +474,38 @@ export default function CharacterDetail() {
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Magic System Connection</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Power System</h3>
                         {isEditing ? (
+                          <PowerSystemSearch
+                            selectedSystems={selectedPowerSystems}
+                            onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
+                            onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
+                          />
+                        ) : selectedPowerSystems.length > 0 ? (
                           <div className="space-y-2">
-                            <Select 
-                              value={characterData.magicSystem || character.magicSystem} 
-                              onValueChange={(value) => setCharacterData({...characterData, magicSystem: value})}
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select magic system" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Fire Magic">Fire Magic</SelectItem>
-                                <SelectItem value="Water Magic">Water Magic</SelectItem>
-                                <SelectItem value="Earth Magic">Earth Magic</SelectItem>
-                                <SelectItem value="Air Magic">Air Magic</SelectItem>
-                                <SelectItem value="Shadow Magic">Shadow Magic</SelectItem>
-                                <SelectItem value="Light Magic">Light Magic</SelectItem>
-                                <SelectItem value="None">None</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        ) : character.magicSystem && character.magicSystem !== "None" ? (
-                          <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                            <Wand2 className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm text-blue-800">{character.magicSystem} - Advanced Practitioner</span>
-                            <WouterLink href={`/project/${projectId}/magic-systems`}>
-                              <Button variant="outline" size="sm" className="ml-auto text-xs">
-                                View Magic System
-                              </Button>
-                            </WouterLink>
+                            {selectedPowerSystems.map((systemName, index) => {
+                              const system = powerSystems.find(s => s.name === systemName);
+                              return (
+                                <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                  <div className="flex items-center space-x-3">
+                                    <Wand2 className="w-4 h-4 text-blue-600" />
+                                    <div>
+                                      <span className="text-sm font-medium text-blue-800">{system?.title || systemName}</span>
+                                      <p className="text-xs text-blue-600">{system?.description || "Custom power system"}</p>
+                                    </div>
+                                  </div>
+                                  <WouterLink href={`/project/${projectId}/magic-systems`}>
+                                    <Button variant="outline" size="sm" className="text-xs">
+                                      View System
+                                    </Button>
+                                  </WouterLink>
+                                </div>
+                              );
+                            })}
                           </div>
                         ) : (
                           <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                            <span className="text-sm text-gray-600">No magic system assigned</span>
+                            <span className="text-sm text-gray-600">No power systems assigned</span>
                           </div>
                         )}
                       </div>
