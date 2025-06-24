@@ -1,31 +1,201 @@
-import { useState } from "react";
-import { useParams, Link, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Save, X, User } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { useParams, useLocation } from "wouter";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Save, User, Upload, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Wand2, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
-import type { ProjectWithStats } from "@shared/schema";
+import type { InsertCharacter, ProjectWithStats } from "@shared/schema";
+
+// Power/Magic Systems with descriptions
+const powerSystems = [
+  { 
+    name: "Fire Magic", 
+    description: "Manipulation of flames and heat energy. Practitioners can create, control, and extinguish fire.",
+    title: "Pyromancy Arts"
+  },
+  { 
+    name: "Water Magic", 
+    description: "Control over water and ice. Masters can manipulate precipitation, create barriers, and heal.",
+    title: "Hydromantic Arts" 
+  },
+  { 
+    name: "Earth Magic", 
+    description: "Communion with stone, soil, and minerals. Allows for terraforming and defensive magic.",
+    title: "Geomantic Arts"
+  },
+  { 
+    name: "Air Magic", 
+    description: "Mastery over wind and atmosphere. Enables flight, weather control, and sonic attacks.",
+    title: "Aeromantic Arts"
+  },
+  { 
+    name: "Shadow Magic", 
+    description: "Manipulation of darkness and stealth. Grants invisibility, teleportation, and fear effects.",
+    title: "Umbramantic Arts"
+  },
+  { 
+    name: "Light Magic", 
+    description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
+    title: "Lumimantic Arts"
+  },
+  { 
+    name: "Time Magic", 
+    description: "Rare temporal manipulation. Allows limited foresight, slowing time, and minor reversals.",
+    title: "Chronomantic Arts"
+  },
+  { 
+    name: "Mind Magic", 
+    description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
+    title: "Psionic Arts"
+  }
+];
+
+// Character role configuration
+const roleConfig = {
+  "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
+  "Antagonist": { icon: Sword, color: "bg-red-500", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
+  "Enemy": { icon: UserX, color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Neutral": { icon: HelpCircle, color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" },
+  "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
+};
+
+// Power System Search Component
+interface PowerSystemSearchProps {
+  selectedSystems: string[];
+  onAddSystem: (system: string) => void;
+  onRemoveSystem: (system: string) => void;
+}
+
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: PowerSystemSearchProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredSystems, setFilteredSystems] = useState<typeof powerSystems>([]);
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = powerSystems.filter(
+        (system) =>
+          system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+          !selectedSystems.includes(system.name)
+      );
+      setFilteredSystems(filtered);
+      setIsOpen(filtered.length > 0);
+    } else {
+      setFilteredSystems([]);
+      setIsOpen(false);
+    }
+  }, [searchValue, selectedSystems]);
+
+  const handleSelectSystem = (systemName: string) => {
+    onAddSystem(systemName);
+    setSearchValue("");
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="relative">
+        <Input
+          placeholder="Search power systems..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onFocus={() => {
+            if (filteredSystems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+        />
+        {isOpen && filteredSystems.length > 0 && (
+          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredSystems.map((system, index) => (
+              <div
+                key={index}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleSelectSystem(system.name)}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium text-sm">{system.name}</span>
+                    <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+                  </div>
+                  <Check className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Selected Systems */}
+      {selectedSystems.length > 0 && (
+        <div className="space-y-2">
+          {selectedSystems.map((systemName, index) => {
+            const system = powerSystems.find(s => s.name === systemName);
+            return (
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <Wand2 className="w-4 h-4 text-blue-600" />
+                  <div>
+                    <span className="text-sm font-medium text-blue-800">{system?.title || systemName}</span>
+                    <p className="text-xs text-blue-600">{system?.description || "Custom power system"}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onRemoveSystem(systemName)}
+                  className="text-blue-400 hover:text-blue-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function NewCharacter() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [characterImage, setCharacterImage] = useState<string | null>(null);
+  const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
+
   const [characterData, setCharacterData] = useState({
     name: "",
-    role: "",
     description: "",
-    appearance: "",
     personality: "",
     backstory: "",
+    weapons: "",
     age: "",
-    birthplace: "",
-    occupation: "",
-    goals: "",
-    fears: "",
-    relationships: ""
+    race: "",
+    class: "",
+    location: "",
+    role: "",
+    appearance: ""
   });
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setCharacterImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -36,11 +206,28 @@ export default function NewCharacter() {
     },
   });
 
+  const createCharacterMutation = useMutation({
+    mutationFn: async (data: InsertCharacter) => {
+      return apiRequest("/api/characters", {
+        method: "POST",
+        body: JSON.stringify({ ...data, projectId: parseInt(projectId!) })
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
+      setLocation(`/project/${projectId}/characters`);
+    },
+  });
+
   const handleSave = () => {
-    // In real app, this would save to API
-    console.log("Saving character:", characterData);
-    // Redirect back to characters list
-    setLocation(`/project/${projectId}/characters`);
+    if (!characterData.name.trim()) return;
+    
+    const characterToSave: InsertCharacter = {
+      ...characterData,
+      projectId: parseInt(projectId!)
+    };
+    
+    createCharacterMutation.mutate(characterToSave);
   };
 
   const handleCancel = () => {

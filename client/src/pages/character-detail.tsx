@@ -339,30 +339,37 @@ export default function CharacterDetail() {
                     Portrait
                   </h2>
                   {isEditing && (
-                    <Button
-                      onClick={() => fileInputRef.current?.click()}
-                      variant="outline"
-                      size="sm"
-                      className="text-xs"
-                    >
-                      <Upload className="w-3 h-3 mr-1" />
-                      Upload
-                    </Button>
+                    <div className="flex items-center space-x-3">
+                      <span className="text-xs text-gray-500">Best: 7:9 ratio</span>
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs"
+                      >
+                        <Upload className="w-3 h-3 mr-1" />
+                        Upload
+                      </Button>
+                    </div>
                   )}
                 </div>
 
                 {/* Character Portrait */}
                 <div className="relative mb-6">
-                  <div className="w-full aspect-[7/9] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ maxWidth: '280px' }}>
+                  <div className="aspect-[7/9] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
                     {characterImage || character.image ? (
                       <img 
                         src={characterImage || character.image} 
                         alt={character.name}
                         className="w-full h-full object-cover"
-                        style={{ minHeight: '100%' }}
                       />
                     ) : (
-                      <User className="w-20 h-20 text-gray-400" />
+                      <div className="flex flex-col items-center justify-center text-gray-400">
+                        <div className="w-16 h-20 bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
+                          <User className="w-8 h-8" />
+                        </div>
+                        <span className="text-xs">No image</span>
+                      </div>
                     )}
                   </div>
                   <input
@@ -446,12 +453,13 @@ export default function CharacterDetail() {
                   <Card className="bg-white border border-gray-200 p-6">
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Description</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
                         {isEditing ? (
                           <textarea
                             value={characterData.description || character.description}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                            rows={3}
+                            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                             placeholder="Brief character description..."
                           />
                         ) : (

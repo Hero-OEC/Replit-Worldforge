@@ -197,12 +197,21 @@ export default function Characters() {
                   onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}
                 >
                   {/* Character Image */}
-                  <div className="relative h-48 bg-gray-100 overflow-hidden">
-                    <img 
-                      src={character.image} 
-                      alt={character.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                    />
+                  <div className="relative aspect-[7/9] bg-gray-100 overflow-hidden">
+                    {character.image ? (
+                      <img 
+                        src={character.image} 
+                        alt={character.name}
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-100">
+                        <div className="w-12 h-16 bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
+                          <User className="w-6 h-6" />
+                        </div>
+                        <span className="text-xs">No image</span>
+                      </div>
+                    )}
                     {/* Role Badge */}
                     <div className={`absolute top-3 left-3 ${roleInfo.bgColor} ${roleInfo.textColor} px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium border ${roleInfo.borderColor}`}>
                       <RoleIcon className="w-3 h-3" />
