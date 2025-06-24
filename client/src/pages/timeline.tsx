@@ -366,6 +366,19 @@ export default function Timeline() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
 
+  // Initialize edit form when selectedEvent changes
+  useEffect(() => {
+    if (selectedEvent) {
+      setEventTitle(selectedEvent.title || "");
+      setEventDate(selectedEvent.date || "");
+      setEventImportance(selectedEvent.importance || "medium");
+      setEventCategory(selectedEvent.category || "");
+      setEventDescription(selectedEvent.description || "");
+      setSelectedLocations(selectedEvent.location ? [selectedEvent.location] : []);
+      setSelectedCharacters(selectedEvent.characters || []);
+    }
+  }, [selectedEvent]);
+
   // Form state for add/edit dialogs
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -658,9 +671,12 @@ export default function Timeline() {
                               }
                             }, 100);
                           }}
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setSelectedEvent(group.events[0]);
                             setShowEditDialog(true);
+                            setHoveredEvent(null);
+                            setPopupPosition(null);
                           }}
                         >
                           <div
@@ -1063,6 +1079,188 @@ export default function Timeline() {
                   }}
                 >
                   Add Event
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Edit Event Dialog */}
+      {showEditDialog && selectedEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <Card className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Edit Event</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowEditDialog(false);
+                    setSelectedEvent(null);
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="space-y-6">
+                {/* Event Title */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Event Title
+                  </label>
+                  <Input
+                    placeholder="Enter event title"
+                    value={eventTitle}
+                    onChange={(e) => setEventTitle(e.target.value)}
+                    className="bg-gray-50 border-gray-300 focus:bg-white"
+                  />
+                </div>
+
+                {/* Date and Importance Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Date
+                    </label>
+                    <Input
+                      placeholder="e.g., Year 1, Day 25"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      className="bg-gray-50 border-gray-300 focus:bg-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Importance
+                    </label>
+                    <select
+                      value={eventImportance}
+                      onChange={(e) => setEventImportance(e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={eventCategory}
+                    onChange={(e) => setEventCategory(e.target.value)}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  >
+                    <option value="">Select a category</option>
+                    {eventCategories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    placeholder="Describe what happens in this event..."
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                  />
+                </div>
+
+                {/* Locations */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Locations
+                  </label>
+                  <TagSearch
+                    items={sampleLocations}
+                    placeholder="Search and add locations..."
+                    selectedTags={selectedLocations}
+                    onAddTag={(location) =>
+                      setSelectedLocations([...selectedLocations, location])
+                    }
+                    onRemoveTag={(location) =>
+                      setSelectedLocations(
+                        selectedLocations.filter((l) => l !== location)
+                      )
+                    }
+                  />
+                </div>
+
+                {/* Characters */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Characters
+                  </label>
+                  <TagSearch
+                    items={sampleCharacters}
+                    placeholder="Search and add characters..."
+                    selectedTags={selectedCharacters}
+                    onAddTag={(character) =>
+                      setSelectedCharacters([...selectedCharacters, character])
+                    }
+                    onRemoveTag={(character) =>
+                      setSelectedCharacters(
+                        selectedCharacters.filter((c) => c !== character)
+                      )
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Dialog Actions */}
+              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowEditDialog(false);
+                    setSelectedEvent(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="bg-orange-500 text-white hover:bg-orange-600"
+                  onClick={() => {
+                    // Here you would typically update the event via API
+                    console.log("Updated Event:", {
+                      id: selectedEvent.id,
+                      title: eventTitle,
+                      date: eventDate,
+                      importance: eventImportance,
+                      category: eventCategory,
+                      description: eventDescription,
+                      location: selectedLocations[0] || null,
+                      characters: selectedCharacters,
+                    });
+                    setShowEditDialog(false);
+                    setSelectedEvent(null);
+                    // Reset form
+                    setEventTitle("");
+                    setEventDate("");
+                    setEventImportance("medium");
+                    setEventCategory("");
+                    setEventDescription("");
+                    setSelectedLocations([]);
+                    setSelectedCharacters([]);
+                  }}
+                >
+                  Save Changes
                 </Button>
               </div>
             </div>
