@@ -79,7 +79,7 @@ export default function ProjectLayout() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Characters</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats.charactersCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{project.stats?.charactersCount || 0}</p>
                 </div>
               </div>
             </Card>
@@ -91,7 +91,7 @@ export default function ProjectLayout() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Locations</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats.locationsCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{project.stats?.locationsCount || 0}</p>
                 </div>
               </div>
             </Card>
@@ -103,7 +103,7 @@ export default function ProjectLayout() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Timeline Events</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats.eventsCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{project.stats?.eventsCount || 0}</p>
                 </div>
               </div>
             </Card>
@@ -115,7 +115,7 @@ export default function ProjectLayout() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Magic Systems</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats.magicSystemsCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{project.stats?.magicSystemsCount || 0}</p>
                 </div>
               </div>
             </Card>
