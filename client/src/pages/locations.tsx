@@ -147,11 +147,13 @@ export default function Locations() {
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <Map className="w-8 h-8 text-orange-500" />
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Map className="w-6 h-6 text-white" />
+              </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Locations</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Locations</h1>
                 <p className="text-gray-600">Manage the places in your world</p>
               </div>
             </div>

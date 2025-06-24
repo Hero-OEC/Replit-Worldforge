@@ -135,11 +135,13 @@ export default function Notes() {
 
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <Scroll className="w-8 h-8 text-orange-500" />
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Scroll className="w-6 h-6 text-white" />
+              </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Notes</h1>
                 <p className="text-gray-600">Capture your ideas and research</p>
               </div>
             </div>

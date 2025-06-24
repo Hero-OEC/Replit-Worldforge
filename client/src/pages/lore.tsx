@@ -131,11 +131,13 @@ export default function Lore() {
 
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <Sparkles className="w-8 h-8 text-orange-500" />
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Lore</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Lore</h1>
                 <p className="text-gray-600">Manage your world's history and knowledge</p>
               </div>
             </div>

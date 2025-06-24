@@ -483,15 +483,15 @@ export default function Timeline() {
           {/* Header with Overview */}
           <div className="mb-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center shadow-lg">
-                  <Clock className="w-7 h-7 text-white" />
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-1">
+                  <h1 className="text-2xl font-bold text-gray-900">
                     Timeline
                   </h1>
-                  <p className="text-gray-600 text-lg">
+                  <p className="text-gray-600">
                     Track and organize story events chronologically
                   </p>
                 </div>
