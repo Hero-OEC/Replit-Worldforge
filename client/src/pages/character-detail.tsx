@@ -258,7 +258,7 @@ export default function CharacterDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100">
+    <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
@@ -266,7 +266,7 @@ export default function CharacterDetail() {
         searchPlaceholder="Search characters..."
       />
 
-      <main className="p-8">
+      <main className="p-8 bg-[var(--worldforge-cream)]">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
@@ -332,7 +332,7 @@ export default function CharacterDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Side - Portrait */}
             <div className="lg:col-span-1">
-              <Card className="bg-white border border-gray-200 p-6">
+              <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                     <User className="w-5 h-5 mr-2" />
@@ -559,8 +559,8 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="weapons" className="space-y-6">
-                  <Card className="bg-white border border-gray-200 p-6">
+                <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="flex items-center mb-4">
                       <Sword className="w-5 h-5 mr-2 text-gray-600" />
                       <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
