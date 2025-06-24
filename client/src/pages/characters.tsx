@@ -257,21 +257,21 @@ export default function Characters() {
                   {/* Character Info */}
                   <div className="p-4">
                     <div className="mb-3">
-                      <h3 className="font-bold text-lg text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
+                      <h3 className="text-heading-sm text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
                         {character.name}
                       </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                      <p className="text-body-sm text-gray-600 line-clamp-2 leading-relaxed">
                         {character.description}
                       </p>
                     </div>
 
-                    <div className="space-y-2 text-xs text-gray-600">
+                    <div className="space-y-2 text-body-xs text-gray-600">
                       <div className="flex items-center space-x-2">
-                        <span className="font-medium text-gray-700">Personality:</span>
+                        <span className="text-label-md text-gray-700">Personality:</span>
                         <span className="line-clamp-1">{character.personality}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-medium text-gray-700">Appearance:</span>
+                        <span className="text-label-md text-gray-700">Appearance:</span>
                         <span className="line-clamp-1">{character.appearance}</span>
                       </div>
                     </div>
@@ -281,7 +281,7 @@ export default function Characters() {
                       <div className={`${roleInfo.color} rounded-full p-1`}>
                         <RoleIcon className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-xs text-gray-500 font-medium">
+                      <span className="text-caption text-gray-500 font-medium">
                         Click to view details
                       </span>
                     </div>

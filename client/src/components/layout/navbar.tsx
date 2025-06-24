@@ -44,7 +44,7 @@ export default function Navbar({
                   <BookOpen className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>
+                  <h1 className="text-heading-md text-gray-900">WorldForge</h1>
                   <p className="text-xs text-gray-600">Your Creative Writing Companion</p>
                 </div>
               </div>

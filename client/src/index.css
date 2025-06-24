@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Apply Cairo font to all elements by default */
+@layer base {
+  * {
+    font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
+  }
+  
+  html {
+    font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
+  }
+  
+  body {
+    font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  
+  /* Ensure form elements use Cairo font */
+  input, textarea, select, button {
+    font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif !important;
+  }
+}
+
 :root {
   --background: hsl(40, 28%, 90%);
   --foreground: hsl(20, 14.3%, 4.1%);

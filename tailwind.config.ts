@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'cairo': ['Cairo', 'sans-serif'],
+        'cairo': ['Cairo', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'sans': ['Cairo', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
