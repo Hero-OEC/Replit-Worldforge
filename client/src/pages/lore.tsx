@@ -113,13 +113,11 @@ export default function Lore() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100">
+    <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search lore..."
-        onSearch={setSearchTerm}
         rightContent={
           <Button
             onClick={() => setShowAddDialog(true)}
@@ -143,17 +141,7 @@ export default function Lore() {
             </div>
           </div>
 
-          <div className="mb-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search lore entries..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredEntries.map((entry) => (

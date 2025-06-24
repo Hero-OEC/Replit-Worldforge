@@ -116,6 +116,8 @@ Changelog:
   * Verified all dependencies are properly installed and working
   * Application running correctly on port 5000 with Vite hot reloading
   * Memory storage layer functioning with sample data for testing
+  * Fixed background color consistency across all pages (locations, lore, notes now match characters/timeline)
+  * Removed redundant search inputs from page headers (search functionality moved to navbar)
 ```
 
 ## User Preferences

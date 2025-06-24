@@ -128,13 +128,11 @@ export default function Locations() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100">
+    <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search locations..."
-        onSearch={setSearchTerm}
         rightContent={
           <Button
             onClick={() => setShowAddDialog(true)}
@@ -159,18 +157,7 @@ export default function Locations() {
             </div>
           </div>
 
-          {/* Search */}
-          <div className="mb-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search locations..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
+
 
           {/* Locations Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
