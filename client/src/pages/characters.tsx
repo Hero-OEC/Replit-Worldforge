@@ -205,11 +205,12 @@ export default function Characters() {
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-100">
-                        <div className="w-12 h-16 bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
-                          <User className="w-6 h-6" />
-                        </div>
-                        <span className="text-xs">No image</span>
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                        <img 
+                          src="/attached_assets/placeholder_1750759989981.png" 
+                          alt="Character placeholder"
+                          className="w-3/4 h-3/4 object-contain opacity-30"
+                        />
                       </div>
                     )}
                     {/* Role Badge */}

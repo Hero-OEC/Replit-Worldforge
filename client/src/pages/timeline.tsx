@@ -1295,10 +1295,10 @@ export default function Timeline() {
                     Event Title
                   </label>
                   <Input
-                    placeholder="Enter event title"
+                    placeholder="Enter event title..."
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-gray-50 border-gray-300 focus:bg-white"
+                    className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -1312,7 +1312,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-gray-50 border-gray-300 focus:bg-white"
+                      className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                   <div>

@@ -355,7 +355,7 @@ export default function CharacterDetail() {
                 </div>
 
                 {/* Character Portrait */}
-                <div className="relative mb-6">
+                <div className="relative mb-6 flex justify-center">
                   <div className="aspect-[7/9] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
                     {characterImage || character.image ? (
                       <img 
@@ -364,12 +364,11 @@ export default function CharacterDetail() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="flex flex-col items-center justify-center text-gray-400">
-                        <div className="w-16 h-20 bg-gray-200 rounded-lg mb-2 flex items-center justify-center">
-                          <User className="w-8 h-8" />
-                        </div>
-                        <span className="text-xs">No image</span>
-                      </div>
+                      <img 
+                        src="/attached_assets/placeholder_1750759989981.png" 
+                        alt="Character placeholder"
+                        className="w-full h-full object-contain opacity-30"
+                      />
                     )}
                   </div>
                   <input
