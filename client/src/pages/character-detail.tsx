@@ -448,8 +448,9 @@ export default function CharacterDetail() {
                   <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="details" className="space-y-6">
-                  <Card className="bg-white border border-gray-200 p-6">
+                <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-gray-200 p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="space-y-6">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
@@ -520,8 +521,9 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="appearance" className="space-y-6">
-                  <Card className="bg-white border border-gray-200 p-6">
+                <TabsContent value="appearance" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-gray-200 p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
                       {isEditing ? (
@@ -538,8 +540,9 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="backstory" className="space-y-6">
-                  <Card className="bg-white border border-gray-200 p-6">
+                <TabsContent value="backstory" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-gray-200 p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
                       {isEditing ? (
