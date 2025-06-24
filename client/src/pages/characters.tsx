@@ -207,7 +207,7 @@ export default function Characters() {
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100">
                         <img 
-                          src="/attached_assets/placeholder_1750759989981.png" 
+                          src="/attached_assets/placeholder_1750760323251.png" 
                           alt="Character placeholder"
                           className="w-3/4 h-3/4 object-contain opacity-30"
                         />
