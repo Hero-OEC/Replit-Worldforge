@@ -308,7 +308,7 @@ export default function LocationDetail() {
                       value={locationData.type || location.type} 
                       onValueChange={(value) => setLocationData({...locationData, type: value})}
                     >
-                      <SelectTrigger className="w-48">
+                      <SelectTrigger className="flex h-10 items-center justify-between rounded-md border border-input px-3 py-2 text-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-48 bg-[#ffffffff]">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent>
