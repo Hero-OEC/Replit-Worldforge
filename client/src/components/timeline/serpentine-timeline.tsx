@@ -121,16 +121,31 @@ export default function SerpentineTimeline({
     isMultiEvent: (events as TimelineEventData[]).length > 1,
   }));
 
-  // Calculate timeline positions for serpentine layout
-  const timelineWidth = 1200;
-  const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / 6) * 120);
+  // Calculate timeline positions for serpentine layout - responsive
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [timelineWidth, setTimelineWidth] = useState(800);
+  const timelineHeight = Math.max(300, Math.ceil(dateGroups.length / 5) * 100);
   const pathPoints: number[][] = [];
 
-  // Create serpentine path - 6 events per row, alternating direction
-  const eventsPerRow = 6;
+  // Update timeline width based on container size
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        setTimelineWidth(Math.min(containerWidth - 64, 1000)); // Max 1000px, with 32px padding each side
+      }
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  // Create serpentine path - responsive events per row
+  const eventsPerRow = Math.max(3, Math.min(5, Math.floor(timelineWidth / 150))); // Responsive events per row
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const horizontalSpacing = dateGroups.length > 1 ? (timelineWidth - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1) : 0;
-  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+  const horizontalSpacing = dateGroups.length > 1 ? Math.max(120, (timelineWidth - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
+  const verticalSpacing = rows > 1 ? Math.max(80, (timelineHeight - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -199,13 +214,13 @@ export default function SerpentineTimeline({
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div ref={containerRef} className={`relative w-full ${className}`}>
       {/* Timeline Container */}
-      <div className="p-8 rounded-lg border border-gray-200 bg-[#ffffff00]">
+      <div className="w-full overflow-hidden">
         <div
           ref={timelineRef}
           className="relative mx-auto"
-          style={{ width: Math.min(timelineWidth, 1200), height: timelineHeight }}
+          style={{ width: timelineWidth, height: timelineHeight, minHeight: 300 }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
