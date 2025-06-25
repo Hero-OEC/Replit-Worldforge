@@ -181,6 +181,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/magic-systems", async (req, res) => {
+    try {
+      const projectId = parseInt(req.query.projectId as string);
+      if (!projectId) {
+        return res.status(400).json({ message: "Project ID is required" });
+      }
+      const systems = await storage.getMagicSystems(projectId);
+      res.json(systems);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch magic systems" });
+    }
+  });
+
+  app.get("/api/magic-systems/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const system = await storage.getMagicSystem(id);
+      if (!system) {
+        return res.status(404).json({ message: "Magic system not found" });
+      }
+      res.json(system);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch magic system" });
+    }
+  });
+
   app.post("/api/magic-systems", async (req, res) => {
     try {
       const validatedData = insertMagicSystemSchema.parse(req.body);
@@ -188,6 +214,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(system);
     } catch (error) {
       res.status(400).json({ message: "Invalid magic system data" });
+    }
+  });
+
+  app.put("/api/magic-systems/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertMagicSystemSchema.partial().parse(req.body);
+      const system = await storage.updateMagicSystem(id, validatedData);
+      if (!system) {
+        return res.status(404).json({ message: "Magic system not found" });
+      }
+      res.json(system);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid magic system data" });
+    }
+  });
+
+  app.delete("/api/magic-systems/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteMagicSystem(id);
+      if (!success) {
+        return res.status(404).json({ message: "Magic system not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete magic system" });
     }
   });
 

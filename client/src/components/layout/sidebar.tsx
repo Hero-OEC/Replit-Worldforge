@@ -5,7 +5,7 @@ import {
   Users, 
   MapPin, 
   Sparkles, 
-  Scroll, 
+  BookOpen, 
   Settings
 } from "lucide-react";
 import worldForgeLogo from "@assets/worldforge logo@2x_1750879368647.png";
@@ -16,7 +16,7 @@ const navigation = [
   { name: "Characters", href: "/characters", icon: Users },
   { name: "Locations", href: "/locations", icon: MapPin },
   { name: "Magic Systems", href: "/magic-systems", icon: Sparkles },
-  { name: "Lore & History", href: "/lore", icon: Scroll },
+  { name: "Lore & History", href: "/lore", icon: BookOpen },
 ];
 
 export default function Sidebar() {

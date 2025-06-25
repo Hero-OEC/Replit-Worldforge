@@ -30,7 +30,8 @@ export default function Navbar({
     { name: "Timeline", href: `/project/${projectId}/timeline`, icon: Clock },
     { name: "Characters", href: `/project/${projectId}/characters`, icon: Users },
     { name: "Locations", href: `/project/${projectId}/locations`, icon: MapPin },
-    { name: "Lore", href: `/project/${projectId}/lore`, icon: Sparkles },
+    { name: "Magic", href: `/project/${projectId}/magic-systems`, icon: Sparkles },
+    { name: "Lore", href: `/project/${projectId}/lore`, icon: BookOpen },
     { name: "Notes", href: `/project/${projectId}/notes`, icon: Scroll },
   ];
 
