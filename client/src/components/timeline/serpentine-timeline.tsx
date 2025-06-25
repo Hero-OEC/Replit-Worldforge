@@ -294,6 +294,15 @@ export default function SerpentineTimeline({
                     )}
                   </div>
 
+                  {/* Event Title */}
+                  {!group.isMultiEvent && (
+                    <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                      <div className="bg-white px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-900 text-center truncate">
+                        {group.events[0].title}
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Date Label */}
                   <div className="absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
                     <div className="bg-white px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-700">
@@ -301,9 +310,18 @@ export default function SerpentineTimeline({
                     </div>
                   </div>
 
+                  {/* Multi-event Title */}
+                  {group.isMultiEvent && (
+                    <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                      <div className="bg-white px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-900 text-center">
+                        {group.events.length} Events
+                      </div>
+                    </div>
+                  )}
+
                   {/* Multi-event Popup */}
                   {group.isMultiEvent && isHovered && (
-                    <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20">
+                    <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
                       <div className="bg-white rounded-lg shadow-xl border p-3 w-64">
                         <div className="text-sm font-medium text-gray-900 mb-2">
                           Events on {group.date}

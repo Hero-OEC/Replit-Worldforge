@@ -798,39 +798,7 @@ export default function CharacterDetail() {
                       </div>
                     </div>
 
-                    {/* Timeline Stats Cards */}
-                    <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-gray-900 mb-1">
-                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name)).length}
-                          </div>
-                          <div className="text-sm text-gray-600 font-medium">
-                            Character Events
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-red-600 mb-1">
-                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
-                          </div>
-                          <div className="text-sm text-gray-600 font-medium">
-                            High Priority
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-blue-600 mb-1">
-                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Development").length}
-                          </div>
-                          <div className="text-sm text-gray-600 font-medium">
-                            Development
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
 
                     {/* Legend */}
                     <div className="flex justify-center">
