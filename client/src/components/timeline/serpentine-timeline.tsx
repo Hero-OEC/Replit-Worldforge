@@ -201,7 +201,7 @@ export default function SerpentineTimeline({
   return (
     <div className={`relative ${className}`}>
       {/* Timeline Container */}
-      <div className="p-8 bg-white rounded-lg border border-gray-200">
+      <div className="p-8 rounded-lg border border-gray-200 bg-[#ffffff00]">
         <div
           ref={timelineRef}
           className="relative mx-auto"
@@ -319,7 +319,6 @@ export default function SerpentineTimeline({
           })}
         </div>
       </div>
-
       {/* Event Detail Popup */}
       {selectedEvent && popupPosition && (
         <div
