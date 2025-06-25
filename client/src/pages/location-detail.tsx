@@ -288,7 +288,6 @@ export default function LocationDetail() {
         showProjectNav={true}
         searchPlaceholder="Search locations..."
       />
-
       <main className="p-8 bg-[var(--worldforge-cream)]">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -469,7 +468,7 @@ export default function LocationDetail() {
                     </div>
                     
                     {/* Timeline Container - matches main timeline page */}
-                    <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#ffffff00]">
                       <SerpentineTimeline
                         events={sampleTimelineEvents}
                         filterCharacter={undefined}
