@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check } from "lucide-react";
+import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
+import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Power/Magic Systems with descriptions
@@ -53,6 +54,120 @@ const powerSystems = [
     description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
     title: "Psionic Arts"
   }
+];
+
+// Sample timeline events (same as in timeline.tsx)
+const sampleTimelineEvents = [
+  {
+    id: 1,
+    title: "Elena's Awakening",
+    date: "Year 1, Day 5",
+    importance: "high" as const,
+    category: "Character Development",
+    description: "Elena discovers her true magical potential during a routine training session.",
+    location: "Arcanum City",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 2,
+    title: "The Forbidden Library",
+    date: "Year 1, Day 12",
+    importance: "medium" as const,
+    category: "Discovery",
+    description: "Elena and Marcus uncover ancient texts in the hidden library.",
+    location: "Arcanum City",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 3,
+    title: "First Encounter",
+    date: "Year 1, Day 18",
+    importance: "high" as const,
+    category: "Conflict",
+    description: "The protagonists face their first major challenge.",
+    location: "Dark Forest",
+    characters: ["Elena"],
+  },
+  {
+    id: 4,
+    title: "The Mentor's Secret",
+    date: "Year 1, Day 25",
+    importance: "medium" as const,
+    category: "Revelation",
+    description: "A secret about Elena's mentor is revealed.",
+    location: "Magic Academy",
+    characters: ["Elena", "Mentor"],
+  },
+  {
+    id: 5,
+    title: "Village Rescue",
+    date: "Year 1, Day 31",
+    importance: "low" as const,
+    category: "Heroic Act",
+    description: "The heroes help save a village from bandits.",
+    location: "Riverside Village",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 11,
+    title: "Morning Council Meeting",
+    date: "Year 1, Day 50",
+    importance: "medium" as const,
+    category: "Political Event",
+    description: "The kingdom's council meets to discuss the growing threat.",
+    location: "Royal Palace",
+    characters: ["Elena", "King", "Council Members"],
+  },
+  {
+    id: 13,
+    title: "Evening Revelation",
+    date: "Year 1, Day 50",
+    importance: "high" as const,
+    category: "Revelation",
+    description: "A shocking truth about Elena's heritage is revealed.",
+    location: "Royal Library",
+    characters: ["Elena", "Ancient Sage"],
+  },
+  {
+    id: 6,
+    title: "Journey to the North",
+    date: "Year 1, Day 78",
+    importance: "medium" as const,
+    category: "Traveling",
+    description: "The group begins their journey to the northern kingdoms.",
+    location: "Northern Road",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 7,
+    title: "The Great Battle",
+    date: "Year 1, Day 71",
+    importance: "high" as const,
+    category: "Battle",
+    description: "A major battle that changes the course of the war.",
+    location: "Battlefield",
+    characters: ["Elena", "Marcus", "Army"],
+  },
+  {
+    id: 8,
+    title: "Elemental Convergence",
+    date: "Year 1, Day 90",
+    importance: "medium" as const,
+    category: "Magic",
+    description: "The elemental forces converge in an unprecedented way.",
+    location: "Elemental Nexus",
+    characters: ["Elena"],
+  },
+  {
+    id: 10,
+    title: "Hearts Entwined",
+    date: "Year 1, Day 88",
+    importance: "medium" as const,
+    category: "Romance",
+    description: "A romantic subplot reaches a crucial moment.",
+    location: "Garden of Stars",
+    characters: ["Elena", "Marcus"],
+  },
 ];
 
 // Character role configuration
@@ -441,11 +556,12 @@ export default function CharacterDetail() {
             {/* Right Side - Tabbed Content */}
             <div className="lg:col-span-2">
               <Tabs defaultValue="details" className="w-full">
-                <TabsList className="grid w-full grid-cols-4 mb-6">
+                <TabsList className="grid w-full grid-cols-5 mb-6">
                   <TabsTrigger value="details" className="text-sm">Details</TabsTrigger>
                   <TabsTrigger value="appearance" className="text-sm">Appearance</TabsTrigger>
                   <TabsTrigger value="backstory" className="text-sm">Backstory</TabsTrigger>
                   <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
+                  <TabsTrigger value="timeline" className="text-sm">Timeline</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
@@ -575,6 +691,26 @@ export default function CharacterDetail() {
                     ) : (
                       <p className="text-gray-700">{character.weapons}</p>
                     )}
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                    <div className="flex items-center space-x-3 mb-6">
+                      <Clock className="w-5 h-5 text-orange-600" />
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
+                        <p className="text-sm text-gray-600">
+                          Events where {character.name} appears throughout the story
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <SerpentineTimeline
+                      events={sampleTimelineEvents}
+                      filterCharacter={character.name}
+                      className="mt-6"
+                    />
                   </Card>
                 </TabsContent>
               </Tabs>

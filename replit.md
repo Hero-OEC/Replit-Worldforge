@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- January 23, 2025. Added character-specific timeline feature:
+  * Created reusable SerpentineTimeline component for displaying timeline events
+  * Added timeline tab to character detail page showing events where character appears
+  * Implemented serpentine timeline layout with proper event filtering
+  * Timeline shows character appearances chronologically with event details
+  * Added event importance indicators and category icons
 - June 24, 2025. Implemented comprehensive Cairo font system:
   * Created custom typography system with semantic font classes
   * Applied Cairo font across all components and pages
