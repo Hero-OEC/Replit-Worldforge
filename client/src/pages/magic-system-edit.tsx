@@ -5,6 +5,7 @@ import { ArrowLeft, Save, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +13,7 @@ import type { MagicSystem, InsertMagicSystem, ProjectWithStats } from "@shared/s
 
 interface MagicSystemFormData {
   name: string;
+  category: string;
   description: string;
   rules: string;
   limitations: string;
@@ -27,6 +29,7 @@ export default function EditMagicSystem() {
 
   const [formData, setFormData] = useState<MagicSystemFormData>({
     name: "",
+    category: "magic",
     description: "",
     rules: "",
     limitations: "",
@@ -56,6 +59,7 @@ export default function EditMagicSystem() {
     if (magicSystem) {
       setFormData({
         name: magicSystem.name,
+        category: magicSystem.category || "magic",
         description: magicSystem.description || "",
         rules: magicSystem.rules || "",
         limitations: magicSystem.limitations || "",
@@ -155,16 +159,36 @@ export default function EditMagicSystem() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Name *
-                  </label>
-                  <Input
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g., Fire Magic, Elemental Control"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Name *
+                    </label>
+                    <Input
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="e.g., Fire Magic, Elemental Control"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Category *
+                    </label>
+                    <Select 
+                      value={formData.category} 
+                      onValueChange={(value) => setFormData({ ...formData, category: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="magic">Magic System</SelectItem>
+                        <SelectItem value="power">Power System</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>

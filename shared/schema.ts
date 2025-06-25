@@ -53,6 +53,7 @@ export const magicSystems = pgTable("magic_systems", {
   id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull(),
   name: text("name").notNull(),
+  category: text("category").notNull().default("magic"), // magic or power
   description: text("description"),
   rules: text("rules"),
   limitations: text("limitations"),

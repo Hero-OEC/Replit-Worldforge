@@ -15,6 +15,7 @@ import LocationNew from "@/pages/location-new";
 import MagicSystems from "@/pages/magic-systems";
 import NewMagicSystem from "@/pages/magic-system-new";
 import EditMagicSystem from "@/pages/magic-system-edit";
+import MagicSystemDetail from "@/pages/magic-system-detail";
 import Lore from "@/pages/lore";
 import Notes from "@/pages/notes";
 import NotFound from "@/pages/not-found";
@@ -36,6 +37,7 @@ function App() {
             <Route path="/project/:projectId/locations/:locationId" component={LocationDetail} />
             <Route path="/project/:projectId/magic-systems" component={MagicSystems} />
             <Route path="/project/:projectId/magic-systems/new" component={NewMagicSystem} />
+            <Route path="/project/:projectId/magic-systems/:magicSystemId" component={MagicSystemDetail} />
             <Route path="/project/:projectId/magic-systems/:magicSystemId/edit" component={EditMagicSystem} />
             <Route path="/project/:projectId/lore" component={Lore} />
             <Route path="/project/:projectId/notes" component={Notes} />

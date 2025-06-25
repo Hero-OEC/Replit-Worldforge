@@ -1,8 +1,9 @@
 import { useParams, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Sparkles, Edit3, Trash2 } from "lucide-react";
+import { Plus, Sparkles, Zap, Trash2, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, ProjectWithStats } from "@shared/schema";
@@ -12,52 +13,73 @@ function MagicSystemCard({ system, onDelete, projectId }: {
   onDelete: (id: number) => void;
   projectId: string;
 }) {
+  const getCategoryIcon = (category: string) => {
+    return category === "power" ? Zap : Sparkles;
+  };
+
+  const getCategoryColor = (category: string) => {
+    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+  };
+
+  const CategoryIcon = getCategoryIcon(system.category || "magic");
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength).trim() + "...";
+  };
+
   return (
-    <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-md transition-shadow">
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-gray-900 mb-2">{system.name}</CardTitle>
-            {system.description && (
-              <p className="text-sm text-gray-600 leading-relaxed mb-3">{system.description}</p>
-            )}
-            <div className="space-y-2 text-sm">
+    <Link href={`/project/${projectId}/magic-systems/${system.id}`}>
+      <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-lg transition-all duration-200 cursor-pointer group">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <div className="flex items-start space-x-3 flex-1">
+              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <CategoryIcon className="w-6 h-6 text-white" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between">
+                  <CardTitle className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                    {system.name}
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onDelete(system.id);
+                    }}
+                    className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Badge className={`${getCategoryColor(system.category || "magic")} text-xs font-medium mt-1`}>
+                  {system.category === "power" ? "Power System" : "Magic System"}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          {system.description && (
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {truncateText(system.description, 150)}
+            </p>
+          )}
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center space-x-4 text-xs text-gray-500">
               {system.source && (
-                <div><span className="font-medium text-gray-700">Source:</span> <span className="text-gray-600">{system.source}</span></div>
+                <span>Source: {truncateText(system.source, 20)}</span>
               )}
               {system.cost && (
-                <div><span className="font-medium text-gray-700">Cost:</span> <span className="text-gray-600">{system.cost}</span></div>
-              )}
-              {system.rules && (
-                <div><span className="font-medium text-gray-700">Rules:</span> <span className="text-gray-600">{system.rules}</span></div>
-              )}
-              {system.limitations && (
-                <div><span className="font-medium text-gray-700">Limitations:</span> <span className="text-gray-600">{system.limitations}</span></div>
+                <span>Cost: {truncateText(system.cost, 20)}</span>
               )}
             </div>
           </div>
-          <div className="flex space-x-1">
-            <Link href={`/project/${projectId}/magic-systems/${system.id}/edit`}>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 hover:bg-gray-100"
-              >
-                <Edit3 className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onDelete(system.id)}
-              className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </CardHeader>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
