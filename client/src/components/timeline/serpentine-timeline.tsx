@@ -62,6 +62,7 @@ interface SerpentineTimelineProps {
   onEventClick?: (event: TimelineEventData) => void;
   onEventEdit?: (event: TimelineEventData) => void;
   filterCharacter?: string; // Filter events by character name
+  filterLocation?: string; // Filter events by location name
   showEditButtons?: boolean;
   className?: string;
 }
@@ -71,6 +72,7 @@ export default function SerpentineTimeline({
   onEventClick,
   onEventEdit,
   filterCharacter,
+  filterLocation,
   showEditButtons = false,
   className = "",
 }: SerpentineTimelineProps) {
@@ -84,10 +86,14 @@ export default function SerpentineTimeline({
   const timelineRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  // Filter events by character if specified
+  // Filter events by character or location if specified
   const filteredEvents = filterCharacter
     ? events.filter(event => 
         event.characters?.includes(filterCharacter)
+      )
+    : filterLocation
+    ? events.filter(event => 
+        event.location === filterLocation
       )
     : events;
 
@@ -176,11 +182,15 @@ export default function SerpentineTimeline({
       <div className={`text-center py-12 ${className}`}>
         <Calendar className="mx-auto h-12 w-12 text-gray-400 mb-4" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">
-          {filterCharacter ? `No timeline events for ${filterCharacter}` : "No timeline events"}
+          {filterCharacter ? `No timeline events for ${filterCharacter}` : 
+           filterLocation ? `No timeline events in ${filterLocation}` : 
+           "No timeline events"}
         </h3>
         <p className="text-gray-500">
           {filterCharacter 
             ? `${filterCharacter} doesn't appear in any timeline events yet.`
+            : filterLocation
+            ? `No events have taken place in ${filterLocation} yet.`
             : "Start building your story timeline by adding events."
           }
         </p>
