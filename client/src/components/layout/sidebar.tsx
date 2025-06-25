@@ -6,9 +6,9 @@ import {
   MapPin, 
   Sparkles, 
   Scroll, 
-  Settings,
-  BookOpen
+  Settings
 } from "lucide-react";
+import worldForgeLogo from "@assets/worldforge logo@10x_1750865164609.png";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
@@ -27,9 +27,11 @@ export default function Sidebar() {
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 worldforge-primary rounded-lg flex items-center justify-center">
-            <BookOpen className="text-white w-4 h-4" />
-          </div>
+          <img 
+            src={worldForgeLogo} 
+            alt="WorldForge Logo" 
+            className="w-8 h-8 object-contain"
+          />
           <div>
             <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>
             <p className="text-xs text-gray-500">Creative Writing Companion</p>

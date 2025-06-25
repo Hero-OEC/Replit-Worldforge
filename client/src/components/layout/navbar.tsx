@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import worldForgeLogo from "@assets/worldforge logo@10x_1750865164609.png";
 
 interface NavbarProps {
   projectId?: string;
@@ -40,9 +41,11 @@ export default function Navbar({
           <div className="flex items-center space-x-6">
             <Link href="/">
               <div className="flex items-center space-x-2 cursor-pointer">
-                <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-white" />
-                </div>
+                <img 
+                  src={worldForgeLogo} 
+                  alt="WorldForge Logo" 
+                  className="w-8 h-8 object-contain"
+                />
                 <div>
                   <h1 className="text-heading-md text-gray-900">WorldForge</h1>
                   <p className="text-xs text-gray-600">Your Creative Writing Companion</p>
