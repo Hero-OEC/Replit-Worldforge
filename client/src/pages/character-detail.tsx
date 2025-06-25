@@ -66,7 +66,7 @@ const sampleTimelineEvents = [
     category: "Character Development",
     description: "Elena discovers her true magical potential during a routine training session, accidentally setting the practice dummy ablaze with unprecedented fire magic.",
     location: "Arcanum City",
-    characters: ["Elena", "Marcus"],
+    characters: ["Elena Brightblade", "Marcus"],
   },
   {
     id: 2,
@@ -76,7 +76,7 @@ const sampleTimelineEvents = [
     category: "Discovery",
     description: "Elena and Marcus sneak into the restricted section of the academy library, uncovering ancient texts about the lost art of elemental fusion.",
     location: "Magic Academy",
-    characters: ["Elena", "Marcus"],
+    characters: ["Elena Brightblade", "Marcus"],
   },
   {
     id: 3,
@@ -86,7 +86,7 @@ const sampleTimelineEvents = [
     category: "Conflict",
     description: "While gathering herbs for potion class, Elena encounters mysterious shadow creatures that seem drawn to her magical aura.",
     location: "Dark Forest",
-    characters: ["Elena"],
+    characters: ["Elena Brightblade"],
   },
   {
     id: 4,
@@ -96,7 +96,7 @@ const sampleTimelineEvents = [
     category: "Revelation",
     description: "Elena discovers that her mentor was once part of an ancient order dedicated to protecting the elemental balance.",
     location: "Magic Academy",
-    characters: ["Elena", "Mentor"],
+    characters: ["Elena Brightblade", "Mentor"],
   },
   {
     id: 14,
@@ -106,7 +106,7 @@ const sampleTimelineEvents = [
     category: "Character Development",
     description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic to impressed faculty.",
     location: "Magic Academy",
-    characters: ["Elena", "Marcus", "Students"],
+    characters: ["Elena Brightblade", "Marcus", "Students"],
   },
   {
     id: 5,
@@ -116,7 +116,7 @@ const sampleTimelineEvents = [
     category: "Heroic Act",
     description: "Elena and Marcus help defend a small village from bandits, with Elena's fire magic proving crucial in the victory.",
     location: "Riverside Village",
-    characters: ["Elena", "Marcus"],
+    characters: ["Elena Brightblade", "Marcus"],
   },
   {
     id: 15,
@@ -126,7 +126,7 @@ const sampleTimelineEvents = [
     category: "Discovery",
     description: "Elena explores the mysterious crystal caves, discovering that the crystals resonate with her magical energy in unexpected ways.",
     location: "Crystal Caves",
-    characters: ["Elena", "Marcus", "Mentor"],
+    characters: ["Elena Brightblade", "Marcus", "Mentor"],
   },
   {
     id: 16,
@@ -136,7 +136,7 @@ const sampleTimelineEvents = [
     category: "Character Development",
     description: "Elena accidentally reveals her growing powers during a crowded market day, causing both wonder and concern among the citizens.",
     location: "Arcanum City",
-    characters: ["Elena"],
+    characters: ["Elena Brightblade"],
   },
   {
     id: 11,
@@ -146,7 +146,7 @@ const sampleTimelineEvents = [
     category: "Political Event",
     description: "Elena is invited to attend a royal council meeting where the kingdom's growing magical threats are discussed.",
     location: "Royal Palace",
-    characters: ["Elena", "King", "Council Members"],
+    characters: ["Elena Brightblade", "King", "Council Members"],
   },
   {
     id: 12,
@@ -156,7 +156,7 @@ const sampleTimelineEvents = [
     category: "Character Development",
     description: "Elena practices advanced combat techniques in the palace training grounds, impressing the royal guard with her skill.",
     location: "Training Grounds",
-    characters: ["Elena", "Marcus", "Royal Guard"],
+    characters: ["Elena Brightblade", "Marcus", "Royal Guard"],
   },
   {
     id: 13,
@@ -166,7 +166,7 @@ const sampleTimelineEvents = [
     category: "Revelation",
     description: "In the royal library, Elena learns the shocking truth about her royal heritage and her connection to the ancient elemental bloodline.",
     location: "Royal Library",
-    characters: ["Elena", "Ancient Sage"],
+    characters: ["Elena Brightblade", "Ancient Sage"],
   },
   {
     id: 17,
@@ -176,7 +176,7 @@ const sampleTimelineEvents = [
     category: "Traveling",
     description: "Elena and her companions depart from Sunset Harbor on a ship bound for the northern territories, beginning their grand quest.",
     location: "Sunset Harbor",
-    characters: ["Elena", "Marcus", "Captain Storm"],
+    characters: ["Elena Brightblade", "Marcus", "Captain Storm"],
   },
   {
     id: 18,
@@ -186,7 +186,7 @@ const sampleTimelineEvents = [
     category: "Battle",
     description: "The party is ambushed by Lord Vex's forces in the treacherous mountain pass, forcing Elena to use her powers defensively.",
     location: "Mountain Pass",
-    characters: ["Elena", "Marcus", "Shadow Assassin"],
+    characters: ["Elena Brightblade", "Marcus", "Shadow Assassin"],
   },
   {
     id: 7,
@@ -196,7 +196,7 @@ const sampleTimelineEvents = [
     category: "Battle",
     description: "Elena leads her allies in a decisive battle against the shadow army, her fire magic creating a turning point in the war.",
     location: "Battlefield",
-    characters: ["Elena", "Marcus", "Army"],
+    characters: ["Elena Brightblade", "Marcus", "Army"],
   },
   {
     id: 6,
@@ -206,7 +206,7 @@ const sampleTimelineEvents = [
     category: "Traveling",
     description: "After the great battle, Elena and her surviving companions continue their journey northward along the ancient road.",
     location: "Northern Road",
-    characters: ["Elena", "Marcus"],
+    characters: ["Elena Brightblade", "Marcus"],
   },
   {
     id: 19,
@@ -216,7 +216,7 @@ const sampleTimelineEvents = [
     category: "Discovery",
     description: "Elena uncovers ancient ruins that hold the key to understanding the elemental magic that flows through her bloodline.",
     location: "Ancient Ruins",
-    characters: ["Elena", "Ancient Sage"],
+    characters: ["Elena Brightblade", "Ancient Sage"],
   },
   {
     id: 10,
@@ -226,7 +226,7 @@ const sampleTimelineEvents = [
     category: "Romance",
     description: "Under the starlit sky in the Garden of Stars, Elena and Marcus finally acknowledge their deepening feelings for each other.",
     location: "Garden of Stars",
-    characters: ["Elena", "Marcus"],
+    characters: ["Elena Brightblade", "Marcus"],
   },
   {
     id: 8,
@@ -236,7 +236,7 @@ const sampleTimelineEvents = [
     category: "Magic",
     description: "At the Elemental Nexus, Elena achieves perfect harmony with all elemental forces, unlocking her true potential as the Elemental Guardian.",
     location: "Elemental Nexus",
-    characters: ["Elena"],
+    characters: ["Elena Brightblade"],
   },
   {
     id: 20,
@@ -246,7 +246,7 @@ const sampleTimelineEvents = [
     category: "Mystery",
     description: "Elena investigates a strange mist in the marshlands that seems to respond to her presence, revealing hidden truths about the land's magic.",
     location: "Misty Marshlands",
-    characters: ["Elena", "Marcus", "Wise Oracle"],
+    characters: ["Elena Brightblade", "Marcus", "Wise Oracle"],
   },
   {
     id: 21,
@@ -256,7 +256,7 @@ const sampleTimelineEvents = [
     category: "Character Development",
     description: "Elena faces the ultimate test from the ancient Dragon Guardian, proving her worthiness to wield the full power of elemental magic.",
     location: "Dragon's Lair",
-    characters: ["Elena", "Dragon Guardian"],
+    characters: ["Elena Brightblade", "Dragon Guardian"],
   },
 ];
 
