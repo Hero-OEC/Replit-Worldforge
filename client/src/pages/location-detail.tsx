@@ -468,7 +468,7 @@ export default function LocationDetail() {
                     </div>
                     
                     {/* Timeline Container - matches main timeline page */}
-                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#ffffff00]">
+                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#ffffff50]">
                       <SerpentineTimeline
                         events={sampleTimelineEvents}
                         filterCharacter={undefined}
