@@ -98,11 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
-- June 25, 2025. Updated WorldForge branding:
+- June 25, 2025. Updated WorldForge branding and magic systems:
   * Replaced generic BookOpen icons with custom feather logo design
   * Updated sidebar and navbar components with larger logo size (40x40px)
   * Removed old logo files to optimize storage space
-  * Logo appears consistently across all application pages with improved visibility
+  * Created comprehensive Magic Systems page with full CRUD functionality
+  * Updated lore icon from Scroll to BookOpen for better semantic match
+  * Added Magic tab to project navigation with dedicated route
+  * Improved magic system card design with color-coded sections and orange theme
+  * Implemented complete API endpoints for magic systems management
 - January 23, 2025. Added character-specific timeline feature:
   * Created reusable SerpentineTimeline component for displaying timeline events
   * Added timeline tab to character detail page showing events where character appears

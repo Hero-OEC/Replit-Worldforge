@@ -28,19 +28,26 @@ function MagicSystemCard({ system, onEdit, onDelete }: {
   onDelete: (id: number) => void;
 }) {
   return (
-    <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
+    <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-lg transition-all duration-200 hover:border-orange-300">
+      <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
-          <div className="flex items-center space-x-2">
-            <Wand2 className="h-5 w-5 text-purple-600" />
-            <CardTitle className="text-lg font-semibold text-gray-900">{system.name}</CardTitle>
+          <div className="flex items-start space-x-3">
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <Sparkles className="h-5 w-5 text-orange-600" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-semibold text-gray-900 mb-1">{system.name}</CardTitle>
+              {system.description && (
+                <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{system.description}</p>
+              )}
+            </div>
           </div>
           <div className="flex space-x-1">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onEdit(system)}
-              className="h-8 w-8 p-0 hover:bg-gray-100"
+              className="h-8 w-8 p-0 hover:bg-orange-100 hover:text-orange-600"
             >
               <Edit3 className="h-4 w-4" />
             </Button>
@@ -55,38 +62,40 @@ function MagicSystemCard({ system, onEdit, onDelete }: {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-3">
-        {system.description && (
-          <p className="text-sm text-gray-600 leading-relaxed">{system.description}</p>
-        )}
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <CardContent className="space-y-3 pt-0">
+        <div className="grid grid-cols-2 gap-3">
           {system.source && (
-            <div className="bg-blue-50 p-3 rounded-lg">
-              <h4 className="text-xs font-medium text-blue-800 mb-1">Source</h4>
-              <p className="text-sm text-blue-700">{system.source}</p>
+            <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+              <h4 className="text-xs font-semibold text-amber-800 mb-1 uppercase tracking-wide">Source</h4>
+              <p className="text-sm text-amber-700">{system.source}</p>
             </div>
           )}
           
           {system.cost && (
-            <div className="bg-red-50 p-3 rounded-lg">
-              <h4 className="text-xs font-medium text-red-800 mb-1">Cost</h4>
-              <p className="text-sm text-red-700">{system.cost}</p>
+            <div className="bg-rose-50 border border-rose-200 p-3 rounded-lg">
+              <h4 className="text-xs font-semibold text-rose-800 mb-1 uppercase tracking-wide">Cost</h4>
+              <p className="text-sm text-rose-700">{system.cost}</p>
             </div>
           )}
         </div>
         
         {system.rules && (
-          <div className="bg-green-50 p-3 rounded-lg">
-            <h4 className="text-xs font-medium text-green-800 mb-1">Rules</h4>
-            <p className="text-sm text-green-700">{system.rules}</p>
+          <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+            <h4 className="text-xs font-semibold text-emerald-800 mb-1 uppercase tracking-wide">Rules</h4>
+            <p className="text-sm text-emerald-700 leading-relaxed">{system.rules}</p>
           </div>
         )}
         
         {system.limitations && (
-          <div className="bg-yellow-50 p-3 rounded-lg">
-            <h4 className="text-xs font-medium text-yellow-800 mb-1">Limitations</h4>
-            <p className="text-sm text-yellow-700">{system.limitations}</p>
+          <div className="bg-orange-50 border border-orange-200 p-3 rounded-lg">
+            <h4 className="text-xs font-semibold text-orange-800 mb-1 uppercase tracking-wide">Limitations</h4>
+            <p className="text-sm text-orange-700 leading-relaxed">{system.limitations}</p>
+          </div>
+        )}
+        
+        {!system.source && !system.cost && !system.rules && !system.limitations && (
+          <div className="text-center py-4">
+            <p className="text-sm text-gray-500 italic">No additional details provided</p>
           </div>
         )}
       </CardContent>
@@ -198,7 +207,11 @@ function MagicSystemForm({
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit" disabled={isLoading || !formData.name.trim()}>
+        <Button 
+          type="submit" 
+          disabled={isLoading || !formData.name.trim()}
+          className="bg-orange-500 hover:bg-orange-600 text-white"
+        >
           {isLoading ? "Saving..." : "Save Magic System"}
         </Button>
       </div>
@@ -350,7 +363,7 @@ export default function MagicSystems() {
             </div>
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   New Magic System
                 </Button>
@@ -404,7 +417,7 @@ export default function MagicSystems() {
               </p>
               <Button 
                 onClick={() => setIsCreateDialogOpen(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
+                className="bg-orange-500 hover:bg-orange-600 text-white"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Create Magic System
