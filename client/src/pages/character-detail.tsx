@@ -570,7 +570,7 @@ export default function CharacterDetail() {
                       />
                     ) : (
                       <img 
-                        src="/attached_assets/placeholder_1750760323251.png" 
+                        src={placeholderImage} 
                         alt="Character placeholder"
                         className="w-full h-full object-contain opacity-30"
                       />

@@ -1,12 +1,13 @@
-import { useParams, useLocation } from "wouter";
+import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Trash2, Sparkles, Zap } from "lucide-react";
+import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
-import type { MagicSystem, ProjectWithStats } from "@shared/schema";
+import type { MagicSystem, Character, ProjectWithStats } from "@shared/schema";
+import placeholderImage from "@assets/placeholder.png";
 
 export default function MagicSystemDetail() {
   const { projectId, magicSystemId } = useParams<{ projectId: string; magicSystemId: string }>();
@@ -28,6 +29,15 @@ export default function MagicSystemDetail() {
     queryFn: async () => {
       const response = await fetch(`/api/magic-systems/${magicSystemId}`);
       if (!response.ok) throw new Error("Failed to fetch magic system");
+      return response.json();
+    },
+  });
+
+  const { data: characters = [] } = useQuery<Character[]>({
+    queryKey: ["/api/characters", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/characters?projectId=${projectId}`);
+      if (!response.ok) throw new Error("Failed to fetch characters");
       return response.json();
     },
   });
@@ -114,6 +124,10 @@ export default function MagicSystemDetail() {
 
   const CategoryIcon = getCategoryIcon(magicSystem.category || "magic");
 
+  // Filter characters that use this magic system (for now, showing all characters as placeholder)
+  // In future, this will filter based on actual power system connections
+  const connectedCharacters = characters;
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
@@ -162,10 +176,14 @@ export default function MagicSystemDetail() {
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="mechanics">Mechanics</TabsTrigger>
               <TabsTrigger value="limitations">Limitations</TabsTrigger>
+              <TabsTrigger value="characters">
+                <Users className="h-4 w-4 mr-2" />
+                Characters ({connectedCharacters.length})
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -240,6 +258,61 @@ export default function MagicSystemDetail() {
                     </div>
                   ) : (
                     <p className="text-gray-500 italic">No limitations specified</p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="characters" className="space-y-6">
+              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+                <CardHeader>
+                  <CardTitle>Characters Using This System</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {connectedCharacters.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {connectedCharacters.map((character) => (
+                        <Link key={character.id} href={`/project/${projectId}/characters/${character.id}`}>
+                          <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-md transition-shadow cursor-pointer group">
+                            <CardContent className="p-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                                  <img
+                                    src={placeholderImage}
+                                    alt={character.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <h4 className="font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                                    {character.name}
+                                  </h4>
+                                  {character.role && (
+                                    <p className="text-sm text-gray-600">{character.role}</p>
+                                  )}
+                                  {character.description && (
+                                    <p className="text-xs text-gray-500">{character.description.slice(0, 50)}...</p>
+                                  )}
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Characters Yet</h3>
+                      <p className="text-gray-500 mb-4">
+                        No characters are currently using this {magicSystem.category === "power" ? "power" : "magic"} system.
+                      </p>
+                      <Link href={`/project/${projectId}/characters/new`}>
+                        <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                          Create Character
+                        </Button>
+                      </Link>
+                    </div>
                   )}
                 </CardContent>
               </Card>
