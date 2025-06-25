@@ -8,7 +8,7 @@ import {
   Scroll, 
   Settings
 } from "lucide-react";
-import worldForgeLogo from "@assets/worldforge logo@10x_1750865164609.png";
+import worldForgeLogo from "@assets/worldforge logo@2x_1750879368647.png";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
@@ -30,7 +30,7 @@ export default function Sidebar() {
           <img 
             src={worldForgeLogo} 
             alt="WorldForge Logo" 
-            className="w-8 h-8 object-contain"
+            className="w-10 h-10 object-contain"
           />
           <div>
             <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>

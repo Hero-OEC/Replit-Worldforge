@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import worldForgeLogo from "@assets/worldforge logo@10x_1750865164609.png";
+import worldForgeLogo from "@assets/worldforge logo@2x_1750879368647.png";
 
 interface NavbarProps {
   projectId?: string;
@@ -44,7 +44,7 @@ export default function Navbar({
                 <img 
                   src={worldForgeLogo} 
                   alt="WorldForge Logo" 
-                  className="w-8 h-8 object-contain"
+                  className="w-10 h-10 object-contain"
                 />
                 <div>
                   <h1 className="text-heading-md text-gray-900">WorldForge</h1>

@@ -99,10 +99,10 @@ The application manages several core entities:
 ```
 Changelog:
 - June 25, 2025. Updated WorldForge branding:
-  * Replaced generic BookOpen icons with custom WorldForge logo
-  * Updated sidebar and navbar components to display new logo
-  * Logo appears consistently across all application pages
-  * Maintained responsive design and proper sizing
+  * Replaced generic BookOpen icons with custom feather logo design
+  * Updated sidebar and navbar components with larger logo size (40x40px)
+  * Removed old logo files to optimize storage space
+  * Logo appears consistently across all application pages with improved visibility
 - January 23, 2025. Added character-specific timeline feature:
   * Created reusable SerpentineTimeline component for displaying timeline events
   * Added timeline tab to character detail page showing events where character appears
