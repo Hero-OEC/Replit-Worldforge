@@ -105,7 +105,9 @@ Changelog:
   * Created comprehensive Magic Systems page with full CRUD functionality
   * Updated lore icon from Scroll to BookOpen for better semantic match
   * Added Magic tab to project navigation with dedicated route
-  * Improved magic system card design with color-coded sections and orange theme
+  * Simplified magic system card design with clean inline format
+  * Converted creation/editing from popups to dedicated pages for consistency
+  * Added page icon (Sparkles) matching other sections
   * Implemented complete API endpoints for magic systems management
 - January 23, 2025. Added character-specific timeline feature:
   * Created reusable SerpentineTimeline component for displaying timeline events
