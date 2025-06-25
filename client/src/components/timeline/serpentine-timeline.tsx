@@ -121,31 +121,42 @@ export default function SerpentineTimeline({
     isMultiEvent: (events as TimelineEventData[]).length > 1,
   }));
 
-  // Calculate timeline positions for serpentine layout - responsive
+  // Calculate timeline positions for serpentine layout - fully responsive
   const containerRef = useRef<HTMLDivElement>(null);
-  const [timelineWidth, setTimelineWidth] = useState(800);
-  const timelineHeight = Math.max(300, Math.ceil(dateGroups.length / 5) * 100);
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 400 });
   const pathPoints: number[][] = [];
 
-  // Update timeline width based on container size
+  // Update timeline dimensions based on container size and events
   useEffect(() => {
-    const updateWidth = () => {
+    const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        setTimelineWidth(Math.min(containerWidth - 64, 1000)); // Max 1000px, with 32px padding each side
+        const availableWidth = Math.max(600, containerWidth - 64); // Min 600px, with padding
+        const eventsPerRow = Math.max(3, Math.min(6, Math.floor(availableWidth / 180))); // More spacing per event
+        const rows = Math.ceil(dateGroups.length / eventsPerRow);
+        const calculatedHeight = Math.max(300, rows * 140 + 60); // Dynamic height based on rows
+        
+        setDimensions({
+          width: availableWidth,
+          height: calculatedHeight
+        });
       }
     };
 
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
+    updateDimensions();
+    const timer = setTimeout(updateDimensions, 100); // Slight delay for container to render
+    window.addEventListener('resize', updateDimensions);
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      clearTimeout(timer);
+    };
+  }, [dateGroups.length]);
 
-  // Create serpentine path - responsive events per row
-  const eventsPerRow = Math.max(3, Math.min(5, Math.floor(timelineWidth / 150))); // Responsive events per row
+  // Create serpentine path - responsive layout
+  const eventsPerRow = Math.max(3, Math.min(6, Math.floor(dimensions.width / 180)));
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const horizontalSpacing = dateGroups.length > 1 ? Math.max(120, (timelineWidth - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
-  const verticalSpacing = rows > 1 ? Math.max(80, (timelineHeight - 120) / (rows - 1)) : 0;
+  const horizontalSpacing = dateGroups.length > 1 ? Math.max(150, (dimensions.width - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
+  const verticalSpacing = rows > 1 ? Math.max(120, (dimensions.height - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -154,7 +165,7 @@ export default function SerpentineTimeline({
     let x, y;
     if (dateGroups.length === 1) {
       // Center single event
-      x = timelineWidth / 2;
+      x = dimensions.width / 2;
     } else if (row % 2 === 0) {
       // Left to right for even rows
       x = 60 + col * horizontalSpacing;
@@ -220,7 +231,7 @@ export default function SerpentineTimeline({
         <div
           ref={timelineRef}
           className="relative mx-auto"
-          style={{ width: timelineWidth, height: timelineHeight, minHeight: 300 }}
+          style={{ width: dimensions.width, height: dimensions.height, minHeight: 300 }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">

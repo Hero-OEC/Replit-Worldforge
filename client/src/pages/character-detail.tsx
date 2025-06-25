@@ -785,23 +785,88 @@ export default function CharacterDetail() {
                 </TabsContent>
 
                 <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
-                    <div className="flex items-center space-x-3 mb-6">
-                      <Clock className="w-5 h-5 text-orange-600" />
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
-                        <p className="text-sm text-gray-600">
-                          Events where {character.name} appears throughout the story
-                        </p>
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Clock className="w-5 h-5 text-orange-600" />
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
+                          <p className="text-sm text-gray-600">
+                            Events where {character.name} appears throughout the story
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Timeline Stats Cards */}
+                    <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
+                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-gray-900 mb-1">
+                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name)).length}
+                          </div>
+                          <div className="text-sm text-gray-600 font-medium">
+                            Character Events
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-red-600 mb-1">
+                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
+                          </div>
+                          <div className="text-sm text-gray-600 font-medium">
+                            High Priority
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-blue-600 mb-1">
+                            {sampleTimelineEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Development").length}
+                          </div>
+                          <div className="text-sm text-gray-600 font-medium">
+                            Development
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex justify-center">
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">High Importance</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Medium Importance</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Low Importance</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">3</span>
+                          </div>
+                          <span className="text-sm text-gray-600">Multiple Events</span>
+                        </div>
                       </div>
                     </div>
                     
-                    <SerpentineTimeline
-                      events={sampleTimelineEvents}
-                      filterCharacter={character.name}
-                      className="mt-6"
-                    />
-                  </Card>
+                    {/* Timeline Container - dynamic height */}
+                    <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden">
+                      <SerpentineTimeline
+                        events={sampleTimelineEvents}
+                        filterCharacter={character.name}
+                        onEventClick={(event) => console.log('Event clicked:', event)}
+                        onEventEdit={(event) => console.log('Edit event:', event)}
+                        showEditButtons={false}
+                      />
+                    </div>
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
