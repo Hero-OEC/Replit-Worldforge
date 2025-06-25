@@ -10,6 +10,8 @@ import Characters from "@/pages/characters";
 import CharacterDetail from "@/pages/character-detail";
 import NewCharacter from "@/pages/character-new";
 import Locations from "@/pages/locations";
+import LocationDetail from "@/pages/location-detail";
+import LocationNew from "@/pages/location-new";
 import Lore from "@/pages/lore";
 import Notes from "@/pages/notes";
 import NotFound from "@/pages/not-found";
@@ -27,6 +29,8 @@ function App() {
             <Route path="/project/:projectId/characters/new" component={NewCharacter} />
             <Route path="/project/:projectId/characters/:characterId" component={CharacterDetail} />
             <Route path="/project/:projectId/locations" component={Locations} />
+            <Route path="/project/:projectId/locations/new" component={LocationNew} />
+            <Route path="/project/:projectId/locations/:locationId" component={LocationDetail} />
             <Route path="/project/:projectId/lore" component={Lore} />
             <Route path="/project/:projectId/notes" component={Notes} />
             <Route component={NotFound} />

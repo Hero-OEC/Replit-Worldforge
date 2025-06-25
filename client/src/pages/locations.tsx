@@ -19,6 +19,10 @@ export default function Locations() {
 
   const queryClient = useQueryClient();
 
+  const handleView = (locationId: number) => {
+    setLocation(`/project/${projectId}/locations/${locationId}`);
+  };
+
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
     queryFn: async () => {
@@ -68,39 +72,13 @@ export default function Locations() {
     }
   ];
 
-  const resetForm = () => {
-    setLocationData({
-      name: "",
-      type: "",
-      description: "",
-      geography: "",
-      culture: "",
-      significance: ""
-    });
-  };
 
-  const handleEdit = (location: any) => {
-    setEditingLocation(location);
-    setLocationData({
-      name: location.name,
-      type: location.type,
-      description: location.description,
-      geography: location.geography || "",
-      culture: location.culture || "",
-      significance: location.significance || ""
-    });
-  };
-
-  const handleSubmit = () => {
-    // For now, just reset and close dialog
-    console.log("Location data:", locationData);
-    setEditingLocation(null);
-    setShowAddDialog(false);
-    resetForm();
-  };
 
   const handleDelete = (id: number) => {
-    console.log("Delete location:", id);
+    if (confirm("Are you sure you want to delete this location?")) {
+      console.log("Delete location:", id);
+      // In real app, this would call the delete API
+    }
   };
 
   const filteredLocations = sampleLocations.filter(location =>
