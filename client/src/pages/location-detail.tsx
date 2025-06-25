@@ -437,24 +437,46 @@ export default function LocationDetail() {
                 </TabsContent>
 
                 <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
-                    <div className="flex items-center space-x-3 mb-6">
-                      <Clock className="w-5 h-5 text-orange-600" />
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">Location Timeline</h3>
-                        <p className="text-sm text-gray-600">
-                          Events that take place in {location.name}
-                        </p>
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Clock className="w-5 h-5 text-orange-600" />
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-800">Location Timeline</h3>
+                          <p className="text-sm text-gray-600">
+                            Events that take place in {location.name}
+                          </p>
+                        </div>
+                      </div>  
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex justify-center">
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">High Importance</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Medium Importance</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Low Importance</span>
+                        </div>
                       </div>
                     </div>
                     
-                    <SerpentineTimeline
-                      events={sampleTimelineEvents}
-                      filterCharacter={undefined}
-                      filterLocation={location.name}
-                      className="mt-6"
-                    />
-                  </Card>
+                    {/* Timeline Container - matches main timeline page */}
+                    <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+                      <SerpentineTimeline
+                        events={sampleTimelineEvents}
+                        filterCharacter={undefined}
+                        filterLocation={location.name}
+                      />
+                    </div>
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
