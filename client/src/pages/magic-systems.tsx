@@ -71,19 +71,9 @@ function MagicSystemCard({ system, onDelete, projectId }: {
               {truncateText(system.description, 150)}
             </p>
           )}
-          <div className="flex items-center justify-end mt-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                navigateWithHistory(`/project/${projectId}/magic-systems/${system.id}`);
-              }}
-              className="text-xs hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300"
-            >
-              View Details
-            </Button>
+          <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
+            <span>{system.category === "power" ? "Power system" : "Magic system"}</span>
+            <span className="font-medium">Click to view details</span>
           </div>
         </CardContent>
       </Card>

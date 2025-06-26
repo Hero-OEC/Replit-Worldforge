@@ -104,6 +104,7 @@ Changelog:
   * Implemented smart character-magic system mapping that connects characters to magic systems based on names and descriptions
   * Fixed TypeScript errors in storage system for proper magic system creation
   * Removed "Create Character" button from magic system detail pages per user preference
+  * Updated magic system cards to use link-style navigation matching location cards instead of buttons
   * Magic system detail pages now show connected characters in the Characters tab
   * Elena Brightflame connects to both Fire Magic and Light Magic systems, Marcus Shadowbane to Shadow Magic, etc.
 - June 26, 2025. Updated character power system terminology and icons:
