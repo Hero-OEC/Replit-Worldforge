@@ -75,6 +75,16 @@ export const loreEntries = pgTable("lore_entries", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const editHistory = pgTable("edit_history", {
+  id: serial("id").primaryKey(),
+  projectId: integer("project_id").notNull(),
+  action: text("action").notNull(), // created, updated, deleted
+  entityType: text("entity_type").notNull(), // character, location, timeline_event, magic_system, lore_entry
+  entityName: text("entity_name").notNull(),
+  description: text("description"), // detailed description of what was changed
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 // Insert schemas
 export const insertProjectSchema = createInsertSchema(projects).omit({
   id: true,
@@ -112,6 +122,11 @@ export const insertLoreEntrySchema = createInsertSchema(loreEntries).omit({
   updatedAt: true,
 });
 
+export const insertEditHistorySchema = createInsertSchema(editHistory).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
@@ -130,6 +145,9 @@ export type InsertMagicSystem = z.infer<typeof insertMagicSystemSchema>;
 
 export type LoreEntry = typeof loreEntries.$inferSelect;
 export type InsertLoreEntry = z.infer<typeof insertLoreEntrySchema>;
+
+export type EditHistory = typeof editHistory.$inferSelect;
+export type InsertEditHistory = z.infer<typeof insertEditHistorySchema>;
 
 // Project stats interface
 export interface ProjectStats {

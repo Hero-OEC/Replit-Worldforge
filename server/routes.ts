@@ -265,6 +265,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Edit History
+  app.get("/api/edit-history", async (req, res) => {
+    try {
+      const projectId = parseInt(req.query.projectId as string);
+      if (!projectId) {
+        return res.status(400).json({ message: "Project ID is required" });
+      }
+      const history = await storage.getEditHistory(projectId);
+      res.json(history);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch edit history" });
+    }
+  });
+
   // Stats
   app.get("/api/stats", async (req, res) => {
     try {

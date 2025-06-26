@@ -4,6 +4,7 @@ import { BookOpen, Clock, Users, MapPin, Sparkles, Scroll, Settings, Plus } from
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/layout/navbar";
+import EditingHistoryTable from "@/components/editing-history-table";
 import type { ProjectWithStats } from "@shared/schema";
 
 const navigation = [
@@ -121,31 +122,8 @@ export default function ProjectLayout() {
             </Card>
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link key={item.name} href={`/project/${projectId}/${item.href}`}>
-                  <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6 hover:shadow-md transition-shadow cursor-pointer">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center w-16 h-16 bg-orange-500 rounded-lg mx-auto mb-4">
-                        <Icon className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="font-medium text-gray-900 mb-2">{item.name}</h3>
-                      <p className="text-sm text-gray-600">
-                        {item.name === "Timeline" && "Organize story events"}
-                        {item.name === "Characters" && "Manage character profiles"}
-                        {item.name === "Locations" && "Document world places"}
-                        {item.name === "Lore" && "Define magical systems"}
-                        {item.name === "Notes" && "Keep project notes"}
-                      </p>
-                    </div>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
+          {/* Editing History */}
+          <EditingHistoryTable projectId={projectId!} />
         </div>
       </main>
     </div>

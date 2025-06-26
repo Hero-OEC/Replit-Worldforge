@@ -1,8 +1,9 @@
 import { 
-  projects, characters, locations, timelineEvents, magicSystems, loreEntries,
+  projects, characters, locations, timelineEvents, magicSystems, loreEntries, editHistory,
   type Project, type InsertProject, type Character, type InsertCharacter,
   type Location, type InsertLocation, type TimelineEvent, type InsertTimelineEvent,
   type MagicSystem, type InsertMagicSystem, type LoreEntry, type InsertLoreEntry,
+  type EditHistory, type InsertEditHistory,
   type ProjectWithStats, type ProjectStats
 } from "@shared/schema";
 
@@ -51,6 +52,10 @@ export interface IStorage {
   updateLoreEntry(id: number, entry: Partial<InsertLoreEntry>): Promise<LoreEntry | undefined>;
   deleteLoreEntry(id: number): Promise<boolean>;
 
+  // Edit History
+  getEditHistory(projectId: number): Promise<EditHistory[]>;
+  createEditHistory(entry: InsertEditHistory): Promise<EditHistory>;
+
   // Stats
   getOverallStats(): Promise<{
     totalProjects: number;
@@ -67,6 +72,7 @@ export class MemStorage implements IStorage {
   private timelineEvents: Map<number, TimelineEvent> = new Map();
   private magicSystems: Map<number, MagicSystem> = new Map();
   private loreEntries: Map<number, LoreEntry> = new Map();
+  private editHistory: Map<number, EditHistory> = new Map();
   
   private currentProjectId = 1;
   private currentCharacterId = 1;
@@ -74,6 +80,7 @@ export class MemStorage implements IStorage {
   private currentTimelineEventId = 1;
   private currentMagicSystemId = 1;
   private currentLoreEntryId = 1;
+  private currentEditHistoryId = 1;
 
   constructor() {
     this.seedSampleData();
@@ -357,6 +364,69 @@ export class MemStorage implements IStorage {
     this.currentLocationId = 14;
     this.currentTimelineEventId = 44;
     this.currentMagicSystemId = 6;
+
+    // Add sample edit history for project 1
+    this.editHistory.set(1, {
+      id: 1,
+      projectId: 1,
+      action: "created",
+      entityType: "character",
+      entityName: "Elena Brightflame",
+      description: "Created new protagonist character with fire and light magic abilities",
+      createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+    });
+
+    this.editHistory.set(2, {
+      id: 2,
+      projectId: 1,
+      action: "created",
+      entityType: "magic_system",
+      entityName: "Fire Magic",
+      description: "Added comprehensive fire magic system with detailed rules and limitations",
+      createdAt: new Date(Date.now() - 18 * 60 * 60 * 1000), // 18 hours ago
+    });
+
+    this.editHistory.set(3, {
+      id: 3,
+      projectId: 1,
+      action: "updated",
+      entityType: "character",
+      entityName: "Marcus Shadowbane",
+      description: "Updated character backstory and added shadow magic abilities",
+      createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+    });
+
+    this.editHistory.set(4, {
+      id: 4,
+      projectId: 1,
+      action: "created",
+      entityType: "location",
+      entityName: "Sunset Harbor",
+      description: "Created coastal trading hub location with detailed geography",
+      createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+    });
+
+    this.editHistory.set(5, {
+      id: 5,
+      projectId: 1,
+      action: "created",
+      entityType: "timeline_event",
+      entityName: "Elena's Awakening",
+      description: "Added pivotal character development event to main storyline",
+      createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+    });
+
+    this.editHistory.set(6, {
+      id: 6,
+      projectId: 1,
+      action: "deleted",
+      entityType: "character",
+      entityName: "Temporary Character",
+      description: "Removed placeholder character that was no longer needed",
+      createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    });
+
+    this.currentEditHistoryId = 7;
   }
 
   // Projects
@@ -681,6 +751,24 @@ export class MemStorage implements IStorage {
 
   async deleteLoreEntry(id: number): Promise<boolean> {
     return this.loreEntries.delete(id);
+  }
+
+  // Edit History
+  async getEditHistory(projectId: number): Promise<EditHistory[]> {
+    return Array.from(this.editHistory.values())
+      .filter(entry => entry.projectId === projectId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async createEditHistory(insertEntry: InsertEditHistory): Promise<EditHistory> {
+    const entry: EditHistory = {
+      id: this.currentEditHistoryId++,
+      ...insertEntry,
+      description: insertEntry.description || null,
+      createdAt: new Date(),
+    };
+    this.editHistory.set(entry.id, entry);
+    return entry;
   }
 
   // Stats
