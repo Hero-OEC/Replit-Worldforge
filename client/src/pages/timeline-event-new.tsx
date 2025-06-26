@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Calendar, Save } from "lucide-react";
+import { ArrowLeft, Calendar, Save, MapPin, Users, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -14,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { ProjectWithStats } from "@shared/schema";
@@ -32,6 +34,106 @@ const eventCategories = [
   "Traveling",
 ];
 
+const sampleLocations = [
+  "Arcanum City",
+  "Dark Forest",
+  "Magic Academy",
+  "Riverside Village",
+  "Northern Road",
+  "Battlefield",
+  "Elemental Nexus",
+  "Misty Marshlands",
+  "Garden of Stars",
+  "Royal Palace",
+];
+
+const sampleCharacters = [
+  "Elena",
+  "Marcus",
+  "Mentor",
+  "King",
+  "Ancient Sage",
+  "Council Members",
+  "Army",
+  "Lord Vex",
+  "Princess Aria",
+  "Captain Storm",
+];
+
+// Character tagging component
+interface CharacterTagProps {
+  selectedCharacters: string[];
+  onAddCharacter: (character: string) => void;
+  onRemoveCharacter: (character: string) => void;
+}
+
+function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }: CharacterTagProps) {
+  const [searchValue, setSearchValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const filteredCharacters = sampleCharacters.filter(
+    (char) =>
+      char.toLowerCase().includes(searchValue.toLowerCase()) &&
+      !selectedCharacters.includes(char)
+  );
+
+  const handleAddCharacter = (character: string) => {
+    onAddCharacter(character);
+    setSearchValue("");
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="relative">
+        <Input
+          placeholder="Add characters..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onFocus={() => setIsOpen(true)}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+        />
+        {isOpen && filteredCharacters.length > 0 && (
+          <div className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredCharacters.map((character) => (
+              <div
+                key={character}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                onClick={() => handleAddCharacter(character)}
+              >
+                <div className="flex items-center justify-between">
+                  <span>{character}</span>
+                  <Check className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {selectedCharacters.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selectedCharacters.map((character) => (
+            <Badge
+              key={character}
+              className="bg-green-100 text-green-800 px-3 py-1 rounded-md"
+            >
+              {character}
+              <button
+                type="button"
+                onClick={() => onRemoveCharacter(character)}
+                className="ml-1 hover:text-green-600"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </Badge>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function NewTimelineEvent() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, navigate] = useLocation();
@@ -39,8 +141,11 @@ export default function NewTimelineEvent() {
   
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
+  const [importance, setImportance] = useState("medium");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -69,6 +174,9 @@ export default function NewTimelineEvent() {
         date: date || null,
         category: category || null,
         description: description || null,
+        importance: importance,
+        location: location || null,
+        characters: selectedCharacters.length > 0 ? selectedCharacters : null,
         order: 0,
       };
 
@@ -113,15 +221,16 @@ export default function NewTimelineEvent() {
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-start space-x-4 mb-6">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-white" />
-              </div>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <Link href={`/project/${projectId}/timeline`}>
+                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Timeline
+                </Button>
+              </Link>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  Create New Timeline Event
-                </h1>
+                <h1 className="text-3xl font-bold text-gray-900">Create New Timeline Event</h1>
                 <p className="text-gray-600">Add a new event to your project timeline</p>
               </div>
             </div>
@@ -174,6 +283,20 @@ export default function NewTimelineEvent() {
                     </div>
 
                     <div>
+                      <Label htmlFor="importance">Importance</Label>
+                      <Select onValueChange={setImportance} value={importance}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select importance" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="low">Low Importance</SelectItem>
+                          <SelectItem value="medium">Medium Importance</SelectItem>
+                          <SelectItem value="high">High Importance</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
                       <Label htmlFor="category">Category</Label>
                       <Select onValueChange={setCategory} value={category}>
                         <SelectTrigger>
@@ -189,6 +312,39 @@ export default function NewTimelineEvent() {
                       </Select>
                     </div>
                   </div>
+                </Card>
+
+                {/* Location */}
+                <Card className="p-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <MapPin className="w-5 h-5 text-gray-500" />
+                    <h3 className="text-lg font-semibold text-gray-900">Location</h3>
+                  </div>
+                  <Select onValueChange={setLocation} value={location}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sampleLocations.map((loc) => (
+                        <SelectItem key={loc} value={loc}>
+                          {loc}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Card>
+
+                {/* Characters */}
+                <Card className="p-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Users className="w-5 h-5 text-gray-500" />
+                    <h3 className="text-lg font-semibold text-gray-900">Characters</h3>
+                  </div>
+                  <CharacterTag
+                    selectedCharacters={selectedCharacters}
+                    onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
+                    onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
+                  />
                 </Card>
 
                 <Button
