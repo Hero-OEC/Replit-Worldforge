@@ -501,40 +501,55 @@ export default function Timeline() {
 
               {/* Timeline Stats Cards */}
               <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
-                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900 mb-1">
-                      {sampleEvents.length}
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-white" />
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">
-                      Total Events
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600 mb-1">
-                      {
-                        sampleEvents.filter((e) => e.importance === "high")
-                          .length
-                      }
-                    </div>
-                    <div className="text-sm text-gray-600 font-medium">
-                      High Priority
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-gray-900 mb-1">
+                        {sampleEvents.length}
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium">
+                        Total Events
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600 mb-1">
-                      {
-                        sampleEvents.filter(
-                          (e) => e.category === "Character Development",
-                        ).length
-                      }
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                      <Star className="w-5 h-5 text-white" />
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">
-                      Character Events
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-red-600 mb-1">
+                        {
+                          sampleEvents.filter((e) => e.importance === "high")
+                            .length
+                        }
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium">
+                        High Priority
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                      <Users className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-600 mb-1">
+                        {
+                          sampleEvents.filter(
+                            (e) => e.category === "Character Development",
+                          ).length
+                        }
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium">
+                        Character Events
+                      </div>
                     </div>
                   </div>
                 </div>
