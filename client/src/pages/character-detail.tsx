@@ -801,7 +801,7 @@ export default function CharacterDetail() {
 
                     {/* Legend */}
                     <div className="flex justify-center">
-                      <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+                      <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-red-500 rounded-full"></div>
                           <span className="text-sm text-gray-600">High Importance</span>
