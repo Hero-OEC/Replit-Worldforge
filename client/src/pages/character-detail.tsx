@@ -598,10 +598,25 @@ export default function CharacterDetail() {
                   </Button>
                 </>
               ) : (
-                <Button onClick={() => setIsEditing(true)} className="bg-orange-500 text-white hover:bg-orange-600">
-                  <Edit3 className="w-4 h-4 mr-2" />
-                  Edit Character
-                </Button>
+                <>
+                  <Button onClick={() => setIsEditing(true)} className="bg-orange-500 text-white hover:bg-orange-600">
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    Edit Character
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      if (confirm("Are you sure you want to delete this character?")) {
+                        // In real app, this would delete the character and redirect
+                        console.log("Delete character:", character.id);
+                      }
+                    }}
+                    className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
+                </>
               )}
             </div>
           </div>

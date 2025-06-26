@@ -126,6 +126,14 @@ export default function TimelineEventDetail() {
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Event
               </Button>
+              <Button
+                variant="outline"
+                onClick={handleDelete}
+                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete
+              </Button>
             </div>
           </div>
 
@@ -196,19 +204,7 @@ export default function TimelineEventDetail() {
                 </div>
               </Card>
 
-              {/* Danger Zone */}
-              <Card className="p-6">
-                <h3 className="text-lg font-semibold text-red-800 mb-4">
-                  Danger Zone
-                </h3>
-                <Button
-                  onClick={handleDelete}
-                  className="w-full bg-red-500 hover:bg-red-600 text-white"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete Event
-                </Button>
-              </Card>
+              
             </div>
           </div>
         </div>
