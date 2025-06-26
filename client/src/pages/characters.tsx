@@ -57,7 +57,7 @@ export default function Characters() {
       appearance: "Auburn hair, emerald eyes, average height",
       personality: "Determined, compassionate, quick-witted",
       backstory: "Orphaned at a young age, raised by the Magic Academy",
-      image: "/api/placeholder/300/400"
+      image: null
     },
     {
       id: 2,
@@ -67,7 +67,7 @@ export default function Characters() {
       appearance: "Silver hair, weathered face, tall and imposing",
       personality: "Wise, mysterious, protective",
       backstory: "Former court mage who left to teach at the academy",
-      image: "/api/placeholder/300/400"
+      image: null
     },
     {
       id: 3,
@@ -77,7 +77,7 @@ export default function Characters() {
       appearance: "Black robes, pale skin, piercing blue eyes",
       personality: "Cunning, ruthless, charismatic",
       backstory: "Former academy student who turned to dark magic",
-      image: "/api/placeholder/300/400"
+      image: null
     },
     {
       id: 4,
@@ -87,7 +87,7 @@ export default function Characters() {
       appearance: "Golden hair, royal bearing, graceful",
       personality: "Noble, brave, diplomatic",
       backstory: "Hidden away from court politics, trained in secret",
-      image: "/api/placeholder/300/400"
+      image: null
     },
     {
       id: 5,
@@ -97,7 +97,7 @@ export default function Characters() {
       appearance: "Scarred face, muscular build, stern expression",
       personality: "Loyal, disciplined, honorable",
       backstory: "Rose through ranks through merit and sacrifice",
-      image: "/api/placeholder/300/400"
+      image: null
     },
     {
       id: 6,
@@ -107,7 +107,7 @@ export default function Characters() {
       appearance: "Always masked, lithe build, moves like smoke",
       personality: "Silent, deadly, professional",
       backstory: "Identity and origins completely unknown",
-      image: "/api/placeholder/300/400"
+      image: null
     }
   ];
 
