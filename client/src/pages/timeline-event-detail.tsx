@@ -164,9 +164,11 @@ export default function TimelineEventDetail() {
                   <MapPin className="w-5 h-5 text-gray-500" />
                   <h3 className="text-lg font-semibold text-gray-900">Location</h3>
                 </div>
-                <Badge className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md">
-                  {event.location}
-                </Badge>
+                <Link href={`/project/${projectId}/locations/1`}>
+                  <Badge className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md cursor-pointer hover:bg-blue-200 transition-colors">
+                    {event.location}
+                  </Badge>
+                </Link>
               </Card>
 
               {/* Characters */}
@@ -177,12 +179,11 @@ export default function TimelineEventDetail() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {event.characters.map((character, index) => (
-                    <Badge
-                      key={index}
-                      className="bg-green-100 text-green-800 px-3 py-1 rounded-md"
-                    >
-                      {character}
-                    </Badge>
+                    <Link key={index} href={`/project/${projectId}/characters/${index + 1}`}>
+                      <Badge className="bg-green-100 text-green-800 px-3 py-1 rounded-md cursor-pointer hover:bg-green-200 transition-colors">
+                        {character}
+                      </Badge>
+                    </Link>
                   ))}
                 </div>
               </Card>
