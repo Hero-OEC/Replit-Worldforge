@@ -75,6 +75,8 @@ export default function TimelineEventDetail() {
   // In real app, this would fetch the specific event
   const event = sampleEvent;
 
+  console.log("TimelineEventDetail rendering with:", { projectId, eventId });
+
   const handleDelete = () => {
     // In real app, this would delete the event and redirect
     navigate(`/project/${projectId}/timeline`);
