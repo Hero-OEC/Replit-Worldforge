@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 26, 2025. Enhanced magic systems with example data and character connections:
+  * Added 5 detailed magic systems (Fire, Light, Shadow, Water, Earth Magic) with comprehensive descriptions, rules, limitations, sources, and costs
+  * Enhanced character data with detailed descriptions and magic system connections
+  * Implemented smart character-magic system mapping that connects characters to magic systems based on names and descriptions
+  * Fixed TypeScript errors in storage system for proper magic system creation
+  * Removed "Create Character" button from magic system detail pages per user preference
+  * Magic system detail pages now show connected characters in the Characters tab
+  * Elena Brightflame connects to both Fire Magic and Light Magic systems, Marcus Shadowbane to Shadow Magic, etc.
 - June 26, 2025. Updated character power system terminology and icons:
   * Changed "Power System" to "Power Type" throughout character pages for better clarity
   * Implemented category-based icon system matching magic systems page (Sparkles for magic, Zap for powers)

@@ -322,14 +322,9 @@ export default function MagicSystemDetail() {
                     <div className="text-center py-8">
                       <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                       <h3 className="text-lg font-medium text-gray-900 mb-2">No Characters Yet</h3>
-                      <p className="text-gray-500 mb-4">
+                      <p className="text-gray-500">
                         No characters are currently using this {magicSystem.category === "power" ? "power" : "magic"} system.
                       </p>
-                      <Link href={`/project/${projectId}/characters/new`}>
-                        <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-                          Create Character
-                        </Button>
-                      </Link>
                     </div>
                   )}
                 </CardContent>
