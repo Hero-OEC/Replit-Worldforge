@@ -126,7 +126,25 @@ export default function MagicSystemDetail() {
 
   // Filter characters that use this magic system (for now, showing all characters as placeholder)
   // In future, this will filter based on actual power system connections
-  const connectedCharacters = characters;
+  // Map characters to magic systems based on their descriptions and magic system names
+  const connectedCharacters = characters.filter(character => {
+    if (!magicSystem || !character.description) return false;
+    
+    const magicSystemName = magicSystem.name.toLowerCase();
+    const characterDesc = character.description.toLowerCase();
+    const characterName = character.name.toLowerCase();
+    
+    // Check if character description or name mentions this magic system
+    return characterDesc.includes(magicSystemName.split(' ')[0]) || // e.g., "fire" from "Fire Magic"
+           characterDesc.includes(magicSystemName) ||
+           characterName.includes(magicSystemName.split(' ')[0]) ||
+           // Specific character-magic mappings based on our sample data
+           (magicSystem.name === "Fire Magic" && (characterName.includes("elena") || characterName.includes("brightflame"))) ||
+           (magicSystem.name === "Light Magic" && (characterName.includes("elena") || characterName.includes("lyra") || characterName.includes("sister"))) ||
+           (magicSystem.name === "Shadow Magic" && (characterName.includes("marcus") || characterName.includes("shadowbane") || characterName.includes("vex"))) ||
+           (magicSystem.name === "Water Magic" && (characterName.includes("aqua") || characterName.includes("tide"))) ||
+           (magicSystem.name === "Earth Magic" && (characterName.includes("terra") || characterName.includes("stone")));
+  });
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">

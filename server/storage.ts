@@ -110,17 +110,82 @@ export class MemStorage implements IStorage {
       id: 1,
       projectId: 1,
       name: "Elena Brightflame",
-      description: "The protagonist mage",
-      appearance: "Auburn hair, emerald eyes",
-      personality: "Determined and compassionate",
-      backstory: "Orphaned at young age",
+      description: "A young mage with incredible potential, mastering both fire and light magic",
+      appearance: "Auburn hair that glows when using magic, emerald eyes, athletic build",
+      personality: "Determined, compassionate, sometimes impulsive",
+      backstory: "Orphaned at young age, discovered dual magic abilities at the academy",
       role: "protagonist",
       createdAt: new Date(),
       updatedAt: new Date()
     });
 
+    this.characters.set(2, {
+      id: 2,
+      projectId: 1,
+      name: "Marcus Shadowbane",
+      description: "Elena's mentor and former academy professor, expert in forbidden shadow magic",
+      appearance: "Silver hair, weathered face, tall and imposing",
+      personality: "Wise, mysterious, protective of Elena",
+      backstory: "Former court mage who delved too deep into shadow magic, now teaches at the academy",
+      role: "ally",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(3, {
+      id: 3,
+      projectId: 1,
+      name: "Lord Vex",
+      description: "Dark sorcerer seeking ultimate power through corrupted shadow magic",
+      appearance: "Black robes, pale skin, piercing blue eyes",
+      personality: "Cunning, ruthless, charismatic",
+      backstory: "Former academy student who was expelled for practicing forbidden magic",
+      role: "antagonist",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(4, {
+      id: 4,
+      projectId: 1,
+      name: "Aqua the Tide Walker",
+      description: "Master of water magic and healer of the coastal regions",
+      appearance: "Blue-tinted hair, flowing robes that shimmer like water",
+      personality: "Calm, patient, deeply connected to nature",
+      backstory: "Raised by sea spirits, learned water magic from ancient ocean guardians",
+      role: "ally",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(5, {
+      id: 5,
+      projectId: 1,
+      name: "Terra Stoneheart",
+      description: "Earth magic specialist and guardian of the mountain pass",
+      appearance: "Brown hair with stone-like streaks, muscular build, earth-toned clothing",
+      personality: "Steady, reliable, slow to anger but fierce when provoked",
+      backstory: "Born in the mountains, learned earth magic from ancient stone circles",
+      role: "ally",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(6, {
+      id: 6,
+      projectId: 1,
+      name: "Sister Lyra",
+      description: "Devout priestess wielding pure light magic for healing and protection",
+      appearance: "Golden hair, white robes, gentle demeanor with inner strength",
+      personality: "Compassionate, faithful, unwavering in her beliefs",
+      backstory: "Orphaned and raised in the temple, blessed by the Light Goddess herself",
+      role: "ally",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
     // Add more characters to reach the numbers shown in the image
-    for (let i = 2; i <= 12; i++) {
+    for (let i = 7; i <= 12; i++) {
       this.characters.set(i, {
         id: i,
         projectId: 1,
@@ -209,9 +274,81 @@ export class MemStorage implements IStorage {
       });
     }
 
+    // Sample magic systems for project 1
+    this.magicSystems.set(1, {
+      id: 1,
+      projectId: 1,
+      name: "Fire Magic",
+      category: "magic",
+      description: "The ancient art of manipulating flames and heat energy",
+      rules: "Practitioners must maintain emotional control, as strong emotions can cause magical backlash. Fire magic draws from ambient heat and the caster's life force.",
+      limitations: "Cannot be used in areas completely devoid of heat. Overuse can lead to fever and exhaustion. Water-based magic provides strong resistance.",
+      source: "Channeled through meditation and connection to the elemental plane of fire",
+      cost: "Physical stamina and body heat. Advanced spells require rare fire crystals as catalysts.",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.magicSystems.set(2, {
+      id: 2,
+      projectId: 1,
+      name: "Light Magic",
+      category: "magic",
+      description: "Sacred magic that channels pure light energy for healing and protection",
+      rules: "Only those with pure intentions can wield light magic effectively. The magic is strongest during daylight hours and weakest in complete darkness.",
+      limitations: "Cannot be used for harmful purposes without corrupting the caster. Ineffective against beings of pure darkness or shadow magic.",
+      source: "Divine blessing from the Light Goddess, requiring daily prayer and meditation",
+      cost: "Spiritual energy and devotion. Major healings require holy water and blessed crystals.",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.magicSystems.set(3, {
+      id: 3,
+      projectId: 1,
+      name: "Shadow Magic",
+      category: "magic",
+      description: "Dark magic that manipulates shadows and stealth, often considered taboo",
+      rules: "Shadow magic feeds on negative emotions and grows stronger in darkness. Practitioners must guard against corruption of their soul.",
+      limitations: "Weakened significantly in bright light. Prolonged use can lead to loss of empathy and gradual corruption of the caster's mind.",
+      source: "Ancient forbidden texts and pacts with shadow entities",
+      cost: "Fragments of the caster's soul and years of their natural lifespan. Requires shadow essence as a material component.",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.magicSystems.set(4, {
+      id: 4,
+      projectId: 1,
+      name: "Water Magic",
+      category: "magic",
+      description: "Fluid magic controlling water, ice, and healing properties of aquatic elements",
+      rules: "Water magic flows like its element - gentle yet persistent. Practitioners must maintain mental flexibility and emotional flow.",
+      limitations: "Severely weakened in arid environments. Ice magic requires cold temperatures or significant energy expenditure.",
+      source: "Communion with water spirits and study of tidal patterns",
+      cost: "Mental focus and hydration. Complex spells require enchanted water from sacred springs.",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.magicSystems.set(5, {
+      id: 5,
+      projectId: 1,
+      name: "Earth Magic",
+      category: "magic",
+      description: "Solid magic that commands stone, soil, and growing things from the earth",
+      rules: "Earth magic requires patience and deep connection to the land. Magic is strongest when the caster is in direct contact with natural earth.",
+      limitations: "Ineffective on processed materials like refined metals. Difficult to use in artificial environments or high altitudes.",
+      source: "Deep meditation with the earth and understanding of geological forces",
+      cost: "Physical connection to the ground and mineral components. Major spells require rare gems and earth essences.",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
     this.currentCharacterId = 20;
     this.currentLocationId = 14;
     this.currentTimelineEventId = 44;
+    this.currentMagicSystemId = 6;
   }
 
   // Projects
@@ -460,7 +597,9 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const system: MagicSystem = {
       id: this.currentMagicSystemId++,
-      ...insertSystem,
+      projectId: insertSystem.projectId,
+      name: insertSystem.name,
+      category: insertSystem.category ?? "magic",
       description: insertSystem.description || null,
       rules: insertSystem.rules || null,
       limitations: insertSystem.limitations || null,
