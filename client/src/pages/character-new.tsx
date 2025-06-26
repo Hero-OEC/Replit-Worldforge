@@ -173,7 +173,7 @@ export default function NewCharacter() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
-  const { goBack } = useNavigation();
+  const { goBack, navigateWithHistory } = useNavigation();
   
   // Track navigation history
   useNavigationTracker();
@@ -214,14 +214,11 @@ export default function NewCharacter() {
 
   const createCharacterMutation = useMutation({
     mutationFn: async (data: InsertCharacter) => {
-      return apiRequest("/api/characters", {
-        method: "POST",
-        body: JSON.stringify({ ...data, projectId: parseInt(projectId!) })
-      });
+      return apiRequest("POST", "/api/characters", { ...data, projectId: parseInt(projectId!) });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
-      setLocation(`/project/${projectId}/characters`);
+      navigateWithHistory(`/project/${projectId}/characters`);
     },
   });
 
@@ -237,7 +234,7 @@ export default function NewCharacter() {
   };
 
   const handleCancel = () => {
-    setLocation(`/project/${projectId}/characters`);
+    navigateWithHistory(`/project/${projectId}/characters`);
   };
 
   return (

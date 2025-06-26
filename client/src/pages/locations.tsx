@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@/contexts/navigation-context";
 import { Plus, Search, Filter, MapPin, Edit3, MoreHorizontal, Map, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,12 +16,13 @@ import type { Location, ProjectWithStats } from "@shared/schema";
 export default function Locations() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
+  const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
 
   const queryClient = useQueryClient();
 
   const handleView = (locationId: number) => {
-    setLocation(`/project/${projectId}/locations/${locationId}`);
+    navigateWithHistory(`/project/${projectId}/locations/${locationId}`);
   };
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -105,7 +107,7 @@ export default function Locations() {
         showProjectNav={true}
         rightContent={
           <Button
-            onClick={() => setLocation(`/project/${projectId}/locations/new`)}
+            onClick={() => navigateWithHistory(`/project/${projectId}/locations/new`)}
             className="bg-orange-500 text-white hover:bg-orange-600"
           >
             <Plus className="w-4 h-4 mr-2" />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@/contexts/navigation-context";
 import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ import type { Character, ProjectWithStats } from "@shared/schema";
 export default function Characters() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
+  const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const queryClient = useQueryClient();
 
@@ -28,7 +30,7 @@ export default function Characters() {
 
   const deleteCharacterMutation = useMutation({
     mutationFn: async (id: number) => {
-      return apiRequest(`/api/characters/${id}`, { method: "DELETE" });
+      return apiRequest("DELETE", `/api/characters/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
@@ -194,7 +196,7 @@ export default function Characters() {
                 <Card 
                   key={character.id} 
                   className={`bg-white border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}
-                  onClick={() => setLocation(`/project/${projectId}/characters/${character.id}`)}
+                  onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                 >
                   {/* Character Image */}
                   <div className="relative aspect-[7/9] bg-gray-100 overflow-hidden">

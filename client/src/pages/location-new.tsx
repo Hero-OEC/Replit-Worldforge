@@ -24,7 +24,7 @@ export default function LocationNew() {
     significance: ""
   });
   const queryClient = useQueryClient();
-  const { goBack } = useNavigation();
+  const { goBack, navigateWithHistory } = useNavigation();
   
   // Track navigation history
   useNavigationTracker();
@@ -40,14 +40,11 @@ export default function LocationNew() {
 
   const createLocationMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiRequest("/api/locations", {
-        method: "POST",
-        body: JSON.stringify({ ...data, projectId: parseInt(projectId!) })
-      });
+      return apiRequest("POST", "/api/locations", { ...data, projectId: parseInt(projectId!) });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/locations", projectId] });
-      setLocation(`/project/${projectId}/locations`);
+      navigateWithHistory(`/project/${projectId}/locations`);
     },
   });
 
@@ -63,7 +60,7 @@ export default function LocationNew() {
   };
 
   const handleCancel = () => {
-    setLocation(`/project/${projectId}/locations`);
+    navigateWithHistory(`/project/${projectId}/locations`);
   };
 
   return (

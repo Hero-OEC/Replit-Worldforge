@@ -139,7 +139,7 @@ export default function NewTimelineEvent() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, navigate] = useLocation();
   const { toast } = useToast();
-  const { goBack } = useNavigation();
+  const { goBack, navigateWithHistory } = useNavigation();
   
   // Track navigation history
   useNavigationTracker();
@@ -202,7 +202,7 @@ export default function NewTimelineEvent() {
         description: "Timeline event created successfully",
       });
       
-      navigate(`/project/${projectId}/timeline`);
+      navigateWithHistory(`/project/${projectId}/timeline`);
     } catch (error: any) {
       toast({
         title: "Error",

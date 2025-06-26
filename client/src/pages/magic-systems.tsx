@@ -1,5 +1,6 @@
 import { useParams, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@/contexts/navigation-context";
 import { Plus, Sparkles, Zap, Trash2, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
   onDelete: (id: number) => void;
   projectId: string;
 }) {
+  const { navigateWithHistory } = useNavigation();
   const getCategoryIcon = (category: string) => {
     return category === "power" ? Zap : Sparkles;
   };
@@ -28,9 +30,11 @@ function MagicSystemCard({ system, onDelete, projectId }: {
   };
 
   return (
-    <Link href={`/project/${projectId}/magic-systems/${system.id}`}>
-      <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-lg transition-all duration-200 cursor-pointer group">
-        <CardHeader className="pb-3">
+    <Card 
+      className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-lg transition-all duration-200 cursor-pointer group"
+      onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/${system.id}`)}
+    >
+      <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-3 flex-1">
               <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -79,7 +83,6 @@ function MagicSystemCard({ system, onDelete, projectId }: {
           </div>
         </CardContent>
       </Card>
-    </Link>
   );
 }
 
@@ -87,6 +90,7 @@ export default function MagicSystems() {
   const { projectId } = useParams<{ projectId: string }>();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { navigateWithHistory } = useNavigation();
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -157,12 +161,13 @@ export default function MagicSystems() {
                 </p>
               </div>
             </div>
-            <Link href={`/project/${projectId}/magic-systems/new`}>
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-                <Plus className="h-4 w-4 mr-2" />
-                New Magic System
-              </Button>
-            </Link>
+            <Button 
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+              onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/new`)}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Magic System
+            </Button>
           </div>
 
           {isLoading ? (
