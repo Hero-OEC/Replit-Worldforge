@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Save, User, Upload, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Wand2, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -172,6 +173,10 @@ export default function NewCharacter() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
 
   const [characterData, setCharacterData] = useState({
     name: "",
@@ -249,12 +254,14 @@ export default function NewCharacter() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/characters`}>
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Characters
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">New Character</h1>
                 <p className="text-gray-600 mt-1">Create a new character for your story</p>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import {
   ArrowLeft,
   Edit3,
@@ -68,6 +69,10 @@ const sampleEvent = {
 export default function TimelineEventDetail() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
   const [, navigate] = useLocation();
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -98,12 +103,15 @@ export default function TimelineEventDetail() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/timeline`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Timeline
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">{event.title}</h1>
                 <p className="text-gray-600">Timeline Event Details</p>

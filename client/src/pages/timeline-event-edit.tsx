@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -163,6 +164,10 @@ export default function EditTimelineEvent() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
   
   // In real app, this would fetch the specific event
   const event = sampleEvent;
@@ -246,12 +251,15 @@ export default function EditTimelineEvent() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/timeline/${eventId}`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Event
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">{event.title}</h1>
                 <p className="text-gray-600">Edit Timeline Event</p>

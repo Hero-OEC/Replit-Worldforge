@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 26, 2025. Implemented comprehensive navigation context system:
+  * Created NavigationProvider context to track user navigation history throughout the app
+  * Added useNavigationTracker hook to automatically store previous page context
+  * Updated all back buttons across timeline, character, and location pages to use proper navigation context
+  * Replaced hardcoded navigation paths with intelligent back functionality that remembers where users came from
+  * Users can now navigate from timeline events to character/location details and return to the correct previous page
+  * Improved user experience by preserving navigation context instead of defaulting to parent pages
+  * Applied navigation tracking to: timeline event detail/edit/new, character detail/new, location detail/new pages
 - June 25, 2025. Updated WorldForge branding and magic systems:
   * Replaced generic BookOpen icons with custom feather logo design
   * Updated sidebar and navbar components with larger logo size (40x40px)

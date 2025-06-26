@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Save, X, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,10 @@ export default function LocationNew() {
     significance: ""
   });
   const queryClient = useQueryClient();
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -75,12 +80,15 @@ export default function LocationNew() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/locations`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Locations
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">Add New Location</h1>
                 <p className="text-gray-600">Create a new place in your world</p>

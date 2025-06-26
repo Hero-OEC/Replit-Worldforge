@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -376,6 +377,10 @@ export default function CharacterDetail() {
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
   const [characterData, setCharacterData] = useState({
     name: "",
     description: "",
@@ -475,12 +480,15 @@ export default function CharacterDetail() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/characters`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Characters
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">{character.name}</h1>
                 <div className="mt-2">

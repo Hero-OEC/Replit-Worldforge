@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { 
   ArrowLeft, 
   Edit3, 
@@ -601,6 +602,10 @@ export default function LocationDetail() {
     culture: "",
     significance: ""
   });
+  const { goBack } = useNavigation();
+  
+  // Track navigation history
+  useNavigationTracker();
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -655,12 +660,15 @@ export default function LocationDetail() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <Link href={`/project/${projectId}/locations`}>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Locations
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={goBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">{location.name}</h1>
                 <div className="mt-2">
