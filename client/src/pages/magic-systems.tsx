@@ -71,15 +71,19 @@ function MagicSystemCard({ system, onDelete, projectId }: {
               {truncateText(system.description, 150)}
             </p>
           )}
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center space-x-4 text-xs text-gray-500">
-              {system.source && (
-                <span>Source: {truncateText(system.source, 20)}</span>
-              )}
-              {system.cost && (
-                <span>Cost: {truncateText(system.cost, 20)}</span>
-              )}
-            </div>
+          <div className="flex items-center justify-end mt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateWithHistory(`/project/${projectId}/magic-systems/${system.id}`);
+              }}
+              className="text-xs hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300"
+            >
+              View Details
+            </Button>
           </div>
         </CardContent>
       </Card>
