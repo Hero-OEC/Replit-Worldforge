@@ -470,7 +470,6 @@ export default function CharacterDetail() {
         showProjectNav={true}
         searchPlaceholder="Search characters..."
       />
-
       <main className="p-8 bg-[var(--worldforge-cream)]">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -825,7 +824,7 @@ export default function CharacterDetail() {
                     </div>
                     
                     {/* Timeline Container - dynamic height */}
-                    <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden">
+                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
                       <SerpentineTimeline
                         events={sampleTimelineEvents}
                         filterCharacter={character.name}
