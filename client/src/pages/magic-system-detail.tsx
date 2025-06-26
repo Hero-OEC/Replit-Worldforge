@@ -191,26 +191,21 @@ export default function MagicSystemDetail() {
             </div>
             
             <div className="flex items-center space-x-3">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}>
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onClick={handleDelete}
-                    className="text-red-600"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button 
+                onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}
+                className="bg-orange-500 text-white hover:bg-orange-600"
+              >
+                <Edit3 className="w-4 h-4 mr-2" />
+                Edit
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleDelete}
+                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete
+              </Button>
             </div>
           </div>
 
@@ -317,7 +312,7 @@ export default function MagicSystemDetail() {
                             <div className="flex items-center space-x-3">
                               <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                                 <img 
-                                  src={character.imageUrl || placeholderImage} 
+                                  src={placeholderImage} 
                                   alt={character.name}
                                   className="w-full h-full object-cover"
                                 />
