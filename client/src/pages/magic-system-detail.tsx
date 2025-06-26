@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, Character, ProjectWithStats } from "@shared/schema";
-import placeholderImage from "@assets/placeholder.png";
+import placeholderImage from "@assets/Placeholder_1750916543106.jpg";
 
 export default function MagicSystemDetail() {
   const { projectId, magicSystemId } = useParams<{ projectId: string; magicSystemId: string }>();

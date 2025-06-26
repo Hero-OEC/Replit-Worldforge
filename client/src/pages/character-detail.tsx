@@ -529,8 +529,7 @@ export default function CharacterDetail() {
       class: "",
       location: "",
       role: "",
-      appearance: "",
-      magicSystem: ""
+      appearance: ""
     });
   };
 
@@ -644,7 +643,7 @@ export default function CharacterDetail() {
                       />
                     ) : (
                       <img 
-                        src={placeholderImage} 
+                        src="/attached_assets/Placeholder_1750916543106.jpg" 
                         alt="Character placeholder"
                         className="w-full h-full object-contain opacity-30"
                       />
