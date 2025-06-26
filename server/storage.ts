@@ -115,6 +115,7 @@ export class MemStorage implements IStorage {
       personality: "Determined, compassionate, sometimes impulsive",
       backstory: "Orphaned at young age, discovered dual magic abilities at the academy",
       role: "protagonist",
+      powerSystems: ["Fire Magic", "Light Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -128,6 +129,7 @@ export class MemStorage implements IStorage {
       personality: "Wise, mysterious, protective of Elena",
       backstory: "Former court mage who delved too deep into shadow magic, now teaches at the academy",
       role: "ally",
+      powerSystems: ["Shadow Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -141,6 +143,7 @@ export class MemStorage implements IStorage {
       personality: "Cunning, ruthless, charismatic",
       backstory: "Former academy student who was expelled for practicing forbidden magic",
       role: "antagonist",
+      powerSystems: ["Shadow Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -154,6 +157,7 @@ export class MemStorage implements IStorage {
       personality: "Calm, patient, deeply connected to nature",
       backstory: "Raised by sea spirits, learned water magic from ancient ocean guardians",
       role: "ally",
+      powerSystems: ["Water Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -167,6 +171,7 @@ export class MemStorage implements IStorage {
       personality: "Steady, reliable, slow to anger but fierce when provoked",
       backstory: "Born in the mountains, learned earth magic from ancient stone circles",
       role: "ally",
+      powerSystems: ["Earth Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -180,6 +185,7 @@ export class MemStorage implements IStorage {
       personality: "Compassionate, faithful, unwavering in her beliefs",
       backstory: "Orphaned and raised in the temple, blessed by the Light Goddess herself",
       role: "ally",
+      powerSystems: ["Light Magic"],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -195,6 +201,7 @@ export class MemStorage implements IStorage {
         personality: null,
         backstory: null,
         role: null,
+        powerSystems: [],
         createdAt: new Date(),
         updatedAt: new Date()
       });
@@ -211,6 +218,7 @@ export class MemStorage implements IStorage {
         personality: null,
         backstory: null,
         role: null,
+        powerSystems: [],
         createdAt: new Date(),
         updatedAt: new Date()
       });
@@ -470,6 +478,7 @@ export class MemStorage implements IStorage {
       personality: insertCharacter.personality || null,
       backstory: insertCharacter.backstory || null,
       role: insertCharacter.role || null,
+      powerSystems: insertCharacter.powerSystems || [],
       createdAt: now,
       updatedAt: now,
     };
@@ -484,6 +493,7 @@ export class MemStorage implements IStorage {
     const updatedCharacter: Character = {
       ...character,
       ...updates,
+      powerSystems: updates.powerSystems || character.powerSystems,
       updatedAt: new Date(),
     };
     this.characters.set(id, updatedCharacter);

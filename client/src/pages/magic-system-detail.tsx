@@ -131,24 +131,12 @@ export default function MagicSystemDetail() {
 
   const CategoryIcon = getCategoryIcon(magicSystem.category || "magic");
 
-  // Filter characters that use this magic system
+  // Filter characters that use this magic system based on their powerSystems field
   const connectedCharacters = characters.filter(character => {
-    if (!magicSystem || !character.description) return false;
+    if (!magicSystem || !character.powerSystems) return false;
     
-    const magicSystemName = magicSystem.name.toLowerCase();
-    const characterDesc = character.description.toLowerCase();
-    const characterName = character.name.toLowerCase();
-    
-    // Check if character description or name mentions this magic system
-    return characterDesc.includes(magicSystemName.split(' ')[0]) || // e.g., "fire" from "Fire Magic"
-           characterDesc.includes(magicSystemName) ||
-           characterName.includes(magicSystemName.split(' ')[0]) ||
-           // Specific character-magic mappings based on our sample data
-           (magicSystem.name === "Fire Magic" && (characterName.includes("elena") || characterName.includes("brightflame"))) ||
-           (magicSystem.name === "Light Magic" && (characterName.includes("elena") || characterName.includes("lyra") || characterName.includes("sister"))) ||
-           (magicSystem.name === "Shadow Magic" && (characterName.includes("marcus") || characterName.includes("shadowbane") || characterName.includes("vex"))) ||
-           (magicSystem.name === "Water Magic" && (characterName.includes("aqua") || characterName.includes("tide"))) ||
-           (magicSystem.name === "Earth Magic" && (characterName.includes("terra") || characterName.includes("stone")));
+    // Check if the character has this magic system in their powerSystems array
+    return character.powerSystems.includes(magicSystem.name);
   });
 
   return (
