@@ -151,7 +151,7 @@ export default function Notes() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredNotes.map((note) => (
-              <Card key={note.id} className="p-6 hover:shadow-md transition-shadow bg-white border border-gray-200">
+              <Card key={note.id} className="p-6 hover:shadow-md transition-shadow border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3 flex-1">
                     <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">

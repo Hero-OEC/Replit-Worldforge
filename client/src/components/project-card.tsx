@@ -204,7 +204,6 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           <span>Last modified: {format(new Date(project.updatedAt), 'M/d/yyyy')}</span>
           <div className="flex items-center space-x-1">
             <div className={`w-2 h-2 ${statusColor} rounded-full`}></div>
-            <span className="capitalize">{project.status}</span>
           </div>
         </div>
       </div>

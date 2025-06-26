@@ -23,7 +23,7 @@ export default function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <div className="w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col">
+    <div className="w-64 shadow-lg border-r border-gray-200 flex flex-col" style={{ backgroundColor: '#f8f6f2' }}>
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">

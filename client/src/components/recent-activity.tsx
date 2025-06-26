@@ -48,7 +48,7 @@ const recentActivity = [
 
 export default function RecentActivity() {
   return (
-    <Card className="bg-white shadow-sm border border-gray-200 p-6">
+    <Card className="shadow-sm border border-gray-200 p-6" style={{ backgroundColor: '#f8f6f2' }}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
         <Button variant="ghost" className="text-sm text-[var(--worldforge-primary)] hover:text-orange-600 font-medium">

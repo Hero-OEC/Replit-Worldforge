@@ -158,25 +158,25 @@ export default function Characters() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card className="bg-white border border-gray-200 p-4">
+            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.length}</p>
                 <p className="text-sm text-gray-600">Total Characters</p>
               </div>
             </Card>
-            <Card className="bg-white border border-gray-200 p-4">
+            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Protagonist').length}</p>
                 <p className="text-sm text-gray-600">Protagonists</p>
               </div>
             </Card>
-            <Card className="bg-white border border-gray-200 p-4">
+            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Antagonist').length}</p>
                 <p className="text-sm text-gray-600">Antagonists</p>
               </div>
             </Card>
-            <Card className="bg-white border border-gray-200 p-4">
+            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Ally').length}</p>
                 <p className="text-sm text-gray-600">Supporting</p>

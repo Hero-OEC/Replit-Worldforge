@@ -109,10 +109,10 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
             if (filteredSystems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          className="bg-gray-50 border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-[#f8f6f2]"
         />
         {isOpen && filteredSystems.length > 0 && (
-          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-[999] w-full border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1" style={{ backgroundColor: '#f8f6f2' }}>
             {filteredSystems.map((system, index) => (
               <div
                 key={index}

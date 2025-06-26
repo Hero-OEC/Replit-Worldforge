@@ -147,7 +147,7 @@ export default function Lore() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredEntries.map((entry) => (
-              <Card key={entry.id} className="p-6 hover:shadow-md transition-shadow bg-white border border-gray-200">
+              <Card key={entry.id} className="p-6 hover:shadow-md transition-shadow border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-2">
