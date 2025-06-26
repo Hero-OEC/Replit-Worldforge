@@ -486,7 +486,7 @@ export default function CharacterDetail() {
     weapons: "Enchanted Staff of Flames, Crystal Dagger",
     appearance: "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training",
     powerSystems: ["Fire Magic", "Light Magic"],
-    image: null
+    image: undefined
   };
 
   // Initialize power systems when character loads
