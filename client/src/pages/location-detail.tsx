@@ -1,15 +1,377 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Save, X, MapPin, Clock } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Edit3, 
+  Save, 
+  X, 
+  MapPin, 
+  Clock,
+  Star,
+  Calendar,
+  Users,
+  Eye,
+  Swords,
+  Lightbulb,
+  Award,
+  Crown,
+  Heart,
+  HelpCircle,
+  Sparkles,
+  Zap,
+  Plane,
+  User
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navbar from "@/components/layout/navbar";
-import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats } from "@shared/schema";
+
+const importanceColors = {
+  high: "bg-red-500",
+  medium: "bg-orange-500", 
+  low: "bg-yellow-500",
+};
+
+const eventTypeIcons = {
+  "Character Development": User,
+  Discovery: Eye,
+  Conflict: Swords,
+  Revelation: Lightbulb,
+  "Heroic Act": Award,
+  "Political Event": Crown,
+  Romance: Heart,
+  Mystery: HelpCircle,
+  Magic: Sparkles,
+  Battle: Zap,
+  Traveling: Plane,
+};
+
+// Serpentine Timeline Component for Location
+function SerpentineTimelineForLocation({ location }: { location: Location }) {
+  const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
+  const [hoveredEvent, setHoveredEvent] = useState<any>(null);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  // Filter events for this location
+  const locationEvents = sampleTimelineEvents.filter(event => event.location === location.name);
+  
+  // Sort events by date
+  const sortedEvents = [...locationEvents].sort((a, b) => {
+    const getDateNumber = (dateStr: string) => {
+      const match = dateStr.match(/Day (\d+)/);
+      return match ? parseInt(match[1]) : 0;
+    };
+    return getDateNumber(a.date) - getDateNumber(b.date);
+  });
+
+  // Group events by date
+  const eventsByDate = sortedEvents.reduce((acc: any, event) => {
+    if (!acc[event.date]) {
+      acc[event.date] = [];
+    }
+    acc[event.date].push(event);
+    return acc;
+  }, {});
+
+  const dateGroups = Object.entries(eventsByDate).map(([date, events]) => ({
+    date,
+    events: events as any[],
+    isMultiEvent: (events as any[]).length > 1,
+  }));
+
+  // Calculate timeline positions for serpentine layout
+  const timelineWidth = 1200;
+  const timelineHeight = 400;
+  const pathPoints: number[][] = [];
+
+  const eventsPerRow = 6;
+  const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
+  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+
+  dateGroups.forEach((group, index) => {
+    const row = Math.floor(index / eventsPerRow);
+    const col = index % eventsPerRow;
+
+    let x, y;
+    if (row % 2 === 0) {
+      x = 60 + col * horizontalSpacing;
+    } else {
+      x = 60 + (eventsPerRow - 1 - col) * horizontalSpacing;
+    }
+    y = 60 + row * verticalSpacing;
+    pathPoints.push([x, y]);
+  });
+
+  return (
+    <div className="relative" style={{ width: timelineWidth, height: Math.max(timelineHeight, 200) }}>
+      {/* Path */}
+      <svg className="absolute inset-0" width={timelineWidth} height={timelineHeight}>
+        <path
+          d={`M ${pathPoints.map(([x, y]) => `${x},${y}`).join(' L ')}`}
+          stroke="#D1D5DB"
+          strokeWidth="3"
+          fill="none"
+          strokeDasharray="5,5"
+        />
+      </svg>
+
+      {/* Event nodes */}
+      <div className="absolute inset-0">
+        {dateGroups.map((group, index) => {
+          const [x, y] = pathPoints[index];
+          const isHovered = hoveredDateGroup === group || hoveredEvent === group.events[0];
+
+          return (
+            <div key={group.date} className="absolute">
+              <div
+                style={{
+                  left: x - 24,
+                  top: y - 24,
+                }}
+                className="absolute"
+              >
+                {group.isMultiEvent ? (
+                  <div
+                    className={`relative cursor-pointer transform transition-all duration-200 ${
+                      isHovered ? "scale-110" : "hover:scale-105"
+                    }`}
+                    onMouseEnter={(e) => {
+                      setHoveredDateGroup(group);
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const viewportHeight = window.innerHeight;
+                      const popupHeight = 300;
+
+                      let yPosition = rect.bottom + 10;
+                      if (yPosition + popupHeight > viewportHeight) {
+                        yPosition = rect.top - popupHeight - 10;
+                      }
+
+                      setPopupPosition({
+                        x: rect.left + rect.width / 2,
+                        y: yPosition,
+                      });
+                    }}
+                    onMouseLeave={() => {
+                      setTimeout(() => {
+                        if (!popupRef.current?.matches(":hover")) {
+                          setHoveredDateGroup(null);
+                          setPopupPosition(null);
+                        }
+                      }, 100);
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                        <Calendar className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">
+                          {group.events.length}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className={`relative cursor-pointer transform transition-all duration-200 ${
+                      hoveredEvent === group.events[0]
+                        ? "scale-110"
+                        : "hover:scale-105"
+                    }`}
+                    onMouseEnter={(e) => {
+                      setHoveredEvent(group.events[0]);
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const viewportHeight = window.innerHeight;
+                      const popupHeight = 250;
+
+                      let yPosition = rect.bottom + 10;
+                      if (yPosition + popupHeight > viewportHeight) {
+                        yPosition = rect.top - popupHeight - 10;
+                      }
+
+                      setPopupPosition({
+                        x: rect.left + rect.width / 2,
+                        y: yPosition,
+                      });
+                    }}
+                    onMouseLeave={() => {
+                      setTimeout(() => {
+                        if (!popupRef.current?.matches(":hover")) {
+                          setHoveredEvent(null);
+                          setPopupPosition(null);
+                        }
+                      }, 100);
+                    }}
+                  >
+                    <div
+                      className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg`}
+                    >
+                      {React.createElement(
+                        eventTypeIcons[
+                          group.events[0].category as keyof typeof eventTypeIcons
+                        ] || Star,
+                        {
+                          className: "w-6 h-6 text-white",
+                        },
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Event Labels */}
+              <div
+                style={{
+                  left: x,
+                  top: y + 50,
+                }}
+                className="absolute transform -translate-x-1/2 pointer-events-none"
+              >
+                <div className="text-center">
+                  <div className="px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]" style={{ backgroundColor: '#f8f6f2' }}>
+                    <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
+                      {group.isMultiEvent
+                        ? `${group.events.length} Events`
+                        : group.events[0].title}
+                    </div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      {group.date}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Hover popups */}
+      {popupPosition && (
+        <div
+          ref={popupRef}
+          className="fixed z-50"
+          style={{
+            left: popupPosition.x,
+            top: popupPosition.y,
+            transform: "translateX(-50%)",
+          }}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {
+            setHoveredDateGroup(null);
+            setHoveredEvent(null);
+            setPopupPosition(null);
+          }}
+        >
+          {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
+            <Card
+              className="border shadow-xl p-4 w-80 hover:shadow-2xl transition-shadow"
+              style={{ backgroundColor: '#f8f6f2' }}
+            >
+              <div className="mb-3">
+                <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                  {hoveredDateGroup.date}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {hoveredDateGroup.events.length} events on this date
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-3">
+                {hoveredDateGroup.events
+                  .slice(0, 3)
+                  .map((event: any, index: number) => {
+                    const EventIcon =
+                      eventTypeIcons[
+                        event.category as keyof typeof eventTypeIcons
+                      ] || Star;
+                    const importance =
+                      event.importance as keyof typeof importanceColors;
+
+                    return (
+                      <div
+                        key={event.id}
+                        className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div
+                            className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
+                          >
+                            <EventIcon className="w-4 h-4 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-gray-900 text-sm">
+                              {event.title}
+                            </h4>
+                            <p className="text-xs text-gray-600 mt-1">
+                              {event.description.substring(0, 60)}...
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                {hoveredDateGroup.events.length > 3 && (
+                  <div className="text-center text-xs text-gray-500 pt-2">
+                    +{hoveredDateGroup.events.length - 3} more events
+                  </div>
+                )}
+              </div>
+            </Card>
+          ) : hoveredEvent ? (
+            <Card
+              className="border shadow-xl p-4 w-80 hover:shadow-2xl transition-shadow"
+              style={{ backgroundColor: '#f8f6f2' }}
+            >
+              <div className="flex items-start space-x-3 mb-3">
+                <div
+                  className={`w-10 h-10 ${
+                    importanceColors[hoveredEvent.importance as keyof typeof importanceColors]
+                  } rounded-full flex items-center justify-center flex-shrink-0`}
+                >
+                  {React.createElement(
+                    eventTypeIcons[
+                      hoveredEvent.category as keyof typeof eventTypeIcons
+                    ] || Star,
+                    {
+                      className: "w-5 h-5 text-white",
+                    },
+                  )}
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    {hoveredEvent.title}
+                  </h3>
+                  <div className="text-xs text-gray-500 mb-2">
+                    {hoveredEvent.date}
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700 mb-3">
+                {hoveredEvent.description}
+              </p>
+              <div className="flex items-center space-x-4 text-xs text-gray-500">
+                <div className="flex items-center space-x-1">
+                  <MapPin className="w-3 h-3" />
+                  <span>{hoveredEvent.location}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Users className="w-3 h-3" />
+                  <span>{hoveredEvent.characters.join(", ")}</span>
+                </div>
+              </div>
+            </Card>
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Sample timeline events (same as in character-detail.tsx)
 const sampleTimelineEvents = [
@@ -449,9 +811,25 @@ export default function LocationDetail() {
                       </div>  
                     </div>
 
+                    {/* Timeline Stats */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                        <div className="text-2xl font-bold text-gray-900">{sampleTimelineEvents.filter(e => e.location === location.name).length}</div>
+                        <div className="text-sm text-gray-600">Events Here</div>
+                      </Card>
+                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                        <div className="text-2xl font-bold text-gray-900">{sampleTimelineEvents.filter(e => e.location === location.name && e.importance === 'high').length}</div>
+                        <div className="text-sm text-gray-600">High Importance</div>
+                      </Card>
+                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                        <div className="text-2xl font-bold text-gray-900">{Array.from(new Set(sampleTimelineEvents.filter(e => e.location === location.name).flatMap(e => e.characters))).length}</div>
+                        <div className="text-sm text-gray-600">Characters Involved</div>
+                      </Card>
+                    </div>
+
                     {/* Legend */}
                     <div className="flex justify-center">
-                      <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+                      <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-red-500 rounded-full"></div>
                           <span className="text-sm text-gray-600">High Importance</span>
@@ -467,14 +845,17 @@ export default function LocationDetail() {
                       </div>
                     </div>
                     
-                    {/* Timeline Container - matches main timeline page */}
+                    {/* Timeline Container - Placeholder for now */}
                     <div className="rounded-lg p-8 shadow-sm border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
-                      <SerpentineTimeline
-                        events={sampleTimelineEvents}
-                        filterLocation={location.name}
-                        showEditButtons={false}
-                        className="w-full"
-                      />
+                      {sampleTimelineEvents.filter(e => e.location === location.name).length === 0 ? (
+                        <div className="text-center py-12">
+                          <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold text-gray-600 mb-2">No Events Found</h3>
+                          <p className="text-gray-500">No timeline events have been recorded for {location.name} yet.</p>
+                        </div>
+                      ) : (
+                        <SerpentineTimelineForLocation location={location} />
+                      )}
                     </div>
                   </div>
                 </TabsContent>
