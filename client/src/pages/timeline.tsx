@@ -477,7 +477,6 @@ export default function Timeline() {
           </Button>
         }
       />
-
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">
           {/* Header with Overview */}
@@ -542,7 +541,7 @@ export default function Timeline() {
 
           {/* Legend */}
           <div className="mb-6 flex justify-center">
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6">
+            <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-red-500 rounded-full"></div>
                 <span className="text-sm text-gray-600">High Importance</span>
@@ -597,7 +596,7 @@ export default function Timeline() {
                     >
                       {group.isMultiEvent ? (
                         // Multi-event node
-                        <div
+                        (<div
                           className={`relative cursor-pointer transform transition-all duration-200 ${
                             isHovered ? "scale-110" : "hover:scale-105"
                           }`}
@@ -637,10 +636,10 @@ export default function Timeline() {
                               </span>
                             </div>
                           </div>
-                        </div>
+                        </div>)
                       ) : (
                         // Single event node
-                        <div
+                        (<div
                           className={`relative cursor-pointer transform transition-all duration-200 ${
                             hoveredEvent === group.events[0]
                               ? "scale-110"
@@ -692,10 +691,9 @@ export default function Timeline() {
                               },
                             )}
                           </div>
-                        </div>
+                        </div>)
                       )}
                     </div>
-
                     {/* Event Labels */}
                     <div
                       style={{
@@ -744,7 +742,7 @@ export default function Timeline() {
             >
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
                 // Multi-event popup
-                <Card
+                (<Card
                   className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -762,7 +760,6 @@ export default function Timeline() {
                       {hoveredDateGroup.events.length} events on this date
                     </p>
                   </div>
-
                   <div className="grid grid-cols-1 gap-3">
                     {hoveredDateGroup.events
                       .slice(0, 3)
@@ -817,16 +814,15 @@ export default function Timeline() {
                       </div>
                     )}
                   </div>
-
                   <div className="mt-4 pt-3 border-t border-gray-200 text-center">
                     <span className="text-xs text-gray-500">
                       Click on events to edit details
                     </span>
                   </div>
-                </Card>
+                </Card>)
               ) : hoveredEvent ? (
                 // Single event popup
-                <Card
+                (<Card
                   className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -870,11 +866,9 @@ export default function Timeline() {
                       </div>
                     </div>
                   </div>
-
                   <p className="text-sm text-gray-700 mb-3">
                     {hoveredEvent.description}
                   </p>
-
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center space-x-2 text-gray-600">
                       <MapPin className="w-4 h-4" />
@@ -885,7 +879,6 @@ export default function Timeline() {
                       <span>{hoveredEvent.characters.join(", ")}</span>
                     </div>
                   </div>
-
                   <div
                     className="mt-4 pt-3 border-t border-gray-200 text-center cursor-pointer"
                     onClick={(e) => {
@@ -900,13 +893,12 @@ export default function Timeline() {
                       Click to edit event
                     </span>
                   </div>
-                </Card>
+                </Card>)
               ) : null}
             </div>
           )}
         </div>
       </main>
-
       {/* Add Event Dialog */}
       {showAddDialog && (
         <div
@@ -1085,7 +1077,6 @@ export default function Timeline() {
           </Card>
         </div>
       )}
-
       {/* Edit Event Dialog */}
       {showEditDialog && selectedEvent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -1267,7 +1258,6 @@ export default function Timeline() {
           </Card>
         </div>
       )}
-
       {/* Edit Event Dialog */}
       {showEditDialog && selectedEvent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
