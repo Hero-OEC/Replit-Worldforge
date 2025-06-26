@@ -468,11 +468,12 @@ export default function LocationDetail() {
                     </div>
                     
                     {/* Timeline Container - matches main timeline page */}
-                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#f8f6f2]">
+                    <div className="rounded-lg p-8 shadow-sm border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
                       <SerpentineTimeline
                         events={sampleTimelineEvents}
-                        filterCharacter={undefined}
                         filterLocation={location.name}
+                        showEditButtons={false}
+                        className="w-full"
                       />
                     </div>
                   </div>
