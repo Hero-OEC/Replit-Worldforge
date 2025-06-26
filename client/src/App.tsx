@@ -8,6 +8,7 @@ import ProjectLayout from "@/pages/project-layout";
 import Timeline from "@/pages/timeline";
 import TimelineEventDetail from "@/pages/timeline-event-detail";
 import NewTimelineEvent from "@/pages/timeline-event-new";
+import EditTimelineEvent from "@/pages/timeline-event-edit";
 import Characters from "@/pages/characters";
 import CharacterDetail from "@/pages/character-detail";
 import NewCharacter from "@/pages/character-new";
@@ -32,6 +33,7 @@ function App() {
             <Route path="/project/:projectId" component={ProjectLayout} />
             <Route path="/project/:projectId/timeline" component={Timeline} />
             <Route path="/project/:projectId/timeline/new" component={NewTimelineEvent} />
+            <Route path="/project/:projectId/timeline/:eventId/edit" component={EditTimelineEvent} />
             <Route path="/project/:projectId/timeline/:eventId" component={TimelineEventDetail} />
             <Route path="/project/:projectId/characters" component={Characters} />
             <Route path="/project/:projectId/characters/new" component={NewCharacter} />

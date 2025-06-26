@@ -1,7 +1,9 @@
 import React from "react";
-import { useParams, useLocation } from "wouter";
+import { useParams, useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import {
+  ArrowLeft,
+  Edit3,
   Calendar,
   MapPin,
   Users,
@@ -75,8 +77,6 @@ export default function TimelineEventDetail() {
   // In real app, this would fetch the specific event
   const event = sampleEvent;
 
-  console.log("TimelineEventDetail rendering with:", { projectId, eventId });
-
   const handleDelete = () => {
     // In real app, this would delete the event and redirect
     navigate(`/project/${projectId}/timeline`);
@@ -96,18 +96,32 @@ export default function TimelineEventDetail() {
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-start space-x-4 mb-6">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-white" />
-              </div>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <Link href={`/project/${projectId}/timeline`}>
+                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Timeline
+                </Button>
+              </Link>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  {event.title}
-                </h1>
+                <h1 className="text-3xl font-bold text-gray-900">{event.title}</h1>
                 <p className="text-gray-600">Timeline Event Details</p>
               </div>
             </div>
+            
+            <div className="flex items-center space-x-3">
+              <Button 
+                onClick={() => navigate(`/project/${projectId}/timeline/${eventId}/edit`)}
+                className="bg-orange-500 text-white hover:bg-orange-600"
+              >
+                <Edit3 className="w-4 h-4 mr-2" />
+                Edit Event
+              </Button>
+            </div>
+          </div>
+
+          <div className="mb-8">
 
             {/* Event metadata */}
             <div className="flex flex-wrap items-center gap-6 mb-8">
