@@ -1,9 +1,10 @@
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users } from "lucide-react";
+import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, Character, ProjectWithStats } from "@shared/schema";
@@ -14,6 +15,16 @@ export default function MagicSystemDetail() {
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const getCategoryIcon = (category: string) => {
+    return category === "power" ? Zap : Sparkles;
+  };
+
+  const getCategoryColor = (category: string) => {
+    return category === "power" 
+      ? "bg-blue-100 text-blue-800" 
+      : "bg-purple-100 text-purple-800";
+  };
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -73,10 +84,6 @@ export default function MagicSystemDetail() {
     }
   };
 
-  const getCategoryIcon = (category: string) => {
-    return category === "power" ? Zap : Sparkles;
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[var(--worldforge-cream)]">
@@ -88,9 +95,9 @@ export default function MagicSystemDetail() {
         />
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
-              <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="text-center py-12">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading...</h2>
+              <p className="text-gray-600">Fetching magic system details.</p>
             </div>
           </div>
         </main>
@@ -124,9 +131,7 @@ export default function MagicSystemDetail() {
 
   const CategoryIcon = getCategoryIcon(magicSystem.category || "magic");
 
-  // Filter characters that use this magic system (for now, showing all characters as placeholder)
-  // In future, this will filter based on actual power system connections
-  // Map characters to magic systems based on their descriptions and magic system names
+  // Filter characters that use this magic system
   const connectedCharacters = characters.filter(character => {
     if (!magicSystem || !character.description) return false;
     
@@ -156,40 +161,56 @@ export default function MagicSystemDetail() {
       />
       
       <main className="p-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center space-x-4 mb-8">
-            <Button
-              variant="ghost"
-              onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
-              className="p-2 hover:bg-gray-100"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center space-x-3 flex-1">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                <CategoryIcon className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">{magicSystem.name}</h1>
-                <p className="text-gray-600 capitalize">{magicSystem.category || "magic"} System</p>
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                  <CategoryIcon className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-800">{magicSystem.name}</h1>
+                  <div className="mt-2">
+                    <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
+                      <CategoryIcon className="w-4 h-4" />
+                      <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}
-              >
-                <Edit3 className="h-4 w-4 mr-2" />
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleDelete}
-                className="hover:bg-red-50 hover:text-red-600 hover:border-red-200"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete
-              </Button>
+            
+            <div className="flex items-center space-x-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <MoreHorizontal className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}>
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={handleDelete}
+                    className="text-red-600"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
@@ -198,49 +219,46 @@ export default function MagicSystemDetail() {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="mechanics">Mechanics</TabsTrigger>
               <TabsTrigger value="limitations">Limitations</TabsTrigger>
-              <TabsTrigger value="characters">
-                <Users className="h-4 w-4 mr-2" />
-                Characters ({connectedCharacters.length})
-              </TabsTrigger>
+              <TabsTrigger value="characters">Characters ({connectedCharacters.length})</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+              <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Description</CardTitle>
+                  <CardTitle className="text-xl text-gray-800">Description</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {magicSystem.description ? (
-                    <p className="text-gray-700 leading-relaxed">{magicSystem.description}</p>
+                    <p className="text-gray-600 leading-relaxed">{magicSystem.description}</p>
                   ) : (
-                    <p className="text-gray-500 italic">No description provided</p>
+                    <p className="text-gray-400 italic">No description provided</p>
                   )}
                 </CardContent>
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+                <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                   <CardHeader>
-                    <CardTitle>Source</CardTitle>
+                    <CardTitle className="text-lg text-gray-800">Source</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {magicSystem.source ? (
-                      <p className="text-gray-700">{magicSystem.source}</p>
+                      <p className="text-gray-600">{magicSystem.source}</p>
                     ) : (
-                      <p className="text-gray-500 italic">No source specified</p>
+                      <p className="text-gray-400 italic">No source specified</p>
                     )}
                   </CardContent>
                 </Card>
 
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+                <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                   <CardHeader>
-                    <CardTitle>Cost</CardTitle>
+                    <CardTitle className="text-lg text-gray-800">Cost</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {magicSystem.cost ? (
-                      <p className="text-gray-700">{magicSystem.cost}</p>
+                      <p className="text-gray-600">{magicSystem.cost}</p>
                     ) : (
-                      <p className="text-gray-500 italic">No cost specified</p>
+                      <p className="text-gray-400 italic">No cost specified</p>
                     )}
                   </CardContent>
                 </Card>
@@ -248,73 +266,68 @@ export default function MagicSystemDetail() {
             </TabsContent>
 
             <TabsContent value="mechanics" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+              <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                 <CardHeader>
-                  <CardTitle>How It Works</CardTitle>
+                  <CardTitle className="text-xl text-gray-800">Rules & Mechanics</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {magicSystem.rules ? (
                     <div className="prose prose-gray max-w-none">
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{magicSystem.rules}</p>
+                      <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{magicSystem.rules}</p>
                     </div>
                   ) : (
-                    <p className="text-gray-500 italic">No rules or mechanics defined</p>
+                    <p className="text-gray-400 italic">No rules specified</p>
                   )}
                 </CardContent>
               </Card>
             </TabsContent>
 
             <TabsContent value="limitations" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+              <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Restrictions & Limitations</CardTitle>
+                  <CardTitle className="text-xl text-gray-800">Limitations & Restrictions</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {magicSystem.limitations ? (
                     <div className="prose prose-gray max-w-none">
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{magicSystem.limitations}</p>
+                      <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{magicSystem.limitations}</p>
                     </div>
                   ) : (
-                    <p className="text-gray-500 italic">No limitations specified</p>
+                    <p className="text-gray-400 italic">No limitations specified</p>
                   )}
                 </CardContent>
               </Card>
             </TabsContent>
 
             <TabsContent value="characters" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)]">
+              <Card className="bg-[var(--worldforge-card)] border border-gray-200">
                 <CardHeader>
-                  <CardTitle>Characters Using This System</CardTitle>
+                  <CardTitle className="text-xl text-gray-800">Connected Characters</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {connectedCharacters.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {connectedCharacters.map((character) => (
-                        <Link key={character.id} href={`/project/${projectId}/characters/${character.id}`}>
-                          <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-md transition-shadow cursor-pointer group">
-                            <CardContent className="p-4">
-                              <div className="flex items-center space-x-3">
-                                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                                  <img
-                                    src={placeholderImage}
-                                    alt={character.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <h4 className="font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
-                                    {character.name}
-                                  </h4>
-                                  {character.role && (
-                                    <p className="text-sm text-gray-600">{character.role}</p>
-                                  )}
-                                  {character.description && (
-                                    <p className="text-xs text-gray-500">{character.description.slice(0, 50)}...</p>
-                                  )}
-                                </div>
+                        <Link 
+                          key={character.id} 
+                          href={`/project/${projectId}/characters/${character.id}`}
+                          className="block"
+                        >
+                          <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                                <img 
+                                  src={character.imageUrl || placeholderImage} 
+                                  alt={character.name}
+                                  className="w-full h-full object-cover"
+                                />
                               </div>
-                            </CardContent>
-                          </Card>
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-semibold text-gray-900 truncate">{character.name}</h3>
+                                <p className="text-sm text-gray-600 truncate">{character.role || "Character"}</p>
+                              </div>
+                            </div>
+                          </div>
                         </Link>
                       ))}
                     </div>
