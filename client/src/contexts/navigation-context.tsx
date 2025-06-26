@@ -10,7 +10,7 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: React.ReactNode }) {
-  const [location, navigate] = useLocation();
+  const [location, setLocation] = useLocation();
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
   const currentLocationRef = useRef<string>(location);
 
@@ -29,7 +29,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, [location]);
 
   const navigateWithHistory = (path: string) => {
-    navigate(path);
+    setLocation(path);
   };
 
   const goBack = () => {
@@ -37,10 +37,10 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
       const previousPath = navigationHistory[navigationHistory.length - 1];
       // Remove the last entry from history to avoid circular navigation
       setNavigationHistory(prev => prev.slice(0, -1));
-      navigate(previousPath);
+      setLocation(previousPath);
     } else {
       // Fallback to dashboard if no history
-      navigate('/');
+      setLocation('/');
     }
   };
 
