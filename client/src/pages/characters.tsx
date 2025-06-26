@@ -174,7 +174,7 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
                   <Crown className="w-5 h-5 text-white" />
