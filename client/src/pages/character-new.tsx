@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, User, Upload, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Wand2, Check, X } from "lucide-react";
+import { ArrowLeft, Save, User, Upload, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Wand2, Check, X, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -12,47 +12,79 @@ import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import type { InsertCharacter, ProjectWithStats } from "@shared/schema";
 
-// Power/Magic Systems with descriptions
+// Power/Magic Systems with descriptions and categories
 const powerSystems = [
   { 
     name: "Fire Magic", 
     description: "Manipulation of flames and heat energy. Practitioners can create, control, and extinguish fire.",
-    title: "Pyromancy Arts"
+    title: "Pyromancy Arts",
+    category: "magic"
   },
   { 
     name: "Water Magic", 
     description: "Control over water and ice. Masters can manipulate precipitation, create barriers, and heal.",
-    title: "Hydromantic Arts" 
+    title: "Hydromantic Arts",
+    category: "magic"
   },
   { 
     name: "Earth Magic", 
     description: "Communion with stone, soil, and minerals. Allows for terraforming and defensive magic.",
-    title: "Geomantic Arts"
+    title: "Geomantic Arts",
+    category: "magic"
   },
   { 
     name: "Air Magic", 
     description: "Mastery over wind and atmosphere. Enables flight, weather control, and sonic attacks.",
-    title: "Aeromantic Arts"
+    title: "Aeromantic Arts",
+    category: "magic"
   },
   { 
     name: "Shadow Magic", 
     description: "Manipulation of darkness and stealth. Grants invisibility, teleportation, and fear effects.",
-    title: "Umbramantic Arts"
+    title: "Umbramantic Arts",
+    category: "magic"
   },
   { 
     name: "Light Magic", 
     description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
-    title: "Lumimantic Arts"
+    title: "Lumimantic Arts",
+    category: "magic"
   },
   { 
     name: "Time Magic", 
     description: "Rare temporal manipulation. Allows limited foresight, slowing time, and minor reversals.",
-    title: "Chronomantic Arts"
+    title: "Chronomantic Arts",
+    category: "magic"
   },
   { 
     name: "Mind Magic", 
     description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
-    title: "Psionic Arts"
+    title: "Psionic Arts",
+    category: "magic"
+  },
+  { 
+    name: "Super Strength", 
+    description: "Enhanced physical strength beyond normal human limits. Allows lifting heavy objects and devastating attacks.",
+    title: "Enhanced Strength",
+    category: "power"
+  },
+  { 
+    name: "Super Speed", 
+    description: "Ability to move at superhuman velocities. Grants enhanced reflexes and time perception.",
+    title: "Enhanced Speed",
+    category: "power"
+  },
+  { 
+    name: "Flight", 
+    description: "Power of aerial movement without mechanical assistance. Provides tactical advantage and mobility.",
+    title: "Aerial Mobility",
+    category: "power"
+  },
+  { 
+    name: "Telepathy", 
+    description: "Direct mind-to-mind communication and thought reading. Mental link with other beings.",
+    title: "Mental Connection",
+    category: "power"
   }
 ];
 
@@ -77,6 +109,18 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [filteredSystems, setFilteredSystems] = useState<typeof powerSystems>([]);
+
+  const getCategoryIcon = (category: string) => {
+    return category === "power" ? Zap : Sparkles;
+  };
+
+  const getCategoryColor = (category: string) => {
+    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+  };
+
+  const getCategoryBorderColor = (category: string) => {
+    return category === "power" ? "border-blue-200" : "border-purple-200";
+  };
 
   useEffect(() => {
     if (searchValue) {
@@ -103,7 +147,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
     <div className="space-y-3">
       <div className="relative">
         <Input
-          placeholder="Search power systems..."
+          placeholder="Search power types..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           onFocus={() => {
@@ -114,21 +158,27 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
         />
         {isOpen && filteredSystems.length > 0 && (
           <div className="absolute z-[999] w-full border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1" style={{ backgroundColor: '#f8f6f2' }}>
-            {filteredSystems.map((system, index) => (
-              <div
-                key={index}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => handleSelectSystem(system.name)}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="font-medium text-sm">{system.name}</span>
-                    <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+            {filteredSystems.map((system, index) => {
+              const CategoryIcon = getCategoryIcon(system.category);
+              return (
+                <div
+                  key={index}
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleSelectSystem(system.name)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <CategoryIcon className="w-4 h-4 text-gray-500" />
+                      <div>
+                        <span className="font-medium text-sm">{system.name}</span>
+                        <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+                      </div>
+                    </div>
+                    <Check className="w-4 h-4 text-gray-400" />
                   </div>
-                  <Check className="w-4 h-4 text-gray-400" />
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -138,22 +188,26 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
         <div className="space-y-2">
           {selectedSystems.map((systemName, index) => {
             const system = powerSystems.find(s => s.name === systemName);
+            const CategoryIcon = getCategoryIcon(system?.category || "magic");
+            const colorClass = getCategoryColor(system?.category || "magic");
+            const borderColorClass = getCategoryBorderColor(system?.category || "magic");
+            
             return (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200"
+                className={`flex items-center justify-between p-3 ${colorClass} rounded-lg border ${borderColorClass}`}
               >
                 <div className="flex items-center space-x-3">
-                  <Wand2 className="w-4 h-4 text-blue-600" />
+                  <CategoryIcon className="w-4 h-4" />
                   <div>
-                    <span className="text-sm font-medium text-blue-800">{system?.title || systemName}</span>
-                    <p className="text-xs text-blue-600">{system?.description || "Custom power system"}</p>
+                    <span className="text-sm font-medium">{system?.title || systemName}</span>
+                    <p className="text-xs opacity-80">{system?.description || "Custom power type"}</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => onRemoveSystem(systemName)}
-                  className="text-blue-400 hover:text-blue-600"
+                  className="opacity-60 hover:opacity-100"
                 >
                   <X className="w-4 h-4" />
                 </button>

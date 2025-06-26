@@ -98,6 +98,20 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 26, 2025. Updated character power system terminology and icons:
+  * Changed "Power System" to "Power Type" throughout character pages for better clarity
+  * Implemented category-based icon system matching magic systems page (Sparkles for magic, Zap for powers)
+  * Added power system categories (magic vs power) with distinct visual styling
+  * Updated PowerSystemSearch components to use consistent color coding (purple for magic, blue for powers)
+  * Enhanced character creation and detail pages with proper icon differentiation
+  * Expanded power systems list to include both magical systems and superhuman powers
+  * Applied consistent styling across character-new and character-detail pages
+- June 26, 2025. Fixed double-click navigation issue:
+  * Completely simplified navigation context to eliminate JavaScript errors
+  * Removed complex history tracking that was causing button conflicts
+  * Now using wouter directly with browser's built-in history API for reliable single-click navigation
+  * Eliminated "e.set is not a function" error that required double clicks
+  * All back buttons and navigation links now work with single clicks as expected
 - June 26, 2025. Implemented comprehensive navigation context system:
   * Created NavigationProvider context to track user navigation history throughout the app
   * Added useNavigationTracker hook to automatically store previous page context
