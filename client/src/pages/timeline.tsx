@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import {
   Plus,
@@ -351,6 +351,7 @@ const sampleEvents = [
 
 export default function Timeline() {
   const { projectId } = useParams<{ projectId: string }>();
+  const [, navigate] = useLocation();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
@@ -469,7 +470,7 @@ export default function Timeline() {
         onSearch={setSearchTerm}
         rightContent={
           <Button
-            onClick={() => setShowAddDialog(true)}
+            onClick={() => navigate(`/project/${projectId}/timeline/new`)}
             className="bg-orange-500 text-white hover:bg-orange-600"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -672,10 +673,7 @@ export default function Timeline() {
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setSelectedEvent(group.events[0]);
-                            setShowEditDialog(true);
-                            setHoveredEvent(null);
-                            setPopupPosition(null);
+                            navigate(`/project/${projectId}/timeline/${group.events[0].id}`);
                           }}
                         >
                           <div
@@ -746,10 +744,7 @@ export default function Timeline() {
                   className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedEvent(hoveredDateGroup.events[0]);
-                    setShowEditDialog(true);
-                    setHoveredDateGroup(null);
-                    setPopupPosition(null);
+                    navigate(`/project/${projectId}/timeline/${hoveredDateGroup.events[0].id}`);
                   }}
                 >
                   <div className="mb-3">
@@ -777,11 +772,7 @@ export default function Timeline() {
                             className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
                             onClick={(e) => {
                               e.stopPropagation();
-                              setSelectedEvent(event);
-                              setShowEditDialog(true);
-                              setHoveredDateGroup(null);
-                              setHoveredEvent(null);
-                              setPopupPosition(null);
+                              navigate(`/project/${projectId}/timeline/${event.id}`);
                             }}
                           >
                             <div className="flex items-start space-x-3">
@@ -826,10 +817,7 @@ export default function Timeline() {
                   className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedEvent(hoveredEvent);
-                    setShowEditDialog(true);
-                    setHoveredEvent(null);
-                    setPopupPosition(null);
+                    navigate(`/project/${projectId}/timeline/${hoveredEvent.id}`);
                   }}
                 >
                   <div className="flex items-start space-x-3 mb-3">
@@ -883,14 +871,11 @@ export default function Timeline() {
                     className="mt-4 pt-3 border-t border-gray-200 text-center cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedEvent(hoveredEvent);
-                      setShowEditDialog(true);
-                      setHoveredEvent(null);
-                      setPopupPosition(null);
+                      navigate(`/project/${projectId}/timeline/${hoveredEvent.id}`);
                     }}
                   >
                     <span className="text-xs text-gray-500 hover:text-gray-700">
-                      Click to edit event
+                      Click to view event
                     </span>
                   </div>
                 </Card>)
