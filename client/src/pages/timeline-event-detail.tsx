@@ -95,36 +95,33 @@ export default function TimelineEventDetail() {
         <div className="w-full max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                    {event.title}
-                  </h1>
-                  <p className="text-gray-600">Timeline Event Details</p>
-                </div>
+            <div className="flex items-start space-x-4 mb-6">
+              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {event.title}
+                </h1>
+                <p className="text-gray-600">Timeline Event Details</p>
               </div>
             </div>
 
             {/* Event metadata */}
-            <div className="flex flex-wrap items-center gap-4 mb-8">
-              <div className="flex items-center space-x-2">
-                <Calendar className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-900 font-medium">{event.date}</span>
+            <div className="flex flex-wrap items-center gap-6 mb-8">
+              <div className="flex items-center space-x-2 text-gray-600">
+                <Calendar className="w-4 h-4" />
+                <span>{event.date}</span>
               </div>
               
               <Badge
-                className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-white px-3 py-1`}
+                className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-white px-3 py-1 rounded-full`}
               >
                 {importanceLabels[event.importance as keyof typeof importanceLabels]}
               </Badge>
 
-              <div className="flex items-center space-x-2">
-                {IconComponent && <IconComponent className="w-4 h-4 text-gray-500" />}
-                <span className="text-gray-700">{event.category}</span>
+              <div className="flex items-center space-x-2 text-gray-600">
+                <span>{event.category}</span>
               </div>
             </div>
           </div>
@@ -151,7 +148,7 @@ export default function TimelineEventDetail() {
                   <MapPin className="w-5 h-5 text-gray-500" />
                   <h3 className="text-lg font-semibold text-gray-900">Location</h3>
                 </div>
-                <Badge className="bg-blue-100 text-blue-800 px-3 py-1">
+                <Badge className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md">
                   {event.location}
                 </Badge>
               </Card>
@@ -166,7 +163,7 @@ export default function TimelineEventDetail() {
                   {event.characters.map((character, index) => (
                     <Badge
                       key={index}
-                      className="bg-green-100 text-green-800 px-3 py-1"
+                      className="bg-green-100 text-green-800 px-3 py-1 rounded-md"
                     >
                       {character}
                     </Badge>
@@ -175,14 +172,13 @@ export default function TimelineEventDetail() {
               </Card>
 
               {/* Danger Zone */}
-              <Card className="p-6 border-red-200">
+              <Card className="p-6">
                 <h3 className="text-lg font-semibold text-red-800 mb-4">
                   Danger Zone
                 </h3>
                 <Button
                   onClick={handleDelete}
-                  variant="destructive"
-                  className="w-full"
+                  className="w-full bg-red-500 hover:bg-red-600 text-white"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete Event
