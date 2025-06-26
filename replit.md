@@ -98,6 +98,25 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 26, 2025. Standardized tag system throughout the project:
+  * Created comprehensive unified Tag component with consistent styling and color schemes
+  * Implemented gradient backgrounds with proper color coding for different entity types
+  * Updated timeline, character, location, and magic system pages to use unified tags
+  * Added support for character roles (protagonist, antagonist, ally, enemy, supporting, neutral)
+  * Enhanced power system tags with magic vs power categorization (violet for magic, cyan for power)
+  * Improved event category tags with distinct colors for each type
+  * Standardized location and importance level tags across all pages
+  * All tags now have consistent hover effects, sizing, and removal functionality
+- June 26, 2025. Enhanced timeline and character stats cards with beautiful icons:
+  * Added gradient icon backgrounds matching entity types and importance levels
+  * Timeline cards: Calendar (blue), Star (red), Users (purple) with smooth hover animations
+  * Character cards: Users (blue), Crown (yellow), Sword (red), Shield (green) using existing role icons
+  * Improved visual hierarchy and professional styling across both pages
+- June 26, 2025. Replaced navigation buttons with comprehensive editing history table:
+  * Created EditingHistoryTable component showing all project modifications with timestamps
+  * Added color-coded action badges (green for created, blue for updated, red for deleted)
+  * Implemented edit history API endpoints and sample data for demonstration
+  * Enhanced project overview page with detailed change tracking functionality
 - June 26, 2025. Enhanced magic systems with example data and character connections:
   * Added 5 detailed magic systems (Fire, Light, Shadow, Water, Earth Magic) with comprehensive descriptions, rules, limitations, sources, and costs
   * Enhanced character data with detailed descriptions and magic system connections

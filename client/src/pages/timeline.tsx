@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
 import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
 
@@ -167,19 +168,14 @@ function TagSearch({
       {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selectedTags.map((tag, index) => (
-            <div
+            <Tag
               key={index}
-              className="inline-flex items-center bg-orange-100 text-orange-800 px-2 py-1 rounded-md text-sm"
+              variant="primary"
+              removable
+              onRemove={() => onRemoveTag(tag)}
             >
-              <span>{tag}</span>
-              <button
-                type="button"
-                onClick={() => onRemoveTag(tag)}
-                className="ml-1 hover:text-orange-600"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </div>
+              {tag}
+            </Tag>
           ))}
         </div>
       )}

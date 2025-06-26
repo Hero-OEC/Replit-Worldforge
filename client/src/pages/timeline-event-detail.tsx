@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
 import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
 
@@ -181,9 +182,9 @@ export default function TimelineEventDetail() {
                   <h3 className="text-lg font-semibold text-gray-900">Location</h3>
                 </div>
                 <Link href={`/project/${projectId}/locations/1`}>
-                  <Badge className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md cursor-pointer hover:bg-blue-200 transition-colors">
+                  <Tag variant="location" className="cursor-pointer">
                     {event.location}
-                  </Badge>
+                  </Tag>
                 </Link>
               </Card>
 
@@ -196,9 +197,9 @@ export default function TimelineEventDetail() {
                 <div className="flex flex-wrap gap-2">
                   {event.characters.map((character, index) => (
                     <Link key={index} href={`/project/${projectId}/characters/${index + 1}`}>
-                      <Badge className="bg-green-100 text-green-800 px-3 py-1 rounded-md cursor-pointer hover:bg-green-200 transition-colors">
+                      <Tag variant="supporting" className="cursor-pointer">
                         {character}
-                      </Badge>
+                      </Tag>
                     </Link>
                   ))}
                 </div>

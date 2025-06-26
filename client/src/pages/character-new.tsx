@@ -6,6 +6,7 @@ import { ArrowLeft, Save, User, Upload, Crown, Shield, Sword, UserCheck, UserX, 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Tag, getTagVariant } from "@/components/ui/tag";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiRequest } from "@/lib/queryClient";
@@ -185,33 +186,21 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
 
       {/* Selected Systems */}
       {selectedSystems.length > 0 && (
-        <div className="space-y-2">
+        <div className="flex flex-wrap gap-2">
           {selectedSystems.map((systemName, index) => {
             const system = powerSystems.find(s => s.name === systemName);
-            const CategoryIcon = getCategoryIcon(system?.category || "magic");
-            const colorClass = getCategoryColor(system?.category || "magic");
-            const borderColorClass = getCategoryBorderColor(system?.category || "magic");
+            const variant = system?.category === "power" ? "power" : "magic";
             
             return (
-              <div
+              <Tag
                 key={index}
-                className={`flex items-center justify-between p-3 ${colorClass} rounded-lg border ${borderColorClass}`}
+                variant={variant}
+                removable
+                onRemove={() => onRemoveSystem(systemName)}
+                size="lg"
               >
-                <div className="flex items-center space-x-3">
-                  <CategoryIcon className="w-4 h-4" />
-                  <div>
-                    <span className="text-sm font-medium">{system?.title || systemName}</span>
-                    <p className="text-xs opacity-80">{system?.description || "Custom power type"}</p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onRemoveSystem(systemName)}
-                  className="opacity-60 hover:opacity-100"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
+                {system?.title || systemName}
+              </Tag>
             );
           })}
         </div>

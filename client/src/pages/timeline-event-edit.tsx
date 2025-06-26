@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Tag, getTagVariant } from "@/components/ui/tag";
 import {
   Select,
   SelectContent,
@@ -140,19 +141,14 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }:
       {selectedCharacters.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selectedCharacters.map((character) => (
-            <Badge
+            <Tag
               key={character}
-              className="bg-green-100 text-green-800 px-3 py-1 rounded-md"
+              variant="supporting"
+              removable
+              onRemove={() => onRemoveCharacter(character)}
             >
               {character}
-              <button
-                type="button"
-                onClick={() => onRemoveCharacter(character)}
-                className="ml-1 hover:text-green-600"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </Badge>
+            </Tag>
           ))}
         </div>
       )}

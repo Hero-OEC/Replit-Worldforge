@@ -6,6 +6,7 @@ import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, U
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Tag, getTagVariant } from "@/components/ui/tag";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link as WouterLink } from "wouter";
@@ -784,28 +785,17 @@ export default function CharacterDetail() {
                             onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
                           />
                         ) : selectedPowerSystems.length > 0 ? (
-                          <div className="space-y-2">
+                          <div className="flex flex-wrap gap-2">
                             {selectedPowerSystems.map((systemName, index) => {
                               const system = powerSystems.find(s => s.name === systemName);
-                              const CategoryIcon = getCategoryIcon(system?.category || "magic");
-                              const colorClass = getCategoryColor(system?.category || "magic");
-                              const borderColorClass = getCategoryBorderColor(system?.category || "magic");
+                              const variant = system?.category === "power" ? "power" : "magic";
                               
                               return (
-                                <div key={index} className={`flex items-center justify-between p-3 ${colorClass} rounded-lg border ${borderColorClass}`}>
-                                  <div className="flex items-center space-x-3">
-                                    <CategoryIcon className="w-4 h-4" />
-                                    <div>
-                                      <span className="text-sm font-medium">{system?.title || systemName}</span>
-                                      <p className="text-xs opacity-80">{system?.description || "Custom power type"}</p>
-                                    </div>
-                                  </div>
-                                  <WouterLink href={`/project/${projectId}/magic-systems`}>
-                                    <Button variant="outline" size="sm" className="text-xs">
-                                      View System
-                                    </Button>
-                                  </WouterLink>
-                                </div>
+                                <WouterLink key={index} href={`/project/${projectId}/magic-systems`}>
+                                  <Tag variant={variant} className="cursor-pointer" size="lg">
+                                    {system?.title || systemName}
+                                  </Tag>
+                                </WouterLink>
                               );
                             })}
                           </div>
