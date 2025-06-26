@@ -189,7 +189,7 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
                   <Sword className="w-5 h-5 text-white" />
@@ -204,7 +204,7 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
                   <Shield className="w-5 h-5 text-white" />
