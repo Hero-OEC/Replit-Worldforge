@@ -160,30 +160,66 @@ export default function Characters() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">{sampleCharacters.length}</p>
-                <p className="text-sm text-gray-600">Total Characters</p>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900 mb-1">
+                    {sampleCharacters.length}
+                  </div>
+                  <div className="text-sm text-gray-600 font-medium">
+                    Total Characters
+                  </div>
+                </div>
               </div>
-            </Card>
-            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Protagonist').length}</p>
-                <p className="text-sm text-gray-600">Protagonists</p>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
+                  <Crown className="w-5 h-5 text-white" />
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-600 mb-1">
+                    {sampleCharacters.filter(c => c.role === 'Protagonist').length}
+                  </div>
+                  <div className="text-sm text-gray-600 font-medium">
+                    Protagonists
+                  </div>
+                </div>
               </div>
-            </Card>
-            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Antagonist').length}</p>
-                <p className="text-sm text-gray-600">Antagonists</p>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                  <Sword className="w-5 h-5 text-white" />
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-600 mb-1">
+                    {sampleCharacters.filter(c => c.role === 'Antagonist').length}
+                  </div>
+                  <div className="text-sm text-gray-600 font-medium">
+                    Antagonists
+                  </div>
+                </div>
               </div>
-            </Card>
-            <Card className="border border-gray-200 p-4" style={{ backgroundColor: '#f8f6f2' }}>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">{sampleCharacters.filter(c => c.role === 'Ally').length}</p>
-                <p className="text-sm text-gray-600">Supporting</p>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600 mb-1">
+                    {sampleCharacters.filter(c => c.role === 'Supporting').length}
+                  </div>
+                  <div className="text-sm text-gray-600 font-medium">
+                    Supporting
+                  </div>
+                </div>
               </div>
-            </Card>
+            </div>
           </div>
 
           {/* Characters Grid */}
