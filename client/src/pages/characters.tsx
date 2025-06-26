@@ -290,9 +290,8 @@ export default function Characters() {
                       </DropdownMenu>
                     </div>
                   </div>
-
                   {/* Character Info */}
-                  <div className="p-4">
+                  <div className="p-4 bg-[#f8f6f2]">
                     <div className="mb-3">
                       <h3 className="text-heading-sm text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
                         {character.name}
