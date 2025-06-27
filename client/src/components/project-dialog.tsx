@@ -110,10 +110,13 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
 
   const createProjectMutation = useMutation({
     mutationFn: async (data: InsertProject) => {
+      console.log("Mutation starting with data:", data);
       const response = await apiRequest("POST", "/api/projects", data);
+      console.log("API response:", response);
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Mutation success:", data);
       queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
       toast({
@@ -123,7 +126,8 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
       onOpenChange(false);
       form.reset();
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Mutation error:", error);
       toast({
         title: "Error",
         description: "Failed to create project",
@@ -133,6 +137,8 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
   });
 
   const onSubmit = (data: InsertProject) => {
+    console.log("Form submitted with data:", data);
+    console.log("Form errors:", form.formState.errors);
     createProjectMutation.mutate(data);
   };
 
