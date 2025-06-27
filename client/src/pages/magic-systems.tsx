@@ -147,7 +147,9 @@ export default function MagicSystems() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-3">
-              <Sparkles className="h-8 w-8 text-orange-500" />
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Magic & Power Systems</h1>
                 <p className="text-gray-600">
