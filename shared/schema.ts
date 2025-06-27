@@ -22,9 +22,9 @@ export const characters = sqliteTable("characters", {
   personality: text("personality"),
   backstory: text("backstory"),
   role: text("role"), // protagonist, antagonist, supporting, etc.
-  powerSystems: text("power_systems", { mode: "json" }).$type<string[]>().default("[]"), // array of power/magic system names
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  powerSystems: text("power_systems", { mode: "json" }).$type<string[]>().$defaultFn(() => []), // array of power/magic system names
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
 });
 
 export const locations = sqliteTable("locations", {
@@ -46,6 +46,9 @@ export const timelineEvents = sqliteTable("timeline_events", {
   description: text("description"),
   date: text("date"), // flexible date format for fictional timelines
   category: text("category"), // plot, character, world, etc.
+  importance: text("importance").default("medium"), // high, medium, low
+  location: text("location"), // location name where event occurs
+  characters: text("characters", { mode: "json" }).$type<string[]>().$defaultFn(() => []), // character names involved
   order: integer("order").notNull().default(0),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
@@ -71,9 +74,9 @@ export const loreEntries = sqliteTable("lore_entries", {
   title: text("title").notNull(),
   content: text("content"),
   category: text("category"), // history, religion, politics, etc.
-  tags: text("tags", { mode: "json" }).$type<string[]>().default("[]"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  tags: text("tags", { mode: "json" }).$type<string[]>().$defaultFn(() => []),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
 });
 
 export const editHistory = sqliteTable("edit_history", {
