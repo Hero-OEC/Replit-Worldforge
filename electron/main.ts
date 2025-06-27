@@ -1,7 +1,6 @@
 
 import { app, BrowserWindow, Menu } from 'electron';
 import path from 'path';
-import { initializeDatabase } from '../server/db';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -93,9 +92,6 @@ function createWindow() {
 }
 
 app.whenReady().then(async () => {
-  // Initialize the database
-  await initializeDatabase();
-  
   createWindow();
 
   app.on('activate', () => {
