@@ -1247,7 +1247,7 @@ export default function CharacterDetail() {
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3">
-                    <span className="text-sm font-medium text-gray-700">Location:</span>
+                    <span className="text-sm font-medium text-gray-700">Current Location:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.location || character.location}
@@ -1256,7 +1256,18 @@ export default function CharacterDetail() {
                         placeholder="Arcanum City"
                       />
                     ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.location}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{(() => {
+                        // Get the character's most recent event location
+                        const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
+                        const sortedEvents = [...characterEvents].sort((a, b) => {
+                          const getDateNumber = (dateStr: string) => {
+                            const match = dateStr.match(/Day (\d+)/);
+                            return match ? parseInt(match[1]) : 0;
+                          };
+                          return getDateNumber(b.date) - getDateNumber(a.date); // Sort descending for latest first
+                        });
+                        return sortedEvents.length > 0 ? sortedEvents[0].location : character.location;
+                      })()}</span>
                     )}
                   </div>
                 </div>
