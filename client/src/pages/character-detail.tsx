@@ -467,16 +467,12 @@ function CharacterTimeline({ character }: { character: Character }) {
                       className={`relative cursor-pointer transform transition-all duration-200 ${
                         isHovered ? "scale-110" : "hover:scale-105"
                       }`}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={() => {
                         setHoveredDateGroup(group);
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const timelineRect = timelineRef.current?.getBoundingClientRect();
-                        if (timelineRect) {
-                          setPopupPosition({
-                            x: rect.left - timelineRect.left + rect.width / 2,
-                            y: rect.bottom - timelineRect.top + 10,
-                          });
-                        }
+                        setPopupPosition({
+                          x: x,
+                          y: y,
+                        });
                       }}
                       onMouseLeave={() => {
                         setTimeout(() => {
@@ -506,16 +502,12 @@ function CharacterTimeline({ character }: { character: Character }) {
                           ? "scale-110"
                           : "hover:scale-105"
                       }`}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={() => {
                         setHoveredEvent(group.events[0]);
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const timelineRect = timelineRef.current?.getBoundingClientRect();
-                        if (timelineRect) {
-                          setPopupPosition({
-                            x: rect.left - timelineRect.left + rect.width / 2,
-                            y: rect.bottom - timelineRect.top + 10,
-                          });
-                        }
+                        setPopupPosition({
+                          x: x,
+                          y: y,
+                        });
                       }}
                       onMouseLeave={() => {
                         setTimeout(() => {
@@ -580,7 +572,7 @@ function CharacterTimeline({ character }: { character: Character }) {
           className="absolute z-50"
           style={{
             left: popupPosition.x,
-            top: popupPosition.y,
+            top: popupPosition.y + 70,
             transform: "translateX(-50%)",
           }}
           onMouseEnter={() => {
