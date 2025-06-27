@@ -8,7 +8,7 @@ import {
   BookOpen, 
   Settings
 } from "lucide-react";
-import worldForgeLogo from "@assets/worldforge logo@2x_1750879368647.png";
+import inkAlchemyLogo from "@assets/inkalchemy_1751051851875.png";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
@@ -28,8 +28,8 @@ export default function Sidebar() {
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
           <img 
-            src={worldForgeLogo} 
-            alt="WorldForge Logo" 
+            src={inkAlchemyLogo} 
+            alt="InkAlchemy Logo" 
             className="w-10 h-10 object-contain"
           />
           <div>
