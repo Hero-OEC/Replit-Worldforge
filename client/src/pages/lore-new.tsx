@@ -202,13 +202,13 @@ export default function NewLoreEntry() {
                           {tags.map((tag) => (
                             <div
                               key={tag}
-                              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 border border-slate-200 hover:from-slate-200 hover:to-slate-300 hover:shadow-sm transition-all duration-200"
+                              className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
                             >
                               <span>{tag}</span>
                               <button
                                 type="button"
                                 onClick={() => removeTag(tag)}
-                                className="ml-2 hover:bg-slate-300 rounded-full p-1 transition-colors duration-200"
+                                className="ml-1 hover:bg-slate-300 rounded p-0.5 transition-colors duration-200"
                               >
                                 <X className="w-3 h-3" />
                               </button>
