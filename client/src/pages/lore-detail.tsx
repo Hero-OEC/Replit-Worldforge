@@ -178,6 +178,10 @@ export default function LoreDetail() {
           {/* Tags */}
           {loreEntry.tags && loreEntry.tags.length > 0 && (
             <div className="mb-6">
+              <div className="flex items-center space-x-2 mb-3">
+                <Tag className="w-4 h-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">Tags</span>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {loreEntry.tags.map((tag, index) => (
                   <span
