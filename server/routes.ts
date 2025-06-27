@@ -279,6 +279,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Lore Entries
+  app.get("/api/lore-entries", async (req, res) => {
+    try {
+      const projectId = parseInt(req.query.projectId as string);
+      if (!projectId) {
+        return res.status(400).json({ message: "Project ID is required" });
+      }
+      const loreEntries = await storage.getLoreEntries(projectId);
+      res.json(loreEntries);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch lore entries" });
+    }
+  });
+
+  app.get("/api/lore-entries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const loreEntry = await storage.getLoreEntry(id);
+      if (!loreEntry) {
+        return res.status(404).json({ message: "Lore entry not found" });
+      }
+      res.json(loreEntry);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch lore entry" });
+    }
+  });
+
+  app.post("/api/lore-entries", async (req, res) => {
+    try {
+      const loreEntry = await storage.createLoreEntry(req.body);
+      res.status(201).json(loreEntry);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create lore entry" });
+    }
+  });
+
+  app.put("/api/lore-entries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const loreEntry = await storage.updateLoreEntry(id, req.body);
+      if (!loreEntry) {
+        return res.status(404).json({ message: "Lore entry not found" });
+      }
+      res.json(loreEntry);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update lore entry" });
+    }
+  });
+
+  app.delete("/api/lore-entries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteLoreEntry(id);
+      if (!success) {
+        return res.status(404).json({ message: "Lore entry not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete lore entry" });
+    }
+  });
+
   // Edit History
   app.get("/api/edit-history", async (req, res) => {
     try {
