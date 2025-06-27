@@ -211,20 +211,19 @@ export default function Lore() {
                     {/* Tags */}
                     {entry.tags && entry.tags.length > 0 && (
                       <div className="mb-4">
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-2">
                           {entry.tags.slice(0, 3).map((tag, index) => (
-                            <Badge 
+                            <span 
                               key={index}
-                              variant="outline" 
-                              className="text-xs px-2 py-0.5 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
+                              className="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 border border-slate-200 hover:from-slate-200 hover:to-slate-300 hover:shadow-sm transition-all duration-200 group-hover:scale-105"
                             >
                               {tag}
-                            </Badge>
+                            </span>
                           ))}
                           {entry.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs px-2 py-0.5 bg-gray-50">
+                            <span className="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 border border-orange-200 hover:from-orange-200 hover:to-amber-200 transition-all duration-200">
                               +{entry.tags.length - 3} more
-                            </Badge>
+                            </span>
                           )}
                         </div>
                       </div>

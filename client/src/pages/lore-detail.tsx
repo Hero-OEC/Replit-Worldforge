@@ -192,15 +192,18 @@ export default function LoreDetail() {
               {/* Tags */}
               {loreEntry.tags && loreEntry.tags.length > 0 && (
                 <div>
-                  <div className="flex items-center space-x-2 mb-3">
+                  <div className="flex items-center space-x-2 mb-4">
                     <Tag className="w-4 h-4 text-gray-600" />
                     <span className="text-sm font-medium text-gray-700">Tags</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {loreEntry.tags.map((tag, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 border border-slate-200 hover:from-slate-200 hover:to-slate-300 hover:shadow-sm transition-all duration-200"
+                      >
                         {tag}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
                 </div>

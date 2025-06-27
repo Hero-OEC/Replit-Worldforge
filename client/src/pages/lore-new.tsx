@@ -200,16 +200,19 @@ export default function NewLoreEntry() {
                       {tags.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                           {tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="flex items-center space-x-1">
+                            <div
+                              key={tag}
+                              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 border border-slate-200 hover:from-slate-200 hover:to-slate-300 hover:shadow-sm transition-all duration-200"
+                            >
                               <span>{tag}</span>
                               <button
                                 type="button"
                                 onClick={() => removeTag(tag)}
-                                className="ml-1 hover:bg-gray-300 rounded-full p-0.5"
+                                className="ml-2 hover:bg-slate-300 rounded-full p-1 transition-colors duration-200"
                               >
                                 <X className="w-3 h-3" />
                               </button>
-                            </Badge>
+                            </div>
                           ))}
                         </div>
                       )}
