@@ -412,7 +412,7 @@ export class MemStorage implements IStorage {
       action: "created",
       entityType: "timeline_event",
       entityName: "Elena's Awakening",
-      description: "Added pivotal character development event to main storyline",
+      description: "Added pivotal character arc event to main storyline",
       createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
     });
 

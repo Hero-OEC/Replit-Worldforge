@@ -23,7 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { ProjectWithStats } from "@shared/schema";
 
 const eventCategories = [
-  "Character Development",
+  "Character Arc",
   "Discovery",
   "Conflict",
   "Revelation",

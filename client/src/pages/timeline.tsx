@@ -196,7 +196,7 @@ const priorityLabels = {
 };
 
 const eventTypeIcons = {
-  "Character Development": User,
+  "Character Arc": User,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,
@@ -216,7 +216,7 @@ const sampleEvents = [
     title: "Elena's Awakening",
     date: "Year 1, Day 5",
     importance: "high",
-    category: "Character Development",
+    category: "Character Arc",
     description:
       "Elena discovers her true magical potential during a routine training session.",
     location: "Arcanum City",
@@ -279,7 +279,7 @@ const sampleEvents = [
     title: "Afternoon Training",
     date: "Year 1, Day 50",
     importance: "low",
-    category: "Character Development",
+    category: "Character Arc",
     description: "Elena practices her new abilities in the training grounds.",
     location: "Training Grounds",
     characters: ["Elena", "Marcus"],

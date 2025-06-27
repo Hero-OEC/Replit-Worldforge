@@ -33,7 +33,7 @@ const priorityLabels = {
 };
 
 const eventTypeIcons = {
-  "Character Development": User,
+  "Character Arc": User,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,

@@ -23,7 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { ProjectWithStats } from "@shared/schema";
 
 const eventCategories = [
-  "Character Development",
+  "Character Arc",
   "Discovery",
   "Conflict",
   "Revelation",
@@ -80,7 +80,7 @@ const sampleEvent = {
   title: "Elena's Awakening",
   date: "Year 1, Day 5",
   importance: "high",
-  category: "Character Development",
+  category: "Character Arc",
   description:
     "Elena discovers her true magical potential during a routine training session. This pivotal moment changes the course of her journey and reveals the depth of power she possesses.",
   location: "Arcanum City",

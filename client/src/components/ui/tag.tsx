@@ -29,7 +29,7 @@ const tagVariants = cva(
         power: "bg-gradient-to-r from-cyan-50 to-cyan-100 border-cyan-200 text-cyan-800 hover:bg-cyan-100",
         
         // Event categories
-        character_development: "bg-gradient-to-r from-indigo-50 to-indigo-100 border-indigo-200 text-indigo-800 hover:bg-indigo-100",
+        character_arc: "bg-gradient-to-r from-indigo-50 to-indigo-100 border-indigo-200 text-indigo-800 hover:bg-indigo-100",
         discovery: "bg-gradient-to-r from-teal-50 to-teal-100 border-teal-200 text-teal-800 hover:bg-teal-100",
         conflict: "bg-gradient-to-r from-red-50 to-red-100 border-red-200 text-red-800 hover:bg-red-100",
         revelation: "bg-gradient-to-r from-amber-50 to-amber-100 border-amber-200 text-amber-800 hover:bg-amber-100",
@@ -101,7 +101,7 @@ export function getTagVariant(type: string, category?: string): TagProps["varian
   if (type === "power") return "power"
   
   // Event categories
-  if (category === "Character Development") return "character_development"
+  if (category === "Character Arc") return "character_arc"
   if (category === "Discovery") return "discovery"
   if (category === "Conflict") return "conflict"
   if (category === "Revelation") return "revelation"
