@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { useParams, Link } from "wouter";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users } from "lucide-react";
+import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users, Calendar, MapPin, Eye, Swords, Lightbulb, Award, Heart, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -297,6 +297,399 @@ const sampleEvents: TimelineEventData[] = [
     characters: ["Elena Brightblade", "Marcus", "Lord Vex"],
   },
 ];
+
+// Event type icons and colors (matching main timeline page)
+const priorityColors = {
+  high: "bg-red-500",
+  medium: "bg-orange-500", 
+  low: "bg-yellow-500",
+};
+
+const eventTypeIcons = {
+  "Character Arc": User,
+  Discovery: Eye,
+  Conflict: Swords,
+  Revelation: Lightbulb,
+  "Heroic Act": Award,
+  "Political Event": Crown,
+  Romance: Heart,
+  Mystery: HelpCircle,
+  Magic: Sparkles,
+  Battle: Zap,
+  Traveling: Plane,
+};
+
+// Character Timeline Component
+function CharacterTimeline({ character }: { character: Character }) {
+  const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
+  const [hoveredEvent, setHoveredEvent] = useState<any>(null);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const [location, navigate] = useLocation();
+  const { projectId } = useParams<{ projectId: string }>();
+
+  // Filter events for this character
+  const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
+  
+  // Sort events by date
+  const sortedEvents = [...characterEvents].sort((a, b) => {
+    const getDateNumber = (dateStr: string) => {
+      const match = dateStr.match(/Day (\d+)/);
+      return match ? parseInt(match[1]) : 0;
+    };
+    return getDateNumber(a.date) - getDateNumber(b.date);
+  });
+
+  // Group events by date
+  const eventsByDate = sortedEvents.reduce((acc: any, event) => {
+    if (!acc[event.date]) {
+      acc[event.date] = [];
+    }
+    acc[event.date].push(event);
+    return acc;
+  }, {});
+
+  const dateGroups = Object.entries(eventsByDate).map(([date, events]) => ({
+    date,
+    events: events as any[],
+    isMultiEvent: (events as any[]).length > 1,
+  }));
+
+  // Calculate timeline positions for serpentine layout
+  const timelineWidth = 1200;
+  const timelineHeight = 400;
+  const pathPoints: number[][] = [];
+
+  // Create serpentine path - 6 events per row, alternating direction
+  const eventsPerRow = 6;
+  const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
+  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+
+  dateGroups.forEach((group, index) => {
+    const row = Math.floor(index / eventsPerRow);
+    const col = index % eventsPerRow;
+
+    let x, y;
+    if (row % 2 === 0) {
+      // Left to right for even rows
+      x = 60 + col * horizontalSpacing;
+    } else {
+      // Right to left for odd rows
+      x = 60 + (eventsPerRow - 1 - col) * horizontalSpacing;
+    }
+    y = 60 + row * verticalSpacing;
+
+    pathPoints.push([x, y]);
+  });
+
+  if (sortedEvents.length === 0) {
+    return (
+      <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+        <div className="flex flex-col items-center justify-center py-12">
+          <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-600 mb-2">No Events Found</h3>
+          <p className="text-gray-500">No timeline events have been recorded for {character.name} yet.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+      {/* Serpentine Timeline */}
+      <div className="p-8">
+        <div
+          ref={timelineRef}
+          className="relative mx-auto"
+          style={{ width: timelineWidth, height: timelineHeight }}
+        >
+          {/* Timeline Path */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            {pathPoints.length > 1 && (
+              <path
+                d={`M ${pathPoints.map(point => point.join(',')).join(' L ')}`}
+                stroke="#d69e2e"
+                strokeWidth="3"
+                fill="none"
+                opacity="0.6"
+              />
+            )}
+          </svg>
+
+          {/* Event Nodes */}
+          {dateGroups.map((group, index) => {
+            const [x, y] = pathPoints[index];
+            const isHovered = hoveredDateGroup === group;
+
+            return (
+              <div key={group.date}>
+                <div
+                  style={{ left: x, top: y }}
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                >
+                  {group.isMultiEvent ? (
+                    // Multi-event node
+                    <div
+                      className={`relative cursor-pointer transform transition-all duration-200 ${
+                        isHovered ? "scale-110" : "hover:scale-105"
+                      }`}
+                      onMouseEnter={(e) => {
+                        setHoveredDateGroup(group);
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const viewportHeight = window.innerHeight;
+                        const popupHeight = 300;
+
+                        let yPosition = rect.bottom + 10;
+                        if (yPosition + popupHeight > viewportHeight) {
+                          yPosition = rect.top - popupHeight - 10;
+                        }
+
+                        setPopupPosition({
+                          x: rect.left + rect.width / 2,
+                          y: yPosition,
+                        });
+                      }}
+                      onMouseLeave={() => {
+                        setTimeout(() => {
+                          if (!popupRef.current?.matches(":hover")) {
+                            setHoveredDateGroup(null);
+                            setPopupPosition(null);
+                          }
+                        }, 100);
+                      }}
+                    >
+                      <div className="relative">
+                        <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                          <Calendar className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-xs">
+                            {group.events.length}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    // Single event node
+                    <div
+                      className={`relative cursor-pointer transform transition-all duration-200 ${
+                        hoveredEvent === group.events[0]
+                          ? "scale-110"
+                          : "hover:scale-105"
+                      }`}
+                      onMouseEnter={(e) => {
+                        setHoveredEvent(group.events[0]);
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const viewportHeight = window.innerHeight;
+                        const popupHeight = 250;
+
+                        let yPosition = rect.bottom + 10;
+                        if (yPosition + popupHeight > viewportHeight) {
+                          yPosition = rect.top - popupHeight - 10;
+                        }
+
+                        setPopupPosition({
+                          x: rect.left + rect.width / 2,
+                          y: yPosition,
+                        });
+                      }}
+                      onMouseLeave={() => {
+                        setTimeout(() => {
+                          if (!popupRef.current?.matches(":hover")) {
+                            setHoveredEvent(null);
+                            setPopupPosition(null);
+                          }
+                        }, 100);
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log('Navigate to event:', group.events[0].id);
+                      }}
+                    >
+                      <div
+                        className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center shadow-lg`}
+                      >
+                        {React.createElement(
+                          eventTypeIcons[
+                            group.events[0]
+                              .category as keyof typeof eventTypeIcons
+                          ] || Star,
+                          {
+                            className: "w-6 h-6 text-white",
+                          },
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* Event Labels */}
+                <div
+                  style={{
+                    left: x,
+                    top: y + 50,
+                  }}
+                  className="absolute transform -translate-x-1/2 pointer-events-none"
+                >
+                  <div className="text-center">
+                    <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
+                      <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
+                        {group.isMultiEvent
+                          ? `${group.events.length} Events`
+                          : group.events[0].title}
+                      </div>
+                      <div className="text-xs text-gray-600 font-medium">
+                        {group.date}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Hover popups */}
+      {popupPosition && (
+        <div
+          ref={popupRef}
+          className="fixed z-50"
+          style={{
+            left: popupPosition.x,
+            top: popupPosition.y,
+            transform: "translateX(-50%)",
+          }}
+          onMouseEnter={() => {
+            // Keep popup visible when hovering over it
+          }}
+          onMouseLeave={() => {
+            setHoveredDateGroup(null);
+            setHoveredEvent(null);
+            setPopupPosition(null);
+          }}
+        >
+          {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
+            // Multi-event popup
+            <Card
+              className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+            >
+              <div className="mb-3">
+                <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                  {hoveredDateGroup.date}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {hoveredDateGroup.events.length} events on this date
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-3">
+                {hoveredDateGroup.events
+                  .slice(0, 3)
+                  .map((event: any, index: number) => {
+                    const EventIcon =
+                      eventTypeIcons[
+                        event.category as keyof typeof eventTypeIcons
+                      ] || Star;
+                    const importance =
+                      event.importance as keyof typeof priorityColors;
+
+                    return (
+                      <div
+                        key={event.id}
+                        className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div
+                            className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
+                          >
+                            <EventIcon className="w-4 h-4 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-gray-900 text-sm">
+                              {event.title}
+                            </h4>
+                            <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                              {event.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                {hoveredDateGroup.events.length > 3 && (
+                  <div className="text-xs text-gray-500 text-center py-2">
+                    +{hoveredDateGroup.events.length - 3} more events
+                  </div>
+                )}
+              </div>
+            </Card>
+          ) : hoveredEvent ? (
+            // Single event popup
+            <Card className="bg-white border shadow-xl p-4 w-80">
+              <div className="flex items-start space-x-3 mb-3">
+                <div
+                  className={`w-10 h-10 ${
+                    priorityColors[hoveredEvent.importance as keyof typeof priorityColors]
+                  } rounded-full flex items-center justify-center flex-shrink-0`}
+                >
+                  {React.createElement(
+                    eventTypeIcons[
+                      hoveredEvent.category as keyof typeof eventTypeIcons
+                    ] || Star,
+                    {
+                      className: "w-5 h-5 text-white",
+                    },
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                    {hoveredEvent.title}
+                  </h3>
+                  <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                    <span>{hoveredEvent.date}</span>
+                    <span className="flex items-center">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      {hoveredEvent.location}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {hoveredEvent.description}
+              </p>
+              {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4 text-gray-500" />
+                    <span className="text-xs text-gray-600 font-medium">
+                      Characters:
+                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {hoveredEvent.characters.slice(0, 3).map((char: string, index: number) => (
+                        <span
+                          key={index}
+                          className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                      {hoveredEvent.characters.length > 3 && (
+                        <span className="text-xs text-gray-500">
+                          +{hoveredEvent.characters.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Card>
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Power/Magic Systems with descriptions and categories
 const powerSystems = [
@@ -1036,23 +1429,8 @@ export default function CharacterDetail() {
                       </div>
                     </div>
                     
-                    {/* Timeline Container */}
-                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
-                      {/* Debug Info */}
-                      <div className="mb-4 p-2 bg-yellow-100 text-xs">
-                        <p>Debug: Character name: "{character.name}"</p>
-                        <p>Debug: Total events: {sampleEvents.length}</p>
-                        <p>Debug: Events with this character: {sampleEvents.filter(e => e.characters?.includes(character.name)).length}</p>
-                        <p>Debug: Sample event characters: {JSON.stringify(sampleEvents[0]?.characters)}</p>
-                      </div>
-                      <SerpentineTimeline
-                        events={sampleEvents}
-                        filterCharacter={character.name}
-                        onEventClick={(event) => console.log('Event clicked:', event)}
-                        onEventEdit={(event) => console.log('Edit event:', event)}
-                        showEditButtons={false}
-                      />
-                    </div>
+                    {/* Timeline Container - inline implementation */}
+                    <CharacterTimeline character={character} />
                   </div>
                 </TabsContent>
 
