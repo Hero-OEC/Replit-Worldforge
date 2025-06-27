@@ -356,16 +356,16 @@ function CharacterTimeline({ character }: { character: Character }) {
     isMultiEvent: (events as any[]).length > 1,
   }));
 
-  // Calculate timeline positions for serpentine layout
-  const timelineWidth = 1200;
-  const timelineHeight = 400;
+  // Calculate timeline positions for serpentine layout - responsive sizing
+  const containerWidth = 1100; // Reduced to fit better in container
+  const eventsPerRow = Math.min(5, dateGroups.length); // Max 5 events per row for better spacing
+  const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const timelineHeight = Math.max(300, rows * 200 + 100); // Dynamic height based on rows
   const pathPoints: number[][] = [];
 
-  // Create serpentine path - 6 events per row, alternating direction
-  const eventsPerRow = 6;
-  const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
-  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+  // Create serpentine path with better spacing
+  const horizontalSpacing = dateGroups.length > 1 ? (containerWidth - 160) / Math.min(eventsPerRow - 1, dateGroups.length - 1) : 0;
+  const verticalSpacing = rows > 1 ? (timelineHeight - 160) / (rows - 1) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -403,7 +403,7 @@ function CharacterTimeline({ character }: { character: Character }) {
         <div
           ref={timelineRef}
           className="relative mx-auto"
-          style={{ width: timelineWidth, height: timelineHeight }}
+          style={{ width: containerWidth, height: timelineHeight }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -625,8 +625,14 @@ function CharacterTimeline({ character }: { character: Character }) {
               </div>
             </Card>
           ) : hoveredEvent ? (
-            // Single event popup
-            <Card className="bg-white border shadow-xl p-4 w-80">
+            // Single event popup - matching main timeline exactly
+            <Card
+              className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log('Navigate to event:', hoveredEvent.id);
+              }}
+            >
               <div className="flex items-start space-x-3 mb-3">
                 <div
                   className={`w-10 h-10 ${
@@ -653,13 +659,25 @@ function CharacterTimeline({ character }: { character: Character }) {
                       {hoveredEvent.location}
                     </span>
                   </div>
+                  {/* Priority and Category badges */}
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full text-white ${
+                      priorityColors[hoveredEvent.importance as keyof typeof priorityColors]
+                    }`}>
+                      {hoveredEvent.importance === 'high' ? 'High Priority' : 
+                       hoveredEvent.importance === 'medium' ? 'Medium Priority' : 'Low Priority'}
+                    </span>
+                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                      {hoveredEvent.category}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">
                 {hoveredEvent.description}
               </p>
               {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-gray-200">
+                <div className="border-t border-gray-200 pt-3">
                   <div className="flex items-center space-x-2">
                     <Users className="w-4 h-4 text-gray-500" />
                     <span className="text-xs text-gray-600 font-medium">
@@ -683,6 +701,9 @@ function CharacterTimeline({ character }: { character: Character }) {
                   </div>
                 </div>
               )}
+              <div className="mt-3 text-center">
+                <span className="text-xs text-gray-500">Click to view event</span>
+              </div>
             </Card>
           ) : null}
         </div>
