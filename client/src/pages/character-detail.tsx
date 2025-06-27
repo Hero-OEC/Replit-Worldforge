@@ -365,9 +365,9 @@ function CharacterTimeline({ character }: { character: Character }) {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const availableWidth = Math.max(600, containerWidth - 100); // Padding for container
-        const eventsPerRow = Math.max(3, Math.min(5, Math.floor(availableWidth / 160))); // Better spacing
+        const eventsPerRow = 3; // Fixed to 3 bubbles per row for better spacing
         const rows = Math.ceil(dateGroups.length / eventsPerRow);
-        const calculatedHeight = Math.max(300, rows * 150 + 100); // Better row spacing
+        const calculatedHeight = Math.max(300, rows * 180 + 120); // More vertical spacing
         
         setDimensions({
           width: availableWidth,
@@ -386,15 +386,15 @@ function CharacterTimeline({ character }: { character: Character }) {
   }, [dateGroups.length]);
 
   // Calculate timeline positions for serpentine layout
-  const eventsPerRow = Math.max(3, Math.min(5, Math.floor(dimensions.width / 160)));
+  const eventsPerRow = 3; // Fixed to 3 bubbles per row
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
   const pathPoints: number[][] = [];
 
-  // Create serpentine path with responsive spacing
+  // Create serpentine path with generous spacing
   const horizontalSpacing = dateGroups.length > 1 ? 
-    Math.max(140, (dimensions.width - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
+    Math.max(180, (dimensions.width - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
   const verticalSpacing = rows > 1 ? 
-    Math.max(120, (dimensions.height - 120) / (rows - 1)) : 0;
+    Math.max(150, (dimensions.height - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -467,20 +467,11 @@ function CharacterTimeline({ character }: { character: Character }) {
                       className={`relative cursor-pointer transform transition-all duration-200 ${
                         isHovered ? "scale-110" : "hover:scale-105"
                       }`}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={() => {
                         setHoveredDateGroup(group);
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const viewportHeight = window.innerHeight;
-                        const popupHeight = 300;
-
-                        let yPosition = rect.bottom + 10;
-                        if (yPosition + popupHeight > viewportHeight) {
-                          yPosition = rect.top - popupHeight - 10;
-                        }
-
                         setPopupPosition({
-                          x: rect.left + rect.width / 2,
-                          y: yPosition,
+                          x: x,
+                          y: y + 80, // Position below the bubble
                         });
                       }}
                       onMouseLeave={() => {
@@ -511,20 +502,11 @@ function CharacterTimeline({ character }: { character: Character }) {
                           ? "scale-110"
                           : "hover:scale-105"
                       }`}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={() => {
                         setHoveredEvent(group.events[0]);
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const viewportHeight = window.innerHeight;
-                        const popupHeight = 250;
-
-                        let yPosition = rect.bottom + 10;
-                        if (yPosition + popupHeight > viewportHeight) {
-                          yPosition = rect.top - popupHeight - 10;
-                        }
-
                         setPopupPosition({
-                          x: rect.left + rect.width / 2,
-                          y: yPosition,
+                          x: x,
+                          y: y + 80, // Position below the bubble
                         });
                       }}
                       onMouseLeave={() => {
@@ -587,7 +569,7 @@ function CharacterTimeline({ character }: { character: Character }) {
       {popupPosition && (
         <div
           ref={popupRef}
-          className="fixed z-50"
+          className="absolute z-50"
           style={{
             left: popupPosition.x,
             top: popupPosition.y,

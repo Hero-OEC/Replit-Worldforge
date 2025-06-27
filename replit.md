@@ -104,6 +104,9 @@ Changelog:
   * Improved event spacing and positioning for better mobile responsiveness
   * Timeline now properly adapts to different screen sizes without overflow
   * Restored timeline tab after temporary removal - user confirmed it was working perfectly
+  * Changed timeline layout to 3 bubbles per row instead of 4 for better spacing
+  * Fixed hover popup positioning from fixed to absolute so it stays relative to bubbles during scroll
+  * Increased vertical and horizontal spacing between timeline events for better visual breathing room
 - June 27, 2025. Removed broken character timeline functionality:
   * Removed timeline tab from character detail pages per user request
   * Deleted SerpentineTimeline component usage from character pages
