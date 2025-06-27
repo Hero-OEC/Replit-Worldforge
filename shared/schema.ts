@@ -1,19 +1,19 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { sqliteTable, text, integer, blob, real } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const projects = pgTable("projects", {
-  id: serial("id").primaryKey(),
+export const projects = sqliteTable("projects", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   genre: text("genre").notNull(),
   description: text("description").notNull(),
   status: text("status").notNull().default("active"), // active, planning, completed, archived
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const characters = pgTable("characters", {
-  id: serial("id").primaryKey(),
+export const characters = sqliteTable("characters", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   name: text("name").notNull(),
   description: text("description"),
@@ -21,37 +21,37 @@ export const characters = pgTable("characters", {
   personality: text("personality"),
   backstory: text("backstory"),
   role: text("role"), // protagonist, antagonist, supporting, etc.
-  powerSystems: json("power_systems").$type<string[]>().default([]), // array of power/magic system names
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  powerSystems: text("power_systems", { mode: "json" }).$type<string[]>().default("[]"), // array of power/magic system names
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const locations = pgTable("locations", {
-  id: serial("id").primaryKey(),
+export const locations = sqliteTable("locations", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   name: text("name").notNull(),
   description: text("description"),
   geography: text("geography"),
   culture: text("culture"),
   significance: text("significance"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const timelineEvents = pgTable("timeline_events", {
-  id: serial("id").primaryKey(),
+export const timelineEvents = sqliteTable("timeline_events", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   title: text("title").notNull(),
   description: text("description"),
   date: text("date"), // flexible date format for fictional timelines
   category: text("category"), // plot, character, world, etc.
   order: integer("order").notNull().default(0),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const magicSystems = pgTable("magic_systems", {
-  id: serial("id").primaryKey(),
+export const magicSystems = sqliteTable("magic_systems", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   name: text("name").notNull(),
   category: text("category").notNull().default("magic"), // magic or power
@@ -60,29 +60,29 @@ export const magicSystems = pgTable("magic_systems", {
   limitations: text("limitations"),
   source: text("source"), // where magic comes from
   cost: text("cost"), // what using magic costs
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const loreEntries = pgTable("lore_entries", {
-  id: serial("id").primaryKey(),
+export const loreEntries = sqliteTable("lore_entries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   title: text("title").notNull(),
   content: text("content"),
   category: text("category"), // history, religion, politics, etc.
-  tags: json("tags").$type<string[]>().default([]),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  tags: text("tags", { mode: "json" }).$type<string[]>().default("[]"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
-export const editHistory = pgTable("edit_history", {
-  id: serial("id").primaryKey(),
+export const editHistory = sqliteTable("edit_history", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull(),
   action: text("action").notNull(), // created, updated, deleted
   entityType: text("entity_type").notNull(), // character, location, timeline_event, magic_system, lore_entry
   entityName: text("entity_name").notNull(),
   description: text("description"), // detailed description of what was changed
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
 });
 
 // Insert schemas

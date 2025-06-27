@@ -1,15 +1,27 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import * as schema from "@shared/schema";
+import path from 'path';
+import { app } from 'electron';
 
-neonConfig.webSocketConstructor = ws;
+// Use app.getPath('userData') for Electron or fallback for development
+const isElectron = typeof window !== 'undefined' && window.process?.type === 'renderer';
+const dbPath = isElectron 
+  ? path.join(app.getPath('userData'), 'worldforge.db')
+  : path.join(process.cwd(), 'worldforge.db');
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+const sqlite = new Database(dbPath);
+sqlite.pragma('journal_mode = WAL');
+
+export const db = drizzle(sqlite, { schema });
+
+// Run migrations on startup
+export function initializeDatabase() {
+  try {
+    migrate(db, { migrationsFolder: './drizzle' });
+    console.log('Database initialized successfully');
+  } catch (error) {
+    console.error('Database initialization failed:', error);
+  }
 }
-
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
