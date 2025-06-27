@@ -1038,6 +1038,13 @@ export default function CharacterDetail() {
                     
                     {/* Timeline Container */}
                     <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+                      {/* Debug Info */}
+                      <div className="mb-4 p-2 bg-yellow-100 text-xs">
+                        <p>Debug: Character name: "{character.name}"</p>
+                        <p>Debug: Total events: {sampleEvents.length}</p>
+                        <p>Debug: Events with this character: {sampleEvents.filter(e => e.characters?.includes(character.name)).length}</p>
+                        <p>Debug: Sample event characters: {JSON.stringify(sampleEvents[0]?.characters)}</p>
+                      </div>
                       <SerpentineTimeline
                         events={sampleEvents}
                         filterCharacter={character.name}
