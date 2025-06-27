@@ -467,12 +467,16 @@ function CharacterTimeline({ character }: { character: Character }) {
                       className={`relative cursor-pointer transform transition-all duration-200 ${
                         isHovered ? "scale-110" : "hover:scale-105"
                       }`}
-                      onMouseEnter={() => {
+                      onMouseEnter={(e) => {
                         setHoveredDateGroup(group);
-                        setPopupPosition({
-                          x: x,
-                          y: y + 80, // Position below the bubble
-                        });
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const timelineRect = timelineRef.current?.getBoundingClientRect();
+                        if (timelineRect) {
+                          setPopupPosition({
+                            x: rect.left - timelineRect.left + rect.width / 2,
+                            y: rect.bottom - timelineRect.top + 10,
+                          });
+                        }
                       }}
                       onMouseLeave={() => {
                         setTimeout(() => {
@@ -502,12 +506,16 @@ function CharacterTimeline({ character }: { character: Character }) {
                           ? "scale-110"
                           : "hover:scale-105"
                       }`}
-                      onMouseEnter={() => {
+                      onMouseEnter={(e) => {
                         setHoveredEvent(group.events[0]);
-                        setPopupPosition({
-                          x: x,
-                          y: y + 80, // Position below the bubble
-                        });
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const timelineRect = timelineRef.current?.getBoundingClientRect();
+                        if (timelineRect) {
+                          setPopupPosition({
+                            x: rect.left - timelineRect.left + rect.width / 2,
+                            y: rect.bottom - timelineRect.top + 10,
+                          });
+                        }
                       }}
                       onMouseLeave={() => {
                         setTimeout(() => {
