@@ -163,8 +163,8 @@ export default function MagicSystemDetail() {
                 Back
               </Button>
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <CategoryIcon className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                  <CategoryIcon className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800">{magicSystem.name}</h1>
