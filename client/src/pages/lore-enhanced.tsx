@@ -150,8 +150,8 @@ export default function Lore() {
   const filteredEntries = sampleLoreEntries.filter(entry => {
     const matchesSearch = 
       entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (entry.content || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (entry.tags || []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      entry.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      entry.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesCategory = selectedCategory === "all" || entry.category === selectedCategory;
     
@@ -281,7 +281,7 @@ export default function Lore() {
 
                   <CardContent className="pt-0">
                     <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-                      {entry.content || "No content available"}
+                      {entry.content}
                     </p>
 
                     {/* Tags */}

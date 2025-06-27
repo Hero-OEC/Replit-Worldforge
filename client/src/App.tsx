@@ -21,6 +21,8 @@ import NewMagicSystem from "@/pages/magic-system-new";
 import EditMagicSystem from "@/pages/magic-system-edit";
 import MagicSystemDetail from "@/pages/magic-system-detail";
 import Lore from "@/pages/lore";
+import LoreDetail from "@/pages/lore-detail";
+import NewLoreEntry from "@/pages/lore-new";
 import Notes from "@/pages/notes";
 import NotFound from "@/pages/not-found";
 
@@ -48,6 +50,8 @@ function App() {
             <Route path="/project/:projectId/magic-systems/:magicSystemId" component={MagicSystemDetail} />
             <Route path="/project/:projectId/magic-systems/:magicSystemId/edit" component={EditMagicSystem} />
             <Route path="/project/:projectId/lore" component={Lore} />
+            <Route path="/project/:projectId/lore/new" component={NewLoreEntry} />
+            <Route path="/project/:projectId/lore/:loreId" component={LoreDetail} />
             <Route path="/project/:projectId/notes" component={Notes} />
             <Route component={NotFound} />
             </Switch>
