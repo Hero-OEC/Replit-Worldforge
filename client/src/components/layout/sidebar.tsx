@@ -33,7 +33,7 @@ export default function Sidebar() {
             className="w-12 h-12 object-contain"
           />
           <div>
-            <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>
+            <h1 className="text-xl font-bold text-gray-900">InkAlchemy</h1>
             <p className="text-xs text-gray-500">Creative Writing Companion</p>
           </div>
         </div>

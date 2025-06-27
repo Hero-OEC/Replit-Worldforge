@@ -1,8 +1,8 @@
 
 module.exports = {
   packagerConfig: {
-    name: 'WorldForge',
-    executableName: 'worldforge',
+    name: 'InkAlchemy',
+    executableName: 'inkalchemy',
     icon: './assets/icon',
     ignore: [
       /^\/src/,
@@ -18,7 +18,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'WorldForge'
+        name: 'InkAlchemy'
       }
     },
     {

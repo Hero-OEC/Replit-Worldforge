@@ -48,7 +48,7 @@ export default function Navbar({
                   className="w-12 h-12 object-contain hover-scale"
                 />
                 <div>
-                  <h1 className="text-heading-md text-gray-900">WorldForge</h1>
+                  <h1 className="text-heading-md text-gray-900">InkAlchemy</h1>
                   <p className="text-xs text-gray-600">Your Creative Writing Companion</p>
                 </div>
               </div>

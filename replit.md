@@ -1,8 +1,8 @@
-# WorldForge - Creative Writing Management System
+# InkAlchemy - Creative Writing Management System
 
 ## Overview
 
-WorldForge is a comprehensive creative writing management system built as a full-stack web application. It provides writers with tools to organize and manage their creative projects, including character development, world-building, timeline management, and lore documentation. The application is designed to help writers maintain consistency and organization across complex creative works.
+InkAlchemy is a comprehensive creative writing management system built as a full-stack web application. It provides writers with tools to organize and manage their creative projects, including character development, world-building, timeline management, and lore documentation. The application is designed to help writers maintain consistency and organization across complex creative works.
 
 ## System Architecture
 
@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 27, 2025. Rebranded application from WorldForge to InkAlchemy:
+  * Updated application name throughout UI components (navbar and sidebar)
+  * Changed logo references to use InkAlchemy branding
+  * Updated HTML document title to reflect new branding
+  * Updated Electron app configuration for desktop builds
+  * Cleaned up attached_assets folder removing 74+ unused screenshot files
+  * Updated project documentation to reflect new InkAlchemy branding
 - June 27, 2025. Fixed character timeline overflow issue and restored functionality:
   * Fixed serpentine timeline responsive layout to stay within container bounds
   * Updated timeline to use dynamic width calculation based on available space
