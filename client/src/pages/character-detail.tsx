@@ -326,6 +326,7 @@ function CharacterTimeline({ character }: { character: Character }) {
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [location, navigate] = useLocation();
   const { projectId } = useParams<{ projectId: string }>();
 
@@ -356,23 +357,54 @@ function CharacterTimeline({ character }: { character: Character }) {
     isMultiEvent: (events as any[]).length > 1,
   }));
 
-  // Calculate timeline positions for serpentine layout - responsive sizing
-  const containerWidth = 1100; // Reduced to fit better in container
-  const eventsPerRow = Math.min(5, dateGroups.length); // Max 5 events per row for better spacing
+  // Dynamic responsive dimensions
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const availableWidth = Math.max(600, containerWidth - 100); // Padding for container
+        const eventsPerRow = Math.max(3, Math.min(5, Math.floor(availableWidth / 160))); // Better spacing
+        const rows = Math.ceil(dateGroups.length / eventsPerRow);
+        const calculatedHeight = Math.max(300, rows * 150 + 100); // Better row spacing
+        
+        setDimensions({
+          width: availableWidth,
+          height: calculatedHeight
+        });
+      }
+    };
+
+    updateDimensions();
+    const timer = setTimeout(updateDimensions, 100);
+    window.addEventListener('resize', updateDimensions);
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      clearTimeout(timer);
+    };
+  }, [dateGroups.length]);
+
+  // Calculate timeline positions for serpentine layout
+  const eventsPerRow = Math.max(3, Math.min(5, Math.floor(dimensions.width / 160)));
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const timelineHeight = Math.max(300, rows * 200 + 100); // Dynamic height based on rows
   const pathPoints: number[][] = [];
 
-  // Create serpentine path with better spacing
-  const horizontalSpacing = dateGroups.length > 1 ? (containerWidth - 160) / Math.min(eventsPerRow - 1, dateGroups.length - 1) : 0;
-  const verticalSpacing = rows > 1 ? (timelineHeight - 160) / (rows - 1) : 0;
+  // Create serpentine path with responsive spacing
+  const horizontalSpacing = dateGroups.length > 1 ? 
+    Math.max(140, (dimensions.width - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
+  const verticalSpacing = rows > 1 ? 
+    Math.max(120, (dimensions.height - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
     const col = index % eventsPerRow;
 
     let x, y;
-    if (row % 2 === 0) {
+    if (dateGroups.length === 1) {
+      // Center single event
+      x = dimensions.width / 2;
+    } else if (row % 2 === 0) {
       // Left to right for even rows
       x = 60 + col * horizontalSpacing;
     } else {
@@ -397,13 +429,13 @@ function CharacterTimeline({ character }: { character: Character }) {
   }
 
   return (
-    <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
       {/* Serpentine Timeline */}
-      <div className="p-8">
+      <div className="w-full overflow-hidden">
         <div
           ref={timelineRef}
           className="relative mx-auto"
-          style={{ width: containerWidth, height: timelineHeight }}
+          style={{ width: dimensions.width, height: dimensions.height, minHeight: 300 }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -1231,13 +1263,11 @@ export default function CharacterDetail() {
             {/* Right Side - Tabbed Content */}
             <div className="lg:col-span-2">
               <Tabs defaultValue="details" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 mb-6">
+                <TabsList className="grid w-full grid-cols-4 mb-6">
                   <TabsTrigger value="details" className="text-sm">Details</TabsTrigger>
                   <TabsTrigger value="appearance" className="text-sm">Appearance</TabsTrigger>
                   <TabsTrigger value="backstory" className="text-sm">Backstory</TabsTrigger>
                   <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
-                  <TabsTrigger value="timeline" className="text-sm">Timeline</TabsTrigger>
-
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
