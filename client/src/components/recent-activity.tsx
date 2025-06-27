@@ -48,28 +48,32 @@ const recentActivity = [
 
 export default function RecentActivity() {
   return (
-    <Card className="shadow-sm border border-gray-200 p-6" style={{ backgroundColor: '#f8f6f2' }}>
+    <Card className="shadow-sm border border-gray-200 p-6 animate-slide-up hover-lift" style={{ backgroundColor: '#f8f6f2' }}>
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
-        <Button variant="ghost" className="text-sm text-[var(--worldforge-primary)] hover:text-orange-600 font-medium">
+        <h3 className="text-lg font-semibold text-gray-900 animate-fade-in">Recent Activity</h3>
+        <Button variant="ghost" className="text-sm text-[var(--worldforge-primary)] hover:text-orange-600 font-medium hover-scale animate-ripple">
           View All
         </Button>
       </div>
       
       <div className="space-y-4">
-        {recentActivity.map((activity) => {
+        {recentActivity.map((activity, index) => {
           const Icon = activity.icon;
           return (
-            <div key={activity.id} className="flex items-start space-x-4">
-              <div className={`flex-shrink-0 w-8 h-8 ${activity.iconColor} rounded-full flex items-center justify-center`}>
-                <Icon className="w-4 h-4" />
+            <div 
+              key={activity.id} 
+              className="flex items-start space-x-4 animate-slide-up hover-lift group cursor-pointer transition-all duration-200"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className={`flex-shrink-0 w-8 h-8 ${activity.iconColor} rounded-full flex items-center justify-center hover-scale group-hover:shadow-md transition-all duration-200`}>
+                <Icon className="w-4 h-4 group-hover:animate-bounce-gentle" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-900">
+                <p className="text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
                   {activity.action} <span className="font-medium">"{activity.target}"</span> to{" "}
                   <span className="font-medium">{activity.project}</span>
                 </p>
-                <p className="text-xs text-gray-500 mt-1">{activity.timestamp}</p>
+                <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-400 transition-colors duration-200">{activity.timestamp}</p>
               </div>
             </div>
           );

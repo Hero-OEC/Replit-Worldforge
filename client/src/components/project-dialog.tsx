@@ -144,13 +144,13 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md animate-scale-in">
         <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
+          <DialogTitle className="animate-fade-in">Create New Project</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 animate-slide-up">
             <FormField
               control={form.control}
               name="title"
@@ -213,12 +213,13 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
                 type="button" 
                 variant="outline"
                 onClick={() => onOpenChange(false)}
+                className="hover-scale animate-ripple"
               >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
-                className="worldforge-primary text-white hover:bg-orange-600"
+                className="worldforge-primary text-white hover:bg-orange-600 hover-glow animate-ripple"
                 disabled={createProjectMutation.isPending}
               >
                 {createProjectMutation.isPending ? "Creating..." : "Create Project"}

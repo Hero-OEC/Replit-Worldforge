@@ -36,16 +36,16 @@ export default function Navbar({
   ];
 
   return (
-    <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)]">
+    <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] animate-slide-up">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link href="/">
-              <div className="flex items-center space-x-2 cursor-pointer">
+              <div className="flex items-center space-x-2 cursor-pointer hover-scale animate-ripple">
                 <img 
                   src={worldForgeLogo} 
                   alt="WorldForge Logo" 
-                  className="w-10 h-10 object-contain"
+                  className="w-10 h-10 object-contain hover-scale"
                 />
                 <div>
                   <h1 className="text-heading-md text-gray-900">WorldForge</h1>
@@ -65,9 +65,9 @@ export default function Navbar({
                   return (
                     <Link key={item.name} href={item.href}>
                       <button
-                        className={`flex items-center space-x-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors min-h-[36px] ${
+                        className={`flex items-center space-x-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200 min-h-[36px] hover-scale animate-ripple ${
                           isActive
-                            ? "bg-orange-500 text-white"
+                            ? "bg-orange-500 text-white hover-glow"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >

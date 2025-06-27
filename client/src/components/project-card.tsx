@@ -187,7 +187,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
   return (
     <Card
-      className="bg-[var(--worldforge-card)] shadow-sm border border-[var(--border)] overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-[var(--worldforge-card)] shadow-sm border border-[var(--border)] overflow-hidden cursor-pointer animate-scale-in hover-lift animate-ripple"
       onClick={handleClick}
     >
       <div className="p-6">
@@ -211,14 +211,14 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="p-1 text-gray-400 hover:text-gray-600"
+              className="p-1 text-gray-400 hover:text-gray-600 hover-scale animate-ripple"
             >
               <Star className="w-4 h-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="p-1 text-gray-400 hover:text-gray-600"
+              className="p-1 text-gray-400 hover:text-gray-600 hover-scale animate-ripple"
             >
               <MoreHorizontal className="w-4 h-4" />
             </Button>
@@ -230,29 +230,29 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         </p>
 
         <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="text-center">
-            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2">
+          <div className="text-center group">
+            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-blue-200 transition-colors duration-200">
               <Users className="text-blue-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900">
+            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
               {project.stats.charactersCount}
             </p>
             <p className="text-xs text-gray-500">Characters</p>
           </div>
-          <div className="text-center">
-            <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2">
+          <div className="text-center group">
+            <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-green-200 transition-colors duration-200">
               <MapPin className="text-green-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900">
+            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
               {project.stats.locationsCount}
             </p>
             <p className="text-xs text-gray-500">Locations</p>
           </div>
-          <div className="text-center">
-            <div className="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg mx-auto mb-2">
+          <div className="text-center group">
+            <div className="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-orange-200 transition-colors duration-200">
               <Scroll className="text-orange-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900">
+            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
               {project.stats.eventsCount}
             </p>
             <p className="text-xs text-gray-500">Events</p>

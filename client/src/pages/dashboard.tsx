@@ -22,7 +22,7 @@ export default function Dashboard() {
         rightContent={
           <Button 
             onClick={() => setShowProjectDialog(true)}
-            className="bg-orange-500 text-white hover:bg-orange-600"
+            className="bg-orange-500 text-white hover:bg-orange-600 hover-glow animate-ripple hover-scale"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Project
@@ -32,19 +32,19 @@ export default function Dashboard() {
       
       <main className="flex-1 p-8 overflow-y-auto">
         {/* Welcome Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to WorldForge</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <div className="text-center mb-12 animate-slide-up">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4 animate-fade-in">Welcome to WorldForge</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto animate-slide-up">
             Your comprehensive creative writing companion. Organize characters, build worlds, 
             manage timelines, and bring your stories to life.
           </p>
         </div>
 
         {/* Projects Section */}
-        <div className="mb-8">
+        <div className="mb-8 animate-slide-up">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Projects</h2>
-            <p className="text-gray-600">Manage and organize your creative writing projects</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2 animate-fade-in">Your Projects</h2>
+            <p className="text-gray-600 animate-slide-up">Manage and organize your creative writing projects</p>
           </div>
         </div>
 
@@ -70,23 +70,29 @@ export default function Dashboard() {
           </div>
         ) : projects && projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {projects.map((project, index) => (
+              <div 
+                key={project.id} 
+                className="animate-scale-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
+          <div className="text-center py-20 animate-slide-up">
             <div className="max-w-md mx-auto">
-              <BookOpen className="mx-auto h-16 w-16 text-gray-400 mb-6" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Welcome to WorldForge</h3>
-              <p className="text-gray-600 mb-8 text-lg">
+              <BookOpen className="mx-auto h-16 w-16 text-gray-400 mb-6 animate-bounce-gentle hover-scale" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-3 animate-fade-in">Welcome to WorldForge</h3>
+              <p className="text-gray-600 mb-8 text-lg animate-slide-up">
                 Begin your creative journey by creating your first worldbuilding project. 
                 Organize characters, locations, timelines, and lore all in one place.
               </p>
               <Button
                 onClick={() => setShowProjectDialog(true)}
                 size="lg"
-                className="worldforge-primary text-white hover:bg-orange-600 px-8 py-3 text-lg"
+                className="worldforge-primary text-white hover:bg-orange-600 px-8 py-3 text-lg hover-glow animate-ripple hover-scale"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Create Your First Project
