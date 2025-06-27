@@ -9,8 +9,8 @@ export const projects = sqliteTable("projects", {
   genre: text("genre").notNull(),
   description: text("description").notNull(),
   status: text("status").notNull().default("active"), // active, planning, completed, archived
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const characters = sqliteTable("characters", {
@@ -23,8 +23,8 @@ export const characters = sqliteTable("characters", {
   backstory: text("backstory"),
   role: text("role"), // protagonist, antagonist, supporting, etc.
   powerSystems: text("power_systems", { mode: "json" }).$type<string[]>().default("[]"), // array of power/magic system names
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const locations = sqliteTable("locations", {
@@ -35,8 +35,8 @@ export const locations = sqliteTable("locations", {
   geography: text("geography"),
   culture: text("culture"),
   significance: text("significance"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const timelineEvents = sqliteTable("timeline_events", {
@@ -47,8 +47,8 @@ export const timelineEvents = sqliteTable("timeline_events", {
   date: text("date"), // flexible date format for fictional timelines
   category: text("category"), // plot, character, world, etc.
   order: integer("order").notNull().default(0),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const magicSystems = sqliteTable("magic_systems", {
@@ -61,8 +61,8 @@ export const magicSystems = sqliteTable("magic_systems", {
   limitations: text("limitations"),
   source: text("source"), // where magic comes from
   cost: text("cost"), // what using magic costs
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const loreEntries = sqliteTable("lore_entries", {
@@ -72,8 +72,8 @@ export const loreEntries = sqliteTable("lore_entries", {
   content: text("content"),
   category: text("category"), // history, religion, politics, etc.
   tags: text("tags", { mode: "json" }).$type<string[]>().default("[]"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const editHistory = sqliteTable("edit_history", {
@@ -83,7 +83,7 @@ export const editHistory = sqliteTable("edit_history", {
   entityType: text("entity_type").notNull(), // character, location, timeline_event, magic_system, lore_entry
   entityName: text("entity_name").notNull(),
   description: text("description"), // detailed description of what was changed
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(Date.now()),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 // Insert schemas
