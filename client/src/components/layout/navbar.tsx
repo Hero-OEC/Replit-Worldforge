@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import inkAlchemyLogo from "@assets/inkalchemy_1751051851875.png";
+import inkAlchemyLogo from "@assets/inkalchemy_1751051991309.png";
 
 interface NavbarProps {
   projectId?: string;

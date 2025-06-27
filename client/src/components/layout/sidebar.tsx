@@ -8,7 +8,7 @@ import {
   BookOpen, 
   Settings
 } from "lucide-react";
-import inkAlchemyLogo from "@assets/inkalchemy_1751051851875.png";
+import inkAlchemyLogo from "@assets/inkalchemy_1751051991309.png";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
