@@ -429,16 +429,16 @@ function CharacterTimeline({ character }: { character: Character }) {
   }
 
   return (
-    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#f8f6f2]">
+    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#f8f6f2] relative">
       {/* Serpentine Timeline */}
-      <div className="w-full">
+      <div className="w-full relative">
         <div
           ref={timelineRef}
-          className="relative mx-auto"
+          className="relative mx-auto z-10"
           style={{ width: dimensions.width, height: dimensions.height + 250, minHeight: 500 }}
         >
           {/* Timeline Path */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
             {pathPoints.length > 1 && (
               <path
                 d={`M ${pathPoints.map(point => point.join(',')).join(' L ')}`}
@@ -459,7 +459,7 @@ function CharacterTimeline({ character }: { character: Character }) {
               <div key={group.date}>
                 <div
                   style={{ left: x, top: y }}
-                  className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20"
                 >
                   {group.isMultiEvent ? (
                     // Multi-event node
@@ -472,13 +472,10 @@ function CharacterTimeline({ character }: { character: Character }) {
                           setHoveredDateGroup(group);
                           setHoveredEvent(null);
                           const rect = e.currentTarget.getBoundingClientRect();
-                          const containerRect = containerRef.current?.getBoundingClientRect();
-                          if (containerRect) {
-                            setPopupPosition({
-                              x: rect.left + rect.width / 2 - containerRect.left,
-                              y: rect.top - containerRect.top
-                            });
-                          }
+                          setPopupPosition({
+                            x: rect.left + rect.width / 2,
+                            y: rect.top
+                          });
                         }}
                         onMouseLeave={() => {
                           setHoveredDateGroup(null);
@@ -512,13 +509,10 @@ function CharacterTimeline({ character }: { character: Character }) {
                           setHoveredEvent(group.events[0]);
                           setHoveredDateGroup(null);
                           const rect = e.currentTarget.getBoundingClientRect();
-                          const containerRect = containerRef.current?.getBoundingClientRect();
-                          if (containerRect) {
-                            setPopupPosition({
-                              x: rect.left + rect.width / 2 - containerRect.left,
-                              y: rect.top - containerRect.top
-                            });
-                          }
+                          setPopupPosition({
+                            x: rect.left + rect.width / 2,
+                            y: rect.top
+                          });
                         }}
                         onMouseLeave={() => {
                           setHoveredEvent(null);
@@ -625,11 +619,11 @@ function CharacterTimeline({ character }: { character: Character }) {
         </div>
       </div>
 
-      {/* Hover popups */}
+      {/* Hover popups - positioned absolutely with highest z-index */}
       {popupPosition && (
         <div
           ref={popupRef}
-          className="absolute z-[9999]"
+          className="fixed z-[99999]"
           style={{
             left: popupPosition.x,
             top: popupPosition.y + 70,
