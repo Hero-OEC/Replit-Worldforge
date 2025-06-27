@@ -463,76 +463,150 @@ function CharacterTimeline({ character }: { character: Character }) {
                 >
                   {group.isMultiEvent ? (
                     // Multi-event node
-                    <div
-                      className={`relative cursor-pointer transform transition-all duration-200 ${
-                        isHovered ? "scale-110" : "hover:scale-105"
-                      }`}
-                      onMouseEnter={() => {
-                        setHoveredDateGroup(group);
-                        setPopupPosition({
-                          x: x,
-                          y: y,
-                        });
-                      }}
-                      onMouseLeave={() => {
-                        setTimeout(() => {
-                          if (!popupRef.current?.matches(":hover")) {
-                            setHoveredDateGroup(null);
-                            setPopupPosition(null);
-                          }
-                        }, 100);
-                      }}
-                    >
-                      <div className="relative">
-                        <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                          <Calendar className="w-6 h-6 text-white" />
+                    <div className="relative group">
+                      <div
+                        className={`cursor-pointer transform transition-all duration-200 ${
+                          isHovered ? "scale-110" : "hover:scale-105"
+                        }`}
+                        onMouseEnter={() => setHoveredDateGroup(group)}
+                        onMouseLeave={() => setHoveredDateGroup(null)}
+                      >
+                        <div className="relative">
+                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                            <Calendar className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold text-xs">
+                              {group.events.length}
+                            </span>
+                          </div>
                         </div>
-                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">
-                            {group.events.length}
-                          </span>
-                        </div>
+
+                        {/* Inline popup for multi-events */}
+                        {isHovered && (
+                          <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
+                            <Card className="bg-white border shadow-xl p-4 w-80">
+                              <div className="mb-3">
+                                <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                                  {group.date}
+                                </h3>
+                                <p className="text-sm text-gray-600">
+                                  {group.events.length} events on this date
+                                </p>
+                              </div>
+                              <div className="grid grid-cols-1 gap-3">
+                                {group.events.slice(0, 3).map((event: any, eventIndex: number) => {
+                                  const EventIcon = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Star;
+                                  const importance = event.importance as keyof typeof priorityColors;
+
+                                  return (
+                                    <div
+                                      key={event.id}
+                                      className="relative p-3 rounded-lg bg-gray-50 border hover:bg-gray-100"
+                                    >
+                                      <div className="flex items-start space-x-3">
+                                        <div className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                          <EventIcon className="w-4 h-4 text-white" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <h4 className="font-medium text-gray-900 text-sm">
+                                            {event.title}
+                                          </h4>
+                                          <p className="text-xs text-gray-600 mt-1">
+                                            {event.description}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                                {group.events.length > 3 && (
+                                  <div className="text-xs text-gray-500 text-center py-2">
+                                    +{group.events.length - 3} more events
+                                  </div>
+                                )}
+                              </div>
+                            </Card>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ) : (
                     // Single event node
-                    <div
-                      className={`relative cursor-pointer transform transition-all duration-200 ${
-                        hoveredEvent === group.events[0]
-                          ? "scale-110"
-                          : "hover:scale-105"
-                      }`}
-                      onMouseEnter={() => {
-                        setHoveredEvent(group.events[0]);
-                        setPopupPosition({
-                          x: x,
-                          y: y,
-                        });
-                      }}
-                      onMouseLeave={() => {
-                        setTimeout(() => {
-                          if (!popupRef.current?.matches(":hover")) {
-                            setHoveredEvent(null);
-                            setPopupPosition(null);
-                          }
-                        }, 100);
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        console.log('Navigate to event:', group.events[0].id);
-                      }}
-                    >
+                    <div className="relative group">
                       <div
-                        className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center shadow-lg`}
+                        className={`cursor-pointer transform transition-all duration-200 ${
+                          hoveredEvent === group.events[0]
+                            ? "scale-110"
+                            : "hover:scale-105"
+                        }`}
+                        onMouseEnter={() => setHoveredEvent(group.events[0])}
+                        onMouseLeave={() => setHoveredEvent(null)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          console.log('Navigate to event:', group.events[0].id);
+                        }}
                       >
-                        {React.createElement(
-                          eventTypeIcons[
-                            group.events[0]
-                              .category as keyof typeof eventTypeIcons
-                          ] || Star,
-                          {
-                            className: "w-6 h-6 text-white",
-                          },
+                        <div
+                          className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center shadow-lg`}
+                        >
+                          {React.createElement(
+                            eventTypeIcons[
+                              group.events[0]
+                                .category as keyof typeof eventTypeIcons
+                            ] || Star,
+                            {
+                              className: "w-6 h-6 text-white",
+                            },
+                          )}
+                        </div>
+
+                        {/* Inline popup for single event */}
+                        {hoveredEvent === group.events[0] && (
+                          <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
+                            <Card className="bg-white border shadow-xl p-4 w-80">
+                              <div className="flex items-start space-x-3 mb-3">
+                                <div className={`w-8 h-8 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                  {React.createElement(
+                                    eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star,
+                                    { className: "w-4 h-4 text-white" }
+                                  )}
+                                </div>
+                                <div className="flex-1">
+                                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                                    {group.events[0].title}
+                                  </h3>
+                                  <p className="text-sm text-gray-600 mb-2">{group.date}</p>
+                                  <div className="flex items-center space-x-2 mb-3">
+                                    <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded">
+                                      {group.events[0].category}
+                                    </span>
+                                    <span className={`px-2 py-1 text-xs rounded text-white ${priorityColors[group.events[0].importance as keyof typeof priorityColors]}`}>
+                                      {group.events[0].importance} priority
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {group.events[0].description && (
+                                <p className="text-sm text-gray-700 mb-3">{group.events[0].description}</p>
+                              )}
+                              
+                              {group.events[0].location && (
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                  <span>📍</span>
+                                  <span>{group.events[0].location}</span>
+                                </div>
+                              )}
+                              
+                              {group.events[0].characters && group.events[0].characters.length > 0 && (
+                                <div className="mt-2">
+                                  <span className="text-xs text-gray-500">Characters: </span>
+                                  <span className="text-xs text-gray-700">{group.events[0].characters.join(', ')}</span>
+                                </div>
+                              )}
+                            </Card>
+                          </div>
                         )}
                       </div>
                     </div>
