@@ -843,7 +843,7 @@ export default function LocationDetail() {
                       </Card>
                       <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="text-2xl font-bold text-gray-900">{sampleTimelineEvents.filter(e => e.location === location.name && e.importance === 'high').length}</div>
-                        <div className="text-sm text-gray-600">High Importance</div>
+                        <div className="text-sm text-gray-600">High Priority</div>
                       </Card>
                       <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="text-2xl font-bold text-gray-900">{Array.from(new Set(sampleTimelineEvents.filter(e => e.location === location.name).flatMap(e => e.characters))).length}</div>
@@ -856,15 +856,15 @@ export default function LocationDetail() {
                       <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">High Importance</span>
+                          <span className="text-sm text-gray-600">High Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Medium Importance</span>
+                          <span className="text-sm text-gray-600">Medium Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Low Importance</span>
+                          <span className="text-sm text-gray-600">Low Priority</span>
                         </div>
                       </div>
                     </div>

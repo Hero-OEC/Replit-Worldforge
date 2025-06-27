@@ -20,16 +20,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const importanceColors = {
+const priorityColors = {
   high: "bg-red-500",
   medium: "bg-orange-500",
   low: "bg-yellow-500",
 };
 
-const importanceLabels = {
-  high: "High Importance",
-  medium: "Medium Importance",
-  low: "Low Importance",
+const priorityLabels = {
+  high: "High Priority",
+  medium: "Medium Priority",
+  low: "Low Priority",
 };
 
 const eventTypeIcons = {
@@ -282,7 +282,7 @@ export default function SerpentineTimeline({
                     className={`w-12 h-12 rounded-full border-4 border-orange-300 flex items-center justify-center shadow-lg transition-all duration-200 ${
                       group.isMultiEvent
                         ? "bg-gradient-to-br from-orange-400 to-red-400"
-                        : importanceColors[group.events[0].importance]
+                        : priorityColors[group.events[0].importance]
                     } ${isHovered ? "shadow-xl border-orange-400" : ""}`}
                   >
                     {group.isMultiEvent ? (
@@ -345,7 +345,7 @@ export default function SerpentineTimeline({
                                   }
                                 }}
                               >
-                                <div className={`w-3 h-3 rounded-full ${importanceColors[event.importance]}`} />
+                                <div className={`w-3 h-3 rounded-full ${priorityColors[event.importance]}`} />
                                 <IconComponent className="w-4 h-4 text-gray-600" />
                                 <span className="text-sm text-gray-800 flex-1 truncate">
                                   {event.title}
@@ -376,7 +376,7 @@ export default function SerpentineTimeline({
         >
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-3">
-              <div className={`w-3 h-3 rounded-full ${importanceColors[selectedEvent.importance]}`} />
+              <div className={`w-3 h-3 rounded-full ${priorityColors[selectedEvent.importance]}`} />
               <div>
                 <h3 className="font-semibold text-gray-900">{selectedEvent.title}</h3>
                 <p className="text-sm text-gray-600">{selectedEvent.date}</p>
@@ -407,7 +407,7 @@ export default function SerpentineTimeline({
                   'border-yellow-300 text-yellow-700'
                 }`}
               >
-                {importanceLabels[selectedEvent.importance]}
+                {priorityLabels[selectedEvent.importance]}
               </Badge>
             </div>
 

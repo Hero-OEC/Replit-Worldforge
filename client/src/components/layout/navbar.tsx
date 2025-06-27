@@ -36,7 +36,7 @@ export default function Navbar({
   ];
 
   return (
-    <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)] animate-slide-up">
+    <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)]">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">

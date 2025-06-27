@@ -328,15 +328,15 @@ export default function EditTimelineEvent() {
                     </div>
 
                     <div>
-                      <Label htmlFor="importance">Importance</Label>
+                      <Label htmlFor="importance">Priority</Label>
                       <Select onValueChange={setImportance} value={importance}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select importance" />
+                          <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="low">Low Importance</SelectItem>
-                          <SelectItem value="medium">Medium Importance</SelectItem>
-                          <SelectItem value="high">High Importance</SelectItem>
+                          <SelectItem value="low">Low Priority</SelectItem>
+                          <SelectItem value="medium">Medium Priority</SelectItem>
+                          <SelectItem value="high">High Priority</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

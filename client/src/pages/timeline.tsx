@@ -183,16 +183,16 @@ function TagSearch({
   );
 }
 
-const importanceColors = {
+const priorityColors = {
   high: "bg-red-500",
   medium: "bg-orange-500",
   low: "bg-yellow-500",
 };
 
-const importanceLabels = {
-  high: "High Importance",
-  medium: "Medium Importance",
-  low: "Low Importance",
+const priorityLabels = {
+  high: "High Priority",
+  medium: "Medium Priority",
+  low: "Low Priority",
 };
 
 const eventTypeIcons = {
@@ -370,7 +370,7 @@ export default function Timeline() {
     if (selectedEvent) {
       setEventTitle(selectedEvent.title || "");
       setEventDate(selectedEvent.date || "");
-      setEventImportance(selectedEvent.importance || "medium");
+      setEventPriority(selectedEvent.importance || "medium");
       setEventCategory(selectedEvent.category || "");
       setEventDescription(selectedEvent.description || "");
       setSelectedLocations(selectedEvent.location ? [selectedEvent.location] : []);
@@ -381,7 +381,7 @@ export default function Timeline() {
   // Form state for add/edit dialogs
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventImportance, setEventImportance] = useState("medium");
+  const [eventPriority, setEventPriority] = useState("medium");
   const [eventCategory, setEventCategory] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -558,15 +558,15 @@ export default function Timeline() {
             <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">High Importance</span>
+                <span className="text-sm text-gray-600">High Priority</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Medium Importance</span>
+                <span className="text-sm text-gray-600">Medium Priority</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Low Importance</span>
+                <span className="text-sm text-gray-600">Low Priority</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
@@ -690,7 +690,7 @@ export default function Timeline() {
                           }}
                         >
                           <div
-                            className={`w-12 h-12 ${importanceColors[group.events[0].importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center shadow-lg`}
+                            className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center shadow-lg`}
                           >
                             {React.createElement(
                               eventTypeIcons[
@@ -777,7 +777,7 @@ export default function Timeline() {
                             event.category as keyof typeof eventTypeIcons
                           ] || Star;
                         const importance =
-                          event.importance as keyof typeof importanceColors;
+                          event.importance as keyof typeof priorityColors;
 
                         return (
                           <div
@@ -790,7 +790,7 @@ export default function Timeline() {
                           >
                             <div className="flex items-start space-x-3">
                               <div
-                                className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
+                                className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
                               >
                                 <EventIcon className="w-4 h-4 text-white" />
                               </div>
@@ -835,7 +835,7 @@ export default function Timeline() {
                 >
                   <div className="flex items-start space-x-3 mb-3">
                     <div
-                      className={`w-10 h-10 ${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} rounded-full flex items-center justify-center flex-shrink-0`}
+                      className={`w-10 h-10 ${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}
                     >
                       {React.createElement(
                         eventTypeIcons[
@@ -855,11 +855,11 @@ export default function Timeline() {
                       </p>
                       <div className="flex items-center space-x-2 mb-2">
                         <Badge
-                          className={`${importanceColors[hoveredEvent.importance as keyof typeof importanceColors]} text-white`}
+                          className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-white`}
                         >
                           {
-                            importanceLabels[
-                              hoveredEvent.importance as keyof typeof importanceLabels
+                            priorityLabels[
+                              hoveredEvent.importance as keyof typeof priorityLabels
                             ]
                           }
                         </Badge>
@@ -950,12 +950,12 @@ export default function Timeline() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Importance
+                        Priority
                       </label>
                       <select
                         className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:bg-white"
-                        value={eventImportance}
-                        onChange={(e) => setEventImportance(e.target.value)}
+                        value={eventPriority}
+                        onChange={(e) => setEventPriority(e.target.value)}
                       >
                         <option value="high">High</option>
                         <option value="medium">Medium</option>
@@ -1052,7 +1052,7 @@ export default function Timeline() {
                     console.log("Saving event:", {
                       title: eventTitle,
                       date: eventDate,
-                      importance: eventImportance,
+                      importance: eventPriority,
                       category: eventCategory,
                       description: eventDescription,
                       locations: selectedLocations,
@@ -1061,7 +1061,7 @@ export default function Timeline() {
                     setShowAddDialog(false);
                     setEventTitle("");
                     setEventDate("");
-                    setEventImportance("medium");
+                    setEventPriority("medium");
                     setEventCategory("");
                     setEventDescription("");
                     setSelectedLocations([]);
@@ -1109,7 +1109,7 @@ export default function Timeline() {
                   />
                 </div>
 
-                {/* Date and Importance Row */}
+                {/* Date and Priority Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1124,11 +1124,11 @@ export default function Timeline() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Importance
+                      Priority
                     </label>
                     <select
-                      value={eventImportance}
-                      onChange={(e) => setEventImportance(e.target.value)}
+                      value={eventPriority}
+                      onChange={(e) => setEventPriority(e.target.value)}
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
@@ -1231,7 +1231,7 @@ export default function Timeline() {
                       id: selectedEvent.id,
                       title: eventTitle,
                       date: eventDate,
-                      importance: eventImportance,
+                      importance: eventPriority,
                       category: eventCategory,
                       description: eventDescription,
                       location: selectedLocations[0] || null,
@@ -1242,7 +1242,7 @@ export default function Timeline() {
                     // Reset form
                     setEventTitle("");
                     setEventDate("");
-                    setEventImportance("medium");
+                    setEventPriority("medium");
                     setEventCategory("");
                     setEventDescription("");
                     setSelectedLocations([]);
@@ -1290,7 +1290,7 @@ export default function Timeline() {
                   />
                 </div>
 
-                {/* Date and Importance Row */}
+                {/* Date and Priority Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1305,11 +1305,11 @@ export default function Timeline() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Importance
+                      Priority
                     </label>
                     <select
-                      value={eventImportance}
-                      onChange={(e) => setEventImportance(e.target.value)}
+                      value={eventPriority}
+                      onChange={(e) => setEventPriority(e.target.value)}
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
@@ -1411,7 +1411,7 @@ export default function Timeline() {
                       id: selectedEvent.id,
                       title: eventTitle,
                       date: eventDate,
-                      importance: eventImportance,
+                      importance: eventPriority,
                       category: eventCategory,
                       description: eventDescription,
                       location: selectedLocations[0] || null,
@@ -1422,7 +1422,7 @@ export default function Timeline() {
                     // Reset form
                     setEventTitle("");
                     setEventDate("");
-                    setEventImportance("medium");
+                    setEventPriority("medium");
                     setEventCategory("");
                     setEventDescription("");
                     setSelectedLocations([]);
