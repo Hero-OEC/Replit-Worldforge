@@ -429,13 +429,13 @@ function CharacterTimeline({ character }: { character: Character }) {
   }
 
   return (
-    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#f8f6f2]">
       {/* Serpentine Timeline */}
-      <div className="w-full overflow-hidden">
+      <div className="w-full">
         <div
           ref={timelineRef}
           className="relative mx-auto"
-          style={{ width: dimensions.width, height: dimensions.height, minHeight: 300 }}
+          style={{ width: dimensions.width, height: dimensions.height + 250, minHeight: 500 }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -484,7 +484,11 @@ function CharacterTimeline({ character }: { character: Character }) {
 
                         {/* Inline popup for multi-events */}
                         {isHovered && (
-                          <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
+                          <div className={`absolute top-16 z-[100] ${
+                            index % 3 === 0 ? 'left-0' : 
+                            index % 3 === 2 ? 'right-0' : 
+                            'left-1/2 transform -translate-x-1/2'
+                          }`}>
                             <Card className="bg-white border shadow-xl p-4 w-80">
                               <div className="mb-3">
                                 <h3 className="font-semibold text-gray-900 text-lg mb-2">
@@ -563,7 +567,11 @@ function CharacterTimeline({ character }: { character: Character }) {
 
                         {/* Inline popup for single event */}
                         {hoveredEvent === group.events[0] && (
-                          <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
+                          <div className={`absolute top-16 z-[100] ${
+                            index % 3 === 0 ? 'left-0' : 
+                            index % 3 === 2 ? 'right-0' : 
+                            'left-1/2 transform -translate-x-1/2'
+                          }`}>
                             <Card className="bg-white border shadow-xl p-4 w-80">
                               <div className="flex items-start space-x-3 mb-3">
                                 <div className={`w-8 h-8 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}>
