@@ -118,11 +118,11 @@ export default function Lore() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center group hover:scale-110 hover:rotate-3 transition-all duration-300 shadow-lg">
-                <BookOpen className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                <BookOpen className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Lore</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Lore</h1>
                 <p className="text-gray-600">Manage your world's history, culture, and knowledge</p>
               </div>
             </div>

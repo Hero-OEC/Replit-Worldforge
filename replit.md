@@ -119,6 +119,12 @@ Changelog:
   * Deleted SerpentineTimeline component usage from character pages
   * Cleaned up timeline-related imports and sample data
   * Fixed broken timeline functionality that was causing errors
+- June 27, 2025. Standardized all page title icon sizes throughout the application:
+  * Fixed main page headers to use consistent w-10 h-10 containers with w-5 h-5 icons
+  * Updated timeline, characters, locations, magic systems, lore, and notes pages
+  * Standardized title sizing to text-2xl across all main pages
+  * Ensured detail pages maintain consistent icon sizing
+  * Created uniform visual hierarchy throughout the entire application
 - June 27, 2025. Applied consistent styling system to notes pages:
   * Created note detail page with same hierarchy as lore detail page
   * Implemented category-based icons and color schemes (Plot, Characters, World Building, Research)
