@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, X, Plus, Minus } from "lucide-react";
+import { ArrowLeft, Save, X, Plus, Minus, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ import Navbar from "@/components/layout/navbar";
 import { useNavigationTracker } from "@/contexts/navigation-context";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLoreEntrySchema, type InsertLoreEntry, type ProjectWithStats } from "@shared/schema";
+import { getRecommendedTags, analyzeContentForTags, getCategoryBaseTags } from "@shared/tag-recommendations";
 
 const categories = [
   "History",
@@ -36,6 +37,8 @@ export default function NewLoreEntry() {
   const queryClient = useQueryClient();
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
+  const [recommendedTags, setRecommendedTags] = useState<string[]>([]);
+  const [showRecommendations, setShowRecommendations] = useState(false);
 
   useNavigationTracker();
 
@@ -53,6 +56,24 @@ export default function NewLoreEntry() {
       tags: []
     },
   });
+
+  // Generate tag recommendations based on content
+  useEffect(() => {
+    const title = form.watch("title");
+    const content = form.watch("content");
+    const category = form.watch("category");
+    
+    if (content && content.length > 20) {
+      const recommendations = getRecommendedTags(content || "", title || "", category || "");
+      // Filter out tags that are already selected
+      const newRecommendations = recommendations.filter(tag => !tags.includes(tag));
+      setRecommendedTags(newRecommendations.slice(0, 6)); // Limit to 6 recommendations
+      setShowRecommendations(newRecommendations.length > 0);
+    } else {
+      setRecommendedTags([]);
+      setShowRecommendations(false);
+    }
+  }, [form.watch("title"), form.watch("content"), form.watch("category"), tags]);
 
   const createLoreEntryMutation = useMutation({
     mutationFn: async (data: InsertLoreEntry) => {
@@ -85,6 +106,13 @@ export default function NewLoreEntry() {
 
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
+  };
+
+  const addRecommendedTag = (tag: string) => {
+    if (!tags.includes(tag)) {
+      setTags([...tags, tag]);
+      setRecommendedTags(recommendedTags.filter(t => t !== tag));
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -214,6 +242,29 @@ export default function NewLoreEntry() {
                               </button>
                             </div>
                           ))}
+                        </div>
+                      )}
+
+                      {/* Tag Recommendations */}
+                      {showRecommendations && recommendedTags.length > 0 && (
+                        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Lightbulb className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm font-medium text-blue-700">Suggested Tags</span>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {recommendedTags.map((tag) => (
+                              <button
+                                key={tag}
+                                type="button"
+                                onClick={() => addRecommendedTag(tag)}
+                                className="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700 border border-blue-300 hover:bg-blue-200 hover:border-blue-400 transition-colors duration-200"
+                              >
+                                <Plus className="w-3 h-3 mr-1" />
+                                {tag}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
