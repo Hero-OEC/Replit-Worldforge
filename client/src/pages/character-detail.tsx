@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Sparkles, Zap, Trash2 } from "lucide-react";
+import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -11,8 +11,142 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
-
+import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Character, ProjectWithStats } from "@shared/schema";
+
+// Sample timeline events data
+const sampleEvents: TimelineEventData[] = [
+  {
+    id: 1,
+    title: "Elena's Awakening",
+    date: "Year 1, Day 5",
+    importance: "high",
+    category: "Character Arc",
+    description: "Elena discovers her true magical potential during a routine training session.",
+    location: "Arcanum City",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 2,
+    title: "The Forbidden Library",
+    date: "Year 1, Day 12",
+    importance: "medium",
+    category: "Discovery",
+    description: "Elena and Marcus uncover ancient texts in the hidden library.",
+    location: "Arcanum City",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 3,
+    title: "First Encounter",
+    date: "Year 1, Day 18",
+    importance: "high",
+    category: "Conflict",
+    description: "The protagonists face their first major challenge.",
+    location: "Dark Forest",
+    characters: ["Elena"],
+  },
+  {
+    id: 4,
+    title: "The Mentor's Secret",
+    date: "Year 1, Day 25",
+    importance: "medium",
+    category: "Revelation",
+    description: "A secret about Elena's mentor is revealed.",
+    location: "Magic Academy",
+    characters: ["Elena", "Mentor"],
+  },
+  {
+    id: 5,
+    title: "Village Rescue",
+    date: "Year 1, Day 31",
+    importance: "low",
+    category: "Heroic Act",
+    description: "The heroes help save a village from bandits.",
+    location: "Riverside Village",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 11,
+    title: "Morning Council Meeting",
+    date: "Year 1, Day 50",
+    importance: "medium",
+    category: "Political Event",
+    description: "The kingdom's council meets to discuss the growing threat.",
+    location: "Royal Palace",
+    characters: ["Elena", "King", "Council Members"],
+  },
+  {
+    id: 12,
+    title: "Afternoon Training",
+    date: "Year 1, Day 50",
+    importance: "low",
+    category: "Character Arc",
+    description: "Elena practices her new abilities in the training grounds.",
+    location: "Training Grounds",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 13,
+    title: "Evening Revelation",
+    date: "Year 1, Day 50",
+    importance: "high",
+    category: "Revelation",
+    description: "A shocking truth about Elena's heritage is revealed.",
+    location: "Royal Library",
+    characters: ["Elena", "Ancient Sage"],
+  },
+  {
+    id: 6,
+    title: "Journey to the North",
+    date: "Year 1, Day 78",
+    importance: "medium",
+    category: "Traveling",
+    description: "The group begins their journey to the northern kingdoms.",
+    location: "Northern Road",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 7,
+    title: "The Great Battle",
+    date: "Year 1, Day 71",
+    importance: "high",
+    category: "Battle",
+    description: "A major battle that changes the course of the war.",
+    location: "Battlefield",
+    characters: ["Elena", "Marcus", "Army"],
+  },
+  {
+    id: 8,
+    title: "Elemental Convergence",
+    date: "Year 1, Day 90",
+    importance: "medium",
+    category: "Magic",
+    description: "The elemental forces converge in an unprecedented way.",
+    location: "Elemental Nexus",
+    characters: ["Elena"],
+  },
+  {
+    id: 9,
+    title: "The Vanishing Mist",
+    date: "Year 1, Day 95",
+    importance: "low",
+    category: "Mystery",
+    description: "A strange mist appears and disappears mysteriously.",
+    location: "Misty Marshlands",
+    characters: ["Elena", "Marcus"],
+  },
+  {
+    id: 10,
+    title: "Hearts Entwined",
+    date: "Year 1, Day 88",
+    importance: "medium",
+    category: "Romance",
+    description: "A romantic subplot reaches a crucial moment.",
+    location: "Garden of Stars",
+    characters: ["Elena", "Marcus"],
+  },
+];
 
 // Power/Magic Systems with descriptions and categories
 const powerSystems = [
@@ -538,6 +672,7 @@ export default function CharacterDetail() {
                   <TabsTrigger value="appearance" className="text-sm">Appearance</TabsTrigger>
                   <TabsTrigger value="backstory" className="text-sm">Backstory</TabsTrigger>
                   <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
+                  <TabsTrigger value="timeline" className="text-sm">Timeline</TabsTrigger>
 
                 </TabsList>
 
@@ -664,6 +799,105 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
+                <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Clock className="w-5 h-5 text-orange-600" />
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
+                          <p className="text-sm text-gray-600">
+                            Events where {character.name} appears throughout the story
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                        <div className="flex items-center justify-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                            <Clock className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-blue-600 mb-1">
+                              {sampleEvents.filter(e => e.characters?.includes(character.name)).length}
+                            </div>
+                            <div className="text-sm text-gray-600 font-medium">
+                              Total Events
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                        <div className="flex items-center justify-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                            <Star className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-red-600 mb-1">
+                              {sampleEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
+                            </div>
+                            <div className="text-sm text-gray-600 font-medium">
+                              High Priority
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                        <div className="flex items-center justify-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                            <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-purple-600 mb-1">
+                              {sampleEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Arc").length}
+                            </div>
+                            <div className="text-sm text-gray-600 font-medium">
+                              Character Events
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex justify-center">
+                      <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">High Priority</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Medium Priority</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Low Priority</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">3</span>
+                          </div>
+                          <span className="text-sm text-gray-600">Multiple Events</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Timeline Container */}
+                    <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
+                      <SerpentineTimeline
+                        events={sampleEvents}
+                        filterCharacter={character.name}
+                        onEventClick={(event) => console.log('Event clicked:', event)}
+                        onEventEdit={(event) => console.log('Edit event:', event)}
+                        showEditButtons={false}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
 
               </Tabs>
             </div>
