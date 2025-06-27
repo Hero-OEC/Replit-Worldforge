@@ -128,6 +128,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get characters by query parameter (for magic system detail page)
+  app.get("/api/characters", async (req, res) => {
+    try {
+      const projectId = parseInt(req.query.projectId as string);
+      if (!projectId) {
+        return res.status(400).json({ message: "Project ID is required" });
+      }
+      const characters = await storage.getCharacters(projectId);
+      res.json(characters);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch characters" });
+    }
+  });
+
   // Locations
   app.get("/api/projects/:projectId/locations", async (req, res) => {
     try {

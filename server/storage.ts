@@ -360,6 +360,91 @@ export class MemStorage implements IStorage {
       updatedAt: new Date()
     });
 
+    // Add sample characters with power systems for demonstration
+    this.characters.set(1, {
+      id: 1,
+      projectId: 1,
+      name: "Elena Brightblade",
+      description: "A young mage with incredible potential and a mysterious past.",
+      appearance: "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training",
+      personality: "Determined, compassionate, but sometimes impulsive.",
+      backstory: "Born into nobility but discovered her magical abilities late in life.",
+      role: "Protagonist",
+      powerSystems: ["Fire Magic", "Light Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(2, {
+      id: 2,
+      projectId: 1,
+      name: "Marcus Shadowbane",
+      description: "A former assassin turned reluctant hero with a dark past.",
+      appearance: "Black hair, piercing blue eyes, tall and lean with numerous scars",
+      personality: "Brooding, loyal once trust is earned, struggles with his dark nature.",
+      backstory: "Trained as a shadow assassin before abandoning his order to fight for justice.",
+      role: "Ally",
+      powerSystems: ["Shadow Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(3, {
+      id: 3,
+      projectId: 1,
+      name: "Aqua Tidecaller",
+      description: "A sea priestess with mastery over water and healing arts.",
+      appearance: "Silver-blue hair that flows like water, sea-green eyes, medium height",
+      personality: "Calm, wise, protective of nature and innocent life.",
+      backstory: "Raised by the sea spirits after her village was destroyed by pirates.",
+      role: "Supporting",
+      powerSystems: ["Water Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(4, {
+      id: 4,
+      projectId: 1,
+      name: "Gareth Stoneward",
+      description: "A dwarven earth mage and master craftsman.",
+      appearance: "Braided brown beard, stocky build, hands permanently stained with earth and stone dust",
+      personality: "Steady, reliable, takes pride in his craft and magical abilities.",
+      backstory: "Heir to a long line of earth mages who protect the mountain kingdoms.",
+      role: "Ally",
+      powerSystems: ["Earth Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(5, {
+      id: 5,
+      projectId: 1,
+      name: "Lady Seraphina",
+      description: "A noble paladin devoted to the Light Goddess.",
+      appearance: "Golden hair, radiant blue eyes, tall and graceful with an aura of divine light",
+      personality: "Righteous, compassionate, unwavering in her faith and moral convictions.",
+      backstory: "Chosen by the Light Goddess at a young age to be her champion.",
+      role: "Ally",
+      powerSystems: ["Light Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.characters.set(6, {
+      id: 6,
+      projectId: 1,
+      name: "Lord Vex the Corrupted",
+      description: "A powerful sorcerer consumed by shadow magic and malice.",
+      appearance: "Pale skin, black eyes with no pupils, tall and gaunt with shadow tendrils emanating from his form",
+      personality: "Cruel, manipulative, driven by a hunger for power and revenge.",
+      backstory: "Once a promising light mage who fell to darkness after a great tragedy.",
+      role: "Antagonist",
+      powerSystems: ["Shadow Magic", "Fire Magic"],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
     this.currentCharacterId = 20;
     this.currentLocationId = 14;
     this.currentTimelineEventId = 44;
