@@ -530,7 +530,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                         }}
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log('Navigate to event:', group.events[0].id);
+                          navigate(`/project/${projectId}/timeline/${group.events[0].id}`);
                         }}
                       >
                         <div
@@ -603,6 +603,7 @@ function CharacterTimeline({ character }: { character: Character }) {
             // Multi-event popup
             <Card
               className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+              onClick={() => navigate(`/project/${projectId}/timeline`)}
             >
               <div className="mb-3">
                 <h3 className="font-semibold text-gray-900 text-lg mb-2">
@@ -627,6 +628,10 @@ function CharacterTimeline({ character }: { character: Character }) {
                       <div
                         key={event.id}
                         className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/project/${projectId}/timeline/${event.id}`);
+                        }}
                       >
                         <div className="flex items-start space-x-3">
                           <div
@@ -659,7 +664,7 @@ function CharacterTimeline({ character }: { character: Character }) {
               className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
               onClick={(e) => {
                 e.stopPropagation();
-                console.log('Navigate to event:', hoveredEvent.id);
+                navigate(`/project/${projectId}/timeline/${hoveredEvent.id}`);
               }}
             >
               <div className="flex items-start space-x-3 mb-3">
@@ -953,6 +958,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
 
 export default function CharacterDetail() {
   const { projectId, characterId } = useParams<{ projectId: string; characterId: string }>();
+  const [location, navigate] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
