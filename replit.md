@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 27, 2025. Fixed character timeline overflow issue and restored functionality:
+  * Fixed serpentine timeline responsive layout to stay within container bounds
+  * Updated timeline to use dynamic width calculation based on available space
+  * Improved event spacing and positioning for better mobile responsiveness
+  * Timeline now properly adapts to different screen sizes without overflow
+  * Restored timeline tab after temporary removal - user confirmed it was working perfectly
 - June 27, 2025. Removed broken character timeline functionality:
   * Removed timeline tab from character detail pages per user request
   * Deleted SerpentineTimeline component usage from character pages
