@@ -45,7 +45,7 @@ export default function Navbar({
                 <img 
                   src={inkAlchemyLogo} 
                   alt="InkAlchemy Logo" 
-                  className="w-10 h-10 object-contain hover-scale"
+                  className="w-12 h-12 object-contain hover-scale"
                 />
                 <div>
                   <h1 className="text-heading-md text-gray-900">WorldForge</h1>

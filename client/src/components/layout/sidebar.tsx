@@ -30,7 +30,7 @@ export default function Sidebar() {
           <img 
             src={inkAlchemyLogo} 
             alt="InkAlchemy Logo" 
-            className="w-10 h-10 object-contain"
+            className="w-12 h-12 object-contain"
           />
           <div>
             <h1 className="text-xl font-bold text-gray-900">WorldForge</h1>
