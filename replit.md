@@ -119,6 +119,13 @@ Changelog:
   * Deleted SerpentineTimeline component usage from character pages
   * Cleaned up timeline-related imports and sample data
   * Fixed broken timeline functionality that was causing errors
+- June 27, 2025. Applied consistent styling system to notes pages:
+  * Created note detail page with same hierarchy as lore detail page
+  * Implemented category-based icons and color schemes (Plot, Characters, World Building, Research)
+  * Updated notes listing to use clickable cards with proper navigation
+  * Applied unified tag system with consistent styling throughout
+  * Added same button positioning and styling (orange edit, red outline delete)
+  * Established consistent page hierarchy across all content types
 - June 27, 2025. Updated lore detail page to match location detail page styling:
   * Moved category icon from card header to sit next to the page title
   * Repositioned back, edit, and delete buttons to main content area instead of navbar

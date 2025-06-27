@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, Save, X, FileText } from "lucide-react";
+import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, Save, X, FileText, BookOpen, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -11,8 +11,41 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Navbar from "@/components/layout/navbar";
 import type { ProjectWithStats } from "@shared/schema";
 
+// Category configuration for consistent styling
+const categoryConfig = {
+  "Plot": {
+    icon: BookOpen,
+    color: "bg-blue-500",
+    bgColor: "bg-blue-100",
+    textColor: "text-blue-800",
+    borderColor: "border-blue-200"
+  },
+  "Characters": {
+    icon: Users,
+    color: "bg-green-500",
+    bgColor: "bg-green-100",
+    textColor: "text-green-800",
+    borderColor: "border-green-200"
+  },
+  "World Building": {
+    icon: Search,
+    color: "bg-purple-500",
+    bgColor: "bg-purple-100",
+    textColor: "text-purple-800",
+    borderColor: "border-purple-200"
+  },
+  "Research": {
+    icon: Scroll,
+    color: "bg-yellow-500",
+    bgColor: "bg-yellow-100",
+    textColor: "text-yellow-800",
+    borderColor: "border-yellow-200"
+  }
+};
+
 export default function Notes() {
   const { projectId } = useParams<{ projectId: string }>();
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingNote, setEditingNote] = useState<any>(null);
@@ -106,14 +139,8 @@ export default function Notes() {
     note.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      'Plot': 'bg-blue-100 text-blue-800',
-      'Characters': 'bg-green-100 text-green-800',
-      'World Building': 'bg-purple-100 text-purple-800',
-      'Research': 'bg-yellow-100 text-yellow-800',
-    };
-    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+  const handleNoteClick = (noteId: number) => {
+    setLocation(`/project/${projectId}/notes/${noteId}`);
   };
 
   return (
@@ -150,61 +177,71 @@ export default function Notes() {
 
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredNotes.map((note) => (
-              <Card key={note.id} className="p-6 hover:shadow-md transition-shadow border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3 flex-1">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <FileText className="w-5 h-5 text-orange-600" />
+            {filteredNotes.map((note) => {
+              const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
+              const CategoryIcon = categoryInfo.icon;
+              
+              return (
+                <Card 
+                  key={note.id} 
+                  className="p-6 hover:shadow-md transition-shadow border border-gray-200 cursor-pointer hover:border-orange-300" 
+                  style={{ backgroundColor: '#f8f6f2' }}
+                  onClick={() => handleNoteClick(note.id)}
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center`}>
+                        <CategoryIcon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">{note.title}</h3>
+                        <Badge className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}>
+                          {note.category}
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">{note.title}</h3>
-                      <Badge className={getCategoryColor(note.category)}>
-                        {note.category}
-                      </Badge>
-                    </div>
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                        <Button variant="ghost" size="sm">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleEdit(note); }}>
+                          <Edit3 className="w-4 h-4 mr-2" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }}
+                          className="text-red-600"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                  
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleEdit(note)}>
-                        <Edit3 className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        onClick={() => handleDelete(note.id)}
-                        className="text-red-600"
+
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-4">{note.content}</p>
+
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {note.tags.map((tag, index) => (
+                      <span 
+                        key={index}
+                        className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
                       >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-4">{note.content}</p>
-
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {note.tags.map((tag, index) => (
-                    <span 
-                      key={index}
-                      className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="text-xs text-gray-400">
-                  {note.createdAt}
-                </div>
-              </Card>
-            ))}
+                  <div className="text-xs text-gray-400">
+                    {note.createdAt}
+                  </div>
+                </Card>
+              );
+            })}
           </div>
 
           {filteredNotes.length === 0 && (
