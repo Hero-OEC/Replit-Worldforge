@@ -468,8 +468,22 @@ function CharacterTimeline({ character }: { character: Character }) {
                         className={`cursor-pointer transform transition-all duration-200 ${
                           isHovered ? "scale-110" : "hover:scale-105"
                         }`}
-                        onMouseEnter={() => setHoveredDateGroup(group)}
-                        onMouseLeave={() => setHoveredDateGroup(null)}
+                        onMouseEnter={(e) => {
+                          setHoveredDateGroup(group);
+                          setHoveredEvent(null);
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const containerRect = containerRef.current?.getBoundingClientRect();
+                          if (containerRect) {
+                            setPopupPosition({
+                              x: rect.left + rect.width / 2 - containerRect.left,
+                              y: rect.top - containerRect.top
+                            });
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredDateGroup(null);
+                          setPopupPosition(null);
+                        }}
                       >
                         <div className="relative">
                           <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
@@ -494,8 +508,22 @@ function CharacterTimeline({ character }: { character: Character }) {
                             ? "scale-110"
                             : "hover:scale-105"
                         }`}
-                        onMouseEnter={() => setHoveredEvent(group.events[0])}
-                        onMouseLeave={() => setHoveredEvent(null)}
+                        onMouseEnter={(e) => {
+                          setHoveredEvent(group.events[0]);
+                          setHoveredDateGroup(null);
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const containerRect = containerRef.current?.getBoundingClientRect();
+                          if (containerRect) {
+                            setPopupPosition({
+                              x: rect.left + rect.width / 2 - containerRect.left,
+                              y: rect.top - containerRect.top
+                            });
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredEvent(null);
+                          setPopupPosition(null);
+                        }}
                         onClick={(e) => {
                           e.stopPropagation();
                           console.log('Navigate to event:', group.events[0].id);
@@ -616,7 +644,7 @@ function CharacterTimeline({ character }: { character: Character }) {
             setPopupPosition(null);
           }}
         >
-          {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
+          {hoveredDateGroup ? (
             // Multi-event popup
             <Card
               className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
