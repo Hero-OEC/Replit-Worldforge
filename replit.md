@@ -98,6 +98,11 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 27, 2025. Removed broken character timeline functionality:
+  * Removed timeline tab from character detail pages per user request
+  * Deleted SerpentineTimeline component usage from character pages
+  * Cleaned up timeline-related imports and sample data
+  * Fixed broken timeline functionality that was causing errors
 - June 27, 2025. Successfully completed migration from Replit agent to Replit environment:
   * Installed required packages (tsx for TypeScript execution)
   * Set up PostgreSQL database and applied schema migrations
