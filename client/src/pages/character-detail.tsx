@@ -537,57 +537,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                           )}
                         </div>
 
-                        {/* Inline popup for single event */}
-                        {hoveredEvent === group.events[0] && (
-                          <div className={`absolute top-16 z-[100] ${
-                            index % 3 === 0 ? 'left-0' : 
-                            index % 3 === 2 ? 'right-0' : 
-                            'left-1/2 transform -translate-x-1/2'
-                          }`}>
-                            <Card className="bg-white border shadow-xl p-4 w-80">
-                              <div className="flex items-start space-x-3 mb-3">
-                                <div className={`w-8 h-8 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}>
-                                  {React.createElement(
-                                    eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star,
-                                    { className: "w-4 h-4 text-white" }
-                                  )}
-                                </div>
-                                <div className="flex-1">
-                                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
-                                    {group.events[0].title}
-                                  </h3>
-                                  <p className="text-sm text-gray-600 mb-2">{group.date}</p>
-                                  <div className="flex items-center space-x-2 mb-3">
-                                    <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded">
-                                      {group.events[0].category}
-                                    </span>
-                                    <span className={`px-2 py-1 text-xs rounded text-white ${priorityColors[group.events[0].importance as keyof typeof priorityColors]}`}>
-                                      {group.events[0].importance} priority
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              {group.events[0].description && (
-                                <p className="text-sm text-gray-700 mb-3">{group.events[0].description}</p>
-                              )}
-                              
-                              {group.events[0].location && (
-                                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                  <span>📍</span>
-                                  <span>{group.events[0].location}</span>
-                                </div>
-                              )}
-                              
-                              {group.events[0].characters && group.events[0].characters.length > 0 && (
-                                <div className="mt-2">
-                                  <span className="text-xs text-gray-500">Characters: </span>
-                                  <span className="text-xs text-gray-700">{group.events[0].characters.join(', ')}</span>
-                                </div>
-                              )}
-                            </Card>
-                          </div>
-                        )}
+
                       </div>
                     </div>
                   )}
@@ -623,10 +573,10 @@ function CharacterTimeline({ character }: { character: Character }) {
       {popupPosition && (
         <div
           ref={popupRef}
-          className="fixed z-[99999]"
+          className="absolute z-[99999]"
           style={{
-            left: popupPosition.x,
-            top: popupPosition.y + 70,
+            left: popupPosition.x - (containerRef.current?.getBoundingClientRect().left || 0),
+            top: popupPosition.y - (containerRef.current?.getBoundingClientRect().top || 0) + 70,
             transform: "translateX(-50%)",
           }}
           onMouseEnter={() => {
