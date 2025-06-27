@@ -149,28 +149,28 @@ export default function Notes() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        rightContent={
-          <Button
-            onClick={() => setShowAddDialog(true)}
-            className="bg-orange-500 text-white hover:bg-orange-600"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Note
-          </Button>
-        }
       />
 
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                <Scroll className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                  <Scroll className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Notes</h1>
+                  <p className="text-gray-600">Capture your ideas and research</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Notes</h1>
-                <p className="text-gray-600">Capture your ideas and research</p>
-              </div>
+              <Button
+                onClick={() => setShowAddDialog(true)}
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Note
+              </Button>
             </div>
           </div>
 

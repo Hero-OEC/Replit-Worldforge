@@ -132,28 +132,28 @@ export default function Characters() {
         showProjectNav={true}
         searchPlaceholder="Search characters..."
         onSearch={setSearchTerm}
-        rightContent={
-          <Button 
-            className="bg-orange-500 text-white hover:bg-orange-600"
-            onClick={() => setLocation(`/project/${projectId}/characters/new`)}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Character
-          </Button>
-        }
       />
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                  <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Characters</h1>
+                  <p className="text-gray-600">Manage your story's characters and their development</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Characters</h1>
-                <p className="text-gray-600">Manage your story's characters and their development</p>
-              </div>
+              <Button 
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Character
+              </Button>
             </div>
           </div>
 

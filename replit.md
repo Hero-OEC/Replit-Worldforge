@@ -119,6 +119,12 @@ Changelog:
   * Deleted SerpentineTimeline component usage from character pages
   * Cleaned up timeline-related imports and sample data
   * Fixed broken timeline functionality that was causing errors
+- June 27, 2025. Moved all add buttons from navbar to page headers for consistent layout:
+  * Relocated Add Event, Add Character, Add Location, Add Lore Entry, and Add Note buttons
+  * All buttons now positioned on right side of page titles using justify-between layout
+  * Maintained consistent orange styling and functionality across all pages
+  * Updated navbar components to remove rightContent props throughout application
+  * Applied uniform header layout matching magic systems page design pattern
 - June 27, 2025. Standardized all page title icon sizes throughout the application:
   * Fixed main page headers to use consistent w-10 h-10 containers with w-5 h-5 icons
   * Updated timeline, characters, locations, magic systems, lore, and notes pages

@@ -102,29 +102,30 @@ export default function Lore() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        rightContent={
-          <Button
-            onClick={() => setLocation(`/project/${projectId}/lore/new`)}
-            className="bg-orange-500 text-white hover:bg-orange-600 group hover:scale-105 transition-all duration-300"
-          >
-            <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
-            Add Lore Entry
-          </Button>
-        }
+        searchPlaceholder="Search lore entries..."
       />
 
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                <BookOpen className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                  <BookOpen className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Lore</h1>
+                  <p className="text-gray-600">Manage your world's history, culture, and knowledge</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Lore</h1>
-                <p className="text-gray-600">Manage your world's history, culture, and knowledge</p>
-              </div>
+              <Button
+                onClick={() => setLocation(`/project/${projectId}/lore/new`)}
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Lore Entry
+              </Button>
             </div>
 
             {/* Filter Controls */}
