@@ -119,6 +119,11 @@ Changelog:
   * Deleted SerpentineTimeline component usage from character pages
   * Cleaned up timeline-related imports and sample data
   * Fixed broken timeline functionality that was causing errors
+- June 27, 2025. Updated lore detail page to match location detail page styling:
+  * Moved category icon from card header to sit next to the page title
+  * Repositioned back, edit, and delete buttons to main content area instead of navbar
+  * Applied consistent button styling with orange edit button and red outline delete button
+  * Enhanced header layout to match location detail page structure
 - June 27, 2025. Successfully completed migration from Replit agent to Replit environment:
   * Installed required packages (tsx for TypeScript execution)
   * Set up PostgreSQL database and applied schema migrations

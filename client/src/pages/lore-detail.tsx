@@ -139,13 +139,17 @@ export default function LoreDetail() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">{loreEntry.title}</h1>
-                <div className="mt-2">
+                <div className="flex items-center space-x-3 mb-2">
+                  <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                    <CategoryIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <h1 className="text-3xl font-bold text-gray-800">{loreEntry.title}</h1>
+                </div>
+                <div className="ml-13">
                   <Badge 
                     variant="secondary" 
                     className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}
                   >
-                    <CategoryIcon className="w-4 h-4 mr-1" />
                     {loreEntry.category}
                   </Badge>
                 </div>
