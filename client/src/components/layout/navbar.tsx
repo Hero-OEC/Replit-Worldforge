@@ -71,7 +71,7 @@ export default function Navbar({
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >
-                        <Icon className="w-4 h-4" />
+                        <Icon className="w-4 h-4 transition-transform duration-300 hover:bounce hover:scale-110" />
                         <span>{item.name}</span>
                       </button>
                     </Link>
@@ -83,7 +83,7 @@ export default function Navbar({
           
           <div className="flex items-center space-x-4">
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 transition-transform duration-300 hover:rotate-12 hover:scale-110" />
               <Input
                 placeholder={searchPlaceholder}
                 value={searchTerm}

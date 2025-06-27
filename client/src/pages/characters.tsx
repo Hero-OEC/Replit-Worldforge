@@ -147,8 +147,8 @@ export default function Characters() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                <Users className="w-6 h-6 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Characters</h1>
@@ -161,8 +161,8 @@ export default function Characters() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                  <Users className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                  <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-gray-900 mb-1">
@@ -176,8 +176,8 @@ export default function Characters() {
             </div>
             <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
-                  <Crown className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                  <Crown className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-yellow-600 mb-1">
@@ -191,8 +191,8 @@ export default function Characters() {
             </div>
             <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
-                  <Sword className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                  <Sword className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-45 group-hover:scale-110" />
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-red-600 mb-1">
@@ -206,8 +206,8 @@ export default function Characters() {
             </div>
             <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                  <Shield className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-600 mb-1">
@@ -314,8 +314,8 @@ export default function Characters() {
 
                     {/* Character Stats/Info Bar */}
                     <div className={`mt-4 pt-3 border-t ${roleInfo.borderColor} flex items-center justify-between`}>
-                      <div className={`${roleInfo.color} rounded-full p-1`}>
-                        <RoleIcon className="w-4 h-4 text-white" />
+                      <div className={`${roleInfo.color} rounded-full p-1 transition-all duration-300 hover:scale-110 hover:shadow-lg group/role-icon`}>
+                        <RoleIcon className="w-4 h-4 text-white transition-transform duration-300 group-hover/role-icon:bounce group-hover/role-icon:scale-110" />
                       </div>
                       <span className="text-caption text-gray-500 font-medium">
                         Click to view details

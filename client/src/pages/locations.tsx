@@ -121,8 +121,8 @@ export default function Locations() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Map className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                <Map className="w-6 h-6 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Locations</h1>
@@ -143,8 +143,8 @@ export default function Locations() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-orange-600" />
+                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+                      <MapPin className="w-6 h-6 text-orange-600 transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">{location.name}</h3>

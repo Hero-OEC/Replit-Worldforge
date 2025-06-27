@@ -482,8 +482,8 @@ export default function Timeline() {
           <div className="mb-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                  <Clock className="w-6 h-6 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
@@ -499,8 +499,8 @@ export default function Timeline() {
               <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                      <Calendar className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-gray-900 mb-1">
@@ -514,8 +514,8 @@ export default function Timeline() {
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
-                      <Star className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                      <Star className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-red-600 mb-1">
@@ -532,8 +532,8 @@ export default function Timeline() {
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                      <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600 mb-1">

@@ -37,8 +37,8 @@ function MagicSystemCard({ system, onDelete, projectId }: {
       <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-3 flex-1">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <CategoryIcon className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+                <CategoryIcon className="w-6 h-6 text-white transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between">
@@ -147,8 +147,8 @@ export default function MagicSystems() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
+                <Sparkles className="w-6 h-6 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Magic & Power Systems</h1>
