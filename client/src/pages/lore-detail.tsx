@@ -175,50 +175,24 @@ export default function LoreDetail() {
               </Button>
             </div>
           </div>
-          <Card>
-            <CardHeader className="pb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-4">
-                  <div className={`w-12 h-12 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="w-4 h-4" />
-                        <span>
-                          Updated {formatDistanceToNow(new Date(loreEntry.updatedAt), { addSuffix: true })}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          {/* Tags */}
+          {loreEntry.tags && loreEntry.tags.length > 0 && (
+            <div className="mb-6">
+              <div className="flex flex-wrap gap-2">
+                {loreEntry.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
-            </CardHeader>
+            </div>
+          )}
 
-            <CardContent className="space-y-6">
-              {/* Tags */}
-              {loreEntry.tags && loreEntry.tags.length > 0 && (
-                <div>
-                  <div className="flex items-center space-x-2 mb-4">
-                    <Tag className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm font-medium text-gray-700">Tags</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {loreEntry.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <Separator />
-
+          <Card>
+            <CardContent className="space-y-6 pt-6">
               {/* Content */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Content</h3>
@@ -226,20 +200,6 @@ export default function LoreDetail() {
                   <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                     {loreEntry.content}
                   </p>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Metadata */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                <div>
-                  <span className="font-medium">Created:</span>{" "}
-                  {formatDistanceToNow(new Date(loreEntry.createdAt), { addSuffix: true })}
-                </div>
-                <div>
-                  <span className="font-medium">Last Updated:</span>{" "}
-                  {formatDistanceToNow(new Date(loreEntry.updatedAt), { addSuffix: true })}
                 </div>
               </div>
             </CardContent>
