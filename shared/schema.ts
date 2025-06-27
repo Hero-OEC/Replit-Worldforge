@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer, blob, real } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -14,7 +15,7 @@ export const projects = sqliteTable("projects", {
 
 export const characters = sqliteTable("characters", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   appearance: text("appearance"),
@@ -28,7 +29,7 @@ export const characters = sqliteTable("characters", {
 
 export const locations = sqliteTable("locations", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   geography: text("geography"),
@@ -40,7 +41,7 @@ export const locations = sqliteTable("locations", {
 
 export const timelineEvents = sqliteTable("timeline_events", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   description: text("description"),
   date: text("date"), // flexible date format for fictional timelines
@@ -52,7 +53,7 @@ export const timelineEvents = sqliteTable("timeline_events", {
 
 export const magicSystems = sqliteTable("magic_systems", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   category: text("category").notNull().default("magic"), // magic or power
   description: text("description"),
@@ -66,7 +67,7 @@ export const magicSystems = sqliteTable("magic_systems", {
 
 export const loreEntries = sqliteTable("lore_entries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   content: text("content"),
   category: text("category"), // history, religion, politics, etc.
@@ -77,7 +78,7 @@ export const loreEntries = sqliteTable("lore_entries", {
 
 export const editHistory = sqliteTable("edit_history", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  projectId: integer("project_id").notNull(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   action: text("action").notNull(), // created, updated, deleted
   entityType: text("entity_type").notNull(), // character, location, timeline_event, magic_system, lore_entry
   entityName: text("entity_name").notNull(),
@@ -161,3 +162,55 @@ export interface ProjectStats {
 export interface ProjectWithStats extends Project {
   stats: ProjectStats;
 }
+
+// Define relations for better querying
+export const projectsRelations = relations(projects, ({ many }) => ({
+  characters: many(characters),
+  locations: many(locations),
+  timelineEvents: many(timelineEvents),
+  magicSystems: many(magicSystems),
+  loreEntries: many(loreEntries),
+  editHistory: many(editHistory),
+}));
+
+export const charactersRelations = relations(characters, ({ one }) => ({
+  project: one(projects, {
+    fields: [characters.projectId],
+    references: [projects.id],
+  }),
+}));
+
+export const locationsRelations = relations(locations, ({ one }) => ({
+  project: one(projects, {
+    fields: [locations.projectId],
+    references: [projects.id],
+  }),
+}));
+
+export const timelineEventsRelations = relations(timelineEvents, ({ one }) => ({
+  project: one(projects, {
+    fields: [timelineEvents.projectId],
+    references: [projects.id],
+  }),
+}));
+
+export const magicSystemsRelations = relations(magicSystems, ({ one }) => ({
+  project: one(projects, {
+    fields: [magicSystems.projectId],
+    references: [projects.id],
+  }),
+}));
+
+export const loreEntriesRelations = relations(loreEntries, ({ one }) => ({
+  project: one(projects, {
+    fields: [loreEntries.projectId],
+    references: [projects.id],
+  }),
+}));
+
+export const editHistoryRelations = relations(editHistory, ({ one }) => ({
+  project: one(projects, {
+    fields: [editHistory.projectId],
+    references: [projects.id],
+  }),
+}));
