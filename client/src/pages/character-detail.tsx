@@ -1329,22 +1329,36 @@ export default function CharacterDetail() {
                             onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
                           />
                         ) : selectedPowerSystems.length > 0 ? (
-                          <div className="flex flex-wrap gap-2">
+                          <div className="grid grid-cols-1 gap-3">
                             {selectedPowerSystems.map((systemName, index) => {
                               const system = powerSystems.find(s => s.name === systemName);
-                              const variant = system?.category === "power" ? "power" : "magic";
+                              const CategoryIcon = getCategoryIcon(system?.category || "magic");
+                              const colorClass = getCategoryColor(system?.category || "magic");
+                              const borderColorClass = getCategoryBorderColor(system?.category || "magic");
                               
                               return (
                                 <WouterLink key={index} href={`/project/${projectId}/magic-systems`}>
-                                  <Tag variant={variant} className="cursor-pointer" size="lg">
-                                    {system?.title || systemName}
-                                  </Tag>
+                                  <div className={`p-4 ${colorClass} rounded-lg border ${borderColorClass} cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02]`}>
+                                    <div className="flex items-start space-x-3">
+                                      <div className="flex-shrink-0">
+                                        <CategoryIcon className="w-6 h-6" />
+                                      </div>
+                                      <div className="flex-1 min-w-0">
+                                        <h4 className="text-base font-semibold mb-1">
+                                          {system?.title || systemName}
+                                        </h4>
+                                        <p className="text-sm opacity-80 leading-relaxed">
+                                          {system?.description || "Custom power type"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </WouterLink>
                               );
                             })}
                           </div>
                         ) : (
-                          <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                             <span className="text-sm text-gray-600">No power types assigned</span>
                           </div>
                         )}
