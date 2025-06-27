@@ -122,37 +122,55 @@ export default function LoreDetail() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        rightContent={
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              onClick={() => setLocation(`/project/${projectId}/lore/${loreId}/edit`)}
-            >
-              <Edit3 className="w-4 h-4 mr-2" />
-              Edit
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleDelete}
-              disabled={deleteLoreEntryMutation.isPending}
-              className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setLocation(`/project/${projectId}/lore`)}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-          </div>
-        }
       />
 
       <main className="p-8">
         <div className="max-w-4xl mx-auto">
+          {/* Header with buttons */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-600 hover:text-gray-900"
+                onClick={() => setLocation(`/project/${projectId}/lore`)}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800">{loreEntry.title}</h1>
+                <div className="mt-2">
+                  <Badge 
+                    variant="secondary" 
+                    className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}
+                  >
+                    <CategoryIcon className="w-4 h-4 mr-1" />
+                    {loreEntry.category}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <Button 
+                onClick={() => setLocation(`/project/${projectId}/lore/${loreId}/edit`)} 
+                className="bg-orange-500 text-white hover:bg-orange-600"
+              >
+                <Edit3 className="w-4 h-4 mr-2" />
+                Edit Lore
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleDelete}
+                disabled={deleteLoreEntryMutation.isPending}
+                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete
+              </Button>
+            </div>
+          </div>
           <Card>
             <CardHeader className="pb-4">
               <div className="flex items-start justify-between">
@@ -161,21 +179,7 @@ export default function LoreDetail() {
                     <CategoryIcon className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
-                      {loreEntry.title}
-                    </CardTitle>
                     <div className="flex items-center space-x-4 text-sm text-gray-600">
-                      <div className="flex items-center space-x-1">
-                        <Folder className="w-4 h-4" />
-                        <span>
-                          <Badge 
-                            variant="secondary" 
-                            className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}
-                          >
-                            {loreEntry.category}
-                          </Badge>
-                        </span>
-                      </div>
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-4 h-4" />
                         <span>
