@@ -55,69 +55,14 @@ export default function Lore() {
     queryKey: ["/api/projects", projectId],
   });
 
-  // Sample data for demonstration
-  const sampleLoreEntries: LoreEntry[] = [
-    {
-      id: 1,
-      projectId: parseInt(projectId!),
-      title: "The Ancient War of Shadows",
-      content: "A thousand years ago, the realm was plunged into darkness when the Shadow Lords attempted to overthrow the Circle of Light. This war lasted for three centuries and reshaped the magical landscape of the world, creating the mystical barriers that still protect our lands today.",
-      category: "History",
-      tags: ["war", "ancient", "magic", "shadow lords", "circle of light"],
-      createdAt: new Date(Date.now() - 86400000 * 30),
-      updatedAt: new Date(Date.now() - 86400000 * 5)
+  const { data: loreEntries = [], isLoading } = useQuery<LoreEntry[]>({
+    queryKey: ["/api/lore-entries", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/lore-entries?projectId=${projectId}`);
+      if (!response.ok) throw new Error('Failed to fetch lore entries');
+      return response.json();
     },
-    {
-      id: 2,
-      projectId: parseInt(projectId!),
-      title: "The Crystal of Eternal Flame",
-      content: "A legendary artifact said to contain the first flame ever created by the gods. It is said that whoever possesses it can command fire magic beyond mortal comprehension. The crystal was last seen during the Battle of Crimson Peak, where it vanished into the ethereal realm.",
-      category: "Artifacts",
-      tags: ["artifact", "fire", "crystal", "legendary", "gods", "crimson peak"],
-      createdAt: new Date(Date.now() - 86400000 * 15),
-      updatedAt: new Date(Date.now() - 86400000 * 2)
-    },
-    {
-      id: 3,
-      projectId: parseInt(projectId!),
-      title: "The Prophecy of the Chosen One",
-      content: "Ancient texts speak of one who will rise when the realm faces its darkest hour. Born under the eclipse, marked by flame, they will either save the world or destroy it. The prophecy was first recorded by the Oracle of Moonvale and has been passed down through generations.",
-      category: "Prophecies",
-      tags: ["prophecy", "chosen one", "eclipse", "flame", "oracle", "moonvale"],
-      createdAt: new Date(Date.now() - 86400000 * 20),
-      updatedAt: new Date(Date.now() - 86400000 * 1)
-    },
-    {
-      id: 4,
-      projectId: parseInt(projectId!),
-      title: "The Academy of Mystic Arts",
-      content: "Founded by Archmage Theron after the Shadow War to ensure that magical knowledge would never again be hoarded by the few. The Academy stands as a beacon of learning, where students from all walks of life can study the arcane arts under the guidance of master wizards.",
-      category: "Institutions",
-      tags: ["academy", "founding", "education", "theron", "mystic arts", "learning"],
-      createdAt: new Date(Date.now() - 86400000 * 10),
-      updatedAt: new Date(Date.now() - 86400000 * 3)
-    },
-    {
-      id: 5,
-      projectId: parseInt(projectId!),
-      title: "The Festival of Starlight",
-      content: "An annual celebration held during the winter solstice, where citizens light thousands of lanterns to honor the celestial spirits. The tradition began as a way to ward off the darkness during the longest night of the year and has evolved into a joyous community gathering.",
-      category: "Customs",
-      tags: ["festival", "starlight", "winter solstice", "lanterns", "celestial spirits", "tradition"],
-      createdAt: new Date(Date.now() - 86400000 * 7),
-      updatedAt: new Date(Date.now() - 86400000 * 1)
-    },
-    {
-      id: 6,
-      projectId: parseInt(projectId!),
-      title: "The Order of the Silver Dawn",
-      content: "A religious organization dedicated to the worship of Lumina, the goddess of light and healing. The Order maintains temples throughout the realm and provides healing services to those in need. Their priests are known for their distinctive silver robes and crescent moon pendants.",
-      category: "Religion",
-      tags: ["order", "silver dawn", "lumina", "goddess", "healing", "temples", "priests"],
-      createdAt: new Date(Date.now() - 86400000 * 12),
-      updatedAt: new Date(Date.now() - 86400000 * 4)
-    }
-  ];
+  });
 
   const deleteLoreEntryMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -143,13 +88,13 @@ export default function Lore() {
   };
 
   // Filter entries based on category
-  const filteredEntries = sampleLoreEntries.filter(entry => {
+  const filteredEntries = loreEntries.filter(entry => {
     const matchesCategory = selectedCategory === "all" || entry.category === selectedCategory;
     return matchesCategory;
   });
 
   // Get unique categories for filter
-  const categories = Array.from(new Set(sampleLoreEntries.map(entry => entry.category)));
+  const categories = Array.from(new Set(loreEntries.map(entry => entry.category || "Uncategorized")));
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">

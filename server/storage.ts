@@ -511,6 +511,74 @@ export class MemStorage implements IStorage {
       createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
     });
 
+    // Sample lore entries for project 1
+    this.loreEntries.set(1, {
+      id: 1,
+      projectId: 1,
+      title: "The Ancient War of Shadows",
+      content: "A thousand years ago, the realm was plunged into darkness when the Shadow Lords attempted to overthrow the Circle of Light. This war lasted for three centuries and reshaped the magical landscape of the world, creating the mystical barriers that still protect our lands today.",
+      category: "History",
+      tags: ["war", "ancient", "magic", "shadow lords", "circle of light"],
+      createdAt: new Date(Date.now() - 86400000 * 30),
+      updatedAt: new Date(Date.now() - 86400000 * 5)
+    });
+
+    this.loreEntries.set(2, {
+      id: 2,
+      projectId: 1,
+      title: "The Crystal of Eternal Flame",
+      content: "A legendary artifact said to contain the first flame ever created by the gods. It is said that whoever possesses it can command fire magic beyond mortal comprehension. The crystal was last seen during the Battle of Crimson Peak, where it vanished into the ethereal realm.",
+      category: "Artifacts",
+      tags: ["artifact", "fire", "crystal", "legendary", "gods", "crimson peak"],
+      createdAt: new Date(Date.now() - 86400000 * 15),
+      updatedAt: new Date(Date.now() - 86400000 * 2)
+    });
+
+    this.loreEntries.set(3, {
+      id: 3,
+      projectId: 1,
+      title: "The Prophecy of the Chosen One",
+      content: "Ancient texts speak of one who will rise when the realm faces its darkest hour. Born under the eclipse, marked by flame, they will either save the world or destroy it. The prophecy was first recorded by the Oracle of Moonvale and has been passed down through generations.",
+      category: "Prophecies",
+      tags: ["prophecy", "chosen one", "eclipse", "flame", "oracle", "moonvale"],
+      createdAt: new Date(Date.now() - 86400000 * 20),
+      updatedAt: new Date(Date.now() - 86400000 * 1)
+    });
+
+    this.loreEntries.set(4, {
+      id: 4,
+      projectId: 1,
+      title: "The Academy of Mystic Arts",
+      content: "Founded by Archmage Theron after the Shadow War to ensure that magical knowledge would never again be hoarded by the few. The Academy stands as a beacon of learning, where students from all walks of life can study the arcane arts under the guidance of master wizards.",
+      category: "Institutions",
+      tags: ["academy", "founding", "education", "theron", "mystic arts", "learning"],
+      createdAt: new Date(Date.now() - 86400000 * 10),
+      updatedAt: new Date(Date.now() - 86400000 * 3)
+    });
+
+    this.loreEntries.set(5, {
+      id: 5,
+      projectId: 1,
+      title: "The Festival of Starlight",
+      content: "An annual celebration held during the winter solstice, where citizens light thousands of lanterns to honor the celestial spirits. The tradition began as a way to ward off the darkness during the longest night of the year and has evolved into a joyous community gathering.",
+      category: "Customs",
+      tags: ["festival", "starlight", "winter solstice", "lanterns", "celestial spirits", "tradition"],
+      createdAt: new Date(Date.now() - 86400000 * 7),
+      updatedAt: new Date(Date.now() - 86400000 * 1)
+    });
+
+    this.loreEntries.set(6, {
+      id: 6,
+      projectId: 1,
+      title: "The Order of the Silver Dawn",
+      content: "A religious organization dedicated to the worship of Lumina, the goddess of light and healing. The Order maintains temples throughout the realm and provides healing services to those in need. Their priests are known for their distinctive silver robes and crescent moon pendants.",
+      category: "Religion",
+      tags: ["order", "silver dawn", "lumina", "goddess", "healing", "temples", "priests"],
+      createdAt: new Date(Date.now() - 86400000 * 12),
+      updatedAt: new Date(Date.now() - 86400000 * 4)
+    });
+
+    this.currentLoreEntryId = 7;
     this.currentEditHistoryId = 7;
   }
 
