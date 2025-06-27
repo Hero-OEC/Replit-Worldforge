@@ -466,21 +466,12 @@ export default function Timeline() {
         showProjectNav={true}
         searchPlaceholder="Search timeline events..."
         onSearch={setSearchTerm}
-        rightContent={
-          <Button
-            onClick={() => navigateWithHistory(`/project/${projectId}/timeline/new`)}
-            className="bg-orange-500 text-white hover:bg-orange-600"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Event
-          </Button>
-        }
       />
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">
           {/* Header with Overview */}
           <div className="mb-8">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+            <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
                   <Clock className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
@@ -494,9 +485,17 @@ export default function Timeline() {
                   </p>
                 </div>
               </div>
+              <Button
+                onClick={() => navigateWithHistory(`/project/${projectId}/timeline/new`)}
+                className="bg-orange-500 text-white hover:bg-orange-600"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Event
+              </Button>
+            </div>
 
-              {/* Timeline Stats Cards */}
-              <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
+            {/* Timeline Stats Cards */}
+            <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
