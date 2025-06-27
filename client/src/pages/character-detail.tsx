@@ -477,9 +477,14 @@ function CharacterTimeline({ character }: { character: Character }) {
                             y: rect.top
                           });
                         }}
-                        onMouseLeave={() => {
-                          setHoveredDateGroup(null);
-                          setPopupPosition(null);
+                        onMouseLeave={(e) => {
+                          // Delay hiding to allow mouse to move to popup
+                          setTimeout(() => {
+                            if (!popupRef.current?.matches(':hover')) {
+                              setHoveredDateGroup(null);
+                              setPopupPosition(null);
+                            }
+                          }, 100);
                         }}
                       >
                         <div className="relative">
@@ -514,9 +519,14 @@ function CharacterTimeline({ character }: { character: Character }) {
                             y: rect.top
                           });
                         }}
-                        onMouseLeave={() => {
-                          setHoveredEvent(null);
-                          setPopupPosition(null);
+                        onMouseLeave={(e) => {
+                          // Delay hiding to allow mouse to move to popup
+                          setTimeout(() => {
+                            if (!popupRef.current?.matches(':hover')) {
+                              setHoveredEvent(null);
+                              setPopupPosition(null);
+                            }
+                          }, 100);
                         }}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -583,6 +593,7 @@ function CharacterTimeline({ character }: { character: Character }) {
             // Keep popup visible when hovering over it
           }}
           onMouseLeave={() => {
+            // Immediate hide when leaving popup
             setHoveredDateGroup(null);
             setHoveredEvent(null);
             setPopupPosition(null);
