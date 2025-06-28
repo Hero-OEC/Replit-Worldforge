@@ -123,7 +123,7 @@ export default function EntityConnections({
       </div>
 
       {showAddForm && (
-        <Card className="p-4 mb-4 bg-gray-50">
+        <Card className="p-4 mb-4 bg-[var(--color-100)]">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -198,9 +198,9 @@ export default function EntityConnections({
       )}
 
       {connections.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-            <ArrowRight className="w-6 h-6 text-gray-400" />
+        <div className="text-center py-8 text-[var(--color-600)]">
+          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center mx-auto mb-3">
+            <ArrowRight className="w-6 h-6 text-[var(--color-600)]" />
           </div>
           <p>No connections yet</p>
           <p className="text-sm">Add connections to link this {entityType} with other entities</p>
@@ -217,11 +217,11 @@ export default function EntityConnections({
                 </div>
                 <div className="space-y-2 ml-6">
                   {conns.map((connection) => (
-                    <div key={connection.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div key={connection.id} className="flex items-center justify-between p-3 bg-[var(--color-100)] rounded-lg">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
                           <span className="font-medium text-gray-900">{connection.targetName}</span>
-                          <ArrowRight className="w-3 h-3 text-gray-400" />
+                          <ArrowRight className="w-3 h-3 text-[var(--color-600)]" />
                           <Badge variant="outline" className="text-xs">
                             {connection.connectionType.replace('_', ' ')}
                           </Badge>

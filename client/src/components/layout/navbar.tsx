@@ -67,7 +67,7 @@ export default function Navbar({
                       <button
                         className={`flex items-center space-x-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200 min-h-[36px] hover-scale animate-ripple ${
                           isActive
-                            ? "bg-orange-500 text-white hover-glow"
+                            ? "bg-[var(--color-500)] text-[var(--color-50)] hover-glow"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >

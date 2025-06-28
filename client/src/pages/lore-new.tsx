@@ -281,7 +281,7 @@ export default function NewLoreEntry() {
                     <Button 
                       type="submit" 
                       disabled={createLoreEntryMutation.isPending}
-                      className="bg-orange-500 text-white hover:bg-orange-600"
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                     >
                       {createLoreEntryMutation.isPending ? (
                         "Creating..."

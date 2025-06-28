@@ -80,7 +80,7 @@ export default function LocationNew() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -88,7 +88,7 @@ export default function LocationNew() {
               </Button>
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">Add New Location</h1>
-                <p className="text-gray-600">Create a new place in your world</p>
+                <p className="text-[var(--color-700)]">Create a new place in your world</p>
               </div>
             </div>
             
@@ -97,7 +97,7 @@ export default function LocationNew() {
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="bg-orange-500 text-white hover:bg-orange-600">
+              <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                 <Save className="w-4 h-4 mr-2" />
                 Create Location
               </Button>
@@ -109,7 +109,7 @@ export default function LocationNew() {
             {/* Basic Info Card */}
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center space-x-6">
-                <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center">
+                <div className="w-24 h-24 bg-[var(--color-200)] rounded-full flex items-center justify-center">
                   <MapPin className="w-12 h-12 text-orange-600" />
                 </div>
                 <div className="flex-1 space-y-4">
@@ -161,7 +161,7 @@ export default function LocationNew() {
 
               <TabsContent value="basics" className="space-y-6">
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Description</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Description</h3>
                   <textarea
                     value={locationData.description}
                     onChange={(e) => setLocationData({...locationData, description: e.target.value})}
@@ -173,7 +173,7 @@ export default function LocationNew() {
 
               <TabsContent value="geography" className="space-y-6">
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Geography & Environment</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Geography & Environment</h3>
                   <textarea
                     value={locationData.geography}
                     onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
@@ -185,7 +185,7 @@ export default function LocationNew() {
 
               <TabsContent value="culture" className="space-y-6">
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Culture & Society</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Culture & Society</h3>
                   <textarea
                     value={locationData.culture}
                     onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
@@ -197,7 +197,7 @@ export default function LocationNew() {
 
               <TabsContent value="significance" className="space-y-6">
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Story Significance</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Story Significance</h3>
                   <textarea
                     value={locationData.significance}
                     onChange={(e) => setLocationData({...locationData, significance: e.target.value})}

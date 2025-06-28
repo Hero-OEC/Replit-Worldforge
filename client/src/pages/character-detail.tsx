@@ -300,8 +300,8 @@ const sampleEvents: TimelineEventData[] = [
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
-  high: "bg-red-500",
-  medium: "bg-orange-500", 
+  high: "bg-destructive",
+  medium: "bg-[var(--color-500)]", 
   low: "bg-yellow-500",
 };
 
@@ -420,9 +420,9 @@ function CharacterTimeline({ character }: { character: Character }) {
     return (
       <div className="rounded-lg p-8 shadow-sm border border-gray-200 overflow-hidden bg-[#f8f6f2]">
         <div className="flex flex-col items-center justify-center py-12">
-          <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-600 mb-2">No Events Found</h3>
-          <p className="text-gray-500">No timeline events have been recorded for {character.name} yet.</p>
+          <Clock className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-[var(--color-700)] mb-2">No Events Found</h3>
+          <p className="text-[var(--color-600)]">No timeline events have been recorded for {character.name} yet.</p>
         </div>
       </div>
     );
@@ -489,10 +489,10 @@ function CharacterTimeline({ character }: { character: Character }) {
                       >
                         <div className="relative">
                           <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                            <Calendar className="w-6 h-6 text-white" />
+                            <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                           </div>
-                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                            <span className="text-white font-bold text-xs">
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
+                            <span className="text-[var(--color-50)] font-bold text-xs">
                               {group.events.length}
                             </span>
                           </div>
@@ -542,7 +542,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                                 .category as keyof typeof eventTypeIcons
                             ] || Star,
                             {
-                              className: "w-6 h-6 text-white",
+                              className: "w-6 h-6 text-[var(--color-50)]",
                             },
                           )}
                         </div>
@@ -567,7 +567,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                           ? `${group.events.length} Events`
                           : group.events[0].title}
                       </div>
-                      <div className="text-xs text-gray-600 font-medium">
+                      <div className="text-xs text-[var(--color-700)] font-medium">
                         {group.date}
                       </div>
                     </div>
@@ -606,10 +606,10 @@ function CharacterTimeline({ character }: { character: Character }) {
               onClick={() => navigate(`/project/${projectId}/timeline`)}
             >
               <div className="mb-3">
-                <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
                   {hoveredDateGroup.date}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[var(--color-700)]">
                   {hoveredDateGroup.events.length} events on this date
                 </p>
               </div>
@@ -627,7 +627,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                     return (
                       <div
                         key={event.id}
-                        className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                        className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-200)]"
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/project/${projectId}/timeline/${event.id}`);
@@ -637,13 +637,13 @@ function CharacterTimeline({ character }: { character: Character }) {
                           <div
                             className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
                           >
-                            <EventIcon className="w-4 h-4 text-white" />
+                            <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-gray-900 text-sm">
+                            <h4 className="font-medium text-[var(--color-950)] text-sm">
                               {event.title}
                             </h4>
-                            <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                            <p className="text-xs text-[var(--color-700)] mt-1 line-clamp-2">
                               {event.description}
                             </p>
                           </div>
@@ -652,7 +652,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                     );
                   })}
                 {hoveredDateGroup.events.length > 3 && (
-                  <div className="text-xs text-gray-500 text-center py-2">
+                  <div className="text-xs text-[var(--color-600)] text-center py-2">
                     +{hoveredDateGroup.events.length - 3} more events
                   </div>
                 )}
@@ -678,15 +678,15 @@ function CharacterTimeline({ character }: { character: Character }) {
                       hoveredEvent.category as keyof typeof eventTypeIcons
                     ] || Star,
                     {
-                      className: "w-5 h-5 text-white",
+                      className: "w-5 h-5 text-[var(--color-50)]",
                     },
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                  <h3 className="font-semibold text-[var(--color-950)] text-lg mb-1">
                     {hoveredEvent.title}
                   </h3>
-                  <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                  <div className="flex items-center space-x-4 text-sm text-[var(--color-700)] mb-2">
                     <span>{hoveredEvent.date}</span>
                     <span className="flex items-center">
                       <MapPin className="w-3 h-3 mr-1" />
@@ -695,13 +695,13 @@ function CharacterTimeline({ character }: { character: Character }) {
                   </div>
                   {/* Priority and Category badges */}
                   <div className="flex items-center space-x-2 mb-2">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full text-white ${
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full text-[var(--color-50)] ${
                       priorityColors[hoveredEvent.importance as keyof typeof priorityColors]
                     }`}>
                       {hoveredEvent.importance === 'high' ? 'High Priority' : 
                        hoveredEvent.importance === 'medium' ? 'Medium Priority' : 'Low Priority'}
                     </span>
-                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-[var(--color-200)] text-gray-700">
                       {hoveredEvent.category}
                     </span>
                   </div>
@@ -713,21 +713,21 @@ function CharacterTimeline({ character }: { character: Character }) {
               {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex items-center space-x-2">
-                    <Users className="w-4 h-4 text-gray-500" />
-                    <span className="text-xs text-gray-600 font-medium">
+                    <Users className="w-4 h-4 text-[var(--color-600)]" />
+                    <span className="text-xs text-[var(--color-700)] font-medium">
                       Characters:
                     </span>
                     <div className="flex flex-wrap gap-1">
                       {hoveredEvent.characters.slice(0, 3).map((char: string, index: number) => (
                         <span
                           key={index}
-                          className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                          className="text-xs bg-[var(--color-200)] text-[var(--color-700)] px-2 py-1 rounded"
                         >
                           {char}
                         </span>
                       ))}
                       {hoveredEvent.characters.length > 3 && (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-[var(--color-600)]">
                           +{hoveredEvent.characters.length - 3}
                         </span>
                       )}
@@ -736,7 +736,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                 </div>
               )}
               <div className="mt-3 text-center">
-                <span className="text-xs text-gray-500">Click to view event</span>
+                <span className="text-xs text-[var(--color-600)]">Click to view event</span>
               </div>
             </Card>
           ) : null}
@@ -827,10 +827,10 @@ const powerSystems = [
 // Character role configuration
 const roleConfig = {
   "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Antagonist": { icon: Sword, color: "bg-red-500", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Antagonist": { icon: Sword, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
   "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Enemy": { icon: UserX, color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Neutral": { icon: HelpCircle, color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" },
+  "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Neutral": { icon: HelpCircle, color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
   "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
 };
 
@@ -890,7 +890,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
             if (filteredSystems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
         />
         {isOpen && filteredSystems.length > 0 && (
           <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
@@ -899,18 +899,18 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
               return (
                 <div
                   key={index}
-                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer"
                   onClick={() => handleSelectSystem(system.name)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <CategoryIcon className="w-4 h-4 text-gray-500" />
+                      <CategoryIcon className="w-4 h-4 text-[var(--color-600)]" />
                       <div>
                         <span className="font-medium text-sm">{system.name}</span>
-                        <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+                        <p className="text-xs text-[var(--color-700)] line-clamp-1">{system.description}</p>
                       </div>
                     </div>
-                    <Check className="w-4 h-4 text-gray-400" />
+                    <Check className="w-4 h-4 text-[var(--color-600)]" />
                   </div>
                 </div>
               );
@@ -1096,7 +1096,7 @@ export default function CharacterDetail() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -1139,14 +1139,14 @@ export default function CharacterDetail() {
                     <X className="w-4 h-4 mr-2" />
                     Cancel
                   </Button>
-                  <Button onClick={handleSave} className="bg-orange-500 text-white hover:bg-orange-600">
+                  <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                     <Save className="w-4 h-4 mr-2" />
                     Save Changes
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button onClick={() => setIsEditing(true)} className="bg-orange-500 text-white hover:bg-orange-600">
+                  <Button onClick={() => setIsEditing(true)} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Character
                   </Button>
@@ -1158,7 +1158,7 @@ export default function CharacterDetail() {
                         console.log("Delete character:", character.id);
                       }
                     }}
-                    className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                    className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Delete
@@ -1180,7 +1180,7 @@ export default function CharacterDetail() {
                   </h2>
                   {isEditing && (
                     <div className="flex items-center space-x-3">
-                      <span className="text-xs text-gray-500">Best: 7:9 ratio</span>
+                      <span className="text-xs text-[var(--color-600)]">Best: 7:9 ratio</span>
                       <Button
                         onClick={() => fileInputRef.current?.click()}
                         variant="outline"
@@ -1196,7 +1196,7 @@ export default function CharacterDetail() {
 
                 {/* Character Portrait */}
                 <div className="relative mb-6 flex justify-center">
-                  <div className="aspect-[7/9] bg-gray-100 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+                  <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
                     {characterImage || character.image ? (
                       <img 
                         src={characterImage || character.image} 
@@ -1228,11 +1228,11 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.age || character.age}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                        className="w-20 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                         placeholder="22"
                       />
                     ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.age}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.age}</span>
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-gray-200">
@@ -1241,11 +1241,11 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.race || character.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                         placeholder="Human"
                       />
                     ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-gray-200">
@@ -1254,11 +1254,11 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.class || character.class}
                         onChange={(e) => setCharacterData({...characterData, class: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                         placeholder="Mage"
                       />
                     ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md">{character.class}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.class}</span>
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3">
@@ -1267,12 +1267,12 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.location || character.location}
                         onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
-                        className="w-32 h-8 text-sm text-right bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                         placeholder="Arcanum City"
                       />
                     ) : (
                       <WouterLink href={`/project/${projectId}/locations/1`}>
-                        <span className="text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200 transition-colors">{(() => {
+                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200 transition-colors">{(() => {
                           // Get the character's most recent event location
                           const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
                           const sortedEvents = [...characterEvents].sort((a, b) => {
@@ -1313,7 +1313,7 @@ export default function CharacterDetail() {
                             value={characterData.description || character.description}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                             rows={3}
-                            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                             placeholder="Brief character description..."
                           />
                         ) : (
@@ -1327,7 +1327,7 @@ export default function CharacterDetail() {
                           <textarea
                             value={characterData.personality || character.personality}
                             onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                             placeholder="Character's personality traits..."
                           />
                         ) : (
@@ -1373,8 +1373,8 @@ export default function CharacterDetail() {
                             })}
                           </div>
                         ) : (
-                          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <span className="text-sm text-gray-600">No power types assigned</span>
+                          <div className="p-4 bg-[var(--color-100)] rounded-lg border border-gray-200">
+                            <span className="text-sm text-[var(--color-700)]">No power types assigned</span>
                           </div>
                         )}
                       </div>
@@ -1391,7 +1391,7 @@ export default function CharacterDetail() {
                         <textarea
                           value={characterData.appearance || character.appearance}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
-                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                           placeholder="Describe the character's physical appearance..."
                         />
                       ) : (
@@ -1410,7 +1410,7 @@ export default function CharacterDetail() {
                         <textarea
                           value={characterData.backstory || character.backstory}
                           onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                           placeholder="Character's background story..."
                         />
                       ) : (
@@ -1423,14 +1423,14 @@ export default function CharacterDetail() {
                 <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
                   <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="flex items-center mb-4">
-                      <Sword className="w-5 h-5 mr-2 text-gray-600" />
+                      <Sword className="w-5 h-5 mr-2 text-[var(--color-700)]" />
                       <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
                     </div>
                     {isEditing ? (
                       <textarea
                         value={characterData.weapons || character.weapons}
                         onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
-                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                         placeholder="List the character's weapons, armor, and important equipment..."
                       />
                     ) : (
@@ -1446,7 +1446,7 @@ export default function CharacterDetail() {
                         <Clock className="w-5 h-5 text-orange-600" />
                         <div>
                           <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-[var(--color-700)]">
                             Events where {character.name} appears throughout the story
                           </p>
                         </div>
@@ -1458,13 +1458,13 @@ export default function CharacterDetail() {
                       <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Clock className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                            <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-blue-600 mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name)).length}
                             </div>
-                            <div className="text-sm text-gray-600 font-medium">
+                            <div className="text-sm text-[var(--color-700)] font-medium">
                               Total Events
                             </div>
                           </div>
@@ -1473,13 +1473,13 @@ export default function CharacterDetail() {
                       <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Star className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                            <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-red-600 mb-1">
+                            <div className="text-2xl font-bold text-destructive mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
                             </div>
-                            <div className="text-sm text-gray-600 font-medium">
+                            <div className="text-sm text-[var(--color-700)] font-medium">
                               High Priority
                             </div>
                           </div>
@@ -1488,13 +1488,13 @@ export default function CharacterDetail() {
                       <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                            <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-purple-600 mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Arc").length}
                             </div>
-                            <div className="text-sm text-gray-600 font-medium">
+                            <div className="text-sm text-[var(--color-700)] font-medium">
                               Character Events
                             </div>
                           </div>
@@ -1506,22 +1506,22 @@ export default function CharacterDetail() {
                     <div className="flex justify-center">
                       <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">High Priority</span>
+                          <div className="w-4 h-4 bg-destructive rounded-full"></div>
+                          <span className="text-sm text-[var(--color-700)]">High Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Medium Priority</span>
+                          <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+                          <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Low Priority</span>
+                          <span className="text-sm text-[var(--color-700)]">Low Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">3</span>
+                            <span className="text-[var(--color-50)] text-xs font-bold">3</span>
                           </div>
-                          <span className="text-sm text-gray-600">Multiple Events</span>
+                          <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
                         </div>
                       </div>
                     </div>

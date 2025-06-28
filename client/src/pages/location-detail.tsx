@@ -34,8 +34,8 @@ import Navbar from "@/components/layout/navbar";
 import type { Location, ProjectWithStats } from "@shared/schema";
 
 const importanceColors = {
-  high: "bg-red-500",
-  medium: "bg-orange-500", 
+  high: "bg-destructive",
+  medium: "bg-[var(--color-500)]", 
   low: "bg-yellow-500",
 };
 
@@ -171,10 +171,10 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                   >
                     <div className="relative">
                       <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                        <Calendar className="w-6 h-6 text-white" />
+                        <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                       </div>
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-xs">
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
+                        <span className="text-[var(--color-50)] font-bold text-xs">
                           {group.events.length}
                         </span>
                       </div>
@@ -220,7 +220,7 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                           group.events[0].category as keyof typeof eventTypeIcons
                         ] || Star,
                         {
-                          className: "w-6 h-6 text-white",
+                          className: "w-6 h-6 text-[var(--color-50)]",
                         },
                       )}
                     </div>
@@ -243,7 +243,7 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                         ? `${group.events.length} Events`
                         : group.events[0].title}
                     </div>
-                    <div className="text-xs text-gray-600 font-medium">
+                    <div className="text-xs text-[var(--color-700)] font-medium">
                       {group.date}
                     </div>
                   </div>
@@ -277,10 +277,10 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
               style={{ backgroundColor: '#f8f6f2' }}
             >
               <div className="mb-3">
-                <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
                   {hoveredDateGroup.date}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[var(--color-700)]">
                   {hoveredDateGroup.events.length} events on this date
                 </p>
               </div>
@@ -298,19 +298,19 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                     return (
                       <div
                         key={event.id}
-                        className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                        className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-200)]"
                       >
                         <div className="flex items-start space-x-3">
                           <div
                             className={`w-8 h-8 ${importanceColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
                           >
-                            <EventIcon className="w-4 h-4 text-white" />
+                            <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-gray-900 text-sm">
+                            <h4 className="font-medium text-[var(--color-950)] text-sm">
                               {event.title}
                             </h4>
-                            <p className="text-xs text-gray-600 mt-1">
+                            <p className="text-xs text-[var(--color-700)] mt-1">
                               {event.description.substring(0, 60)}...
                             </p>
                           </div>
@@ -319,7 +319,7 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                     );
                   })}
                 {hoveredDateGroup.events.length > 3 && (
-                  <div className="text-center text-xs text-gray-500 pt-2">
+                  <div className="text-center text-xs text-[var(--color-600)] pt-2">
                     +{hoveredDateGroup.events.length - 3} more events
                   </div>
                 )}
@@ -341,15 +341,15 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
                       hoveredEvent.category as keyof typeof eventTypeIcons
                     ] || Star,
                     {
-                      className: "w-5 h-5 text-white",
+                      className: "w-5 h-5 text-[var(--color-50)]",
                     },
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-1">
+                  <h3 className="font-semibold text-[var(--color-950)] mb-1">
                     {hoveredEvent.title}
                   </h3>
-                  <div className="text-xs text-gray-500 mb-2">
+                  <div className="text-xs text-[var(--color-600)] mb-2">
                     {hoveredEvent.date}
                   </div>
                 </div>
@@ -357,7 +357,7 @@ function SerpentineTimelineForLocation({ location }: { location: Location }) {
               <p className="text-sm text-gray-700 mb-3">
                 {hoveredEvent.description}
               </p>
-              <div className="flex items-center space-x-4 text-xs text-gray-500">
+              <div className="flex items-center space-x-4 text-xs text-[var(--color-600)]">
                 <div className="flex items-center space-x-1">
                   <MapPin className="w-3 h-3" />
                   <span>{hoveredEvent.location}</span>
@@ -585,11 +585,11 @@ const locationTypeConfig = {
   "Forest": { color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
   "Academy": { color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
   "Palace": { color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Village": { color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Caves": { color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" },
+  "Village": { color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Caves": { color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
   "Harbor": { color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" },
   "Ruins": { color: "bg-stone-500", bgColor: "bg-stone-50", textColor: "text-stone-700", borderColor: "border-stone-200" },
-  "Other": { color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" }
+  "Other": { color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" }
 };
 
 export default function LocationDetail() {
@@ -664,7 +664,7 @@ export default function LocationDetail() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -710,14 +710,14 @@ export default function LocationDetail() {
                     <X className="w-4 h-4 mr-2" />
                     Cancel
                   </Button>
-                  <Button onClick={handleSave} className="bg-orange-500 text-white hover:bg-orange-600">
+                  <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                     <Save className="w-4 h-4 mr-2" />
                     Save Changes
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button onClick={() => setIsEditing(true)} className="bg-orange-500 text-white hover:bg-orange-600">
+                  <Button onClick={() => setIsEditing(true)} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Location
                   </Button>
@@ -729,7 +729,7 @@ export default function LocationDetail() {
                         console.log("Delete location:", location.id);
                       }
                     }}
-                    className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                    className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Delete
@@ -761,7 +761,7 @@ export default function LocationDetail() {
                             value={locationData.description || location.description}
                             onChange={(e) => setLocationData({...locationData, description: e.target.value})}
                             rows={4}
-                            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                             placeholder="Brief location description..."
                           />
                         ) : (
@@ -776,7 +776,7 @@ export default function LocationDetail() {
                             value={locationData.significance || location.significance}
                             onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
                             rows={3}
-                            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                             placeholder="Role in the story, importance..."
                           />
                         ) : (
@@ -795,7 +795,7 @@ export default function LocationDetail() {
                         value={locationData.geography || location.geography}
                         onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
                         rows={6}
-                        className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                        className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                         placeholder="Physical features, layout, climate, notable landmarks..."
                       />
                     ) : (
@@ -812,7 +812,7 @@ export default function LocationDetail() {
                         value={locationData.culture || location.culture}
                         onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
                         rows={6}
-                        className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                        className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                         placeholder="People, customs, atmosphere, social structure..."
                       />
                     ) : (
@@ -828,7 +828,7 @@ export default function LocationDetail() {
                         <Clock className="w-5 h-5 text-orange-600" />
                         <div>
                           <h3 className="text-lg font-semibold text-gray-800">Location Timeline</h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-[var(--color-700)]">
                             Events that take place in {location.name}
                           </p>
                         </div>
@@ -838,16 +838,16 @@ export default function LocationDetail() {
                     {/* Timeline Stats */}
                     <div className="grid grid-cols-3 gap-4">
                       <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
-                        <div className="text-2xl font-bold text-gray-900">{sampleTimelineEvents.filter(e => e.location === location.name).length}</div>
-                        <div className="text-sm text-gray-600">Events Here</div>
+                        <div className="text-2xl font-bold text-[var(--color-950)]">{sampleTimelineEvents.filter(e => e.location === location.name).length}</div>
+                        <div className="text-sm text-[var(--color-700)]">Events Here</div>
                       </Card>
                       <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
-                        <div className="text-2xl font-bold text-gray-900">{sampleTimelineEvents.filter(e => e.location === location.name && e.importance === 'high').length}</div>
-                        <div className="text-sm text-gray-600">High Priority</div>
+                        <div className="text-2xl font-bold text-[var(--color-950)]">{sampleTimelineEvents.filter(e => e.location === location.name && e.importance === 'high').length}</div>
+                        <div className="text-sm text-[var(--color-700)]">High Priority</div>
                       </Card>
                       <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
-                        <div className="text-2xl font-bold text-gray-900">{Array.from(new Set(sampleTimelineEvents.filter(e => e.location === location.name).flatMap(e => e.characters))).length}</div>
-                        <div className="text-sm text-gray-600">Characters Involved</div>
+                        <div className="text-2xl font-bold text-[var(--color-950)]">{Array.from(new Set(sampleTimelineEvents.filter(e => e.location === location.name).flatMap(e => e.characters))).length}</div>
+                        <div className="text-sm text-[var(--color-700)]">Characters Involved</div>
                       </Card>
                     </div>
 
@@ -855,16 +855,16 @@ export default function LocationDetail() {
                     <div className="flex justify-center">
                       <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">High Priority</span>
+                          <div className="w-4 h-4 bg-destructive rounded-full"></div>
+                          <span className="text-sm text-[var(--color-700)]">High Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Medium Priority</span>
+                          <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+                          <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                          <span className="text-sm text-gray-600">Low Priority</span>
+                          <span className="text-sm text-[var(--color-700)]">Low Priority</span>
                         </div>
                       </div>
                     </div>
@@ -873,9 +873,9 @@ export default function LocationDetail() {
                     <div className="rounded-lg p-8 shadow-sm border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
                       {sampleTimelineEvents.filter(e => e.location === location.name).length === 0 ? (
                         <div className="text-center py-12">
-                          <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                          <h3 className="text-lg font-semibold text-gray-600 mb-2">No Events Found</h3>
-                          <p className="text-gray-500">No timeline events have been recorded for {location.name} yet.</p>
+                          <Clock className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold text-[var(--color-700)] mb-2">No Events Found</h3>
+                          <p className="text-[var(--color-600)]">No timeline events have been recorded for {location.name} yet.</p>
                         </div>
                       ) : (
                         <SerpentineTimelineForLocation location={location} />

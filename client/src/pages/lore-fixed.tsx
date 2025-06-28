@@ -35,10 +35,10 @@ import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 const categoryConfig = {
   "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
   "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Politics": { icon: Crown, color: "bg-red-500", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
   "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
   "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-  "Artifacts": { icon: Gem, color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
   "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
   "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
   "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
@@ -160,7 +160,7 @@ export default function Lore() {
         rightContent={
           <Button
             onClick={() => setLocation(`/project/${projectId}/lore/new`)}
-            className="bg-orange-500 text-white hover:bg-orange-600 group hover:scale-105 transition-all duration-300"
+            className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] group hover:scale-105 transition-all duration-300"
           >
             <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
             Add Lore Entry
@@ -174,11 +174,11 @@ export default function Lore() {
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center group hover:scale-110 hover:rotate-3 transition-all duration-300 shadow-lg">
-                <BookOpen className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
+                <BookOpen className="w-6 h-6 text-[var(--color-50)] group-hover:scale-110 transition-transform duration-300" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Lore</h1>
-                <p className="text-gray-600">Manage your world's history, culture, and knowledge</p>
+                <h1 className="text-3xl font-bold text-[var(--color-950)]">Lore</h1>
+                <p className="text-[var(--color-700)]">Manage your world's history, culture, and knowledge</p>
               </div>
             </div>
 
@@ -219,7 +219,7 @@ export default function Lore() {
                           <CategoryIcon className={`w-6 h-6 ${categoryInfo.textColor} group-hover:scale-110 transition-transform duration-300`} />
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
+                          <h3 className="text-lg font-semibold text-[var(--color-950)] group-hover:text-orange-600 transition-colors duration-300">
                             {entry.title}
                           </h3>
                           <Badge 
@@ -250,7 +250,7 @@ export default function Lore() {
                               e.stopPropagation();
                               handleDelete(entry.id);
                             }}
-                            className="text-red-600"
+                            className="text-destructive"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete
@@ -259,7 +259,7 @@ export default function Lore() {
                       </DropdownMenu>
                     </div>
 
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                    <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3 leading-relaxed">
                       {entry.content || "No content available"}
                     </p>
 
@@ -271,13 +271,13 @@ export default function Lore() {
                             <Badge 
                               key={index}
                               variant="outline" 
-                              className="text-xs px-2 py-0.5 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
+                              className="text-xs px-2 py-0.5 bg-[var(--color-100)] hover:bg-[var(--color-200)] transition-colors duration-200"
                             >
                               {tag}
                             </Badge>
                           ))}
                           {entry.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs px-2 py-0.5 bg-gray-50">
+                            <Badge variant="outline" className="text-xs px-2 py-0.5 bg-[var(--color-100)]">
                               +{entry.tags.length - 3} more
                             </Badge>
                           )}
@@ -286,7 +286,7 @@ export default function Lore() {
                     )}
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-gray-100">
                       <div className="flex items-center space-x-1">
                         <Clock className="w-3 h-3" />
                         <span>
@@ -312,10 +312,10 @@ export default function Lore() {
               <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <BookOpen className="w-10 h-10 text-orange-500" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-[var(--color-950)] mb-2">
                 {selectedCategory !== "all" ? "No lore entries found" : "No lore entries yet"}
               </h3>
-              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+              <p className="text-[var(--color-700)] mb-6 max-w-md mx-auto">
                 {selectedCategory !== "all" 
                   ? "Try adjusting your filter criteria."
                   : "Start building your world's history and knowledge by creating your first lore entry."
@@ -323,7 +323,7 @@ export default function Lore() {
               </p>
               <Button
                 onClick={() => setLocation(`/project/${projectId}/lore/new`)}
-                className="bg-orange-500 text-white hover:bg-orange-600"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Your First Lore Entry

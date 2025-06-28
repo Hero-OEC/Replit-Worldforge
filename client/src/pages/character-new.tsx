@@ -92,10 +92,10 @@ const powerSystems = [
 // Character role configuration
 const roleConfig = {
   "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Antagonist": { icon: Sword, color: "bg-red-500", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Antagonist": { icon: Sword, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
   "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Enemy": { icon: UserX, color: "bg-orange-500", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Neutral": { icon: HelpCircle, color: "bg-gray-500", bgColor: "bg-gray-50", textColor: "text-gray-700", borderColor: "border-gray-200" },
+  "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Neutral": { icon: HelpCircle, color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
   "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
 };
 
@@ -155,7 +155,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
             if (filteredSystems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-gray-50 border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-[#f8f6f2]"
+          className="bg-[var(--color-100)] border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-[#f8f6f2]"
         />
         {isOpen && filteredSystems.length > 0 && (
           <div className="absolute z-[999] w-full border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1" style={{ backgroundColor: '#f8f6f2' }}>
@@ -164,18 +164,18 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
               return (
                 <div
                   key={index}
-                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer"
                   onClick={() => handleSelectSystem(system.name)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <CategoryIcon className="w-4 h-4 text-gray-500" />
+                      <CategoryIcon className="w-4 h-4 text-[var(--color-600)]" />
                       <div>
                         <span className="font-medium text-sm">{system.name}</span>
-                        <p className="text-xs text-gray-600 line-clamp-1">{system.description}</p>
+                        <p className="text-xs text-[var(--color-700)] line-clamp-1">{system.description}</p>
                       </div>
                     </div>
-                    <Check className="w-4 h-4 text-gray-400" />
+                    <Check className="w-4 h-4 text-[var(--color-600)]" />
                   </div>
                 </div>
               );
@@ -303,8 +303,8 @@ export default function NewCharacter() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">New Character</h1>
-                <p className="text-gray-600 mt-1">Create a new character for your story</p>
+                <h1 className="text-3xl font-bold text-[var(--color-950)]">New Character</h1>
+                <p className="text-[var(--color-700)] mt-1">Create a new character for your story</p>
               </div>
             </div>
             
@@ -313,7 +313,7 @@ export default function NewCharacter() {
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="bg-orange-500 text-white hover:bg-orange-600">
+              <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                 <Save className="w-4 h-4 mr-2" />
                 Create Character
               </Button>
@@ -350,7 +350,7 @@ export default function NewCharacter() {
 
             <TabsContent value="basics" className="space-y-6">
               <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Basic Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -397,7 +397,7 @@ export default function NewCharacter() {
               </Card>
 
               <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Physical Appearance</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Physical Appearance</h3>
                 <textarea
                   value={characterData.appearance}
                   onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
@@ -409,7 +409,7 @@ export default function NewCharacter() {
 
             <TabsContent value="personality" className="space-y-6">
               <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Personality Traits</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Personality Traits</h3>
                 <textarea
                   value={characterData.personality}
                   onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
@@ -420,7 +420,7 @@ export default function NewCharacter() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Goals & Motivations</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Goals & Motivations</h3>
                   <textarea
                     value={characterData.goals}
                     onChange={(e) => setCharacterData({...characterData, goals: e.target.value})}
@@ -430,7 +430,7 @@ export default function NewCharacter() {
                 </Card>
 
                 <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Fears & Weaknesses</h3>
+                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Fears & Weaknesses</h3>
                   <textarea
                     value={characterData.fears}
                     onChange={(e) => setCharacterData({...characterData, fears: e.target.value})}
@@ -443,7 +443,7 @@ export default function NewCharacter() {
 
             <TabsContent value="background" className="space-y-6">
               <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Backstory</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Backstory</h3>
                 <textarea
                   value={characterData.backstory}
                   onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
@@ -455,7 +455,7 @@ export default function NewCharacter() {
 
             <TabsContent value="relationships" className="space-y-6">
               <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Relationships</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Relationships</h3>
                 <textarea
                   value={characterData.relationships}
                   onChange={(e) => setCharacterData({...characterData, relationships: e.target.value})}

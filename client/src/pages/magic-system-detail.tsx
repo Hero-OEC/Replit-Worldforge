@@ -98,8 +98,8 @@ export default function MagicSystemDetail() {
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading...</h2>
-              <p className="text-gray-600">Fetching magic system details.</p>
+              <h2 className="text-xl font-semibold text-[var(--color-950)] mb-2">Loading...</h2>
+              <p className="text-[var(--color-700)]">Fetching magic system details.</p>
             </div>
           </div>
         </main>
@@ -119,8 +119,8 @@ export default function MagicSystemDetail() {
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Magic System Not Found</h2>
-              <p className="text-gray-600 mb-4">The magic system you're looking for doesn't exist.</p>
+              <h2 className="text-xl font-semibold text-[var(--color-950)] mb-2">Magic System Not Found</h2>
+              <p className="text-[var(--color-700)] mb-4">The magic system you're looking for doesn't exist.</p>
               <Button onClick={() => setLocation(`/project/${projectId}/magic-systems`)}>
                 Back to Magic Systems
               </Button>
@@ -152,15 +152,15 @@ export default function MagicSystemDetail() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <CategoryIcon className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center">
+                  <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800">{magicSystem.name}</h1>
@@ -177,7 +177,7 @@ export default function MagicSystemDetail() {
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}
-                className="bg-orange-500 text-white hover:bg-orange-600"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit
@@ -185,7 +185,7 @@ export default function MagicSystemDetail() {
               <Button
                 variant="outline"
                 onClick={handleDelete}
-                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete
@@ -208,9 +208,9 @@ export default function MagicSystemDetail() {
                 </CardHeader>
                 <CardContent>
                   {magicSystem.description ? (
-                    <p className="text-gray-600 leading-relaxed">{magicSystem.description}</p>
+                    <p className="text-[var(--color-700)] leading-relaxed">{magicSystem.description}</p>
                   ) : (
-                    <p className="text-gray-400 italic">No description provided</p>
+                    <p className="text-[var(--color-600)] italic">No description provided</p>
                   )}
                 </CardContent>
               </Card>
@@ -222,9 +222,9 @@ export default function MagicSystemDetail() {
                   </CardHeader>
                   <CardContent>
                     {magicSystem.source ? (
-                      <p className="text-gray-600">{magicSystem.source}</p>
+                      <p className="text-[var(--color-700)]">{magicSystem.source}</p>
                     ) : (
-                      <p className="text-gray-400 italic">No source specified</p>
+                      <p className="text-[var(--color-600)] italic">No source specified</p>
                     )}
                   </CardContent>
                 </Card>
@@ -235,9 +235,9 @@ export default function MagicSystemDetail() {
                   </CardHeader>
                   <CardContent>
                     {magicSystem.cost ? (
-                      <p className="text-gray-600">{magicSystem.cost}</p>
+                      <p className="text-[var(--color-700)]">{magicSystem.cost}</p>
                     ) : (
-                      <p className="text-gray-400 italic">No cost specified</p>
+                      <p className="text-[var(--color-600)] italic">No cost specified</p>
                     )}
                   </CardContent>
                 </Card>
@@ -252,10 +252,10 @@ export default function MagicSystemDetail() {
                 <CardContent>
                   {magicSystem.rules ? (
                     <div className="prose prose-gray max-w-none">
-                      <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{magicSystem.rules}</p>
+                      <p className="text-[var(--color-700)] leading-relaxed whitespace-pre-wrap">{magicSystem.rules}</p>
                     </div>
                   ) : (
-                    <p className="text-gray-400 italic">No rules specified</p>
+                    <p className="text-[var(--color-600)] italic">No rules specified</p>
                   )}
                 </CardContent>
               </Card>
@@ -269,10 +269,10 @@ export default function MagicSystemDetail() {
                 <CardContent>
                   {magicSystem.limitations ? (
                     <div className="prose prose-gray max-w-none">
-                      <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{magicSystem.limitations}</p>
+                      <p className="text-[var(--color-700)] leading-relaxed whitespace-pre-wrap">{magicSystem.limitations}</p>
                     </div>
                   ) : (
-                    <p className="text-gray-400 italic">No limitations specified</p>
+                    <p className="text-[var(--color-600)] italic">No limitations specified</p>
                   )}
                 </CardContent>
               </Card>
@@ -302,8 +302,8 @@ export default function MagicSystemDetail() {
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <h3 className="font-semibold text-gray-900 truncate">{character.name}</h3>
-                                <p className="text-sm text-gray-600 truncate">{character.role || "Character"}</p>
+                                <h3 className="font-semibold text-[var(--color-950)] truncate">{character.name}</h3>
+                                <p className="text-sm text-[var(--color-700)] truncate">{character.role || "Character"}</p>
                               </div>
                             </div>
                           </div>
@@ -312,9 +312,9 @@ export default function MagicSystemDetail() {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Characters Yet</h3>
-                      <p className="text-gray-500">
+                      <Users className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+                      <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No Characters Yet</h3>
+                      <p className="text-[var(--color-600)]">
                         No characters are currently using this {magicSystem.category === "power" ? "power" : "magic"} system.
                       </p>
                     </div>

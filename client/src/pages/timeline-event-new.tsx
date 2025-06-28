@@ -100,12 +100,12 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }:
             {filteredCharacters.map((character) => (
               <div
                 key={character}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
                 onClick={() => handleAddCharacter(character)}
               >
                 <div className="flex items-center justify-between">
                   <span>{character}</span>
-                  <Check className="w-4 h-4 text-gray-400" />
+                  <Check className="w-4 h-4 text-[var(--color-600)]" />
                 </div>
               </div>
             ))}
@@ -227,15 +227,15 @@ export default function NewTimelineEvent() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Create New Timeline Event</h1>
-                <p className="text-gray-600">Add a new event to your project timeline</p>
+                <h1 className="text-3xl font-bold text-[var(--color-950)]">Create New Timeline Event</h1>
+                <p className="text-[var(--color-700)]">Add a new event to your project timeline</p>
               </div>
             </div>
           </div>
@@ -321,8 +321,8 @@ export default function NewTimelineEvent() {
                 {/* Location */}
                 <Card className="p-6">
                   <div className="flex items-center space-x-2 mb-4">
-                    <MapPin className="w-5 h-5 text-gray-500" />
-                    <h3 className="text-lg font-semibold text-gray-900">Location</h3>
+                    <MapPin className="w-5 h-5 text-[var(--color-600)]" />
+                    <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
                   </div>
                   <Select onValueChange={setLocation} value={location}>
                     <SelectTrigger>
@@ -341,8 +341,8 @@ export default function NewTimelineEvent() {
                 {/* Characters */}
                 <Card className="p-6">
                   <div className="flex items-center space-x-2 mb-4">
-                    <Users className="w-5 h-5 text-gray-500" />
-                    <h3 className="text-lg font-semibold text-gray-900">Characters</h3>
+                    <Users className="w-5 h-5 text-[var(--color-600)]" />
+                    <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
                   </div>
                   <CharacterTag
                     selectedCharacters={selectedCharacters}
@@ -353,7 +353,7 @@ export default function NewTimelineEvent() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600"
+                  className="w-full bg-[var(--color-500)] hover:bg-[var(--color-600)]"
                   disabled={isLoading}
                 >
                   <Save className="w-4 h-4 mr-2" />

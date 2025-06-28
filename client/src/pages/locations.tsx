@@ -96,7 +96,7 @@ export default function Locations() {
       'Wilderness': 'bg-yellow-100 text-yellow-800',
       'Mountains': 'bg-purple-100 text-purple-800',
     };
-    return colors[type as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return colors[type as keyof typeof colors] || 'bg-[var(--color-200)] text-gray-800';
   };
 
   return (
@@ -114,16 +114,16 @@ export default function Locations() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                  <Map className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-[var(--color-600)] cursor-pointer group">
+                  <Map className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Locations</h1>
-                  <p className="text-gray-600">Manage the places in your world</p>
+                  <h1 className="text-2xl font-bold text-[var(--color-950)]">Locations</h1>
+                  <p className="text-[var(--color-700)]">Manage the places in your world</p>
                 </div>
               </div>
               <Button 
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
                 onClick={() => setLocation(`/project/${projectId}/locations/new`)}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -144,11 +144,11 @@ export default function Locations() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+                    <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
                       <MapPin className="w-6 h-6 text-orange-600 transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{location.name}</h3>
+                      <h3 className="text-lg font-semibold text-[var(--color-950)]">{location.name}</h3>
                       <Badge className={getTypeColor(location.type)}>
                         {location.type}
                       </Badge>
@@ -178,7 +178,7 @@ export default function Locations() {
                           e.stopPropagation();
                           handleDelete(location.id);
                         }}
-                        className="text-red-600"
+                        className="text-destructive"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete
@@ -187,11 +187,11 @@ export default function Locations() {
                   </DropdownMenu>
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3">
                   {location.description}
                 </p>
 
-                <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
                   <span>Story significance</span>
                   <span className="font-medium">Click to view details</span>
                 </div>
@@ -201,13 +201,13 @@ export default function Locations() {
 
           {filteredLocations.length === 0 && (
             <div className="text-center py-12">
-              <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No locations found</h3>
-              <p className="text-gray-600 mb-6">
+              <MapPin className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No locations found</h3>
+              <p className="text-[var(--color-700)] mb-6">
                 {searchTerm ? 'Try adjusting your search terms.' : 'Start building your world by adding locations.'}
               </p>
               <Button 
-                className="bg-orange-500 text-white hover:bg-orange-600"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                 onClick={() => setLocation(`/project/${projectId}/locations/new`)}
               >
                 <Plus className="w-4 h-4 mr-2" />

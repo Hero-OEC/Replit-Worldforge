@@ -42,7 +42,7 @@ const recentActivity = [
     project: "Starbound Legacy",
     timestamp: "2 days ago",
     icon: Clock,
-    iconColor: "bg-orange-100 text-orange-600",
+    iconColor: "bg-[var(--color-200)] text-orange-600",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function RecentActivity() {
   return (
     <Card className="shadow-sm border border-gray-200 p-6 animate-slide-up hover-lift" style={{ backgroundColor: '#f8f6f2' }}>
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 animate-fade-in">Recent Activity</h3>
+        <h3 className="text-lg font-semibold text-[var(--color-950)] animate-fade-in">Recent Activity</h3>
         <Button variant="ghost" className="text-sm text-[var(--worldforge-primary)] hover:text-orange-600 font-medium hover-scale animate-ripple">
           View All
         </Button>
@@ -69,11 +69,11 @@ export default function RecentActivity() {
                 <Icon className="w-4 h-4 group-hover:animate-bounce-gentle" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
+                <p className="text-sm text-[var(--color-950)] group-hover:text-gray-700 transition-colors duration-200">
                   {activity.action} <span className="font-medium">"{activity.target}"</span> to{" "}
                   <span className="font-medium">{activity.project}</span>
                 </p>
-                <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-400 transition-colors duration-200">{activity.timestamp}</p>
+                <p className="text-xs text-[var(--color-600)] mt-1 group-hover:text-[var(--color-600)] transition-colors duration-200">{activity.timestamp}</p>
               </div>
             </div>
           );

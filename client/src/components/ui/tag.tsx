@@ -8,41 +8,47 @@ const tagVariants = cva(
   {
     variants: {
       variant: {
-        // Character types
-        protagonist: "bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200 text-yellow-800 hover:bg-yellow-100",
-        antagonist: "bg-gradient-to-r from-red-50 to-red-100 border-red-200 text-red-800 hover:bg-red-100",
-        ally: "bg-gradient-to-r from-green-50 to-green-100 border-green-200 text-green-800 hover:bg-green-100",
-        enemy: "bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 text-orange-800 hover:bg-orange-100",
-        supporting: "bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 text-blue-800 hover:bg-blue-100",
-        neutral: "bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200 text-gray-800 hover:bg-gray-100",
+        // Primary importance - darkest color for most important items
+        primary: "bg-[var(--color-500)] border-[var(--color-600)] text-[var(--color-50)] hover:bg-[var(--color-400)]",
         
-        // Location types
-        location: "bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 text-purple-800 hover:bg-purple-100",
+        // High importance
+        high: "bg-[var(--color-400)] border-[var(--color-500)] text-[var(--color-950)] hover:bg-[var(--color-300)]",
         
-        // Timeline event types
-        high: "bg-gradient-to-r from-red-50 to-red-100 border-red-200 text-red-800 hover:bg-red-100",
-        medium: "bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 text-orange-800 hover:bg-orange-100",
-        low: "bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200 text-yellow-800 hover:bg-yellow-100",
+        // Medium importance
+        medium: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
         
-        // Magic system types
-        magic: "bg-gradient-to-r from-violet-50 to-violet-100 border-violet-200 text-violet-800 hover:bg-violet-100",
-        power: "bg-gradient-to-r from-cyan-50 to-cyan-100 border-cyan-200 text-cyan-800 hover:bg-cyan-100",
+        // Secondary/low importance
+        secondary: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        low: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
         
-        // Event categories
-        character_arc: "bg-gradient-to-r from-indigo-50 to-indigo-100 border-indigo-200 text-indigo-800 hover:bg-indigo-100",
-        discovery: "bg-gradient-to-r from-teal-50 to-teal-100 border-teal-200 text-teal-800 hover:bg-teal-100",
-        conflict: "bg-gradient-to-r from-red-50 to-red-100 border-red-200 text-red-800 hover:bg-red-100",
-        revelation: "bg-gradient-to-r from-amber-50 to-amber-100 border-amber-200 text-amber-800 hover:bg-amber-100",
-        heroic_act: "bg-gradient-to-r from-emerald-50 to-emerald-100 border-emerald-200 text-emerald-800 hover:bg-emerald-100",
-        political_event: "bg-gradient-to-r from-slate-50 to-slate-100 border-slate-200 text-slate-800 hover:bg-slate-100",
-        romance: "bg-gradient-to-r from-pink-50 to-pink-100 border-pink-200 text-pink-800 hover:bg-pink-100",
-        mystery: "bg-gradient-to-r from-stone-50 to-stone-100 border-stone-200 text-stone-800 hover:bg-stone-100",
-        battle: "bg-gradient-to-r from-rose-50 to-rose-100 border-rose-200 text-rose-800 hover:bg-rose-100",
-        traveling: "bg-gradient-to-r from-sky-50 to-sky-100 border-sky-200 text-sky-800 hover:bg-sky-100",
+        // Default/neutral
+        default: "bg-[var(--color-100)] border-[var(--color-200)] text-[var(--color-700)] hover:bg-[var(--color-200)]",
         
-        // Generic/default
-        default: "bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200 text-gray-800 hover:bg-gray-100",
-        primary: "bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 text-orange-800 hover:bg-orange-100",
+        // Muted/least important
+        muted: "bg-[var(--color-50)] border-[var(--color-100)] text-[var(--color-600)] hover:bg-[var(--color-100)]",
+        
+        // Character roles mapped to importance levels
+        protagonist: "bg-[var(--color-500)] border-[var(--color-600)] text-[var(--color-50)] hover:bg-[var(--color-400)]",
+        antagonist: "bg-[var(--color-400)] border-[var(--color-500)] text-[var(--color-950)] hover:bg-[var(--color-300)]",
+        ally: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        enemy: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        supporting: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        neutral: "bg-[var(--color-100)] border-[var(--color-200)] text-[var(--color-700)] hover:bg-[var(--color-200)]",
+        
+        // All other categories use the same simplified mapping
+        location: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        magic: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        power: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        character_arc: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        discovery: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        conflict: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        revelation: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        heroic_act: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        political_event: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        romance: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        mystery: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
+        battle: "bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]",
+        traveling: "bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]",
       },
       size: {
         sm: "px-2 py-0.5 text-xs",

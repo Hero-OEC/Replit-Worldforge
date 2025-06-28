@@ -98,15 +98,15 @@ export default function NewMagicSystem() {
             <Button
               variant="ghost"
               onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
-              className="p-2 hover:bg-gray-100"
+              className="p-2 hover:bg-[var(--color-200)]"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center space-x-3">
               <Sparkles className="h-8 w-8 text-orange-500" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Create Magic System</h1>
-                <p className="text-gray-600">Define a new magical system for your world</p>
+                <h1 className="text-2xl font-bold text-[var(--color-950)]">Create Magic System</h1>
+                <p className="text-[var(--color-700)]">Define a new magical system for your world</p>
               </div>
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function NewMagicSystem() {
                   <Button 
                     type="submit" 
                     disabled={createMutation.isPending || !formData.name.trim()}
-                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                    className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
                   >
                     <Save className="h-4 w-4 mr-2" />
                     {createMutation.isPending ? "Creating..." : "Create Magic System"}

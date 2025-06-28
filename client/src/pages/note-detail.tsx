@@ -141,8 +141,8 @@ export default function NoteDetail() {
         />
         <main className="p-8">
           <div className="max-w-4xl mx-auto text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Note Not Found</h2>
-            <p className="text-gray-600 mb-4">The note you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-bold text-[var(--color-950)] mb-2">Note Not Found</h2>
+            <p className="text-[var(--color-700)] mb-4">The note you're looking for doesn't exist.</p>
             <Button onClick={() => setLocation(`/project/${projectId}/notes`)}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Notes
@@ -172,7 +172,7 @@ export default function NoteDetail() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={() => setLocation(`/project/${projectId}/notes`)}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -181,7 +181,7 @@ export default function NoteDetail() {
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className="w-5 h-5 text-white" />
+                    <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
                   </div>
                   <h1 className="text-3xl font-bold text-gray-800">{note.title}</h1>
                 </div>
@@ -199,7 +199,7 @@ export default function NoteDetail() {
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={() => setLocation(`/project/${projectId}/notes/${noteId}/edit`)} 
-                className="bg-orange-500 text-white hover:bg-orange-600"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Note
@@ -208,7 +208,7 @@ export default function NoteDetail() {
                 variant="outline"
                 onClick={handleDelete}
                 disabled={deleteNoteMutation.isPending}
-                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete
@@ -220,7 +220,7 @@ export default function NoteDetail() {
           {note.tags && note.tags.length > 0 && (
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
-                <Tag className="w-4 h-4 text-gray-600" />
+                <Tag className="w-4 h-4 text-[var(--color-700)]" />
                 <span className="text-sm font-medium text-gray-700">Tags</span>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -240,7 +240,7 @@ export default function NoteDetail() {
             <CardContent className="space-y-6 pt-6">
               {/* Content */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Content</h3>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-3">Content</h3>
                 <div className="prose max-w-none">
                   <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                     {note.content}

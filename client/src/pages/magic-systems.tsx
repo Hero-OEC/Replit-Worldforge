@@ -37,12 +37,12 @@ function MagicSystemCard({ system, onDelete, projectId }: {
       <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-3 flex-1">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
-                <CategoryIcon className="w-6 h-6 text-white transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
+              <div className="w-12 h-12 bg-[var(--color-500)] rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+                <CategoryIcon className="w-6 h-6 text-[var(--color-50)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between">
-                  <CardTitle className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                  <CardTitle className="text-lg font-semibold text-[var(--color-950)] group-hover:text-orange-600 transition-colors">
                     {system.name}
                   </CardTitle>
                   <Button
@@ -53,7 +53,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
                       e.stopPropagation();
                       onDelete(system.id);
                     }}
-                    className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="h-8 w-8 p-0 hover:bg-red-100 hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -67,11 +67,11 @@ function MagicSystemCard({ system, onDelete, projectId }: {
         </CardHeader>
         <CardContent className="pt-0">
           {system.description && (
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-[var(--color-700)] leading-relaxed">
               {truncateText(system.description, 150)}
             </p>
           )}
-          <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
+          <div className="flex items-center justify-between text-sm text-[var(--color-600)] mt-4">
             <span>{system.category === "power" ? "Power system" : "Magic system"}</span>
             <span className="font-medium">Click to view details</span>
           </div>
@@ -147,18 +147,18 @@ export default function MagicSystems() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                <Sparkles className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+              <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-[var(--color-600)] cursor-pointer group">
+                <Sparkles className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Magic & Power Systems</h1>
-                <p className="text-gray-600">
+                <h1 className="text-2xl font-bold text-[var(--color-950)] mb-2">Magic & Power Systems</h1>
+                <p className="text-[var(--color-700)]">
                   Document magical rules, power sources, limitations, and costs for your world.
                 </p>
               </div>
             </div>
             <Button 
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
               onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/new`)}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -195,13 +195,13 @@ export default function MagicSystems() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Sparkles className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No magic systems yet</h3>
-              <p className="text-gray-500 mb-6">
+              <Sparkles className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+              <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No magic systems yet</h3>
+              <p className="text-[var(--color-600)] mb-6">
                 Start building your world's magical framework by creating your first magic system.
               </p>
               <Link href={`/project/${projectId}/magic-systems/new`}>
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Magic System
                 </Button>

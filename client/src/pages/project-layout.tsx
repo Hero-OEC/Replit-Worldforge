@@ -32,8 +32,8 @@ export default function ProjectLayout() {
     return (
       <div className="min-h-screen bg-[var(--worldforge-cream)] flex items-center justify-center">
         <div className="text-center">
-          <BookOpen className="mx-auto h-12 w-12 text-gray-400 mb-4 animate-pulse" />
-          <p className="text-gray-600">Loading project...</p>
+          <BookOpen className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4 animate-pulse" />
+          <p className="text-[var(--color-700)]">Loading project...</p>
         </div>
       </div>
     );
@@ -43,8 +43,8 @@ export default function ProjectLayout() {
     return (
       <div className="min-h-screen bg-[var(--worldforge-cream)] flex items-center justify-center">
         <div className="text-center">
-          <BookOpen className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Project not found</h3>
+          <BookOpen className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+          <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">Project not found</h3>
           <Link href="/">
             <Button variant="outline">Back to Dashboard</Button>
           </Link>
@@ -66,9 +66,9 @@ export default function ProjectLayout() {
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.title}</h1>
+            <h1 className="text-3xl font-bold text-[var(--color-950)] mb-2">{project.title}</h1>
             <h2 className="text-xl font-semibold text-gray-700 mb-4">Project Overview</h2>
-            <p className="text-gray-600 leading-relaxed">{project.description}</p>
+            <p className="text-[var(--color-700)] leading-relaxed">{project.description}</p>
           </div>
 
           {/* Quick Stats */}
@@ -79,8 +79,8 @@ export default function ProjectLayout() {
                   <Users className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Characters</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats?.charactersCount || 0}</p>
+                  <p className="text-sm font-medium text-[var(--color-700)]">Characters</p>
+                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.charactersCount || 0}</p>
                 </div>
               </div>
             </Card>
@@ -91,20 +91,20 @@ export default function ProjectLayout() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Locations</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats?.locationsCount || 0}</p>
+                  <p className="text-sm font-medium text-[var(--color-700)]">Locations</p>
+                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.locationsCount || 0}</p>
                 </div>
               </div>
             </Card>
 
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-orange-100 text-orange-600 rounded-lg">
+                <div className="p-3 bg-[var(--color-200)] text-orange-600 rounded-lg">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Timeline Events</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats?.eventsCount || 0}</p>
+                  <p className="text-sm font-medium text-[var(--color-700)]">Timeline Events</p>
+                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.eventsCount || 0}</p>
                 </div>
               </div>
             </Card>
@@ -115,8 +115,8 @@ export default function ProjectLayout() {
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Magic Systems</p>
-                  <p className="text-2xl font-bold text-gray-900">{project.stats?.magicSystemsCount || 0}</p>
+                  <p className="text-sm font-medium text-[var(--color-700)]">Magic Systems</p>
+                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.magicSystemsCount || 0}</p>
                 </div>
               </div>
             </Card>

@@ -123,10 +123,10 @@ const genreColors: Record<string, string> = {
   "Cozy Fantasy": "bg-green-100 text-green-800",
   "Flintlock Fantasy": "bg-amber-100 text-amber-800",
   "Progression Fantasy": "bg-blue-100 text-blue-800",
-  "Cultivation (Xianxia / Wuxia)": "bg-orange-100 text-orange-800",
+  "Cultivation (Xianxia / Wuxia)": "bg-[var(--color-200)] text-[var(--color-800)]",
   LitRPG: "bg-indigo-100 text-indigo-800",
   GameLit: "bg-indigo-100 text-indigo-800",
-  "Dungeon Core": "bg-gray-100 text-gray-800",
+  "Dungeon Core": "bg-[var(--color-200)] text-gray-800",
   Cyberpunk: "bg-cyan-100 text-cyan-800",
   Biopunk: "bg-green-100 text-green-800",
   "Time Travel": "bg-blue-100 text-blue-800",
@@ -137,10 +137,10 @@ const genreColors: Record<string, string> = {
   "LitRPG Sci-Fi": "bg-indigo-100 text-indigo-800",
   "Romantic Comedy (Rom-Com)": "bg-pink-100 text-pink-800",
   "Cozy Mystery": "bg-green-100 text-green-800",
-  "Detective Noir": "bg-gray-100 text-gray-800",
-  "Spy / Espionage": "bg-gray-100 text-gray-800",
+  "Detective Noir": "bg-[var(--color-200)] text-gray-800",
+  "Spy / Espionage": "bg-[var(--color-200)] text-gray-800",
   "Crime Fiction": "bg-red-100 text-red-800",
-  "Techno-thriller": "bg-orange-100 text-orange-800",
+  "Techno-thriller": "bg-[var(--color-200)] text-[var(--color-800)]",
   "Domestic Thriller": "bg-yellow-100 text-yellow-800",
   "Psychological Horror": "bg-red-100 text-red-800",
   "Supernatural Horror": "bg-red-100 text-red-800",
@@ -154,7 +154,7 @@ const genreColors: Record<string, string> = {
   "YA Romance": "bg-pink-100 text-pink-800",
   "YA Contemporary": "bg-green-100 text-green-800",
   "YA Dystopian": "bg-red-100 text-red-800",
-  "YA Thriller": "bg-orange-100 text-orange-800",
+  "YA Thriller": "bg-[var(--color-200)] text-[var(--color-800)]",
   "YA Paranormal": "bg-purple-100 text-purple-800",
   "Coming-of-Age": "bg-blue-100 text-blue-800",
   "Literary Fiction": "bg-amber-100 text-amber-800",
@@ -162,10 +162,10 @@ const genreColors: Record<string, string> = {
   "Slice of Life": "bg-green-100 text-green-800",
   "Magical Realism": "bg-purple-100 text-purple-800",
   Satire: "bg-yellow-100 text-yellow-800",
-  Drama: "bg-gray-100 text-gray-800",
+  Drama: "bg-[var(--color-200)] text-gray-800",
   "Alt-History": "bg-amber-100 text-amber-800",
   "Dark Academia": "bg-slate-100 text-slate-800",
-  "Antihero Fiction": "bg-gray-100 text-gray-800",
+  "Antihero Fiction": "bg-[var(--color-200)] text-gray-800",
 };
 
 const statusColors: Record<string, string> = {
@@ -177,7 +177,7 @@ const statusColors: Record<string, string> = {
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
-  const genreColor = genreColors[project.genre] || "bg-gray-100 text-gray-800";
+  const genreColor = genreColors[project.genre] || "bg-[var(--color-200)] text-gray-800";
   const statusColor = statusColors[project.status] || statusColors.active;
   const GenreIcon = genreIcons[project.genre] || Book;
 
@@ -199,7 +199,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
               >
                 <GenreIcon className={`w-4 h-4 ${genreColor.split(" ")[1]}`} />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">
+              <h3 className="text-lg font-semibold text-[var(--color-950)] line-clamp-1">
                 {project.title}
               </h3>
             </div>
@@ -211,21 +211,21 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="p-1 text-gray-400 hover:text-gray-600 hover-scale animate-ripple"
+              className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover-scale animate-ripple"
             >
               <Star className="w-4 h-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="p-1 text-gray-400 hover:text-gray-600 hover-scale animate-ripple"
+              className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover-scale animate-ripple"
             >
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm mb-6 line-clamp-3">
+        <p className="text-[var(--color-700)] text-sm mb-6 line-clamp-3">
           {project.description}
         </p>
 
@@ -234,32 +234,32 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-blue-200 transition-colors duration-200">
               <Users className="text-blue-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
+            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.charactersCount}
             </p>
-            <p className="text-xs text-gray-500">Characters</p>
+            <p className="text-xs text-[var(--color-600)]">Characters</p>
           </div>
           <div className="text-center group">
             <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-green-200 transition-colors duration-200">
               <MapPin className="text-green-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
+            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.locationsCount}
             </p>
-            <p className="text-xs text-gray-500">Locations</p>
+            <p className="text-xs text-[var(--color-600)]">Locations</p>
           </div>
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-orange-200 transition-colors duration-200">
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-orange-200 transition-colors duration-200">
               <Scroll className="text-orange-600 w-4 h-4" />
             </div>
-            <p className="text-xl font-bold text-gray-900 animate-bounce-gentle">
+            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.eventsCount}
             </p>
-            <p className="text-xs text-gray-500">Events</p>
+            <p className="text-xs text-[var(--color-600)]">Events</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
           <span>
             Last modified: {format(new Date(project.updatedAt), "M/d/yyyy")}
           </span>

@@ -32,7 +32,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <NavigationProvider>
         <TooltipProvider>
-          <div className="h-screen flex flex-col bg-[var(--worldforge-cream)] animate-fade-in">
+          <div className="h-screen flex flex-col bg-[var(--color-50)] animate-fade-in">
             <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/project/:projectId" component={ProjectLayout} />

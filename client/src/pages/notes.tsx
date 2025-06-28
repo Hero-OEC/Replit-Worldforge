@@ -156,17 +156,17 @@ export default function Notes() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                  <Scroll className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-[var(--color-600)] cursor-pointer group">
+                  <Scroll className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Notes</h1>
-                  <p className="text-gray-600">Capture your ideas and research</p>
+                  <h1 className="text-2xl font-bold text-[var(--color-950)]">Notes</h1>
+                  <p className="text-[var(--color-700)]">Capture your ideas and research</p>
                 </div>
               </div>
               <Button
                 onClick={() => setShowAddDialog(true)}
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Note
@@ -191,10 +191,10 @@ export default function Notes() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3 flex-1">
                       <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center`}>
-                        <CategoryIcon className="w-5 h-5 text-white" />
+                        <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">{note.title}</h3>
+                        <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{note.title}</h3>
                         <Badge className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}>
                           {note.category}
                         </Badge>
@@ -214,7 +214,7 @@ export default function Notes() {
                         </DropdownMenuItem>
                         <DropdownMenuItem 
                           onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }}
-                          className="text-red-600"
+                          className="text-destructive"
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete
@@ -223,7 +223,7 @@ export default function Notes() {
                     </DropdownMenu>
                   </div>
 
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-4">{note.content}</p>
+                  <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-4">{note.content}</p>
 
                   <div className="flex flex-wrap gap-2 mb-3">
                     {note.tags.map((tag, index) => (
@@ -236,7 +236,7 @@ export default function Notes() {
                     ))}
                   </div>
 
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-[var(--color-600)]">
                     {note.createdAt}
                   </div>
                 </Card>
@@ -246,9 +246,9 @@ export default function Notes() {
 
           {filteredNotes.length === 0 && (
             <div className="text-center py-12">
-              <Scroll className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No notes found</h3>
-              <p className="text-gray-600">Create your first note to get started.</p>
+              <Scroll className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No notes found</h3>
+              <p className="text-[var(--color-700)]">Create your first note to get started.</p>
             </div>
           )}
         </div>
@@ -318,7 +318,7 @@ export default function Notes() {
               >
                 Cancel
               </Button>
-              <Button onClick={handleSubmit} className="bg-orange-500 text-white hover:bg-orange-600">
+              <Button onClick={handleSubmit} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                 <Save className="w-4 h-4 mr-2" />
                 {editingNote ? "Update" : "Create"} Note
               </Button>

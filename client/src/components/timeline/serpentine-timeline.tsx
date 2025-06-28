@@ -21,8 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const priorityColors = {
-  high: "bg-red-500",
-  medium: "bg-orange-500",
+  high: "bg-destructive",
+  medium: "bg-[var(--color-500)]",
   low: "bg-yellow-500",
 };
 
@@ -206,13 +206,13 @@ export default function SerpentineTimeline({
   if (sortedEvents.length === 0) {
     return (
       <div className={`text-center py-12 ${className}`}>
-        <Calendar className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
+        <Calendar className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+        <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">
           {filterCharacter ? `No timeline events for ${filterCharacter}` : 
            filterLocation ? `No timeline events in ${filterLocation}` : 
            "No timeline events"}
         </h3>
-        <p className="text-gray-500">
+        <p className="text-[var(--color-600)]">
           {filterCharacter 
             ? `${filterCharacter} doesn't appear in any timeline events yet.`
             : filterLocation
@@ -286,18 +286,18 @@ export default function SerpentineTimeline({
                     } ${isHovered ? "shadow-xl border-orange-400" : ""}`}
                   >
                     {group.isMultiEvent ? (
-                      <span className="text-white font-bold text-sm">
+                      <span className="text-[var(--color-50)] font-bold text-sm">
                         {group.events.length}
                       </span>
                     ) : (
-                      <Star className="w-5 h-5 text-white" fill="currentColor" />
+                      <Star className="w-5 h-5 text-[var(--color-50)]" fill="currentColor" />
                     )}
                   </div>
 
                   {/* Event Title */}
                   {!group.isMultiEvent && (
                     <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-900 text-center truncate" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate" style={{ backgroundColor: '#f8f6f2' }}>
                         {group.events[0].title}
                       </div>
                     </div>
@@ -313,7 +313,7 @@ export default function SerpentineTimeline({
                   {/* Multi-event Title */}
                   {group.isMultiEvent && (
                     <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-900 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         {group.events.length} Events
                       </div>
                     </div>
@@ -323,7 +323,7 @@ export default function SerpentineTimeline({
                   {group.isMultiEvent && isHovered && (
                     <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
                       <div className="rounded-lg shadow-xl border p-3 w-64" style={{ backgroundColor: '#f8f6f2' }}>
-                        <div className="text-sm font-medium text-gray-900 mb-2">
+                        <div className="text-sm font-medium text-[var(--color-950)] mb-2">
                           Events on {group.date}
                         </div>
                         <div className="space-y-2">
@@ -332,7 +332,7 @@ export default function SerpentineTimeline({
                             return (
                               <div
                                 key={event.id}
-                                className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                className="flex items-center space-x-2 p-2 hover:bg-[var(--color-100)] rounded cursor-pointer"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   const rect = timelineRef.current?.getBoundingClientRect();
@@ -346,7 +346,7 @@ export default function SerpentineTimeline({
                                 }}
                               >
                                 <div className={`w-3 h-3 rounded-full ${priorityColors[event.importance]}`} />
-                                <IconComponent className="w-4 h-4 text-gray-600" />
+                                <IconComponent className="w-4 h-4 text-[var(--color-700)]" />
                                 <span className="text-sm text-gray-800 flex-1 truncate">
                                   {event.title}
                                 </span>
@@ -378,8 +378,8 @@ export default function SerpentineTimeline({
             <div className="flex items-center space-x-3">
               <div className={`w-3 h-3 rounded-full ${priorityColors[selectedEvent.importance]}`} />
               <div>
-                <h3 className="font-semibold text-gray-900">{selectedEvent.title}</h3>
-                <p className="text-sm text-gray-600">{selectedEvent.date}</p>
+                <h3 className="font-semibold text-[var(--color-950)]">{selectedEvent.title}</h3>
+                <p className="text-sm text-[var(--color-700)]">{selectedEvent.date}</p>
               </div>
             </div>
             {showEditButtons && onEventEdit && (
@@ -387,7 +387,7 @@ export default function SerpentineTimeline({
                 variant="ghost"
                 size="sm"
                 onClick={() => onEventEdit(selectedEvent)}
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
               >
                 <Edit className="w-4 h-4" />
               </Button>
@@ -402,7 +402,7 @@ export default function SerpentineTimeline({
               <Badge 
                 variant="outline" 
                 className={`text-xs ${
-                  selectedEvent.importance === 'high' ? 'border-red-300 text-red-700' :
+                  selectedEvent.importance === 'high' ? 'border-destructive text-red-700' :
                   selectedEvent.importance === 'medium' ? 'border-orange-300 text-orange-700' :
                   'border-yellow-300 text-yellow-700'
                 }`}
@@ -416,14 +416,14 @@ export default function SerpentineTimeline({
             )}
 
             {selectedEvent.location && (
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2 text-sm text-[var(--color-700)]">
                 <MapPin className="w-4 h-4" />
                 <span>{selectedEvent.location}</span>
               </div>
             )}
 
             {selectedEvent.characters && selectedEvent.characters.length > 0 && (
-              <div className="flex items-start space-x-2 text-sm text-gray-600">
+              <div className="flex items-start space-x-2 text-sm text-[var(--color-700)]">
                 <Users className="w-4 h-4 mt-0.5" />
                 <div className="flex flex-wrap gap-1">
                   {selectedEvent.characters.map((character, index) => (
@@ -440,7 +440,7 @@ export default function SerpentineTimeline({
             variant="ghost"
             size="sm"
             onClick={handleClosePopup}
-            className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+            className="absolute top-2 right-2 text-[var(--color-600)] hover:text-[var(--color-700)]"
           >
             ×
           </Button>

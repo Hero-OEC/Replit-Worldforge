@@ -144,19 +144,19 @@ function TagSearch({
             if (filteredItems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-gray-50 border-gray-300 focus:bg-white"
+          className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
         />
         {isOpen && filteredItems.length > 0 && (
           <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
                 onClick={() => handleSelectItem(item)}
               >
                 <div className="flex items-center justify-between">
                   <span>{item}</span>
-                  <Check className="w-4 h-4 text-gray-400" />
+                  <Check className="w-4 h-4 text-[var(--color-600)]" />
                 </div>
               </div>
             ))}
@@ -184,8 +184,8 @@ function TagSearch({
 }
 
 const priorityColors = {
-  high: "bg-red-500",
-  medium: "bg-orange-500",
+  high: "bg-destructive",
+  medium: "bg-[var(--color-500)]",
   low: "bg-yellow-500",
 };
 
@@ -473,20 +473,20 @@ export default function Timeline() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-orange-600 cursor-pointer group">
-                  <Clock className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-[var(--color-600)] cursor-pointer group">
+                  <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-[var(--color-950)]">
                     Timeline
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-[var(--color-700)]">
                     Track and organize story events chronologically
                   </p>
                 </div>
               </div>
               <Button 
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
                 onClick={() => navigateWithHistory(`/project/${projectId}/timeline/new`)}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -500,13 +500,13 @@ export default function Timeline() {
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                      <Calendar className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                      <Calendar className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900 mb-1">
+                      <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                         {sampleEvents.length}
                       </div>
-                      <div className="text-sm text-gray-600 font-medium">
+                      <div className="text-sm text-[var(--color-700)] font-medium">
                         Total Events
                       </div>
                     </div>
@@ -515,16 +515,16 @@ export default function Timeline() {
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                      <Star className="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                      <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-red-600 mb-1">
+                      <div className="text-2xl font-bold text-destructive mb-1">
                         {
                           sampleEvents.filter((e) => e.importance === "high")
                             .length
                         }
                       </div>
-                      <div className="text-sm text-gray-600 font-medium">
+                      <div className="text-sm text-[var(--color-700)] font-medium">
                         High Priority
                       </div>
                     </div>
@@ -533,7 +533,7 @@ export default function Timeline() {
                 <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
                   <div className="flex items-center justify-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                      <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                      <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600 mb-1">
@@ -543,7 +543,7 @@ export default function Timeline() {
                           ).length
                         }
                       </div>
-                      <div className="text-sm text-gray-600 font-medium">
+                      <div className="text-sm text-[var(--color-700)] font-medium">
                         Character Events
                       </div>
                     </div>
@@ -557,22 +557,22 @@ export default function Timeline() {
           <div className="mb-6 flex justify-center">
             <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">High Priority</span>
+                <div className="w-4 h-4 bg-destructive rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">High Priority</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Medium Priority</span>
+                <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                <span className="text-sm text-gray-600">Low Priority</span>
+                <span className="text-sm text-[var(--color-700)]">Low Priority</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">3</span>
+                  <span className="text-[var(--color-50)] text-xs font-bold">3</span>
                 </div>
-                <span className="text-sm text-gray-600">Multiple Events</span>
+                <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
               </div>
             </div>
           </div>
@@ -642,10 +642,10 @@ export default function Timeline() {
                         >
                           <div className="relative">
                             <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                              <Calendar className="w-6 h-6 text-white" />
+                              <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                             </div>
-                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                              <span className="text-white font-bold text-xs">
+                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
+                              <span className="text-[var(--color-50)] font-bold text-xs">
                                 {group.events.length}
                               </span>
                             </div>
@@ -698,7 +698,7 @@ export default function Timeline() {
                                   .category as keyof typeof eventTypeIcons
                               ] || Star,
                               {
-                                className: "w-6 h-6 text-white",
+                                className: "w-6 h-6 text-[var(--color-50)]",
                               },
                             )}
                           </div>
@@ -720,7 +720,7 @@ export default function Timeline() {
                               ? `${group.events.length} Events`
                               : group.events[0].title}
                           </div>
-                          <div className="text-xs text-gray-600 font-medium">
+                          <div className="text-xs text-[var(--color-700)] font-medium">
                             {group.date}
                           </div>
                         </div>
@@ -761,10 +761,10 @@ export default function Timeline() {
                   }}
                 >
                   <div className="mb-3">
-                    <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                    <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
                       {hoveredDateGroup.date}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-[var(--color-700)]">
                       {hoveredDateGroup.events.length} events on this date
                     </p>
                   </div>
@@ -782,7 +782,7 @@ export default function Timeline() {
                         return (
                           <div
                             key={event.id}
-                            className="relative p-3 rounded-lg bg-gray-50 border cursor-pointer hover:bg-gray-100"
+                            className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-200)]"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate(`/project/${projectId}/timeline/${event.id}`);
@@ -792,16 +792,16 @@ export default function Timeline() {
                               <div
                                 className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
                               >
-                                <EventIcon className="w-4 h-4 text-white" />
+                                <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium text-gray-900 text-sm">
+                                <h4 className="font-medium text-[var(--color-950)] text-sm">
                                   {event.title}
                                 </h4>
-                                <p className="text-xs text-gray-600 mt-1">
+                                <p className="text-xs text-[var(--color-700)] mt-1">
                                   {event.description.substring(0, 60)}...
                                 </p>
-                                <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                                <div className="flex items-center space-x-4 mt-2 text-xs text-[var(--color-600)]">
                                   <div className="flex items-center space-x-1">
                                     <MapPin className="w-3 h-3" />
                                     <span>{event.location}</span>
@@ -813,13 +813,13 @@ export default function Timeline() {
                         );
                       })}
                     {hoveredDateGroup.events.length > 3 && (
-                      <div className="text-center text-xs text-gray-500 pt-2">
+                      <div className="text-center text-xs text-[var(--color-600)] pt-2">
                         +{hoveredDateGroup.events.length - 3} more events
                       </div>
                     )}
                   </div>
                   <div className="mt-4 pt-3 border-t border-gray-200 text-center">
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[var(--color-600)]">
                       Click on events to edit details
                     </span>
                   </div>
@@ -842,20 +842,20 @@ export default function Timeline() {
                           hoveredEvent.category as keyof typeof eventTypeIcons
                         ] || Star,
                         {
-                          className: "w-5 h-5 text-white",
+                          className: "w-5 h-5 text-[var(--color-50)]",
                         },
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 text-lg">
+                      <h3 className="font-semibold text-[var(--color-950)] text-lg">
                         {hoveredEvent.title}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-[var(--color-700)] mb-2">
                         {hoveredEvent.date}
                       </p>
                       <div className="flex items-center space-x-2 mb-2">
                         <Badge
-                          className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-white`}
+                          className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-[var(--color-50)]`}
                         >
                           {
                             priorityLabels[
@@ -871,11 +871,11 @@ export default function Timeline() {
                     {hoveredEvent.description}
                   </p>
                   <div className="space-y-2 text-sm">
-                    <div className="flex items-center space-x-2 text-gray-600">
+                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
                       <MapPin className="w-4 h-4" />
                       <span>{hoveredEvent.location}</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-gray-600">
+                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
                       <Users className="w-4 h-4" />
                       <span>{hoveredEvent.characters.join(", ")}</span>
                     </div>
@@ -887,7 +887,7 @@ export default function Timeline() {
                       navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
                     }}
                   >
-                    <span className="text-xs text-gray-500 hover:text-gray-700">
+                    <span className="text-xs text-[var(--color-600)] hover:text-gray-700">
                       Click to view event
                     </span>
                   </div>
@@ -910,7 +910,7 @@ export default function Timeline() {
           <Card className="bg-white w-full max-w-4xl h-[85vh] relative z-[501] flex flex-col">
             <div className="p-6 flex-1 overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-[var(--color-950)]">
                   Add New Event
                 </h2>
                 <Button
@@ -932,7 +932,7 @@ export default function Timeline() {
                       placeholder="Enter event title..."
                       value={eventTitle}
                       onChange={(e) => setEventTitle(e.target.value)}
-                      className="bg-gray-50 border-gray-300 focus:bg-white"
+                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
                     />
                   </div>
 
@@ -945,7 +945,7 @@ export default function Timeline() {
                         placeholder="Year 1, Day 1"
                         value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
-                        className="bg-gray-50 border-gray-300 focus:bg-white"
+                        className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
                       />
                     </div>
                     <div>
@@ -953,7 +953,7 @@ export default function Timeline() {
                         Priority
                       </label>
                       <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md bg-[var(--color-100)] focus:bg-white"
                         value={eventPriority}
                         onChange={(e) => setEventPriority(e.target.value)}
                       >
@@ -969,7 +969,7 @@ export default function Timeline() {
                       Category
                     </label>
                     <select
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 focus:bg-white"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-[var(--color-100)] focus:bg-white"
                       value={eventCategory}
                       onChange={(e) => setEventCategory(e.target.value)}
                     >
@@ -1030,7 +1030,7 @@ export default function Timeline() {
                       Description
                     </label>
                     <textarea
-                      className="w-full h-64 px-3 py-2 border border-gray-300 rounded-md resize-none bg-gray-50 focus:bg-white"
+                      className="w-full h-64 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                       placeholder="Describe the event in detail..."
                       value={eventDescription}
                       onChange={(e) => setEventDescription(e.target.value)}
@@ -1039,7 +1039,7 @@ export default function Timeline() {
                 </div>
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 bg-gray-50">
+            <div className="p-6 border-t border-gray-200 bg-[var(--color-100)]">
               <div className="flex justify-end space-x-3">
                 <Button
                   variant="outline"
@@ -1081,7 +1081,7 @@ export default function Timeline() {
           <Card className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Edit Event</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-950)]">Edit Event</h2>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1089,7 +1089,7 @@ export default function Timeline() {
                     setShowEditDialog(false);
                     setSelectedEvent(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-[var(--color-600)] hover:text-[var(--color-700)]"
                 >
                   <X className="w-5 h-5" />
                 </Button>
@@ -1105,7 +1105,7 @@ export default function Timeline() {
                     placeholder="Enter event title"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-gray-50 border-gray-300 focus:bg-white"
+                    className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
                   />
                 </div>
 
@@ -1119,7 +1119,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-gray-50 border-gray-300 focus:bg-white"
+                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
                     />
                   </div>
                   <div>
@@ -1129,7 +1129,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1146,7 +1146,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1167,7 +1167,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 
@@ -1224,7 +1224,7 @@ export default function Timeline() {
                   Cancel
                 </Button>
                 <Button
-                  className="bg-orange-500 text-white hover:bg-orange-600"
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                   onClick={() => {
                     // Here you would typically update the event via API
                     console.log("Updated Event:", {
@@ -1262,7 +1262,7 @@ export default function Timeline() {
           <Card className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Edit Event</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-950)]">Edit Event</h2>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1270,7 +1270,7 @@ export default function Timeline() {
                     setShowEditDialog(false);
                     setSelectedEvent(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-[var(--color-600)] hover:text-[var(--color-700)]"
                 >
                   <X className="w-5 h-5" />
                 </Button>
@@ -1286,7 +1286,7 @@ export default function Timeline() {
                     placeholder="Enter event title..."
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -1300,7 +1300,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-gray-50 border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                   <div>
@@ -1310,7 +1310,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1327,7 +1327,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1348,7 +1348,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 
@@ -1405,7 +1405,7 @@ export default function Timeline() {
                   Cancel
                 </Button>
                 <Button
-                  className="bg-orange-500 text-white hover:bg-orange-600"
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                   onClick={() => {
                     console.log("Updated Event:", {
                       id: selectedEvent.id,

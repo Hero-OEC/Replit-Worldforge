@@ -92,7 +92,7 @@ export default function TagManager({
       <div className="relative">
         <div className="flex items-center space-x-2">
           <div className="relative flex-1">
-            <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-600)] w-4 h-4" />
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -108,7 +108,7 @@ export default function TagManager({
               size="sm"
               onClick={() => addTag(inputValue)}
               disabled={tags.length >= maxTags}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
             >
               <Plus className="w-4 h-4" />
             </Button>
@@ -123,9 +123,9 @@ export default function TagManager({
                 <div
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="flex items-center space-x-2 p-2 rounded hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-center space-x-2 p-2 rounded hover:bg-[var(--color-100)] cursor-pointer transition-colors"
                 >
-                  <Hash className="w-3 h-3 text-gray-400" />
+                  <Hash className="w-3 h-3 text-[var(--color-600)]" />
                   <span className="text-sm text-gray-700">{suggestion}</span>
                 </div>
               ))}
@@ -135,7 +135,7 @@ export default function TagManager({
       </div>
 
       {/* Tag Count & Limit */}
-      <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-[var(--color-600)]">
         <span>{tags.length} / {maxTags} tags</span>
         <span>Press Enter or comma to add tag</span>
       </div>

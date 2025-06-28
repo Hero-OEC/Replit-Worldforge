@@ -140,15 +140,15 @@ export default function EditMagicSystem() {
             <Button
               variant="ghost"
               onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
-              className="p-2 hover:bg-gray-100"
+              className="p-2 hover:bg-[var(--color-200)]"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center space-x-3">
               <Sparkles className="h-8 w-8 text-orange-500" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Edit Magic System</h1>
-                <p className="text-gray-600">Update your magical system details</p>
+                <h1 className="text-2xl font-bold text-[var(--color-950)]">Edit Magic System</h1>
+                <p className="text-[var(--color-700)]">Update your magical system details</p>
               </div>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function EditMagicSystem() {
                   <Button 
                     type="submit" 
                     disabled={updateMutation.isPending || !formData.name.trim()}
-                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                    className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
                   >
                     <Save className="h-4 w-4 mr-2" />
                     {updateMutation.isPending ? "Saving..." : "Save Changes"}

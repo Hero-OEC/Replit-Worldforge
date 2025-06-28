@@ -25,60 +25,63 @@
 }
 
 :root {
-  --background: hsl(40, 28%, 90%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(40, 20%, 88%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: #f8f6f2;
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(40, 28%, 96%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(40, 15%, 85%);
-  --input: hsl(40, 15%, 85%);
-  --primary: hsl(23, 77%, 54%);
-  --primary-foreground: #f8f6f2;
-  --secondary: hsl(40, 20%, 88%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(40, 20%, 88%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
+  /* New InkAlchemy Color Palette */
+  --color-50: #FAF9EC;
+  --color-100: #F4F0CD;
+  --color-200: #EBDF9D;
+  --color-300: #DFC865;
+  --color-400: #D4B13B;
+  --color-500: #BF972C;
+  --color-600: #A97A25;
+  --color-700: #885A20;
+  --color-800: #714A22;
+  --color-900: #613E22;
+  --color-950: #382010;
   
-  /* Custom WorldForge colors */
-  --worldforge-primary: hsl(23, 77%, 54%);
-  --worldforge-cream: hsl(40, 28%, 90%);
-  --worldforge-cream-dark: hsl(40, 20%, 85%);
-  --worldforge-card: hsl(40, 28%, 96%);
+  /* Semantic color mapping */
+  --background: var(--color-50);
+  --foreground: var(--color-950);
+  --muted: var(--color-100);
+  --muted-foreground: var(--color-700);
+  --popover: var(--color-50);
+  --popover-foreground: var(--color-950);
+  --card: var(--color-100);
+  --card-foreground: var(--color-950);
+  --border: var(--color-600);
+  --input: var(--color-200);
+  --primary: var(--color-500);
+  --primary-foreground: var(--color-50);
+  --secondary: var(--color-200);
+  --secondary-foreground: var(--color-800);
+  --accent: var(--color-200);
+  --accent-foreground: var(--color-800);
+  --destructive: #B91C1C;
+  --destructive-foreground: var(--color-50);
+  --ring: var(--color-500);
+  --radius: 0.5rem;
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(23, 77%, 54%);
-  --primary-foreground: #f8f6f2;
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
-  
-  /* Custom WorldForge colors for dark mode */
-  --worldforge-primary: hsl(23, 77%, 54%);
-  --worldforge-cream: hsl(240, 10%, 3.9%);
-  --worldforge-cream-dark: hsl(240, 3.7%, 15.9%);
+  /* Dark mode uses inverted palette */
+  --background: var(--color-950);
+  --foreground: var(--color-50);
+  --muted: var(--color-900);
+  --muted-foreground: var(--color-300);
+  --popover: var(--color-950);
+  --popover-foreground: var(--color-50);
+  --card: var(--color-900);
+  --card-foreground: var(--color-50);
+  --border: var(--color-700);
+  --input: var(--color-800);
+  --primary: var(--color-500);
+  --primary-foreground: var(--color-950);
+  --secondary: var(--color-800);
+  --secondary-foreground: var(--color-100);
+  --accent: var(--color-800);
+  --accent-foreground: var(--color-100);
+  --destructive: #DC2626;
+  --destructive-foreground: var(--color-50);
+  --ring: var(--color-500);
 }
 
 @layer base {
@@ -87,25 +90,24 @@
   }
 
   body {
-    @apply font-sans antialiased bg-[var(--worldforge-cream)] text-foreground;
+    @apply font-sans antialiased bg-[var(--color-50)] text-foreground;
   }
 }
 
 @layer utilities {
-  .worldforge-primary {
-    background-color: var(--worldforge-primary);
+  .ink-primary {
+    background-color: var(--color-500);
+    color: var(--color-50);
   }
   
-  .worldforge-cream {
-    background-color: var(--worldforge-cream);
+  .ink-secondary {
+    background-color: var(--color-200);
+    color: var(--color-800);
   }
   
-  .worldforge-cream-dark {
-    background-color: var(--worldforge-cream-dark);
-  }
-  
-  .worldforge-card {
-    background-color: var(--worldforge-card);
+  .ink-muted {
+    background-color: var(--color-100);
+    color: var(--color-700);
   }
 
   /* Animation utilities */
@@ -138,7 +140,7 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(250, 249, 236, 0.3);
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
   }
@@ -155,7 +157,7 @@
   
   .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(56, 32, 16, 0.15);
   }
   
   .hover-scale {
@@ -171,7 +173,7 @@
   }
   
   .hover-glow:hover {
-    box-shadow: 0 0 20px rgba(232, 122, 62, 0.3);
+    box-shadow: 0 0 20px rgba(191, 151, 44, 0.3);
   }
 }
 
@@ -233,6 +235,6 @@
   }
   
   input:focus, textarea:focus, select:focus {
-    box-shadow: 0 0 0 2px rgba(232, 122, 62, 0.2);
+    box-shadow: 0 0 0 2px rgba(191, 151, 44, 0.2);
   }
 }

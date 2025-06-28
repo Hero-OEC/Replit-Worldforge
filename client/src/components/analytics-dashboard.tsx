@@ -60,14 +60,14 @@ export default function AnalyticsDashboard({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Target className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+              <Target className="w-5 h-5 text-[var(--color-700)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">Project Completion</h3>
+              <h3 className="font-semibold text-[var(--color-950)]">Project Completion</h3>
               <div className="flex items-center space-x-2 mt-1">
                 <Progress value={completionScore} className="flex-1" />
-                <span className="text-sm font-medium text-gray-600">{completionScore}%</span>
+                <span className="text-sm font-medium text-[var(--color-700)]">{completionScore}%</span>
               </div>
             </div>
           </div>
@@ -75,14 +75,14 @@ export default function AnalyticsDashboard({
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-green-600" />
+            <div className="w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-[var(--color-700)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">Character Development</h3>
+              <h3 className="font-semibold text-[var(--color-950)]">Character Development</h3>
               <div className="flex items-center space-x-2 mt-1">
                 <Progress value={characterCompleteness} className="flex-1" />
-                <span className="text-sm font-medium text-gray-600">{characterCompleteness}%</span>
+                <span className="text-sm font-medium text-[var(--color-700)]">{characterCompleteness}%</span>
               </div>
             </div>
           </div>
@@ -90,24 +90,24 @@ export default function AnalyticsDashboard({
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 bg-[var(--color-300)] rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-[var(--color-800)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">Total Entities</h3>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{totalEntities}</p>
+              <h3 className="font-semibold text-[var(--color-950)]">Total Entities</h3>
+              <p className="text-2xl font-bold text-[var(--color-950)] mt-1">{totalEntities}</p>
             </div>
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-orange-600" />
+            <div className="w-10 h-10 bg-[var(--color-400)] rounded-lg flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-[var(--color-900)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">Timeline Events</h3>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{timelineEvents.length}</p>
+              <h3 className="font-semibold text-[var(--color-950)]">Timeline Events</h3>
+              <p className="text-2xl font-bold text-[var(--color-950)] mt-1">{timelineEvents.length}</p>
             </div>
           </div>
         </Card>
@@ -117,22 +117,22 @@ export default function AnalyticsDashboard({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Character Roles */}
         <Card className="p-6">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
-            <Users className="w-5 h-5 text-blue-600" />
+          <h3 className="font-semibold text-[var(--color-950)] mb-4 flex items-center space-x-2">
+            <Users className="w-5 h-5 text-[var(--color-700)]" />
             <span>Character Roles</span>
           </h3>
           <div className="space-y-3">
             {Object.entries(characterRoles).map(([role, count]) => (
               <div key={role} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 capitalize">{role}</span>
+                <span className="text-sm text-[var(--color-700)] capitalize">{role}</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                  <div className="w-24 bg-[var(--color-200)] rounded-full h-2">
                     <div 
-                      className="bg-blue-500 h-2 rounded-full" 
+                      className="bg-[var(--color-500)] h-2 rounded-full" 
                       style={{ width: `${(count / characters.length) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 w-6 text-right">{count}</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] w-6 text-right">{count}</span>
                 </div>
               </div>
             ))}
@@ -141,22 +141,22 @@ export default function AnalyticsDashboard({
 
         {/* Event Categories */}
         <Card className="p-6">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
-            <Clock className="w-5 h-5 text-purple-600" />
+          <h3 className="font-semibold text-[var(--color-950)] mb-4 flex items-center space-x-2">
+            <Clock className="w-5 h-5 text-[var(--color-800)]" />
             <span>Event Categories</span>
           </h3>
           <div className="space-y-3">
             {Object.entries(eventCategories).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">{category}</span>
+                <span className="text-sm text-[var(--color-700)]">{category}</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                  <div className="w-24 bg-[var(--color-200)] rounded-full h-2">
                     <div 
-                      className="bg-purple-500 h-2 rounded-full" 
+                      className="bg-[var(--color-500)] h-2 rounded-full" 
                       style={{ width: `${(count / timelineEvents.length) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 w-6 text-right">{count}</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] w-6 text-right">{count}</span>
                 </div>
               </div>
             ))}
@@ -165,22 +165,22 @@ export default function AnalyticsDashboard({
 
         {/* Lore Coverage */}
         <Card className="p-6">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
-            <BookOpen className="w-5 h-5 text-orange-600" />
+          <h3 className="font-semibold text-[var(--color-950)] mb-4 flex items-center space-x-2">
+            <BookOpen className="w-5 h-5 text-[var(--color-900)]" />
             <span>Lore Coverage</span>
           </h3>
           <div className="space-y-3">
             {Object.entries(loreCoverage).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">{category}</span>
+                <span className="text-sm text-[var(--color-700)]">{category}</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                  <div className="w-24 bg-[var(--color-200)] rounded-full h-2">
                     <div 
-                      className="bg-orange-500 h-2 rounded-full" 
+                      className="bg-[var(--color-500)] h-2 rounded-full" 
                       style={{ width: `${(count / loreEntries.length) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 w-6 text-right">{count}</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] w-6 text-right">{count}</span>
                 </div>
               </div>
             ))}
@@ -189,22 +189,22 @@ export default function AnalyticsDashboard({
 
         {/* Magic System Types */}
         <Card className="p-6">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
-            <Sparkles className="w-5 h-5 text-yellow-600" />
+          <h3 className="font-semibold text-[var(--color-950)] mb-4 flex items-center space-x-2">
+            <Sparkles className="w-5 h-5 text-[var(--color-800)]" />
             <span>Magic System Types</span>
           </h3>
           <div className="space-y-3">
             {Object.entries(magicSystemTypes).map(([type, count]) => (
               <div key={type} className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 capitalize">{type}</span>
+                <span className="text-sm text-[var(--color-700)] capitalize">{type}</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                  <div className="w-24 bg-[var(--color-200)] rounded-full h-2">
                     <div 
-                      className="bg-yellow-500 h-2 rounded-full" 
+                      className="bg-[var(--color-500)] h-2 rounded-full" 
                       style={{ width: `${(count / magicSystems.length) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 w-6 text-right">{count}</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] w-6 text-right">{count}</span>
                 </div>
               </div>
             ))}
@@ -214,26 +214,26 @@ export default function AnalyticsDashboard({
 
       {/* Recommendations */}
       <Card className="p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Recommendations</h3>
+        <h3 className="font-semibold text-[var(--color-950)] mb-4">Recommendations</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {characters.length < 5 && (
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-medium text-blue-900 mb-2">Add More Characters</h4>
-              <p className="text-sm text-blue-700">Consider adding more characters to enrich your story. Most stories benefit from 5-10 well-developed characters.</p>
+            <div className="p-4 bg-[var(--color-100)] rounded-lg border border-[var(--color-200)]">
+              <h4 className="font-medium text-[var(--color-900)] mb-2">Add More Characters</h4>
+              <p className="text-sm text-[var(--color-700)]">Consider adding more characters to enrich your story. Most stories benefit from 5-10 well-developed characters.</p>
             </div>
           )}
           
           {timelineEvents.length < 10 && (
-            <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-              <h4 className="font-medium text-purple-900 mb-2">Expand Timeline</h4>
-              <p className="text-sm text-purple-700">Add more timeline events to create a richer narrative structure. Consider key plot points, character development moments, and world events.</p>
+            <div className="p-4 bg-[var(--color-100)] rounded-lg border border-[var(--color-200)]">
+              <h4 className="font-medium text-[var(--color-900)] mb-2">Expand Timeline</h4>
+              <p className="text-sm text-[var(--color-700)]">Add more timeline events to create a richer narrative structure. Consider key plot points, character development moments, and world events.</p>
             </div>
           )}
           
           {locations.length < 3 && (
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-medium text-green-900 mb-2">Develop Locations</h4>
-              <p className="text-sm text-green-700">Your story would benefit from more detailed locations. Consider adding important places where key events occur.</p>
+            <div className="p-4 bg-[var(--color-100)] rounded-lg border border-[var(--color-200)]">
+              <h4 className="font-medium text-[var(--color-900)] mb-2">Develop Locations</h4>
+              <p className="text-sm text-[var(--color-700)]">Your story would benefit from more detailed locations. Consider adding important places where key events occur.</p>
             </div>
           )}
           

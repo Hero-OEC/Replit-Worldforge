@@ -219,7 +219,7 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
               </Button>
               <Button 
                 type="submit" 
-                className="worldforge-primary text-white hover:bg-orange-600 hover-glow animate-ripple"
+                className="worldforge-primary text-[var(--color-50)] hover:bg-[var(--color-600)] hover-glow animate-ripple"
                 disabled={createProjectMutation.isPending}
               >
                 {createProjectMutation.isPending ? "Creating..." : "Create Project"}

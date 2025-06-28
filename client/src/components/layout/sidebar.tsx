@@ -50,7 +50,7 @@ export default function Sidebar() {
               <a
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                   isActive
-                    ? "worldforge-primary text-white"
+                    ? "worldforge-primary text-[var(--color-50)]"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >

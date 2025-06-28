@@ -43,8 +43,8 @@ const eventTypeIcons = {
 };
 
 const importanceColors = {
-  high: "bg-red-500",
-  medium: "bg-orange-500",
+  high: "bg-destructive",
+  medium: "bg-[var(--color-500)]",
   low: "bg-yellow-500",
 };
 
@@ -107,22 +107,22 @@ export default function TimelineEventDetail() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-900"
+                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
                 onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">{event.title}</h1>
-                <p className="text-gray-600">Timeline Event Details</p>
+                <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
+                <p className="text-[var(--color-700)]">Timeline Event Details</p>
               </div>
             </div>
             
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={() => navigate(`/project/${projectId}/timeline/${eventId}/edit`)}
-                className="bg-orange-500 text-white hover:bg-orange-600"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Event
@@ -130,7 +130,7 @@ export default function TimelineEventDetail() {
               <Button
                 variant="outline"
                 onClick={handleDelete}
-                className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+                className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete
@@ -142,18 +142,18 @@ export default function TimelineEventDetail() {
 
             {/* Event metadata */}
             <div className="flex flex-wrap items-center gap-6 mb-8">
-              <div className="flex items-center space-x-2 text-gray-600">
+              <div className="flex items-center space-x-2 text-[var(--color-700)]">
                 <Calendar className="w-4 h-4" />
                 <span>{event.date}</span>
               </div>
               
               <Badge
-                className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-white px-3 py-1 rounded-full`}
+                className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
               >
                 {importanceLabels[event.importance as keyof typeof importanceLabels]}
               </Badge>
 
-              <div className="flex items-center space-x-2 text-gray-600">
+              <div className="flex items-center space-x-2 text-[var(--color-700)]">
                 <span>{event.category}</span>
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function TimelineEventDetail() {
             {/* Main Content - Description */}
             <div className="lg:col-span-2">
               <Card className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                <h2 className="text-xl font-semibold text-[var(--color-950)] mb-4">
                   Description
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
@@ -178,8 +178,8 @@ export default function TimelineEventDetail() {
               {/* Location */}
               <Card className="p-6">
                 <div className="flex items-center space-x-2 mb-4">
-                  <MapPin className="w-5 h-5 text-gray-500" />
-                  <h3 className="text-lg font-semibold text-gray-900">Location</h3>
+                  <MapPin className="w-5 h-5 text-[var(--color-600)]" />
+                  <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
                 </div>
                 <Link href={`/project/${projectId}/locations/1`}>
                   <Tag variant="location" className="cursor-pointer">
@@ -191,8 +191,8 @@ export default function TimelineEventDetail() {
               {/* Characters */}
               <Card className="p-6">
                 <div className="flex items-center space-x-2 mb-4">
-                  <Users className="w-5 h-5 text-gray-500" />
-                  <h3 className="text-lg font-semibold text-gray-900">Characters</h3>
+                  <Users className="w-5 h-5 text-[var(--color-600)]" />
+                  <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {event.characters.map((character, index) => (

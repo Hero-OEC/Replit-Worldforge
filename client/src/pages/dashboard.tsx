@@ -22,7 +22,7 @@ export default function Dashboard() {
         rightContent={
           <Button 
             onClick={() => setShowProjectDialog(true)}
-            className="bg-orange-500 text-white hover:bg-orange-600 hover-glow animate-ripple hover-scale"
+            className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] hover-glow animate-ripple hover-scale"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Project
@@ -33,8 +33,8 @@ export default function Dashboard() {
       <main className="flex-1 p-8 overflow-y-auto">
         {/* Welcome Section */}
         <div className="text-center mb-12 animate-slide-up">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4 animate-fade-in">Welcome to WorldForge</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto animate-slide-up">
+          <h1 className="text-4xl font-bold text-[var(--color-950)] mb-4 animate-fade-in">Welcome to WorldForge</h1>
+          <p className="text-xl text-[var(--color-700)] max-w-2xl mx-auto animate-slide-up">
             Your comprehensive creative writing companion. Organize characters, build worlds, 
             manage timelines, and bring your stories to life.
           </p>
@@ -43,8 +43,8 @@ export default function Dashboard() {
         {/* Projects Section */}
         <div className="mb-8 animate-slide-up">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 animate-fade-in">Your Projects</h2>
-            <p className="text-gray-600 animate-slide-up">Manage and organize your creative writing projects</p>
+            <h2 className="text-3xl font-bold text-[var(--color-950)] mb-2 animate-fade-in">Your Projects</h2>
+            <p className="text-[var(--color-700)] animate-slide-up">Manage and organize your creative writing projects</p>
           </div>
         </div>
 
@@ -83,16 +83,16 @@ export default function Dashboard() {
         ) : (
           <div className="text-center py-20 animate-slide-up">
             <div className="max-w-md mx-auto">
-              <BookOpen className="mx-auto h-16 w-16 text-gray-400 mb-6 animate-bounce-gentle hover-scale" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 animate-fade-in">Welcome to WorldForge</h3>
-              <p className="text-gray-600 mb-8 text-lg animate-slide-up">
+              <BookOpen className="mx-auto h-16 w-16 text-[var(--color-600)] mb-6 animate-bounce-gentle hover-scale" />
+              <h3 className="text-2xl font-bold text-[var(--color-950)] mb-3 animate-fade-in">Welcome to WorldForge</h3>
+              <p className="text-[var(--color-700)] mb-8 text-lg animate-slide-up">
                 Begin your creative journey by creating your first worldbuilding project. 
                 Organize characters, locations, timelines, and lore all in one place.
               </p>
               <Button
                 onClick={() => setShowProjectDialog(true)}
                 size="lg"
-                className="worldforge-primary text-white hover:bg-orange-600 px-8 py-3 text-lg hover-glow animate-ripple hover-scale"
+                className="worldforge-primary text-[var(--color-50)] hover:bg-[var(--color-600)] px-8 py-3 text-lg hover-glow animate-ripple hover-scale"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Create Your First Project
