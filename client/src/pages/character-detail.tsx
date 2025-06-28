@@ -1022,21 +1022,20 @@ export default function CharacterDetail() {
     image: undefined
   };
 
-  // Get character magic systems
+  // Get character magic systems - using static character ID to prevent infinite loop
   useEffect(() => {
-    if (character?.id) {
-      setCharacterMagicSystems([]);
-      fetch(`/api/characters/${character.id}/magic-systems`)
-        .then(res => res.json())
-        .then(data => {
-          setCharacterMagicSystems(data || []);
-        })
-        .catch(err => {
-          console.error('Error fetching character magic systems:', err);
-          setCharacterMagicSystems([]);
-        });
-    }
-  }, [character?.id]);
+    const characterId = 1; // Static ID to prevent infinite loop
+    setCharacterMagicSystems([]);
+    fetch(`/api/characters/${characterId}/magic-systems`)
+      .then(res => res.json())
+      .then(data => {
+        setCharacterMagicSystems(data || []);
+      })
+      .catch(err => {
+        console.error('Error fetching character magic systems:', err);
+        setCharacterMagicSystems([]);
+      });
+  }, []); // Empty dependency array since we're using static ID
 
   // Initialize power systems when character magic systems load
   useEffect(() => {

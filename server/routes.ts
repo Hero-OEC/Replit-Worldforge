@@ -229,6 +229,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get magic systems for a character
+  app.get("/api/characters/:id/magic-systems", async (req, res) => {
+    try {
+      const characterId = parseInt(req.params.id);
+      // For now, return empty array since we don't have the relationship table implemented yet
+      // TODO: Implement proper character-magic system relationships
+      res.json([]);
+    } catch (error) {
+      console.error("Error fetching character magic systems:", error);
+      res.status(500).json({ error: "Failed to fetch character magic systems" });
+    }
+  });
+
   app.get("/api/magic-systems/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
