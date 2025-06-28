@@ -190,7 +190,7 @@ export default function Locations() {
             {filteredLocations.map((location) => (
               <Card 
                 key={location.id} 
-                className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-200 cursor-pointer bg-[#f4f0cd]"
+                className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
                 onClick={() => handleView(location.id)}
               >
                 <div className="flex items-start justify-between mb-4">

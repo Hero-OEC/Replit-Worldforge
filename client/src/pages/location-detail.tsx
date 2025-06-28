@@ -752,7 +752,7 @@ export default function LocationDetail() {
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                  <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="space-y-6">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Description</h3>
@@ -788,7 +788,7 @@ export default function LocationDetail() {
                 </TabsContent>
 
                 <TabsContent value="geography" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                  <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Geography & Layout</h3>
                     {isEditing ? (
                       <textarea
@@ -805,7 +805,7 @@ export default function LocationDetail() {
                 </TabsContent>
 
                 <TabsContent value="culture" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                  <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Culture & Society</h3>
                     {isEditing ? (
                       <textarea
@@ -837,15 +837,15 @@ export default function LocationDetail() {
 
                     {/* Timeline Stats */}
                     <div className="grid grid-cols-3 gap-4">
-                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                      <Card className="border border-[var(--color-300)] p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="text-2xl font-bold text-[var(--color-950)]">{sampleTimelineEvents.filter(e => e.location === location.name).length}</div>
                         <div className="text-sm text-[var(--color-700)]">Events Here</div>
                       </Card>
-                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                      <Card className="border border-[var(--color-300)] p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="text-2xl font-bold text-[var(--color-950)]">{sampleTimelineEvents.filter(e => e.location === location.name && e.importance === 'high').length}</div>
                         <div className="text-sm text-[var(--color-700)]">High Priority</div>
                       </Card>
-                      <Card className="border border-gray-200 p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                      <Card className="border border-[var(--color-300)] p-4 text-center" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="text-2xl font-bold text-[var(--color-950)]">{Array.from(new Set(sampleTimelineEvents.filter(e => e.location === location.name).flatMap(e => e.characters))).length}</div>
                         <div className="text-sm text-[var(--color-700)]">Characters Involved</div>
                       </Card>
@@ -853,7 +853,7 @@ export default function LocationDetail() {
 
                     {/* Legend */}
                     <div className="flex justify-center">
-                      <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6" style={{ backgroundColor: '#f8f6f2' }}>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-destructive rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">High Priority</span>
@@ -870,7 +870,7 @@ export default function LocationDetail() {
                     </div>
                     
                     {/* Timeline Container - Placeholder for now */}
-                    <div className="rounded-lg p-8 shadow-sm border border-gray-200" style={{ backgroundColor: '#f8f6f2' }}>
+                    <div className="rounded-lg p-8 shadow-sm border border-[var(--color-300)]" style={{ backgroundColor: '#f8f6f2' }}>
                       {sampleTimelineEvents.filter(e => e.location === location.name).length === 0 ? (
                         <div className="text-center py-12">
                           <Clock className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
