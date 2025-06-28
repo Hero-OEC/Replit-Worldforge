@@ -95,6 +95,14 @@ export default function Locations() {
       'Building': 'bg-[var(--color-200)] text-[var(--color-800)]',
       'Wilderness': 'bg-[var(--color-400)] text-[var(--color-950)]',
       'Mountains': 'bg-[var(--color-500)] text-[var(--color-950)]',
+      'Forest': 'bg-[var(--color-400)] text-[var(--color-950)]',
+      'Academy': 'bg-[var(--color-300)] text-[var(--color-900)]',
+      'Palace': 'bg-[var(--color-500)] text-[var(--color-950)]',
+      'Village': 'bg-[var(--color-200)] text-[var(--color-800)]',
+      'Caves': 'bg-[var(--color-600)] text-[var(--color-50)]',
+      'Harbor': 'bg-[var(--color-400)] text-[var(--color-950)]',
+      'Ruins': 'bg-[var(--color-700)] text-[var(--color-50)]',
+      'Other': 'bg-[var(--color-300)] text-[var(--color-900)]',
     };
     return colors[type as keyof typeof colors] || 'bg-[var(--color-300)] text-[var(--color-900)]';
   };
