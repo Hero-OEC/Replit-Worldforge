@@ -1172,7 +1172,7 @@ export default function CharacterDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Side - Portrait */}
             <div className="lg:col-span-1">
-              <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+              <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                     <User className="w-5 h-5 mr-2" />
@@ -1222,7 +1222,7 @@ export default function CharacterDetail() {
 
                 {/* Basic Info */}
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
                     <span className="text-sm font-medium text-gray-700">Age:</span>
                     {isEditing ? (
                       <Input
@@ -1235,7 +1235,7 @@ export default function CharacterDetail() {
                       <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.age}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
@@ -1248,7 +1248,7 @@ export default function CharacterDetail() {
                       <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
                     <span className="text-sm font-medium text-gray-700">Class:</span>
                     {isEditing ? (
                       <Input
@@ -1303,7 +1303,7 @@ export default function CharacterDetail() {
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6"
+                  <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="space-y-6">
                       <div>
@@ -1383,7 +1383,7 @@ export default function CharacterDetail() {
                 </TabsContent>
 
                 <TabsContent value="appearance" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6"
+                  <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
@@ -1402,7 +1402,7 @@ export default function CharacterDetail() {
                 </TabsContent>
 
                 <TabsContent value="backstory" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6"
+                  <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
@@ -1421,7 +1421,7 @@ export default function CharacterDetail() {
                 </TabsContent>
 
                 <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
-                  <Card className="border border-gray-200 p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                  <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="flex items-center mb-4">
                       <Sword className="w-5 h-5 mr-2 text-[var(--color-700)]" />
                       <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
@@ -1455,7 +1455,7 @@ export default function CharacterDetail() {
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
@@ -1470,7 +1470,7 @@ export default function CharacterDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
@@ -1485,7 +1485,7 @@ export default function CharacterDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
@@ -1504,7 +1504,7 @@ export default function CharacterDetail() {
 
                     {/* Legend */}
                     <div className="flex justify-center">
-                      <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
+                      <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[#f8f6f2]">
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-destructive rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">High Priority</span>
