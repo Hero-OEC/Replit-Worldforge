@@ -214,13 +214,13 @@ export default function Lore() {
                           {entry.tags.slice(0, 3).map((tag, index) => (
                             <span 
                               key={index}
-                              className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
+                              className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
                             >
                               {tag}
                             </span>
                           ))}
                           {entry.tags.length > 3 && (
-                            <span className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-[var(--color-200)] text-orange-600 border border-orange-200 hover:bg-orange-200 transition-colors duration-200">
+                            <span className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]">
                               +{entry.tags.length - 3} more
                             </span>
                           )}
