@@ -22,6 +22,11 @@
   input, textarea, select, button {
     font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif !important;
   }
+  
+  /* Timeline container background fix */
+  .timeline-container-bg {
+    background-color: #faf9ec !important;
+  }
 }
 
 :root {
