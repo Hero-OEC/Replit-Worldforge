@@ -189,7 +189,7 @@ export default function TimelineEventDetail() {
               </Card>
 
               {/* Characters */}
-              <Card className="p-6">
+              <Card className="rounded-lg border text-card-foreground shadow-sm p-6 bg-[#f4f0cd00]">
                 <div className="flex items-center space-x-2 mb-4">
                   <Users className="w-5 h-5 text-[var(--color-600)]" />
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
