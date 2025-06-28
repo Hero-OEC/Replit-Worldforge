@@ -176,7 +176,7 @@ export default function TimelineEventDetail() {
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
               {/* Location */}
-              <Card className="p-6">
+              <Card className="p-6 bg-transparent">
                 <div className="flex items-center space-x-2 mb-4">
                   <MapPin className="w-5 h-5 text-[var(--color-600)]" />
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
