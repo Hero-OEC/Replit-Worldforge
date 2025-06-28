@@ -31,7 +31,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
 
   return (
     <Card 
-      className="bg-[var(--worldforge-card)] border border-[var(--border)] hover:shadow-lg transition-all duration-200 cursor-pointer group"
+      className="bg-[var(--color-100)] border border-gray-200 hover:shadow-lg transition-all duration-200 cursor-pointer group"
       onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/${system.id}`)}
     >
       <CardHeader className="pb-3">
