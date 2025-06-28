@@ -14,9 +14,15 @@ sqlite.pragma('journal_mode = WAL');
 export const db = drizzle(sqlite, { schema });
 
 // Run migrations on startup
-export function initializeDatabase() {
+export async function initializeDatabase() {
   try {
     migrate(db, { migrationsFolder: './drizzle' });
+    console.log('Database migrations completed');
+    
+    // Run power systems migration
+    const { migratePowerSystems } = await import('./migrate-power-systems');
+    await migratePowerSystems();
+    
     console.log('Database initialized successfully');
   } catch (error) {
     console.error('Database initialization failed:', error);

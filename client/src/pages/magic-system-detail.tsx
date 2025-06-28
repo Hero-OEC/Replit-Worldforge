@@ -44,13 +44,15 @@ export default function MagicSystemDetail() {
     },
   });
 
-  const { data: characters = [] } = useQuery<Character[]>({
-    queryKey: ["/api/characters", projectId],
+  const { data: connectedCharacters = [] } = useQuery<Character[]>({
+    queryKey: ["/api/magic-systems", magicSystemId, "characters"],
     queryFn: async () => {
-      const response = await fetch(`/api/characters?projectId=${projectId}`);
-      if (!response.ok) throw new Error("Failed to fetch characters");
+      if (!magicSystemId) return [];
+      const response = await fetch(`/api/magic-systems/${magicSystemId}/characters`);
+      if (!response.ok) throw new Error("Failed to fetch connected characters");
       return response.json();
     },
+    enabled: !!magicSystemId,
   });
 
   const deleteMutation = useMutation({
@@ -131,13 +133,7 @@ export default function MagicSystemDetail() {
 
   const CategoryIcon = getCategoryIcon(magicSystem.category || "magic");
 
-  // Filter characters that use this magic system based on their powerSystems field
-  const connectedCharacters = characters.filter(character => {
-    if (!magicSystem || !character.powerSystems) return false;
-    
-    // Check if the character has this magic system in their powerSystems array
-    return character.powerSystems.includes(magicSystem.name);
-  });
+  // connectedCharacters now comes directly from the API with proper relationships
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">

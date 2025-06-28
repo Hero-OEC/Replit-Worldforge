@@ -198,13 +198,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/magic-systems", async (req, res) => {
     try {
       const projectId = parseInt(req.query.projectId as string);
-      if (!projectId) {
-        return res.status(400).json({ message: "Project ID is required" });
+      if (isNaN(projectId)) {
+        return res.status(400).json({ error: "Valid project ID is required" });
       }
-      const systems = await storage.getMagicSystems(projectId);
-      res.json(systems);
+
+      const magicSystems = await storage.getMagicSystems(projectId);
+
+      res.json(magicSystems);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch magic systems" });
+      console.error("Error fetching magic systems:", error);
+      res.status(500).json({ error: "Failed to fetch magic systems" });
+    }
+  });
+
+  // Get characters connected to a magic system
+  app.get("/api/magic-systems/:id/characters", async (req, res) => {
+    try {
+      const magicSystemId = parseInt(req.params.id);
+      const magicSystem = await storage.getMagicSystem(magicSystemId);
+      if (!magicSystem) {
+        return res.status(404).json({ message: "Magic system not found" });
+      }
+      const projectId = magicSystem.projectId;
+
+      const characters = await storage.getCharacters(projectId);
+      res.json(characters);
+    } catch (error) {
+      console.error("Error fetching connected characters:", error);
+      res.status(500).json({ error: "Failed to fetch connected characters" });
     }
   });
 

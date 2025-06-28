@@ -79,6 +79,16 @@ export const loreEntries = sqliteTable("lore_entries", {
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
 });
 
+// Character-Magic System relationship table
+export const characterMagicSystems = sqliteTable("character_magic_systems", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  characterId: integer("character_id").notNull().references(() => characters.id, { onDelete: "cascade" }),
+  magicSystemId: integer("magic_system_id").notNull().references(() => magicSystems.id, { onDelete: "cascade" }),
+  proficiencyLevel: text("proficiency_level").default("beginner"), // beginner, intermediate, advanced, master
+  notes: text("notes"), // how they learned it, special abilities, etc.
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+});
+
 export const editHistory = sqliteTable("edit_history", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
@@ -126,6 +136,11 @@ export const insertLoreEntrySchema = createInsertSchema(loreEntries).omit({
   updatedAt: true,
 });
 
+export const insertCharacterMagicSystemSchema = createInsertSchema(characterMagicSystems).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertEditHistorySchema = createInsertSchema(editHistory).omit({
   id: true,
   createdAt: true,
@@ -149,6 +164,9 @@ export type InsertMagicSystem = z.infer<typeof insertMagicSystemSchema>;
 
 export type LoreEntry = typeof loreEntries.$inferSelect;
 export type InsertLoreEntry = z.infer<typeof insertLoreEntrySchema>;
+
+export type CharacterMagicSystem = typeof characterMagicSystems.$inferSelect;
+export type InsertCharacterMagicSystem = z.infer<typeof insertCharacterMagicSystemSchema>;
 
 export type EditHistory = typeof editHistory.$inferSelect;
 export type InsertEditHistory = z.infer<typeof insertEditHistorySchema>;
@@ -176,10 +194,22 @@ export const projectsRelations = relations(projects, ({ many }) => ({
   editHistory: many(editHistory),
 }));
 
-export const charactersRelations = relations(characters, ({ one }) => ({
+export const charactersRelations = relations(characters, ({ one, many }) => ({
   project: one(projects, {
     fields: [characters.projectId],
     references: [projects.id],
+  }),
+  characterMagicSystems: many(characterMagicSystems),
+}));
+
+export const characterMagicSystemsRelations = relations(characterMagicSystems, ({ one }) => ({
+  character: one(characters, {
+    fields: [characterMagicSystems.characterId],
+    references: [characters.id],
+  }),
+  magicSystem: one(magicSystems, {
+    fields: [characterMagicSystems.magicSystemId],
+    references: [magicSystems.id],
   }),
 }));
 
@@ -197,11 +227,12 @@ export const timelineEventsRelations = relations(timelineEvents, ({ one }) => ({
   }),
 }));
 
-export const magicSystemsRelations = relations(magicSystems, ({ one }) => ({
+export const magicSystemsRelations = relations(magicSystems, ({ one, many }) => ({
   project: one(projects, {
     fields: [magicSystems.projectId],
     references: [projects.id],
   }),
+  characterMagicSystems: many(characterMagicSystems),
 }));
 
 export const loreEntriesRelations = relations(loreEntries, ({ one }) => ({

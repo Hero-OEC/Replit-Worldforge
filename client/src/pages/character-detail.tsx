@@ -1021,12 +1021,21 @@ export default function CharacterDetail() {
     image: undefined
   };
 
-  // Initialize power systems when character loads
+  const { data: characterMagicSystems = [] } = useQuery({
+    queryKey: ["/api/characters", characterId, "magic-systems"],
+    queryFn: async () => {
+      const response = await fetch(`/api/characters/${characterId}/magic-systems`);
+      if (!response.ok) throw new Error("Failed to fetch character magic systems");
+      return response.json();
+    },
+    enabled: !!characterId,
+  });
+
+  // Initialize power systems when character magic systems load
   useEffect(() => {
-    if (character.powerSystems) {
-      setSelectedPowerSystems(character.powerSystems);
-    }
-  }, []);
+    const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem.name);
+    setSelectedPowerSystems(systemNames);
+  }, [characterMagicSystems]);
 
   // Get role configuration
   const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
