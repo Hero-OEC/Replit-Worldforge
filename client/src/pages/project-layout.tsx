@@ -73,7 +73,7 @@ export default function ProjectLayout() {
 
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <Users className="w-5 h-5" />
@@ -85,9 +85,9 @@ export default function ProjectLayout() {
               </div>
             </Card>
 
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-[var(--color-300)] text-[var(--color-800)] rounded-lg">
+                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -97,9 +97,9 @@ export default function ProjectLayout() {
               </div>
             </Card>
 
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-[var(--color-400)] text-[var(--color-900)] rounded-lg">
+                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -109,9 +109,9 @@ export default function ProjectLayout() {
               </div>
             </Card>
 
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-[var(--color-500)] text-[var(--color-950)] rounded-lg">
+                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
