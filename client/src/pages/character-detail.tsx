@@ -300,9 +300,9 @@ const sampleEvents: TimelineEventData[] = [
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
-  high: "bg-destructive",
-  medium: "bg-[var(--color-500)]", 
-  low: "bg-yellow-500",
+  high: "bg-[var(--color-500)]",
+  medium: "bg-[var(--color-400)]",
+  low: "bg-[var(--color-300)]",
 };
 
 const eventTypeIcons = {
@@ -1472,11 +1472,11 @@ export default function CharacterDetail() {
                       </div>
                       <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
                         <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-destructive mb-1">
+                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
@@ -1506,19 +1506,19 @@ export default function CharacterDetail() {
                     <div className="flex justify-center">
                       <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[#f8f6f2]">
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-destructive rounded-full"></div>
+                          <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">High Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+                          <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">Low Priority</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
+                          <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
                             <span className="text-[var(--color-50)] text-xs font-bold">3</span>
                           </div>
                           <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
