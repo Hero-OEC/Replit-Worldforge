@@ -20,7 +20,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-[var(--color-400)] text-[var(--color-950)]" : "bg-[var(--color-300)] text-[var(--color-900)]";
   };
 
   const CategoryIcon = getCategoryIcon(system.category || "magic");
@@ -31,14 +31,14 @@ function MagicSystemCard({ system, onDelete, projectId }: {
 
   return (
     <Card 
-      className="bg-[var(--color-100)] border border-gray-200 hover:shadow-lg transition-all duration-200 cursor-pointer group"
+      className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-lg transition-all duration-200 cursor-pointer group"
       onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/${system.id}`)}
     >
       <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-3 flex-1">
-              <div className="w-12 h-12 bg-[var(--color-500)] rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
-                <CategoryIcon className="w-6 h-6 text-[var(--color-50)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
+              <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+                <CategoryIcon className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between">
