@@ -21,9 +21,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const priorityColors = {
-  high: "bg-destructive",
+  high: "bg-[var(--color-600)]",
   medium: "bg-[var(--color-500)]",
-  low: "bg-yellow-500",
+  low: "bg-[var(--color-400)]",
 };
 
 const priorityLabels = {
@@ -238,10 +238,10 @@ export default function SerpentineTimeline({
             {pathPoints.length > 1 && (
               <path
                 d={`M ${pathPoints.map(point => point.join(',')).join(' L ')}`}
-                stroke="#d69e2e"
+                stroke="var(--color-500)"
                 strokeWidth="3"
                 fill="none"
-                opacity="0.6"
+                opacity="1"
               />
             )}
           </svg>
@@ -279,11 +279,11 @@ export default function SerpentineTimeline({
                 >
                   {/* Main Node Circle */}
                   <div
-                    className={`w-12 h-12 rounded-full border-4 border-orange-300 flex items-center justify-center shadow-lg transition-all duration-200 ${
+                    className={`w-12 h-12 rounded-full border-4 border-[var(--color-400)] flex items-center justify-center shadow-lg transition-all duration-200 ${
                       group.isMultiEvent
-                        ? "bg-gradient-to-br from-orange-400 to-red-400"
+                        ? "bg-[var(--color-500)]"
                         : priorityColors[group.events[0].importance]
-                    } ${isHovered ? "shadow-xl border-orange-400" : ""}`}
+                    } ${isHovered ? "shadow-xl border-[var(--color-500)]" : ""}`}
                   >
                     {group.isMultiEvent ? (
                       <span className="text-[var(--color-50)] font-bold text-sm">
@@ -305,7 +305,7 @@ export default function SerpentineTimeline({
                   
                   {/* Date Label */}
                   <div className="absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                    <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-gray-700" style={{ backgroundColor: '#f8f6f2' }}>
+                    <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)]" style={{ backgroundColor: '#f8f6f2' }}>
                       {group.date}
                     </div>
                   </div>
@@ -347,7 +347,7 @@ export default function SerpentineTimeline({
                               >
                                 <div className={`w-3 h-3 rounded-full ${priorityColors[event.importance]}`} />
                                 <IconComponent className="w-4 h-4 text-[var(--color-700)]" />
-                                <span className="text-sm text-gray-800 flex-1 truncate">
+                                <span className="text-sm text-[var(--color-800)] flex-1 truncate">
                                   {event.title}
                                 </span>
                               </div>
@@ -402,9 +402,9 @@ export default function SerpentineTimeline({
               <Badge 
                 variant="outline" 
                 className={`text-xs ${
-                  selectedEvent.importance === 'high' ? 'border-destructive text-red-700' :
-                  selectedEvent.importance === 'medium' ? 'border-orange-300 text-orange-700' :
-                  'border-yellow-300 text-yellow-700'
+                  selectedEvent.importance === 'high' ? 'border-[var(--color-600)] text-[var(--color-700)]' :
+                  selectedEvent.importance === 'medium' ? 'border-[var(--color-400)] text-[var(--color-700)]' :
+                  'border-[var(--color-400)] text-[var(--color-700)]'
                 }`}
               >
                 {priorityLabels[selectedEvent.importance]}
@@ -412,7 +412,7 @@ export default function SerpentineTimeline({
             </div>
 
             {selectedEvent.description && (
-              <p className="text-sm text-gray-700">{selectedEvent.description}</p>
+              <p className="text-sm text-[var(--color-700)]">{selectedEvent.description}</p>
             )}
 
             {selectedEvent.location && (

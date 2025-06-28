@@ -73,12 +73,12 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
 
   const getTypeColor = (type: SearchResult['type']) => {
     switch (type) {
-      case 'character': return 'bg-blue-100 text-blue-800';
-      case 'location': return 'bg-green-100 text-green-800';
-      case 'timeline': return 'bg-purple-100 text-purple-800';
-      case 'magic': return 'bg-yellow-100 text-yellow-800';
-      case 'lore': return 'bg-orange-100 text-orange-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'character': return 'bg-[var(--color-200)] text-[var(--color-800)]';
+      case 'location': return 'bg-[var(--color-300)] text-[var(--color-900)]';
+      case 'timeline': return 'bg-[var(--color-400)] text-[var(--color-950)]';
+      case 'magic': return 'bg-[var(--color-300)] text-[var(--color-800)]';
+      case 'lore': return 'bg-[var(--color-200)] text-[var(--color-700)]';
+      default: return 'bg-[var(--color-200)] text-[var(--color-800)]';
     }
   };
 
@@ -95,7 +95,7 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
   return (
     <div className="relative">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-400)] w-4 h-4" />
         <Input
           placeholder="Search across all project content..."
           value={query}
@@ -109,7 +109,7 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
               setQuery("");
               setIsOpen(false);
             }}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--color-400)] hover:text-[var(--color-600)]"
           >
             <X className="w-4 h-4" />
           </button>
@@ -125,14 +125,14 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
                 <div
                   key={`${result.type}-${result.id}`}
                   onClick={() => handleResultClick(result)}
-                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-[var(--color-100)] cursor-pointer transition-colors"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-gray-600" />
+                  <div className="flex-shrink-0 w-8 h-8 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-[var(--color-600)]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="font-medium text-gray-900 truncate">
+                      <h3 className="font-medium text-[var(--color-900)] truncate">
                         {result.title}
                       </h3>
                       <Badge className={`text-xs ${getTypeColor(result.type)}`}>
@@ -145,15 +145,15 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
                       )}
                     </div>
                     {result.description && (
-                      <p className="text-sm text-gray-600 line-clamp-2">
+                      <p className="text-sm text-[var(--color-600)] line-clamp-2">
                         {result.description}
                       </p>
                     )}
                     <div className="flex items-center space-x-2 mt-1">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-[var(--color-500)]">
                         Matched: {result.matchedFields.join(", ")}
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[var(--color-400)]">
                         Score: {result.relevance}
                       </span>
                     </div>
@@ -167,7 +167,7 @@ export default function GlobalSearch({ onResultClick }: GlobalSearchProps) {
 
       {isOpen && results.length === 0 && query.trim().length > 1 && (
         <Card className="absolute top-full left-0 right-0 mt-2 p-4 shadow-lg border z-50">
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-[var(--color-500)] text-center">
             No results found for "{query}"
           </p>
         </Card>

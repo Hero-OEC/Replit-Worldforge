@@ -23,9 +23,9 @@ export default function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <div className="w-64 shadow-lg border-r border-gray-200 flex flex-col" style={{ backgroundColor: '#f8f6f2' }}>
+    <div className="w-64 shadow-lg border-r border-[var(--color-300)] flex flex-col" style={{ backgroundColor: '#f8f6f2' }}>
       {/* Logo Section */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-[var(--color-300)]">
         <div className="flex items-center space-x-3">
           <img 
             src={inkAlchemyLogo} 
@@ -33,8 +33,8 @@ export default function Sidebar() {
             className="w-12 h-12 object-contain"
           />
           <div>
-            <h1 className="text-xl font-bold text-gray-900">InkAlchemy</h1>
-            <p className="text-xs text-gray-500">Creative Writing Companion</p>
+            <h1 className="text-xl font-bold text-[var(--color-900)]">InkAlchemy</h1>
+            <p className="text-xs text-[var(--color-500)]">Creative Writing Companion</p>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default function Sidebar() {
                 className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                   isActive
                     ? "worldforge-primary text-[var(--color-50)]"
-                    : "text-gray-700 hover:bg-gray-100"
+                    : "text-[var(--color-700)] hover:bg-[var(--color-200)]"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -63,9 +63,9 @@ export default function Sidebar() {
       </nav>
 
       {/* Settings */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-[var(--color-300)]">
         <Link href="/settings">
-          <a className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+          <a className="flex items-center space-x-3 px-3 py-2 text-[var(--color-700)] hover:bg-[var(--color-200)] rounded-lg transition-colors">
             <Settings className="w-4 h-4" />
             <span>Settings</span>
           </a>

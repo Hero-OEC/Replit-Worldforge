@@ -36,7 +36,7 @@ export default function Navbar({
   ];
 
   return (
-    <header className="bg-[var(--color-100)] border-b border-[var(--border)]">
+    <header className="bg-[var(--color-100)]">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
@@ -48,8 +48,8 @@ export default function Navbar({
                   className="w-12 h-12 object-contain hover-scale"
                 />
                 <div>
-                  <h1 className="text-heading-md text-gray-900">InkAlchemy</h1>
-                  <p className="text-xs text-gray-600">Your Creative Writing Companion</p>
+                  <h1 className="text-heading-md text-[var(--color-900)]">InkAlchemy</h1>
+                  <p className="text-xs text-[var(--color-600)]">Your Creative Writing Companion</p>
                 </div>
               </div>
             </Link>
@@ -57,7 +57,7 @@ export default function Navbar({
             {/* Project Navigation Buttons - Only show when inside a project */}
             {showProjectNav && projectId && (
               <nav className="flex items-center space-x-1">
-                <div className="w-px h-6 bg-gray-300 mx-4"></div>
+                <div className="w-px h-6 bg-[var(--color-300)] mx-4"></div>
                 {projectNavItems.map((item) => {
                   const isActive = location === item.href;
                   const Icon = item.icon;
