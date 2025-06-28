@@ -1228,7 +1228,7 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.age || character.age}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                        className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="22"
                       />
                     ) : (
@@ -1241,7 +1241,7 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.race || character.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Human"
                       />
                     ) : (
@@ -1254,7 +1254,7 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.class || character.class}
                         onChange={(e) => setCharacterData({...characterData, class: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Mage"
                       />
                     ) : (
@@ -1267,12 +1267,12 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.location || character.location}
                         onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
-                        className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Arcanum City"
                       />
                     ) : (
                       <WouterLink href={`/project/${projectId}/locations/1`}>
-                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200 transition-colors">{(() => {
+                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-[var(--color-300)] transition-colors">{(() => {
                           // Get the character's most recent event location
                           const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
                           const sortedEvents = [...characterEvents].sort((a, b) => {
@@ -1313,7 +1313,7 @@ export default function CharacterDetail() {
                             value={characterData.description || character.description}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                             rows={3}
-                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
                             placeholder="Brief character description..."
                           />
                         ) : (
@@ -1327,7 +1327,7 @@ export default function CharacterDetail() {
                           <textarea
                             value={characterData.personality || character.personality}
                             onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                             placeholder="Character's personality traits..."
                           />
                         ) : (
@@ -1391,7 +1391,7 @@ export default function CharacterDetail() {
                         <textarea
                           value={characterData.appearance || character.appearance}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
-                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Describe the character's physical appearance..."
                         />
                       ) : (
@@ -1410,7 +1410,7 @@ export default function CharacterDetail() {
                         <textarea
                           value={characterData.backstory || character.backstory}
                           onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Character's background story..."
                         />
                       ) : (
@@ -1430,7 +1430,7 @@ export default function CharacterDetail() {
                       <textarea
                         value={characterData.weapons || character.weapons}
                         onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
-                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                         placeholder="List the character's weapons, armor, and important equipment..."
                       />
                     ) : (
