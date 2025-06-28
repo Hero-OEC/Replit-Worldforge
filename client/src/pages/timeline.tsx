@@ -827,7 +827,7 @@ export default function Timeline() {
               ) : hoveredEvent ? (
                 // Single event popup
                 (<Card
-                  className="bg-[var(--color-100)] border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+                  className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
