@@ -242,13 +242,11 @@ export default function Characters() {
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[var(--color-200)]">
-                        <img 
-                          src="/attached_assets/Placeholder_1750916543106.jpg" 
-                          alt="Character placeholder"
-                          className="w-3/4 h-3/4 object-contain opacity-30"
-                        />
-                      </div>
+                      <img 
+                        src="/attached_assets/Placeholder_1750916543106.jpg" 
+                        alt="Character placeholder"
+                        className="w-full h-full object-cover object-center opacity-30"
+                      />
                     )}
                     {/* Role Badge */}
                     <div className={`absolute top-3 left-3 ${roleInfo.bgColor} ${roleInfo.textColor} px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium border ${roleInfo.borderColor}`}>
