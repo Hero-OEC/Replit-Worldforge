@@ -33,16 +33,16 @@ import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 
 // Category icons and colors
 const categoryConfig = {
-  "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
-  "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-  "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
-  "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
-  "Customs": { icon: Heart, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
+  "History": { icon: Calendar, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Religion": { icon: Church, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Politics": { icon: Crown, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Culture": { icon: Users, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Geography": { icon: MapPin, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Artifacts": { icon: Gem, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Prophecies": { icon: Eye, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Institutions": { icon: GraduationCap, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Legends": { icon: Sparkles, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Customs": { icon: Heart, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" }
 };
 
 export default function Lore() {
@@ -119,30 +119,28 @@ export default function Lore() {
                   <p className="text-[var(--color-700)]">Manage your world's history, culture, and knowledge</p>
                 </div>
               </div>
-              <Button
-                onClick={() => setLocation(`/project/${projectId}/lore/new`)}
-                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Lore Entry
-              </Button>
-            </div>
-
-            {/* Filter Controls */}
-            <div className="flex justify-end mb-6">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Filter by category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex items-center space-x-3">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Filter by category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button
+                  onClick={() => setLocation(`/project/${projectId}/lore/new`)}
+                  className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Lore Entry
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -155,7 +153,7 @@ export default function Lore() {
               return (
                 <Card 
                   key={entry.id} 
-                  className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 cursor-pointer bg-[#f8f6f2] group hover:-translate-y-1"
+                  className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-1"
                   onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
                 >
                   <div className="p-6">

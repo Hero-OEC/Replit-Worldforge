@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
@@ -17,6 +18,7 @@ export default function Characters() {
   const [, setLocation] = useLocation();
   const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState<string>("all");
   const queryClient = useQueryClient();
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -111,11 +113,13 @@ export default function Characters() {
     }
   ];
 
-  const filteredCharacters = sampleCharacters.filter(character =>
-    character.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    character.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    character.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCharacters = sampleCharacters.filter(character => {
+    const matchesSearch = character.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = selectedRole === "all" || character.role === selectedRole;
+    return matchesSearch && matchesRole;
+  });
 
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this character?")) {
@@ -147,13 +151,29 @@ export default function Characters() {
                   <p className="text-[var(--color-700)]">Manage your story's characters and their development</p>
                 </div>
               </div>
-              <Button 
-                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
-                onClick={() => setLocation(`/project/${projectId}/characters/new`)}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Character
-              </Button>
+              <div className="flex items-center space-x-3">
+                <Select value={selectedRole} onValueChange={setSelectedRole}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Filter by role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Roles</SelectItem>
+                    <SelectItem value="Protagonist">Protagonist</SelectItem>
+                    <SelectItem value="Antagonist">Antagonist</SelectItem>
+                    <SelectItem value="Ally">Ally</SelectItem>
+                    <SelectItem value="Enemy">Enemy</SelectItem>
+                    <SelectItem value="Supporting">Supporting</SelectItem>
+                    <SelectItem value="Neutral">Neutral</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button 
+                  className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
+                  onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Character
+                </Button>
+              </div>
             </div>
           </div>
 

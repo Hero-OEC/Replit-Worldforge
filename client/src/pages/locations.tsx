@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { apiRequest } from "@/lib/queryClient";
@@ -18,6 +19,7 @@ export default function Locations() {
   const [, setLocation] = useLocation();
   const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedType, setSelectedType] = useState<string>("all");
 
   const queryClient = useQueryClient();
 
@@ -83,11 +85,13 @@ export default function Locations() {
     }
   };
 
-  const filteredLocations = sampleLocations.filter(location =>
-    location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    location.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    location.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredLocations = sampleLocations.filter(location => {
+    const matchesSearch = location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      location.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      location.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = selectedType === "all" || location.type === selectedType;
+    return matchesSearch && matchesType;
+  });
 
   const getTypeColor = (type: string) => {
     const colors = {
@@ -147,13 +151,35 @@ export default function Locations() {
                   <p className="text-[var(--color-700)]">Manage the places in your world</p>
                 </div>
               </div>
-              <Button 
-                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
-                onClick={() => setLocation(`/project/${projectId}/locations/new`)}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Location
-              </Button>
+              <div className="flex items-center space-x-3">
+                <Select value={selectedType} onValueChange={setSelectedType}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Filter by type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="City">City</SelectItem>
+                    <SelectItem value="Building">Building</SelectItem>
+                    <SelectItem value="Wilderness">Wilderness</SelectItem>
+                    <SelectItem value="Mountains">Mountains</SelectItem>
+                    <SelectItem value="Forest">Forest</SelectItem>
+                    <SelectItem value="Academy">Academy</SelectItem>
+                    <SelectItem value="Palace">Palace</SelectItem>
+                    <SelectItem value="Village">Village</SelectItem>
+                    <SelectItem value="Caves">Caves</SelectItem>
+                    <SelectItem value="Harbor">Harbor</SelectItem>
+                    <SelectItem value="Ruins">Ruins</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button 
+                  className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
+                  onClick={() => setLocation(`/project/${projectId}/locations/new`)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Location
+                </Button>
+              </div>
             </div>
           </div>
 

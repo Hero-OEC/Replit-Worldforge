@@ -15,31 +15,27 @@ import type { ProjectWithStats } from "@shared/schema";
 const categoryConfig = {
   "Plot": {
     icon: BookOpen,
-    color: "bg-blue-500",
-    bgColor: "bg-blue-100",
-    textColor: "text-blue-800",
-    borderColor: "border-blue-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-300)]",
+    textColor: "text-[var(--color-900)]"
   },
   "Characters": {
     icon: Users,
-    color: "bg-green-500",
-    bgColor: "bg-green-100",
-    textColor: "text-green-800",
-    borderColor: "border-green-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-400)]",
+    textColor: "text-[var(--color-950)]"
   },
   "World Building": {
     icon: Search,
-    color: "bg-purple-500",
-    bgColor: "bg-purple-100",
-    textColor: "text-purple-800",
-    borderColor: "border-purple-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-500)]",
+    textColor: "text-[var(--color-950)]"
   },
   "Research": {
     icon: Scroll,
-    color: "bg-yellow-500",
-    bgColor: "bg-yellow-100",
-    textColor: "text-yellow-800",
-    borderColor: "border-yellow-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-200)]",
+    textColor: "text-[var(--color-800)]"
   }
 };
 
@@ -184,8 +180,7 @@ export default function Notes() {
               return (
                 <Card 
                   key={note.id} 
-                  className="p-6 hover:shadow-md transition-shadow border border-gray-200 cursor-pointer hover:border-orange-300" 
-                  style={{ backgroundColor: '#f8f6f2' }}
+                  className="p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]" 
                   onClick={() => handleNoteClick(note.id)}
                 >
                   <div className="flex items-start justify-between mb-4">

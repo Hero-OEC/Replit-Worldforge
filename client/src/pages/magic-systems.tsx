@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
@@ -5,6 +6,7 @@ import { Plus, Sparkles, Zap, Trash2, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, ProjectWithStats } from "@shared/schema";
@@ -85,6 +87,7 @@ export default function MagicSystems() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { navigateWithHistory } = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -134,6 +137,11 @@ export default function MagicSystems() {
     }
   };
 
+  const filteredMagicSystems = magicSystems.filter(system => {
+    if (selectedCategory === "all") return true;
+    return system.category === selectedCategory;
+  });
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
@@ -157,13 +165,25 @@ export default function MagicSystems() {
                 </p>
               </div>
             </div>
-            <Button 
-              className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
-              onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/new`)}
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              New Magic System
-            </Button>
+            <div className="flex items-center space-x-3">
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter by type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="magic">Magic Systems</SelectItem>
+                  <SelectItem value="power">Power Systems</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button 
+                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
+                onClick={() => navigateWithHistory(`/project/${projectId}/magic-systems/new`)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                New Magic System
+              </Button>
+            </div>
           </div>
 
           {isLoading ? (
@@ -182,9 +202,9 @@ export default function MagicSystems() {
                 </Card>
               ))}
             </div>
-          ) : magicSystems.length > 0 ? (
+          ) : filteredMagicSystems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {magicSystems.map((system) => (
+              {filteredMagicSystems.map((system) => (
                 <MagicSystemCard
                   key={system.id}
                   system={system}
