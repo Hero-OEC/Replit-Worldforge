@@ -110,62 +110,62 @@ const genreIcons: Record<string, any> = {
 };
 
 const genreColors: Record<string, string> = {
-  "High Fantasy": "bg-purple-100 text-purple-800",
-  "Low Fantasy": "bg-purple-100 text-purple-800",
-  "Urban Fantasy": "bg-purple-100 text-purple-800",
-  "Dark Fantasy": "bg-purple-100 text-purple-800",
-  "Sword & Sorcery": "bg-purple-100 text-purple-800",
-  "Romantic Fantasy": "bg-pink-100 text-pink-800",
-  "Portal Fantasy": "bg-purple-100 text-purple-800",
-  "Fairy Tale Retellings": "bg-purple-100 text-purple-800",
-  "Mythic Fantasy": "bg-purple-100 text-purple-800",
-  "Historical Fantasy": "bg-amber-100 text-amber-800",
-  "Cozy Fantasy": "bg-green-100 text-green-800",
-  "Flintlock Fantasy": "bg-amber-100 text-amber-800",
-  "Progression Fantasy": "bg-blue-100 text-blue-800",
-  "Cultivation (Xianxia / Wuxia)": "bg-[var(--color-200)] text-[var(--color-800)]",
-  LitRPG: "bg-indigo-100 text-indigo-800",
-  GameLit: "bg-indigo-100 text-indigo-800",
-  "Dungeon Core": "bg-[var(--color-200)] text-gray-800",
-  Cyberpunk: "bg-cyan-100 text-cyan-800",
-  Biopunk: "bg-green-100 text-green-800",
-  "Time Travel": "bg-blue-100 text-blue-800",
-  "AI & Robots": "bg-slate-100 text-slate-800",
-  Dystopian: "bg-red-100 text-red-800",
-  "Post-Apocalyptic": "bg-red-100 text-red-800",
-  "Alien Invasion": "bg-indigo-100 text-indigo-800",
-  "LitRPG Sci-Fi": "bg-indigo-100 text-indigo-800",
-  "Romantic Comedy (Rom-Com)": "bg-pink-100 text-pink-800",
-  "Cozy Mystery": "bg-green-100 text-green-800",
-  "Detective Noir": "bg-[var(--color-200)] text-gray-800",
-  "Spy / Espionage": "bg-[var(--color-200)] text-gray-800",
-  "Crime Fiction": "bg-red-100 text-red-800",
-  "Techno-thriller": "bg-[var(--color-200)] text-[var(--color-800)]",
-  "Domestic Thriller": "bg-yellow-100 text-yellow-800",
-  "Psychological Horror": "bg-red-100 text-red-800",
-  "Supernatural Horror": "bg-red-100 text-red-800",
-  Slasher: "bg-red-100 text-red-800",
-  "Gothic Horror": "bg-purple-100 text-purple-800",
-  "Occult Horror": "bg-purple-100 text-purple-800",
-  "Survival Horror": "bg-red-100 text-red-800",
-  "Monster Horror": "bg-red-100 text-red-800",
-  "YA Fantasy": "bg-purple-100 text-purple-800",
-  "YA Sci-Fi": "bg-blue-100 text-blue-800",
-  "YA Romance": "bg-pink-100 text-pink-800",
-  "YA Contemporary": "bg-green-100 text-green-800",
-  "YA Dystopian": "bg-red-100 text-red-800",
-  "YA Thriller": "bg-[var(--color-200)] text-[var(--color-800)]",
-  "YA Paranormal": "bg-purple-100 text-purple-800",
-  "Coming-of-Age": "bg-blue-100 text-blue-800",
-  "Literary Fiction": "bg-amber-100 text-amber-800",
-  "Contemporary Fiction": "bg-green-100 text-green-800",
-  "Slice of Life": "bg-green-100 text-green-800",
-  "Magical Realism": "bg-purple-100 text-purple-800",
-  Satire: "bg-yellow-100 text-yellow-800",
-  Drama: "bg-[var(--color-200)] text-gray-800",
-  "Alt-History": "bg-amber-100 text-amber-800",
-  "Dark Academia": "bg-slate-100 text-slate-800",
-  "Antihero Fiction": "bg-[var(--color-200)] text-gray-800",
+  "High Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Low Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Urban Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Dark Fantasy": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Sword & Sorcery": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Romantic Fantasy": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Portal Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Fairy Tale Retellings": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Mythic Fantasy": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Historical Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Cozy Fantasy": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Flintlock Fantasy": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Progression Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Cultivation (Xianxia / Wuxia)": "bg-[var(--color-400)] text-[var(--color-950)]",
+  LitRPG: "bg-[var(--color-300)] text-[var(--color-900)]",
+  GameLit: "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Dungeon Core": "bg-[var(--color-400)] text-[var(--color-950)]",
+  Cyberpunk: "bg-[var(--color-200)] text-[var(--color-800)]",
+  Biopunk: "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Time Travel": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "AI & Robots": "bg-[var(--color-400)] text-[var(--color-950)]",
+  Dystopian: "bg-[var(--color-500)] text-[var(--color-950)]",
+  "Post-Apocalyptic": "bg-[var(--color-500)] text-[var(--color-950)]",
+  "Alien Invasion": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "LitRPG Sci-Fi": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Romantic Comedy (Rom-Com)": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Cozy Mystery": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Detective Noir": "bg-[var(--color-500)] text-[var(--color-950)]",
+  "Spy / Espionage": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Crime Fiction": "bg-[var(--color-500)] text-[var(--color-950)]",
+  "Techno-thriller": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Domestic Thriller": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Psychological Horror": "bg-[var(--color-600)] text-[var(--color-50)]",
+  "Supernatural Horror": "bg-[var(--color-600)] text-[var(--color-50)]",
+  Slasher: "bg-[var(--color-700)] text-[var(--color-50)]",
+  "Gothic Horror": "bg-[var(--color-600)] text-[var(--color-50)]",
+  "Occult Horror": "bg-[var(--color-700)] text-[var(--color-50)]",
+  "Survival Horror": "bg-[var(--color-600)] text-[var(--color-50)]",
+  "Monster Horror": "bg-[var(--color-700)] text-[var(--color-50)]",
+  "YA Fantasy": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "YA Sci-Fi": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "YA Romance": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "YA Contemporary": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "YA Dystopian": "bg-[var(--color-500)] text-[var(--color-950)]",
+  "YA Thriller": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "YA Paranormal": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Coming-of-Age": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Literary Fiction": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Contemporary Fiction": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Slice of Life": "bg-[var(--color-200)] text-[var(--color-800)]",
+  "Magical Realism": "bg-[var(--color-300)] text-[var(--color-900)]",
+  Satire: "bg-[var(--color-300)] text-[var(--color-900)]",
+  Drama: "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Alt-History": "bg-[var(--color-300)] text-[var(--color-900)]",
+  "Dark Academia": "bg-[var(--color-400)] text-[var(--color-950)]",
+  "Antihero Fiction": "bg-[var(--color-500)] text-[var(--color-950)]",
 };
 
 const statusColors: Record<string, string> = {
@@ -187,7 +187,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
   return (
     <Card
-      className="bg-[var(--worldforge-card)] shadow-sm border border-[var(--border)] overflow-hidden cursor-pointer animate-scale-in hover-lift animate-ripple"
+      className="bg-[var(--color-100)] border border-[var(--color-300)] overflow-hidden cursor-pointer animate-scale-in hover-lift animate-ripple"
       onClick={handleClick}
     >
       <div className="p-6">
@@ -231,8 +231,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-blue-200 transition-colors duration-200">
-              <Users className="text-blue-600 w-4 h-4" />
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
+              <Users className="text-[var(--color-700)] w-4 h-4" />
             </div>
             <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.charactersCount}
@@ -240,8 +240,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <p className="text-xs text-[var(--color-600)]">Characters</p>
           </div>
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2 hover-scale group-hover:bg-green-200 transition-colors duration-200">
-              <MapPin className="text-green-600 w-4 h-4" />
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-300)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-400)] transition-colors duration-200">
+              <MapPin className="text-[var(--color-800)] w-4 h-4" />
             </div>
             <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.locationsCount}
@@ -249,8 +249,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <p className="text-xs text-[var(--color-600)]">Locations</p>
           </div>
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-orange-200 transition-colors duration-200">
-              <Scroll className="text-orange-600 w-4 h-4" />
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-400)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-500)] transition-colors duration-200">
+              <Scroll className="text-[var(--color-900)] w-4 h-4" />
             </div>
             <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.eventsCount}
