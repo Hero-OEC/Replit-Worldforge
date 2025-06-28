@@ -91,12 +91,12 @@ export default function Locations() {
 
   const getTypeColor = (type: string) => {
     const colors = {
-      'City': 'bg-blue-100 text-blue-800',
-      'Building': 'bg-green-100 text-green-800',
-      'Wilderness': 'bg-yellow-100 text-yellow-800',
-      'Mountains': 'bg-purple-100 text-purple-800',
+      'City': 'bg-[var(--color-300)] text-[var(--color-900)]',
+      'Building': 'bg-[var(--color-200)] text-[var(--color-800)]',
+      'Wilderness': 'bg-[var(--color-400)] text-[var(--color-950)]',
+      'Mountains': 'bg-[var(--color-500)] text-[var(--color-950)]',
     };
-    return colors[type as keyof typeof colors] || 'bg-[var(--color-200)] text-gray-800';
+    return colors[type as keyof typeof colors] || 'bg-[var(--color-300)] text-[var(--color-900)]';
   };
 
   return (
