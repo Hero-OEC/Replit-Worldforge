@@ -782,7 +782,7 @@ export default function Timeline() {
                         return (
                           <div
                             key={event.id}
-                            className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-200)]"
+                            className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-50)]"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate(`/project/${projectId}/timeline/${event.id}`);

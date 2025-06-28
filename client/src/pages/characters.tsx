@@ -159,9 +159,9 @@ export default function Characters() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-200)] to-[var(--color-300)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                   <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div className="text-center">
@@ -174,13 +174,13 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-300)] to-[var(--color-400)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                   <Crown className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-600 mb-1">
+                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                     {sampleCharacters.filter(c => c.role === 'Protagonist').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
@@ -189,13 +189,13 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                   <Sword className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-45 group-hover:scale-110" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-destructive mb-1">
+                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                     {sampleCharacters.filter(c => c.role === 'Antagonist').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
@@ -204,13 +204,13 @@ export default function Characters() {
                 </div>
               </div>
             </div>
-            <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                   <Shield className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-1">
+                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                     {sampleCharacters.filter(c => c.role === 'Supporting').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
@@ -291,7 +291,7 @@ export default function Characters() {
                     </div>
                   </div>
                   {/* Character Info */}
-                  <div className="p-4 bg-[#f8f6f2]">
+                  <div className="p-4 bg-[var(--color-100)]">
                     <div className="mb-3">
                       <h3 className="text-heading-sm text-[var(--color-950)] mb-1 group-hover:text-[var(--color-600)] transition-colors">
                         {character.name}
@@ -303,11 +303,11 @@ export default function Characters() {
 
                     <div className="space-y-2 text-body-xs text-[var(--color-700)]">
                       <div className="flex items-center space-x-2">
-                        <span className="text-label-md text-gray-700">Personality:</span>
+                        <span className="text-label-md text-[var(--color-700)]">Personality:</span>
                         <span className="line-clamp-1">{character.personality}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-label-md text-gray-700">Appearance:</span>
+                        <span className="text-label-md text-[var(--color-700)]">Appearance:</span>
                         <span className="line-clamp-1">{character.appearance}</span>
                       </div>
                     </div>

@@ -75,7 +75,7 @@ export default function ProjectLayout() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
+                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <Users className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -87,7 +87,7 @@ export default function ProjectLayout() {
 
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-green-100 text-green-600 rounded-lg">
+                <div className="p-3 bg-[var(--color-300)] text-[var(--color-800)] rounded-lg">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -99,7 +99,7 @@ export default function ProjectLayout() {
 
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-[var(--color-200)] text-orange-600 rounded-lg">
+                <div className="p-3 bg-[var(--color-400)] text-[var(--color-900)] rounded-lg">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -111,7 +111,7 @@ export default function ProjectLayout() {
 
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center">
-                <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
+                <div className="p-3 bg-[var(--color-500)] text-[var(--color-950)] rounded-lg">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div className="ml-4">

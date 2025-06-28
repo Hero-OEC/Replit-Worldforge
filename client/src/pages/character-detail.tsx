@@ -1207,7 +1207,7 @@ export default function CharacterDetail() {
                       <img 
                         src="/attached_assets/Placeholder_1750916543106.jpg" 
                         alt="Character placeholder"
-                        className="w-full h-full object-contain opacity-30"
+                        className="w-full h-full object-cover opacity-30"
                       />
                     )}
                   </div>
