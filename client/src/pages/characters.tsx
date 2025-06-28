@@ -41,12 +41,12 @@ export default function Characters() {
 
   // Character role icons and colors
   const roleConfig = {
-    "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-    "Antagonist": { icon: Sword, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-    "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-    "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
-    "Neutral": { icon: HelpCircle, color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
-    "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
+    "Protagonist": { icon: Crown, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
+    "Antagonist": { icon: Sword, color: "bg-red-600", bgColor: "bg-red-50", textColor: "text-red-800", borderColor: "border-red-300" },
+    "Ally": { icon: Shield, color: "bg-emerald-600", bgColor: "bg-emerald-50", textColor: "text-emerald-800", borderColor: "border-emerald-300" },
+    "Enemy": { icon: UserX, color: "bg-orange-600", bgColor: "bg-orange-50", textColor: "text-orange-800", borderColor: "border-orange-300" },
+    "Neutral": { icon: HelpCircle, color: "bg-slate-600", bgColor: "bg-slate-50", textColor: "text-slate-800", borderColor: "border-slate-300" },
+    "Supporting": { icon: UserCheck, color: "bg-blue-600", bgColor: "bg-blue-50", textColor: "text-blue-800", borderColor: "border-blue-300" }
   };
 
   // Sample characters for demonstration
