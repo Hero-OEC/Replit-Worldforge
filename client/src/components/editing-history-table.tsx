@@ -126,12 +126,11 @@ export default function EditingHistoryTable({ projectId }: EditingHistoryTablePr
               return (
                 <div
                   key={entry.id}
-                  className="flex items-center space-x-4 p-4 bg-[var(--color-50)] rounded-lg border border-[var(--color-200)] hover:shadow-sm transition-shadow"
+                  className="flex items-center space-x-4 p-4 rounded-lg border border-[var(--color-200)] hover:shadow-sm transition-shadow bg-[#f4f0cd]"
                 >
                   <div className="flex items-center justify-center w-10 h-10 bg-[var(--color-200)] rounded-lg">
                     <EntityIcon className="w-5 h-5 text-[var(--color-700)]" />
                   </div>
-                  
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
                       <h4 className="font-medium text-[var(--color-900)] truncate">
@@ -148,7 +147,6 @@ export default function EditingHistoryTable({ projectId }: EditingHistoryTablePr
                       </p>
                     )}
                   </div>
-                  
                   <div className="text-right">
                     <p className="text-xs text-[var(--color-500)] capitalize">
                       {entry.entityType.replace('_', ' ')}
