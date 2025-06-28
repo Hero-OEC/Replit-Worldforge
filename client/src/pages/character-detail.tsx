@@ -429,7 +429,7 @@ function CharacterTimeline({ character }: { character: Character }) {
   }
 
   return (
-    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 bg-[#f8f6f2] relative">
+    <div ref={containerRef} className="rounded-lg p-8 shadow-sm border border-gray-200 relative bg-[#f8f6f200]">
       {/* Serpentine Timeline */}
       <div className="w-full relative">
         <div
@@ -463,7 +463,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                 >
                   {group.isMultiEvent ? (
                     // Multi-event node
-                    <div className="relative group">
+                    (<div className="relative group">
                       <div
                         className={`cursor-pointer transform transition-all duration-200 ${
                           isHovered ? "scale-110" : "hover:scale-105"
@@ -500,10 +500,10 @@ function CharacterTimeline({ character }: { character: Character }) {
 
 
                       </div>
-                    </div>
+                    </div>)
                   ) : (
                     // Single event node
-                    <div className="relative group">
+                    (<div className="relative group">
                       <div
                         className={`cursor-pointer transform transition-all duration-200 ${
                           hoveredEvent === group.events[0]
@@ -549,7 +549,7 @@ function CharacterTimeline({ character }: { character: Character }) {
 
 
                       </div>
-                    </div>
+                    </div>)
                   )}
                 </div>
                 {/* Event Labels */}
@@ -578,7 +578,6 @@ function CharacterTimeline({ character }: { character: Character }) {
           })}
         </div>
       </div>
-
       {/* Hover popups - positioned absolutely with highest z-index */}
       {popupPosition && (
         <div
@@ -601,7 +600,7 @@ function CharacterTimeline({ character }: { character: Character }) {
         >
           {hoveredDateGroup ? (
             // Multi-event popup
-            <Card
+            (<Card
               className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
               onClick={() => navigate(`/project/${projectId}/timeline`)}
             >
@@ -657,10 +656,10 @@ function CharacterTimeline({ character }: { character: Character }) {
                   </div>
                 )}
               </div>
-            </Card>
+            </Card>)
           ) : hoveredEvent ? (
             // Single event popup - matching main timeline exactly
-            <Card
+            (<Card
               className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
               onClick={(e) => {
                 e.stopPropagation();
@@ -738,7 +737,7 @@ function CharacterTimeline({ character }: { character: Character }) {
               <div className="mt-3 text-center">
                 <span className="text-xs text-[var(--color-600)]">Click to view event</span>
               </div>
-            </Card>
+            </Card>)
           ) : null}
         </div>
       )}
