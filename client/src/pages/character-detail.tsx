@@ -660,7 +660,8 @@ function CharacterTimeline({ character }: { character: Character }) {
           ) : hoveredEvent ? (
             // Single event popup - matching main timeline exactly
             (<Card
-              className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+              className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+              style={{ backgroundColor: '#faf9ec' }}
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/project/${projectId}/timeline/${hoveredEvent.id}`);
