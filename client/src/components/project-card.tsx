@@ -177,7 +177,7 @@ const statusColors: Record<string, string> = {
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
-  const genreColor = genreColors[project.genre] || "bg-[var(--color-200)] text-gray-800";
+  const genreColor = genreColors[project.genre] || "bg-[var(--color-300)] text-[var(--color-900)]";
   const statusColor = statusColors[project.status] || statusColors.active;
   const GenreIcon = genreIcons[project.genre] || Book;
 
