@@ -195,7 +195,7 @@ export default function LoreDetail() {
             </div>
           )}
 
-          <Card>
+          <Card className="bg-transparent">
             <CardContent className="space-y-6 pt-6">
               {/* Content */}
               <div>
