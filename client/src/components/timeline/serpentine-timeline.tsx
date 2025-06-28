@@ -297,7 +297,7 @@ export default function SerpentineTimeline({
                   {/* Event Title */}
                   {!group.isMultiEvent && (
                     <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate bg-[var(--color-100)]">
                         {group.events[0].title}
                       </div>
                     </div>
@@ -305,7 +305,7 @@ export default function SerpentineTimeline({
                   
                   {/* Date Label */}
                   <div className="absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                    <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)]" style={{ backgroundColor: '#f8f6f2' }}>
+                    <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)] bg-[var(--color-100)]">
                       {group.date}
                     </div>
                   </div>
@@ -313,7 +313,7 @@ export default function SerpentineTimeline({
                   {/* Multi-event Title */}
                   {group.isMultiEvent && (
                     <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center bg-[var(--color-100)]">
                         {group.events.length} Events
                       </div>
                     </div>
@@ -322,7 +322,7 @@ export default function SerpentineTimeline({
                   {/* Multi-event Popup */}
                   {group.isMultiEvent && isHovered && (
                     <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-                      <div className="rounded-lg shadow-xl border p-3 w-64" style={{ backgroundColor: '#f8f6f2' }}>
+                      <div className="rounded-lg shadow-xl border p-3 w-64 bg-[var(--color-100)]">
                         <div className="text-sm font-medium text-[var(--color-950)] mb-2">
                           Events on {group.date}
                         </div>
@@ -367,9 +367,8 @@ export default function SerpentineTimeline({
       {selectedEvent && popupPosition && (
         <div
           ref={popupRef}
-          className="fixed z-50 rounded-lg shadow-2xl border p-6 w-96"
+          className="fixed z-50 rounded-lg shadow-2xl border p-6 w-96 bg-[var(--color-100)]"
           style={{
-            backgroundColor: '#f8f6f2',
             left: Math.min(popupPosition.x, window.innerWidth - 400),
             top: Math.max(50, popupPosition.y - 100),
           }}

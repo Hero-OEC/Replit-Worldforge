@@ -1439,13 +1439,13 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-cream)]">
+                <TabsContent value="timeline" className="space-y-6 bg-[var(--color-50)]">
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <Clock className="w-5 h-5 text-orange-600" />
+                        <Clock className="w-5 h-5 text-[var(--color-600)]" />
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-800">Character Timeline</h3>
+                          <h3 className="text-lg font-semibold text-[var(--color-950)]">Character Timeline</h3>
                           <p className="text-sm text-[var(--color-700)]">
                             Events where {character.name} appears throughout the story
                           </p>
