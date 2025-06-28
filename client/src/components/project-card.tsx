@@ -194,10 +194,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <div
-                className={`p-2 rounded-lg ${genreColor.replace("text-", "bg-").replace("-800", "-200")}`}
-              >
-                <GenreIcon className={`w-4 h-4 ${genreColor.split(" ")[1]}`} />
+              <div className="p-2 rounded-lg bg-[var(--color-200)]">
+                <GenreIcon className="w-4 h-4 text-[var(--color-700)]" />
               </div>
               <h3 className="text-lg font-semibold text-[var(--color-950)] line-clamp-1">
                 {project.title}
@@ -240,8 +238,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <p className="text-xs text-[var(--color-600)]">Characters</p>
           </div>
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-300)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-400)] transition-colors duration-200">
-              <MapPin className="text-[var(--color-800)] w-4 h-4" />
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
+              <MapPin className="text-[var(--color-700)] w-4 h-4" />
             </div>
             <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.locationsCount}
@@ -249,8 +247,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <p className="text-xs text-[var(--color-600)]">Locations</p>
           </div>
           <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-400)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-500)] transition-colors duration-200">
-              <Scroll className="text-[var(--color-900)] w-4 h-4" />
+            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
+              <Scroll className="text-[var(--color-700)] w-4 h-4" />
             </div>
             <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
               {project.stats.eventsCount}
