@@ -322,7 +322,7 @@ export default function SerpentineTimeline({
                   {/* Multi-event Popup */}
                   {group.isMultiEvent && isHovered && (
                     <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-                      <div className="rounded-lg shadow-xl border p-3 w-64 bg-[var(--color-100)]">
+                      <div className="rounded-lg shadow-xl border p-3 w-64" style={{ backgroundColor: '#faf9ec' }}>
                         <div className="text-sm font-medium text-[var(--color-950)] mb-2">
                           Events on {group.date}
                         </div>
@@ -367,8 +367,9 @@ export default function SerpentineTimeline({
       {selectedEvent && popupPosition && (
         <div
           ref={popupRef}
-          className="fixed z-50 rounded-lg shadow-2xl border p-6 w-96 bg-[var(--color-100)]"
+          className="fixed z-50 rounded-lg shadow-2xl border p-6 w-96"
           style={{
+            backgroundColor: '#faf9ec',
             left: Math.min(popupPosition.x, window.innerWidth - 400),
             top: Math.max(50, popupPosition.y - 100),
           }}

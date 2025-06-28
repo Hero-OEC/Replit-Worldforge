@@ -99,10 +99,11 @@ The application manages several core entities:
 ```
 Changelog:
 - June 28, 2025. Fixed character timeline color scheme consistency:
-  * Updated character timeline tab to use proper InkAlchemy colors instead of hardcoded values
-  * Replaced all hardcoded #f8f6f2 backgrounds with bg-[var(--color-100)] throughout SerpentineTimeline component
-  * Fixed timeline header icon and text colors to match InkAlchemy scheme
-  * Updated event popups, labels, and date boxes to use consistent color variables
+  * Updated character timeline tab background to use bg-[var(--worldforge-bg)] matching main timeline page
+  * Fixed all stats cards to use bg-[var(--color-100)] and proper InkAlchemy gradients
+  * Updated timeline header icon and text colors to match InkAlchemy scheme
+  * Changed event popups to use #faf9ec background matching main timeline page exactly
+  * Replaced all hardcoded color values with proper InkAlchemy color variables
   * Character timeline now maintains complete visual consistency with main timeline page
 - June 28, 2025. Comprehensive color scheme consistency updates:
   * Fixed all orange references to use InkAlchemy color variables instead of hardcoded orange values

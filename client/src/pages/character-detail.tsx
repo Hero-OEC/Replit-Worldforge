@@ -1438,7 +1438,7 @@ export default function CharacterDetail() {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="timeline" className="space-y-6 bg-[var(--color-50)]">
+                <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-bg)]">
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
@@ -1454,13 +1454,13 @@ export default function CharacterDetail() {
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                         <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-blue-600 mb-1">
+                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name)).length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
@@ -1469,9 +1469,9 @@ export default function CharacterDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                         <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                           </div>
                           <div className="text-center">
@@ -1484,13 +1484,13 @@ export default function CharacterDetail() {
                           </div>
                         </div>
                       </div>
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[#f8f6f2]">
+                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                         <div className="flex items-center justify-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                             <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-600 mb-1">
+                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                               {sampleEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Arc").length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
@@ -1503,7 +1503,7 @@ export default function CharacterDetail() {
 
                     {/* Legend */}
                     <div className="flex justify-center">
-                      <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[#f8f6f2]">
+                      <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
                           <span className="text-sm text-[var(--color-700)]">High Priority</span>
