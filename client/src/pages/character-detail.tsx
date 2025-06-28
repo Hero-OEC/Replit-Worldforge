@@ -488,7 +488,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                         }}
                       >
                         <div className="relative">
-                          <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg bg-[#a97a25]">
                             <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                           </div>
                           <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
