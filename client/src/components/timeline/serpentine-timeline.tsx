@@ -281,7 +281,7 @@ export default function SerpentineTimeline({
                   <div
                     className={`w-12 h-12 rounded-full border-4 border-[var(--color-400)] flex items-center justify-center shadow-lg transition-all duration-200 ${
                       group.isMultiEvent
-                        ? "bg-[var(--color-600)]"
+                        ? "bg-[var(--color-500)]"
                         : priorityColors[group.events[0].importance]
                     } ${isHovered ? "shadow-xl border-[var(--color-500)]" : ""}`}
                   >
