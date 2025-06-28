@@ -42,7 +42,7 @@ export default function Characters() {
     "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
     "Antagonist": { icon: Sword, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
     "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-    "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+    "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
     "Neutral": { icon: HelpCircle, color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
     "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
   };
@@ -230,7 +230,7 @@ export default function Characters() {
               return (
                 <Card 
                   key={character.id} 
-                  className={`bg-white border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}
+                  className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}
                   onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                 >
                   {/* Character Image */}
@@ -262,7 +262,7 @@ export default function Characters() {
                           <Button 
                             variant="ghost" 
                             size="sm"
-                            className="bg-white/80 hover:bg-white"
+                            className="bg-[var(--color-50)] hover:bg-[var(--color-100)]"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <MoreHorizontal className="w-4 h-4" />
@@ -293,7 +293,7 @@ export default function Characters() {
                   {/* Character Info */}
                   <div className="p-4 bg-[#f8f6f2]">
                     <div className="mb-3">
-                      <h3 className="text-heading-sm text-[var(--color-950)] mb-1 group-hover:text-orange-600 transition-colors">
+                      <h3 className="text-heading-sm text-[var(--color-950)] mb-1 group-hover:text-[var(--color-600)] transition-colors">
                         {character.name}
                       </h3>
                       <p className="text-body-sm text-[var(--color-700)] line-clamp-2 leading-relaxed">

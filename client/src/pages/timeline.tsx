@@ -144,10 +144,10 @@ function TagSearch({
             if (filteredItems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
+          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
         />
         {isOpen && filteredItems.length > 0 && (
-          <div className="absolute z-[999] w-full bg-white border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-[999] w-full bg-[var(--color-100)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
@@ -714,7 +714,7 @@ export default function Timeline() {
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[120px]">
+                        <div className="bg-[var(--color-100)] px-4 py-3 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[120px]">
                           <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
                             {group.isMultiEvent
                               ? `${group.events.length} Events`
@@ -754,7 +754,7 @@ export default function Timeline() {
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
                 // Multi-event popup
                 (<Card
-                  className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+                  className="bg-[var(--color-100)] border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/project/${projectId}/timeline/${hoveredDateGroup.events[0].id}`);
@@ -827,7 +827,7 @@ export default function Timeline() {
               ) : hoveredEvent ? (
                 // Single event popup
                 (<Card
-                  className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+                  className="bg-[var(--color-100)] border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
@@ -932,7 +932,7 @@ export default function Timeline() {
                       placeholder="Enter event title..."
                       value={eventTitle}
                       onChange={(e) => setEventTitle(e.target.value)}
-                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
                     />
                   </div>
 
@@ -945,7 +945,7 @@ export default function Timeline() {
                         placeholder="Year 1, Day 1"
                         value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
-                        className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
+                        className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
                       />
                     </div>
                     <div>
@@ -953,7 +953,7 @@ export default function Timeline() {
                         Priority
                       </label>
                       <select
-                        className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-white"
+                        className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                         value={eventPriority}
                         onChange={(e) => setEventPriority(e.target.value)}
                       >
@@ -969,7 +969,7 @@ export default function Timeline() {
                       Category
                     </label>
                     <select
-                      className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-white"
+                      className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                       value={eventCategory}
                       onChange={(e) => setEventCategory(e.target.value)}
                     >
@@ -1030,7 +1030,7 @@ export default function Timeline() {
                       Description
                     </label>
                     <textarea
-                      className="w-full h-64 px-3 py-2 border border-[var(--color-400)] rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                      className="w-full h-64 px-3 py-2 border border-[var(--color-400)] rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                       placeholder="Describe the event in detail..."
                       value={eventDescription}
                       onChange={(e) => setEventDescription(e.target.value)}
@@ -1105,7 +1105,7 @@ export default function Timeline() {
                     placeholder="Enter event title"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
+                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
                   />
                 </div>
 
@@ -1119,7 +1119,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
                     />
                   </div>
                   <div>
@@ -1129,7 +1129,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1146,7 +1146,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1167,7 +1167,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 
@@ -1286,7 +1286,7 @@ export default function Timeline() {
                     placeholder="Enter event title..."
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -1300,7 +1300,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                   <div>
@@ -1310,7 +1310,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1327,7 +1327,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1348,7 +1348,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-[var(--color-50)] focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 

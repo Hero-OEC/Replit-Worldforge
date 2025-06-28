@@ -581,15 +581,15 @@ const sampleTimelineEvents = [
 
 // Location type configuration
 const locationTypeConfig = {
-  "City": { color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
-  "Forest": { color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Academy": { color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Palace": { color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Village": { color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Caves": { color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
-  "Harbor": { color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" },
-  "Ruins": { color: "bg-stone-500", bgColor: "bg-stone-50", textColor: "text-stone-700", borderColor: "border-stone-200" },
-  "Other": { color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" }
+  "City": { color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Forest": { color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-200)]" },
+  "Academy": { color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-400)]" },
+  "Palace": { color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Village": { color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Caves": { color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-200)]" },
+  "Harbor": { color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-200)]" },
+  "Ruins": { color: "bg-[var(--color-900)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-200)]" },
+  "Other": { color: "bg-[var(--color-300)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-200)]" }
 };
 
 export default function LocationDetail() {

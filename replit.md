@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 28, 2025. Comprehensive color scheme consistency updates:
+  * Fixed all orange references to use InkAlchemy color variables instead of hardcoded orange values
+  * Updated location type colors to complement InkAlchemy scheme using graduated color variables (--color-300 to --color-900)
+  * Replaced all transparent components with appropriate InkAlchemy colors (bg-transparent → bg-[var(--color-50)], etc.)
+  * Fixed timeline event label boxes from white to bg-[var(--color-100)] for consistency
+  * Updated all modal overlays from bg-black/80 to bg-[var(--color-950)]/80 for brand consistency
+  * Changed character cards from white to bg-[var(--color-100)] background
+  * Eliminated all focus:bg-white instances in favor of focus:bg-[var(--color-50)]
+  * Ensured all UI components use the warm, earthy InkAlchemy palette (--color-50 to --color-950)
+  * Application now maintains complete visual consistency with no off-brand colors or transparencies
 - June 27, 2025. Rebranded application from WorldForge to InkAlchemy:
   * Updated application name throughout UI components (navbar and sidebar)
   * Changed logo references to use InkAlchemy branding
