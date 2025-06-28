@@ -601,7 +601,7 @@ function CharacterTimeline({ character }: { character: Character }) {
           {hoveredDateGroup ? (
             // Multi-event popup
             (<Card
-              className="bg-white border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
+              className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
               onClick={() => navigate(`/project/${projectId}/timeline`)}
             >
               <div className="mb-3">
