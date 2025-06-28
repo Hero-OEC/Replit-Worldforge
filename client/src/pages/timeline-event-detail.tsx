@@ -163,7 +163,7 @@ export default function TimelineEventDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Main Content - Description */}
             <div className="lg:col-span-2">
-              <Card className="p-6 bg-transparent border-transparent shadow-none">
+              <Card className="p-6">
                 <h2 className="text-xl font-semibold text-[var(--color-950)] mb-4">
                   Description
                 </h2>
