@@ -332,7 +332,7 @@ function CharacterTimeline({ character }: { character: Character }) {
 
   // Filter events for this character
   const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
-  
+
   // Sort events by date
   const sortedEvents = [...characterEvents].sort((a, b) => {
     const getDateNumber = (dateStr: string) => {
@@ -368,7 +368,7 @@ function CharacterTimeline({ character }: { character: Character }) {
         const eventsPerRow = 3; // Fixed to 3 bubbles per row for better spacing
         const rows = Math.ceil(dateGroups.length / eventsPerRow);
         const calculatedHeight = Math.max(300, rows * 180 + 120); // More vertical spacing
-        
+
         setDimensions({
           width: availableWidth,
           height: calculatedHeight
@@ -927,7 +927,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
             const CategoryIcon = getCategoryIcon(system?.category || "magic");
             const colorClass = getCategoryColor(system?.category || "magic");
             const borderColorClass = getCategoryBorderColor(system?.category || "magic");
-            
+
             return (
               <div
                 key={index}
@@ -964,7 +964,8 @@ export default function CharacterDetail() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
   const { goBack } = useNavigation();
-  
+  const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
+
   // Track navigation history
   useNavigationTracker();
 
@@ -1021,15 +1022,21 @@ export default function CharacterDetail() {
     image: undefined
   };
 
-  const { data: characterMagicSystems = [] } = useQuery({
-    queryKey: ["/api/characters", characterId, "magic-systems"],
-    queryFn: async () => {
-      const response = await fetch(`/api/characters/${characterId}/magic-systems`);
-      if (!response.ok) throw new Error("Failed to fetch character magic systems");
-      return response.json();
-    },
-    enabled: !!characterId,
-  });
+  // Get character magic systems
+  useEffect(() => {
+    if (character?.id) {
+      setCharacterMagicSystems([]);
+      fetch(`/api/characters/${character.id}/magic-systems`)
+        .then(res => res.json())
+        .then(data => {
+          setCharacterMagicSystems(data || []);
+        })
+        .catch(err => {
+          console.error('Error fetching character magic systems:', err);
+          setCharacterMagicSystems([]);
+        });
+    }
+  }, [character?.id]);
 
   // Initialize power systems when character magic systems load
   useEffect(() => {
@@ -1125,7 +1132,7 @@ export default function CharacterDetail() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-3">
               {isEditing ? (
                 <>
@@ -1344,7 +1351,7 @@ export default function CharacterDetail() {
                               const CategoryIcon = getCategoryIcon(system?.category || "magic");
                               const colorClass = getCategoryColor(system?.category || "magic");
                               const borderColorClass = getCategoryBorderColor(system?.category || "magic");
-                              
+
                               return (
                                 <WouterLink key={index} href={`/project/${projectId}/magic-systems`}>
                                   <div className={`p-4 ${colorClass} rounded-lg border ${borderColorClass} cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02]`}>
@@ -1519,7 +1526,7 @@ export default function CharacterDetail() {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Timeline Container - inline implementation */}
                     <CharacterTimeline character={character} />
                   </div>
