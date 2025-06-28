@@ -43,9 +43,9 @@ const eventTypeIcons = {
 };
 
 const importanceColors = {
-  high: "bg-destructive",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-yellow-500",
+  high: "bg-[var(--color-500)]",
+  medium: "bg-[var(--color-400)]",
+  low: "bg-[var(--color-300)]",
 };
 
 const importanceLabels = {

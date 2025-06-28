@@ -36,7 +36,7 @@ export default function Navbar({
   ];
 
   return (
-    <header className="bg-[var(--worldforge-card)] border-b border-[var(--border)]">
+    <header className="bg-[var(--color-100)] border-b border-[var(--border)]">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
@@ -68,7 +68,7 @@ export default function Navbar({
                         className={`flex items-center space-x-1 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200 min-h-[36px] hover-scale animate-ripple ${
                           isActive
                             ? "bg-[var(--color-500)] text-[var(--color-50)] hover-glow"
-                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                            : "text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-200)]"
                         }`}
                       >
                         <Icon className="w-4 h-4 transition-transform duration-300 hover:bounce hover:scale-110" />
@@ -83,7 +83,7 @@ export default function Navbar({
           
           <div className="flex items-center space-x-4">
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 transition-transform duration-300 hover:rotate-12 hover:scale-110" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-600)] w-4 h-4 transition-transform duration-300 hover:rotate-12 hover:scale-110" />
               <Input
                 placeholder={searchPlaceholder}
                 value={searchTerm}
@@ -93,7 +93,7 @@ export default function Navbar({
                     onSearch(e.target.value);
                   }
                 }}
-                className="pl-10 pr-4 py-2 w-80 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
+                className="pl-10 pr-4 py-2 w-80 border-[var(--color-300)] focus:border-[var(--color-500)] focus:ring-[var(--color-500)]"
               />
             </div>
             

@@ -144,10 +144,10 @@ function TagSearch({
             if (filteredItems.length > 0) setIsOpen(true);
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
+          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
         />
         {isOpen && filteredItems.length > 0 && (
-          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-[999] w-full bg-white border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredItems.map((item, index) => (
               <div
                 key={index}
@@ -184,9 +184,9 @@ function TagSearch({
 }
 
 const priorityColors = {
-  high: "bg-destructive",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-yellow-500",
+  high: "bg-[var(--color-500)]",
+  medium: "bg-[var(--color-400)]",
+  low: "bg-[var(--color-300)]",
 };
 
 const priorityLabels = {
@@ -497,9 +497,9 @@ export default function Timeline() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
               {/* Timeline Stats Cards */}
               <div className="grid grid-cols-3 gap-4 lg:flex lg:space-x-4">
-                <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                       <Calendar className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
@@ -512,13 +512,13 @@ export default function Timeline() {
                     </div>
                   </div>
                 </div>
-                <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                       <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-destructive mb-1">
+                      <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                         {
                           sampleEvents.filter((e) => e.importance === "high")
                             .length
@@ -530,13 +530,13 @@ export default function Timeline() {
                     </div>
                   </div>
                 </div>
-                <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 bg-[#f8f6f2]">
+                <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                   <div className="flex items-center justify-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-300)] to-[var(--color-400)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
                       <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-600 mb-1">
+                      <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
                         {
                           sampleEvents.filter(
                             (e) => e.category === "Character Development",
@@ -555,9 +555,9 @@ export default function Timeline() {
 
           {/* Legend */}
           <div className="mb-6 flex justify-center">
-            <div className="rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-6 bg-[#f8f6f2]">
+            <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-destructive rounded-full"></div>
+                <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
                 <span className="text-sm text-[var(--color-700)]">High Priority</span>
               </div>
               <div className="flex items-center space-x-2">
@@ -565,11 +565,11 @@ export default function Timeline() {
                 <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
                 <span className="text-sm text-[var(--color-700)]">Low Priority</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
                   <span className="text-[var(--color-50)] text-xs font-bold">3</span>
                 </div>
                 <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
@@ -641,7 +641,7 @@ export default function Timeline() {
                           }}
                         >
                           <div className="relative">
-                            <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                            <div className="w-12 h-12 bg-[var(--color-600)] rounded-full flex items-center justify-center shadow-lg">
                               <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                             </div>
                             <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
@@ -714,7 +714,7 @@ export default function Timeline() {
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
+                        <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[120px]">
                           <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
                             {group.isMultiEvent
                               ? `${group.events.length} Events`
@@ -818,7 +818,7 @@ export default function Timeline() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4 pt-3 border-t border-gray-200 text-center">
+                  <div className="mt-4 pt-3 border-t border-[var(--color-300)] text-center">
                     <span className="text-xs text-[var(--color-600)]">
                       Click on events to edit details
                     </span>
@@ -881,7 +881,7 @@ export default function Timeline() {
                     </div>
                   </div>
                   <div
-                    className="mt-4 pt-3 border-t border-gray-200 text-center cursor-pointer"
+                    className="mt-4 pt-3 border-t border-[var(--color-300)] text-center cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
@@ -932,7 +932,7 @@ export default function Timeline() {
                       placeholder="Enter event title..."
                       value={eventTitle}
                       onChange={(e) => setEventTitle(e.target.value)}
-                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
                     />
                   </div>
 
@@ -945,7 +945,7 @@ export default function Timeline() {
                         placeholder="Year 1, Day 1"
                         value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
-                        className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
+                        className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
                       />
                     </div>
                     <div>
@@ -953,7 +953,7 @@ export default function Timeline() {
                         Priority
                       </label>
                       <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md bg-[var(--color-100)] focus:bg-white"
+                        className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-white"
                         value={eventPriority}
                         onChange={(e) => setEventPriority(e.target.value)}
                       >
@@ -969,7 +969,7 @@ export default function Timeline() {
                       Category
                     </label>
                     <select
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-[var(--color-100)] focus:bg-white"
+                      className="w-full px-3 py-2 border border-[var(--color-400)] rounded-md bg-[var(--color-100)] focus:bg-white"
                       value={eventCategory}
                       onChange={(e) => setEventCategory(e.target.value)}
                     >
@@ -1030,7 +1030,7 @@ export default function Timeline() {
                       Description
                     </label>
                     <textarea
-                      className="w-full h-64 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
+                      className="w-full h-64 px-3 py-2 border border-[var(--color-400)] rounded-md resize-none bg-[var(--color-100)] focus:bg-white"
                       placeholder="Describe the event in detail..."
                       value={eventDescription}
                       onChange={(e) => setEventDescription(e.target.value)}
@@ -1039,7 +1039,7 @@ export default function Timeline() {
                 </div>
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 bg-[var(--color-100)]">
+            <div className="p-6 border-t border-[var(--color-300)] bg-[var(--color-100)]">
               <div className="flex justify-end space-x-3">
                 <Button
                   variant="outline"
@@ -1105,7 +1105,7 @@ export default function Timeline() {
                     placeholder="Enter event title"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
+                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
                   />
                 </div>
 
@@ -1119,7 +1119,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white"
                     />
                   </div>
                   <div>
@@ -1129,7 +1129,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1146,7 +1146,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1167,7 +1167,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 
@@ -1213,7 +1213,7 @@ export default function Timeline() {
               </div>
 
               {/* Dialog Actions */}
-              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-[var(--color-300)]">
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -1286,7 +1286,7 @@ export default function Timeline() {
                     placeholder="Enter event title..."
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
-                    className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -1300,7 +1300,7 @@ export default function Timeline() {
                       placeholder="e.g., Year 1, Day 25"
                       value={eventDate}
                       onChange={(e) => setEventDate(e.target.value)}
-                      className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                   <div>
@@ -1310,7 +1310,7 @@ export default function Timeline() {
                     <select
                       value={eventPriority}
                       onChange={(e) => setEventPriority(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -1327,7 +1327,7 @@ export default function Timeline() {
                   <select
                     value={eventCategory}
                     onChange={(e) => setEventCategory(e.target.value)}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   >
                     <option value="">Select a category</option>
                     {eventCategories.map((category) => (
@@ -1348,7 +1348,7 @@ export default function Timeline() {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-gray-300 rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                    className="w-full px-3 py-2 bg-[var(--color-100)] border border-[var(--color-400)] rounded-md focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   />
                 </div>
 
@@ -1394,7 +1394,7 @@ export default function Timeline() {
               </div>
 
               {/* Dialog Actions */}
-              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-[var(--color-300)]">
                 <Button
                   variant="outline"
                   onClick={() => {
