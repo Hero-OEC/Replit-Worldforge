@@ -588,7 +588,7 @@ export default function Timeline() {
 
           {/* Filters */}
           <div className="mb-6">
-            <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)]">
+            <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)] inline-block">
               <div className="flex items-center gap-8">
                 <div className="flex items-center space-x-2">
                   <User className="w-5 h-5 text-[var(--color-600)]" />
