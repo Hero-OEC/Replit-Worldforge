@@ -197,6 +197,7 @@ const priorityLabels = {
 
 const eventTypeIcons = {
   "Character Arc": User,
+  "World Event": Star,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,
@@ -205,8 +206,24 @@ const eventTypeIcons = {
   Romance: Heart,
   Mystery: HelpCircle,
   Magic: Sparkles,
+  magic: Sparkles,
   Battle: Zap,
   Traveling: Plane,
+  Alliance: Users,
+  Artifacts: Award,
+  Betrayal: Swords,
+  Competition: Award,
+  Customs: Star,
+  Escape: Plane,
+  History: Calendar,
+  Institutions: Crown,
+  "Magic Ritual": Sparkles,
+  Preparation: Edit,
+  Prophecies: Eye,
+  Prophecy: Eye,
+  Quest: MapPin,
+  Religion: Star,
+  Tragedy: Heart,
 };
 
 // Sample timeline events for demonstration with multi-event date
@@ -453,15 +470,14 @@ export default function Timeline() {
   }));
 
   // Calculate timeline positions for serpentine layout
-  const timelineWidth = 1200;
-  const timelineHeight = 400;
-  const pathPoints: number[][] = [];
-
-  // Create serpentine path - 6 events per row, alternating direction
-  const eventsPerRow = 6;
+  const timelineWidth = Math.max(1200, dateGroups.length * 180); // Dynamic width based on events
+  const eventsPerRow = Math.min(6, Math.max(3, Math.floor(timelineWidth / 200))); // Responsive events per row
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
-  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+  const timelineHeight = Math.max(400, rows * 160 + 100); // Dynamic height based on rows
+  
+  const pathPoints: number[][] = [];
+  const horizontalSpacing = Math.max(180, (timelineWidth - 120) / Math.max(1, eventsPerRow - 1));
+  const verticalSpacing = rows > 1 ? Math.max(120, (timelineHeight - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -600,11 +616,11 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="p-8">
+          <div className="p-8 overflow-x-auto">
             <div
               ref={timelineRef}
-              className="relative mx-auto"
-              style={{ width: timelineWidth, height: timelineHeight }}
+              className="relative mx-auto min-w-full"
+              style={{ width: Math.max(timelineWidth, 1200), height: timelineHeight }}
             >
               {/* Timeline Path */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none">
