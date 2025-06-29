@@ -749,7 +749,7 @@ export default function Timeline() {
                             if (timelineRect) {
                               const popupHeight = 300;
                               const bubbleRelativeX = bubbleRect.left - timelineRect.left + bubbleRect.width / 2;
-                              const bubbleRelativeY = bubbleRect.top - timelineRect.top;
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top + bubbleRect.height / 2;
                               
                               // Check if there's space below the bubble
                               const spaceBelow = timelineRect.bottom - bubbleRect.bottom;
@@ -757,14 +757,14 @@ export default function Timeline() {
                               
                               let popupY;
                               if (spaceBelow >= popupHeight + 20) {
-                                // Place below bubble
-                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                                // Place below bubble (same spacing as text boxes)
+                                popupY = bubbleRelativeY + 50;
                               } else if (spaceAbove >= popupHeight + 20) {
                                 // Place above bubble
-                                popupY = bubbleRelativeY - popupHeight - 10;
+                                popupY = bubbleRelativeY - popupHeight - 50;
                               } else {
                                 // Default to below if neither has enough space
-                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                                popupY = bubbleRelativeY + 50;
                               }
 
                               setPopupPosition({
@@ -809,7 +809,7 @@ export default function Timeline() {
                             if (timelineRect) {
                               const popupHeight = 250;
                               const bubbleRelativeX = bubbleRect.left - timelineRect.left + bubbleRect.width / 2;
-                              const bubbleRelativeY = bubbleRect.top - timelineRect.top;
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top + bubbleRect.height / 2;
                               
                               // Check if there's space below the bubble
                               const spaceBelow = timelineRect.bottom - bubbleRect.bottom;
@@ -817,14 +817,14 @@ export default function Timeline() {
                               
                               let popupY;
                               if (spaceBelow >= popupHeight + 20) {
-                                // Place below bubble
-                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                                // Place below bubble (same spacing as text boxes)
+                                popupY = bubbleRelativeY + 50;
                               } else if (spaceAbove >= popupHeight + 20) {
                                 // Place above bubble
-                                popupY = bubbleRelativeY - popupHeight - 10;
+                                popupY = bubbleRelativeY - popupHeight - 50;
                               } else {
                                 // Default to below if neither has enough space
-                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                                popupY = bubbleRelativeY + 50;
                               }
 
                               setPopupPosition({
