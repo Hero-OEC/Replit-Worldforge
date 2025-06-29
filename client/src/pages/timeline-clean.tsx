@@ -61,7 +61,7 @@ function getEventIcon(category: string) {
 export default function Timeline() {
   const { projectId } = useParams();
   const [, navigate] = useLocation();
-  const { navigateWithHistory } = useNavigation();
+  const { addToHistory } = useNavigation();
   
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
