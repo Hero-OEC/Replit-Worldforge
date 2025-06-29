@@ -1319,12 +1319,12 @@ export default function CharacterDetail() {
             {/* Right Side - Tabbed Content */}
             <div className="lg:col-span-2">
               <Tabs defaultValue="details" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 mb-6">
-                  <TabsTrigger value="details" className="text-sm">Details</TabsTrigger>
-                  <TabsTrigger value="appearance" className="text-sm">Appearance</TabsTrigger>
-                  <TabsTrigger value="backstory" className="text-sm">Backstory</TabsTrigger>
-                  <TabsTrigger value="weapons" className="text-sm">Weapons</TabsTrigger>
-                  <TabsTrigger value="timeline" className="text-sm">Timeline</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-5 mb-6 bg-[var(--color-100)]">
+                  <TabsTrigger value="details" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
+                  <TabsTrigger value="appearance" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Appearance</TabsTrigger>
+                  <TabsTrigger value="backstory" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Backstory</TabsTrigger>
+                  <TabsTrigger value="weapons" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Weapons</TabsTrigger>
+                  <TabsTrigger value="timeline" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Timeline</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">

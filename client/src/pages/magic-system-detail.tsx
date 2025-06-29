@@ -194,11 +194,11 @@ export default function MagicSystemDetail() {
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="mechanics">Mechanics</TabsTrigger>
-              <TabsTrigger value="limitations">Limitations</TabsTrigger>
-              <TabsTrigger value="characters">Characters ({connectedCharacters.length})</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 bg-[var(--color-100)]">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Overview</TabsTrigger>
+              <TabsTrigger value="mechanics" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Mechanics</TabsTrigger>
+              <TabsTrigger value="limitations" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Limitations</TabsTrigger>
+              <TabsTrigger value="characters" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Characters ({connectedCharacters.length})</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
