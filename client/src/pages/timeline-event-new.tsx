@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Calendar, Save, MapPin, Users, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -141,7 +142,8 @@ export default function NewTimelineEvent() {
   useNavigationTracker();
   
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [year, setYear] = useState("");
+  const [day, setDay] = useState("");
   const [importance, setImportance] = useState("medium");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -169,10 +171,13 @@ export default function NewTimelineEvent() {
     setIsLoading(true);
 
     try {
+      // Combine year and day into date format
+      const formattedDate = year && day ? `Year ${year}, Day ${day}` : null;
+      
       const eventData = {
         projectId: parseInt(projectId!),
         title: title.trim(),
-        date: date || null,
+        date: formattedDate,
         category: category || null,
         description: description || null,
         importance: importance,
@@ -192,6 +197,11 @@ export default function NewTimelineEvent() {
       if (!response.ok) {
         throw new Error('Failed to create timeline event');
       }
+
+      // Invalidate timeline cache to refresh the data
+      queryClient.invalidateQueries({ 
+        queryKey: ["/api/projects", projectId, "timeline"] 
+      });
 
       toast({
         title: "Success",
@@ -276,14 +286,30 @@ export default function NewTimelineEvent() {
               <div className="space-y-6">
                 <Card className="p-6">
                   <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="date">Date</Label>
-                      <Input
-                        id="date"
-                        placeholder="Year 1, Day 5"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                      />
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <Label htmlFor="year">Year</Label>
+                        <Input
+                          id="year"
+                          type="number"
+                          placeholder="1"
+                          value={year}
+                          onChange={(e) => setYear(e.target.value)}
+                          min="1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="day">Day</Label>
+                        <Input
+                          id="day"
+                          type="number"
+                          placeholder="1"
+                          value={day}
+                          onChange={(e) => setDay(e.target.value)}
+                          min="1"
+                          max="365"
+                        />
+                      </div>
                     </div>
 
                     <div>
