@@ -860,7 +860,7 @@ export default function Timeline() {
           {popupPosition && (
             <div
               ref={popupRef}
-              className="fixed z-50"
+              className="absolute z-50"
               style={{
                 left: popupPosition.x,
                 top: popupPosition.y,
