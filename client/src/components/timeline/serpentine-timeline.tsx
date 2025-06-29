@@ -44,6 +44,23 @@ const eventTypeIcons = {
   Magic: Sparkles,
   Battle: Zap,
   Traveling: Plane,
+  // Missing categories from timeline data
+  Alliance: Users,
+  Artifacts: Sparkles,
+  Betrayal: Swords,
+  Competition: Award,
+  Customs: Heart,
+  Escape: Plane,
+  History: Calendar,
+  Institutions: Crown,
+  "Magic Ritual": Sparkles,
+  Preparation: Edit,
+  Prophecies: Eye,
+  Prophecy: Eye,
+  Quest: Star,
+  Religion: Heart,
+  Tragedy: HelpCircle,
+  "World Event": Crown,
 };
 
 export interface TimelineEventData {
