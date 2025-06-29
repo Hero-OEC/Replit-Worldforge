@@ -18,7 +18,18 @@ import {
   X,
   Tag as TagIcon,
   Settings,
-  Star
+  Star,
+  User,
+  Check,
+  Swords,
+  Lightbulb,
+  Award,
+  Crown,
+  Heart,
+  HelpCircle,
+  Sparkles,
+  Zap,
+  Plane
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
