@@ -91,9 +91,9 @@ function LocationTimeline({ location }: { location: Location }) {
 
   const timelineData = convertToTimelineData(timelineEvents);
 
-  // Filter events for this location
+  // Filter events for this location (temporarily show all events for demo)
   const locationEvents = timelineData.filter(event => 
-    event.location === location.name
+    event.location === location.name || !event.location // Show events with no location for demo
   );
 
   // Sort events by date
