@@ -34,6 +34,7 @@ const priorityLabels = {
 
 const eventTypeIcons = {
   "Character Arc": User,
+  "World Event": Calendar,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,
@@ -42,14 +43,14 @@ const eventTypeIcons = {
   Romance: Heart,
   Mystery: HelpCircle,
   Magic: Sparkles,
+  magic: Sparkles,
   Battle: Zap,
   Traveling: Plane,
-  // Missing categories from timeline data
   Alliance: Users,
-  Artifacts: Sparkles,
+  Artifacts: Award,
   Betrayal: Swords,
   Competition: Award,
-  Customs: Heart,
+  Customs: Users,
   Escape: Plane,
   History: Calendar,
   Institutions: Crown,
@@ -60,7 +61,6 @@ const eventTypeIcons = {
   Quest: Star,
   Religion: Heart,
   Tragedy: HelpCircle,
-  "World Event": Crown,
 };
 
 export interface TimelineEventData {
