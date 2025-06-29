@@ -833,7 +833,7 @@ export default function Timeline() {
                     <div
                       style={{
                         left: x,
-                        top: y + 65,
+                        top: y + 50,
                       }}
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
