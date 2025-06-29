@@ -36,7 +36,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
-import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
+import type { TimelineEvent, ProjectWithStats, Character, Location } from "@shared/schema";
 
 // Sample data for autocomplete
 const sampleLocations = [
@@ -378,6 +378,8 @@ export default function Timeline() {
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCharacterFilters, setSelectedCharacterFilters] = useState<string[]>([]);
+  const [selectedLocationFilters, setSelectedLocationFilters] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -435,6 +437,16 @@ export default function Timeline() {
     enabled: !!projectId,
   });
 
+  const { data: characters = [] } = useQuery<Character[]>({
+    queryKey: [`/api/projects/${projectId}/characters`],
+    enabled: !!projectId,
+  });
+
+  const { data: locations = [] } = useQuery<Location[]>({
+    queryKey: [`/api/projects/${projectId}/locations`],
+    enabled: !!projectId,
+  });
+
   // Convert database events to timeline component format
   const convertToTimelineData = (events: TimelineEvent[]) => {
     return events.map(event => {
@@ -460,8 +472,26 @@ export default function Timeline() {
 
   const timelineData = convertToTimelineData(timelineEvents);
 
+  // Apply filters to timeline data
+  const filteredEvents = timelineData.filter(event => {
+    // Character filter
+    if (selectedCharacterFilters.length > 0) {
+      const hasMatchingCharacter = selectedCharacterFilters.some(filterCharacter =>
+        event.characters.includes(filterCharacter)
+      );
+      if (!hasMatchingCharacter) return false;
+    }
+
+    // Location filter
+    if (selectedLocationFilters.length > 0) {
+      if (!selectedLocationFilters.includes(event.location)) return false;
+    }
+
+    return true;
+  });
+
   // Sort events by date for timeline display
-  const sortedEvents = [...timelineData].sort((a, b) => {
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
     const getDateNumber = (dateStr: string) => {
       const match = dateStr.match(/Day (\d+)/);
       return match ? parseInt(match[1]) : 0;
@@ -554,6 +584,71 @@ export default function Timeline() {
             </div>
 
 
+          </div>
+
+          {/* Filters */}
+          <div className="mb-6">
+            <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    <User className="w-5 h-5 text-[var(--color-600)]" />
+                    <span className="text-sm font-medium text-[var(--color-950)]">Characters:</span>
+                  </div>
+                  <div className="flex-1">
+                    <TagSearch
+                      items={characters.map(char => char.name)}
+                      placeholder="Filter by character..."
+                      selectedTags={selectedCharacterFilters}
+                      onAddTag={(character) => setSelectedCharacterFilters(prev => [...prev, character])}
+                      onRemoveTag={(character) => setSelectedCharacterFilters(prev => prev.filter(c => c !== character))}
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-5 h-5 text-[var(--color-600)]" />
+                    <span className="text-sm font-medium text-[var(--color-950)]">Locations:</span>
+                  </div>
+                  <div className="flex-1">
+                    <TagSearch
+                      items={locations.map(loc => loc.name)}
+                      placeholder="Filter by location..."
+                      selectedTags={selectedLocationFilters}
+                      onAddTag={(location) => setSelectedLocationFilters(prev => [...prev, location])}
+                      onRemoveTag={(location) => setSelectedLocationFilters(prev => prev.filter(l => l !== location))}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Filter Summary & Clear Button */}
+              {(selectedCharacterFilters.length > 0 || selectedLocationFilters.length > 0) && (
+                <div className="mt-4 pt-4 border-t border-[var(--color-300)] flex items-center justify-between">
+                  <div className="text-sm text-[var(--color-700)]">
+                    Showing {sortedEvents.length} of {timelineData.length} events
+                    {selectedCharacterFilters.length > 0 && (
+                      <span> • Characters: {selectedCharacterFilters.join(", ")}</span>
+                    )}
+                    {selectedLocationFilters.length > 0 && (
+                      <span> • Locations: {selectedLocationFilters.join(", ")}</span>
+                    )}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedCharacterFilters([]);
+                      setSelectedLocationFilters([]);
+                    }}
+                    className="text-[var(--color-700)] border-[var(--color-300)] hover:bg-[var(--color-50)]"
+                  >
+                    <X className="w-4 h-4 mr-1" />
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Legend */}
