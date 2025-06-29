@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 29, 2025. Enhanced timeline with rich sample data and completed migration:
+  * Added 25 detailed timeline events showcasing the serpentine timeline layout
+  * Created connected story events following Elena Brightblade's Chronicles with all main characters
+  * Events span from Day 1 to Day 120 with proper importance levels, categories, and character connections
+  * Updated location data to match timeline events (Brightblade Manor, Mystic Academy, Temple of Elements, etc.)
+  * Timeline events include character arcs, battles, prophecies, discoveries, and world events
+  * All three timeline views now display rich interconnected data (main timeline, character timelines, location timelines)
+  * Events properly filtered by character and location across all timeline interfaces
+  * Sample data demonstrates full serpentine timeline functionality with proper visual layout
 - June 29, 2025. Successfully completed migration from Replit Agent to Replit environment:
   * Fixed timeline integration to use proper API endpoints instead of static sample data
   * Connected character detail page timeline to main timeline API for synchronized data

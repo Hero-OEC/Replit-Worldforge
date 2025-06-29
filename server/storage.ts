@@ -231,20 +231,102 @@ export class MemStorage implements IStorage {
       });
     }
 
-    // Sample locations
-    for (let i = 1; i <= 8; i++) {
-      this.locations.set(i, {
-        id: i,
-        projectId: 1,
-        name: `Location ${i}`,
-        description: null,
-        geography: null,
-        culture: null,
-        significance: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-    }
+    // Sample locations that match timeline events
+    this.locations.set(1, {
+      id: 1,
+      projectId: 1,
+      name: "Brightblade Manor",
+      description: "Ancestral home of the noble Brightblade family, where Elena was born",
+      geography: "Located on rolling hills with vast gardens and a private magical training ground",
+      culture: "Traditional noble customs with respect for magical arts",
+      significance: "Elena's birthplace and childhood home",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(2, {
+      id: 2,
+      projectId: 1,
+      name: "Mystic Academy",
+      description: "Prestigious magical institution for training young mages",
+      geography: "Floating towers connected by bridges above a mystical lake",
+      culture: "Academic excellence and magical discipline",
+      significance: "Where Elena learned to control her dual fire and light magic",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(3, {
+      id: 3,
+      projectId: 1,
+      name: "Shadow Guild Hideout",
+      description: "Hidden underground base of the secretive Shadow Assassins",
+      geography: "Network of tunnels beneath the Royal Capital",
+      culture: "Loyalty through fear, shadows and secrecy",
+      significance: "Where Marcus was trained in forbidden shadow arts",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(4, {
+      id: 4,
+      projectId: 1,
+      name: "Temple of Light",
+      description: "Sacred temple dedicated to the Light Goddess",
+      geography: "Gleaming white marble structure atop a hill overlooking the city",
+      culture: "Peaceful worship and healing traditions",
+      significance: "Sister Lyra's home and place of divine visions",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(5, {
+      id: 5,
+      projectId: 1,
+      name: "Crystal Caverns",
+      description: "Hidden cave system filled with ancient earth magic crystals",
+      geography: "Deep mountain caves with crystalline formations",
+      culture: "Sacred to earth magic practitioners",
+      significance: "Where Terra discovered her earth magic potential",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(6, {
+      id: 6,
+      projectId: 1,
+      name: "Whispering Woods",
+      description: "Enchanted forest where Elena and Marcus first met",
+      geography: "Dense woodland with ancient trees that seem to whisper secrets",
+      culture: "Neutral ground respected by all factions",
+      significance: "The fateful meeting place of two heroes",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(7, {
+      id: 7,
+      projectId: 1,
+      name: "Temple of Elements",
+      description: "Ancient temple where all five heroes were brought together",
+      geography: "Stone temple with chambers representing each element",
+      culture: "Sacred to practitioners of all magic types",
+      significance: "The convergence point of destiny",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.locations.set(8, {
+      id: 8,
+      projectId: 1,
+      name: "The Shadowlands",
+      description: "Corrupted realm where the Dark Lord awakened",
+      geography: "Twisted landscape of shadow and decay",
+      culture: "No culture remains, only corruption and evil",
+      significance: "Source of the darkness threatening the world",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
 
     for (let i = 9; i <= 13; i++) {
       this.locations.set(i, {
@@ -260,20 +342,381 @@ export class MemStorage implements IStorage {
       });
     }
 
-    // Sample timeline events
-    for (let i = 1; i <= 25; i++) {
-      this.timelineEvents.set(i, {
-        id: i,
-        projectId: 1,
-        title: `Event ${i}`,
-        description: null,
-        date: null,
-        category: null,
-        order: i,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-    }
+    // Sample timeline events - detailed story events for Elena's Chronicles
+    this.timelineEvents.set(1, {
+      id: 1,
+      projectId: 1,
+      title: "Elena's Birth",
+      description: "Elena Brightblade is born to nobility under a rare solar eclipse, showing signs of magical potential",
+      date: "Day 1",
+      category: "Character Arc",
+      importance: "high",
+      location: "Brightblade Manor",
+      characters: ["Elena Brightblade"],
+      order: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(2, {
+      id: 2,
+      projectId: 1,
+      title: "First Magic Manifestation",
+      description: "Elena accidentally sets her nursery on fire during a tantrum, revealing her fire magic abilities",
+      date: "Day 5",
+      category: "Character Arc",
+      importance: "high",
+      location: "Brightblade Manor",
+      characters: ["Elena Brightblade"],
+      order: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(3, {
+      id: 3,
+      projectId: 1,
+      title: "Academy Enrollment",
+      description: "Elena is enrolled in the prestigious Mystic Academy to learn control over her growing magical powers",
+      date: "Day 15",
+      category: "World Event",
+      importance: "medium",
+      location: "Mystic Academy",
+      characters: ["Elena Brightblade"],
+      order: 3,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(4, {
+      id: 4,
+      projectId: 1,
+      title: "Marcus's Dark Training Begins",
+      description: "Marcus Shadowbane begins his training with the Shadow Assassins guild, learning forbidden arts",
+      date: "Day 20",
+      category: "Character Arc",
+      importance: "medium",
+      location: "Shadow Guild Hideout",
+      characters: ["Marcus Shadowbane"],
+      order: 4,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(5, {
+      id: 5,
+      projectId: 1,
+      title: "Aqua's Village Destroyed",
+      description: "Pirates destroy Aqua's coastal village, leaving her as the sole survivor to be raised by sea spirits",
+      date: "Day 25",
+      category: "Tragedy",
+      importance: "high",
+      location: "Tidecaller Village",
+      characters: ["Aqua Tidecaller"],
+      order: 5,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(6, {
+      id: 6,
+      projectId: 1,
+      title: "Elena's First Duel",
+      description: "Elena faces her first magical duel at the academy against a rival student, discovering her light magic",
+      date: "Day 30",
+      category: "Battle",
+      importance: "medium",
+      location: "Mystic Academy",
+      characters: ["Elena Brightblade"],
+      order: 6,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(7, {
+      id: 7,
+      projectId: 1,
+      title: "The Crystal Cave Discovery",
+      description: "Terra Stoneheart discovers ancient earth magic crystals in a hidden mountain cave",
+      date: "Day 35",
+      category: "Discovery",
+      importance: "medium",
+      location: "Crystal Caverns",
+      characters: ["Terra Stoneheart"],
+      order: 7,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(8, {
+      id: 8,
+      projectId: 1,
+      title: "Sister Lyra's Divine Vision",
+      description: "Sister Lyra receives a prophetic vision from the Light Goddess about a coming darkness",
+      date: "Day 40",
+      category: "Prophecy",
+      importance: "high",
+      location: "Temple of Light",
+      characters: ["Sister Lyra"],
+      order: 8,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(9, {
+      id: 9,
+      projectId: 1,
+      title: "Marcus's First Assignment",
+      description: "Marcus Shadowbane completes his first assassination mission, but begins to question the guild's methods",
+      date: "Day 45",
+      category: "Character Arc",
+      importance: "medium",
+      location: "Royal Capital",
+      characters: ["Marcus Shadowbane"],
+      order: 9,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(10, {
+      id: 10,
+      projectId: 1,
+      title: "The Academy Tournament",
+      description: "Annual tournament at Mystic Academy where Elena showcases her dual fire and light magic abilities",
+      date: "Day 50",
+      category: "Competition",
+      importance: "medium",
+      location: "Mystic Academy",
+      characters: ["Elena Brightblade"],
+      order: 10,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(11, {
+      id: 11,
+      projectId: 1,
+      title: "Aqua's Water Spirit Pact",
+      description: "Aqua forms a binding pact with ancient water spirits, gaining mastery over the seas",
+      date: "Day 55",
+      category: "Magic Ritual",
+      importance: "high",
+      location: "Sacred Tide Pools",
+      characters: ["Aqua Tidecaller"],
+      order: 11,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(12, {
+      id: 12,
+      projectId: 1,
+      title: "The Shadow Guild Betrayal",
+      description: "Marcus discovers the Shadow Guild plans to assassinate innocent nobles and refuses to participate",
+      date: "Day 60",
+      category: "Betrayal",
+      importance: "high",
+      location: "Shadow Guild Hideout",
+      characters: ["Marcus Shadowbane"],
+      order: 12,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(13, {
+      id: 13,
+      projectId: 1,
+      title: "Elena's Graduation Test",
+      description: "Elena faces the final graduation test at the academy, demonstrating mastery of both fire and light magic",
+      date: "Day 65",
+      category: "Character Arc",
+      importance: "medium",
+      location: "Mystic Academy",
+      characters: ["Elena Brightblade"],
+      order: 13,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(14, {
+      id: 14,
+      projectId: 1,
+      title: "The Dark Lord's Awakening",
+      description: "Ancient evil stirs in the Shadowlands, beginning to corrupt the surrounding areas",
+      date: "Day 70",
+      category: "World Event",
+      importance: "high",
+      location: "The Shadowlands",
+      characters: [],
+      order: 14,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(15, {
+      id: 15,
+      projectId: 1,
+      title: "Marcus Flees the Guild",
+      description: "Marcus escapes the Shadow Guild after refusing their assassination orders, becoming a wanted man",
+      date: "Day 75",
+      category: "Escape",
+      importance: "high",
+      location: "Royal Capital",
+      characters: ["Marcus Shadowbane"],
+      order: 15,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(16, {
+      id: 16,
+      projectId: 1,
+      title: "Elena and Marcus First Meeting",
+      description: "Elena encounters the fugitive Marcus in the forest and offers him sanctuary despite his dark past",
+      date: "Day 80",
+      category: "Alliance",
+      importance: "high",
+      location: "Whispering Woods",
+      characters: ["Elena Brightblade", "Marcus Shadowbane"],
+      order: 16,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(17, {
+      id: 17,
+      projectId: 1,
+      title: "The Coastal Raid",
+      description: "Pirates attack coastal villages, prompting Aqua to emerge from her oceanic sanctuary to help",
+      date: "Day 85",
+      category: "Battle",
+      importance: "medium",
+      location: "Coral Bay",
+      characters: ["Aqua Tidecaller"],
+      order: 17,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(18, {
+      id: 18,
+      projectId: 1,
+      title: "Terra's Mountain Guardian Trial",
+      description: "Terra faces the ancient trial to become the official Guardian of the Mountain Pass",
+      date: "Day 90",
+      category: "Character Arc",
+      importance: "medium",
+      location: "Guardian's Peak",
+      characters: ["Terra Stoneheart"],
+      order: 18,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(19, {
+      id: 19,
+      projectId: 1,
+      title: "The Oracle's Prophecy",
+      description: "An ancient oracle reveals a prophecy about five heroes who must unite to face the coming darkness",
+      date: "Day 95",
+      category: "Prophecy",
+      importance: "high",
+      location: "Oracle's Sanctum",
+      characters: ["Sister Lyra"],
+      order: 19,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(20, {
+      id: 20,
+      projectId: 1,
+      title: "The Great Convergence",
+      description: "Elena, Marcus, Aqua, Terra, and Sister Lyra are brought together by fate at the Temple of Elements",
+      date: "Day 100",
+      category: "Alliance",
+      importance: "high",
+      location: "Temple of Elements",
+      characters: ["Elena Brightblade", "Marcus Shadowbane", "Aqua Tidecaller", "Terra Stoneheart", "Sister Lyra"],
+      order: 20,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(21, {
+      id: 21,
+      projectId: 1,
+      title: "The First Shadow Attack",
+      description: "Shadow creatures attack the temple during the heroes' first meeting, testing their combined abilities",
+      date: "Day 102",
+      category: "Battle",
+      importance: "high",
+      location: "Temple of Elements",
+      characters: ["Elena Brightblade", "Marcus Shadowbane", "Aqua Tidecaller", "Terra Stoneheart", "Sister Lyra"],
+      order: 21,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(22, {
+      id: 22,
+      projectId: 1,
+      title: "The Elemental Trials Begin",
+      description: "The heroes begin the ancient Elemental Trials to prove their worthiness to face the Dark Lord",
+      date: "Day 105",
+      category: "Quest",
+      importance: "medium",
+      location: "Trial Grounds",
+      characters: ["Elena Brightblade", "Marcus Shadowbane", "Aqua Tidecaller", "Terra Stoneheart", "Sister Lyra"],
+      order: 22,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(23, {
+      id: 23,
+      projectId: 1,
+      title: "Trial of Fire and Light",
+      description: "Elena faces her personal trial, learning to balance the opposing forces of fire and light within her",
+      date: "Day 110",
+      category: "Character Arc",
+      importance: "medium",
+      location: "Fire Temple",
+      characters: ["Elena Brightblade"],
+      order: 23,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(24, {
+      id: 24,
+      projectId: 1,
+      title: "Marcus Confronts His Past",
+      description: "Marcus faces his former guild master in combat, finally breaking free from his shadow magic addiction",
+      date: "Day 115",
+      category: "Character Arc",
+      importance: "high",
+      location: "Shadow Realm",
+      characters: ["Marcus Shadowbane"],
+      order: 24,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    this.timelineEvents.set(25, {
+      id: 25,
+      projectId: 1,
+      title: "The Final Battle Preparation",
+      description: "The heroes gather allies and prepare for the final confrontation with the awakened Dark Lord",
+      date: "Day 120",
+      category: "Preparation",
+      importance: "high",
+      location: "Alliance Stronghold",
+      characters: ["Elena Brightblade", "Marcus Shadowbane", "Aqua Tidecaller", "Terra Stoneheart", "Sister Lyra"],
+      order: 25,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
 
     for (let i = 26; i <= 43; i++) {
       this.timelineEvents.set(i, {
@@ -283,6 +726,9 @@ export class MemStorage implements IStorage {
         description: null,
         date: null,
         category: null,
+        importance: null,
+        location: null,
+        characters: [],
         order: i - 25,
         createdAt: new Date(),
         updatedAt: new Date()
