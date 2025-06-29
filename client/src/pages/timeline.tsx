@@ -637,7 +637,7 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="p-8">
+          <div className="p-8 pt-[0px] pb-[0px]">
             <div
               ref={timelineRef}
               className="relative mx-auto"
