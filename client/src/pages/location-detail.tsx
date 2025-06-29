@@ -59,8 +59,8 @@ const eventTypeIcons = {
   Traveling: Plane,
 };
 
-// Sample timeline events for location demonstration
-const sampleLocationEvents = [
+// Sample timeline events (shared with other pages)
+const sampleEvents = [
   {
     id: 1,
     title: "Elena's Awakening",
@@ -83,43 +83,183 @@ const sampleLocationEvents = [
   },
   {
     id: 3,
+    title: "First Encounter",
+    date: "Year 1, Day 18",
+    importance: "high" as const,
+    category: "Conflict",
+    description: "The protagonists face their first major challenge.",
+    location: "Dark Forest",
+    characters: ["Elena Brightblade"],
+  },
+  {
+    id: 4,
+    title: "The Mentor's Secret",
+    date: "Year 1, Day 25",
+    importance: "medium" as const,
+    category: "Revelation",
+    description: "A secret about Elena's mentor is revealed.",
+    location: "Magic Academy",
+    characters: ["Elena Brightblade", "Mentor"],
+  },
+  {
+    id: 5,
+    title: "Village Rescue",
+    date: "Year 1, Day 31",
+    importance: "low" as const,
+    category: "Heroic Act",
+    description: "The heroes help save a village from bandits.",
+    location: "Riverside Village",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 11,
+    title: "Morning Council Meeting",
+    date: "Year 1, Day 50",
+    importance: "medium" as const,
+    category: "Political Event",
+    description: "The kingdom's council meets to discuss the growing threat.",
+    location: "Royal Palace",
+    characters: ["Elena Brightblade", "King", "Council Members"],
+  },
+  {
+    id: 12,
+    title: "Afternoon Training",
+    date: "Year 1, Day 50",
+    importance: "low" as const,
+    category: "Character Arc",
+    description: "Elena practices her new abilities in the training grounds.",
+    location: "Training Grounds",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 13,
+    title: "Evening Revelation",
+    date: "Year 1, Day 50",
+    importance: "high" as const,
+    category: "Revelation",
+    description: "A shocking truth about Elena's heritage is revealed.",
+    location: "Royal Library",
+    characters: ["Elena Brightblade", "Ancient Sage"],
+  },
+  {
+    id: 6,
+    title: "Journey to the North",
+    date: "Year 1, Day 78",
+    importance: "medium" as const,
+    category: "Traveling",
+    description: "The group begins their journey to the northern kingdoms.",
+    location: "Northern Road",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 7,
+    title: "The Great Battle",
+    date: "Year 1, Day 71",
+    importance: "high" as const,
+    category: "Battle",
+    description: "A major battle that changes the course of the war.",
+    location: "Battlefield",
+    characters: ["Elena Brightblade", "Marcus", "Army"],
+  },
+  {
+    id: 8,
+    title: "Elemental Convergence",
+    date: "Year 1, Day 90",
+    importance: "medium" as const,
+    category: "Magic",
+    description: "The elemental forces converge in an unprecedented way.",
+    location: "Elemental Nexus",
+    characters: ["Elena Brightblade"],
+  },
+  {
+    id: 9,
+    title: "The Vanishing Mist",
+    date: "Year 1, Day 95",
+    importance: "low" as const,
+    category: "Mystery",
+    description: "A strange mist appears and disappears mysteriously.",
+    location: "Misty Marshlands",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 10,
+    title: "Hearts Entwined",
+    date: "Year 1, Day 88",
+    importance: "medium" as const,
+    category: "Romance",
+    description: "A romantic subplot reaches a crucial moment.",
+    location: "Garden of Stars",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 14,
     title: "Academy Exhibition",
     date: "Year 1, Day 28",
     importance: "low" as const,
     category: "Character Arc",
-    description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic.",
-    location: "Arcanum City",
+    description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic to impressed faculty.",
+    location: "Magic Academy",
     characters: ["Elena Brightblade", "Marcus", "Students"],
   },
   {
-    id: 4,
+    id: 15,
+    title: "The Crystal Caves Expedition",
+    date: "Year 1, Day 35",
+    importance: "medium" as const,
+    category: "Discovery",
+    description: "Elena explores the mysterious crystal caves, discovering that the crystals resonate with her magical energy in unexpected ways.",
+    location: "Crystal Caves",
+    characters: ["Elena Brightblade", "Marcus", "Mentor"],
+  },
+  {
+    id: 16,
     title: "Market Day Incident",
     date: "Year 1, Day 42",
     importance: "low" as const,
     category: "Character Arc",
-    description: "Elena accidentally reveals her growing powers during a crowded market day.",
+    description: "Elena accidentally reveals her growing powers during a crowded market day, causing both wonder and concern among the citizens.",
     location: "Arcanum City",
     characters: ["Elena Brightblade"],
   },
   {
-    id: 5,
-    title: "Royal Council Meeting",
-    date: "Year 1, Day 50",
-    importance: "high" as const,
-    category: "Political Event",
-    description: "The kingdom's council meets to discuss the growing magical threat to the realm.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade", "King", "Council Members"],
+    id: 17,
+    title: "The Sunset Harbor Departure",
+    date: "Year 1, Day 55",
+    importance: "medium" as const,
+    category: "Traveling",
+    description: "Elena and her companions depart from Sunset Harbor on a ship bound for the northern territories, beginning their grand quest.",
+    location: "Sunset Harbor",
+    characters: ["Elena Brightblade", "Marcus", "Captain Storm"],
   },
   {
-    id: 6,
-    title: "Ancient Prophecy Revealed",
-    date: "Year 1, Day 67",
+    id: 18,
+    title: "Mountain Pass Ambush",
+    date: "Year 1, Day 65",
     importance: "high" as const,
-    category: "Revelation",
-    description: "Ancient texts reveal a prophecy about Elena's role in the coming darkness.",
-    location: "Arcanum City",
+    category: "Battle",
+    description: "The party is ambushed by Lord Vex's forces in the treacherous mountain pass, forcing Elena to use her powers defensively.",
+    location: "Mountain Pass",
+    characters: ["Elena Brightblade", "Marcus", "Shadow Assassin"],
+  },
+  {
+    id: 19,
+    title: "Ancient Ruins Discovery",
+    date: "Year 1, Day 82",
+    importance: "high" as const,
+    category: "Discovery",
+    description: "Elena uncovers ancient ruins that hold the key to understanding the elemental magic that flows through her bloodline.",
+    location: "Ancient Ruins",
     characters: ["Elena Brightblade", "Ancient Sage"],
+  },
+  {
+    id: 20,
+    title: "Dragon Guardian's Test",
+    date: "Year 1, Day 100",
+    importance: "high" as const,
+    category: "Character Arc",
+    description: "Elena faces the ultimate test from the ancient Dragon Guardian, proving her worthiness to wield the full power of elemental magic.",
+    location: "Dragon's Lair",
+    characters: ["Elena Brightblade", "Dragon Guardian"],
   },
 ];
 
@@ -140,7 +280,7 @@ function LocationTimeline({ location }: { location: Location }) {
   });
 
   // Use sample data for demonstration - filter events for this location
-  const locationEvents = sampleLocationEvents.filter(event => 
+  const locationEvents = sampleEvents.filter(event => 
     event.location === location.name
   );
 
@@ -462,7 +602,7 @@ export default function LocationDetail() {
   };
 
   // Filter and sort events for stats calculation
-  const locationEvents = sampleLocationEvents.filter(event => 
+  const locationEvents = sampleEvents.filter(event => 
     event.location === sampleLocation.name
   );
   const sortedEvents = [...locationEvents].sort((a, b) => {

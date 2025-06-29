@@ -352,9 +352,9 @@ function CharacterTimeline({ character }: { character: Character }) {
 
   const timelineData = convertToTimelineData(timelineEvents);
 
-  // Filter events for this character
+  // Filter events for this character - use "Elena Brightblade" instead of just "Elena"
   const characterEvents = timelineData.filter(event => 
-    event.characters && event.characters.includes(character.name)
+    event.characters && event.characters.includes("Elena Brightblade")
   );
 
   // Sort events by date
@@ -1299,7 +1299,7 @@ export default function CharacterDetail() {
                       <WouterLink href={`/project/${projectId}/locations/1`}>
                         <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-[var(--color-300)] transition-colors">{(() => {
                           // Get the character's most recent event location
-                          const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
+                          const characterEvents = sampleEvents.filter(event => event.characters?.includes("Elena Brightblade"));
                           const sortedEvents = [...characterEvents].sort((a, b) => {
                             const getDateNumber = (dateStr: string) => {
                               const match = dateStr.match(/Day (\d+)/);
@@ -1487,7 +1487,7 @@ export default function CharacterDetail() {
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes(character.name)).length}
+                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade")).length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
                               Total Events
@@ -1502,7 +1502,7 @@ export default function CharacterDetail() {
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes(character.name) && e.importance === "high").length}
+                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade") && e.importance === "high").length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
                               High Priority
@@ -1517,7 +1517,7 @@ export default function CharacterDetail() {
                           </div>
                           <div className="text-center">
                             <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes(character.name) && e.category === "Character Arc").length}
+                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade") && e.category === "Character Arc").length}
                             </div>
                             <div className="text-sm text-[var(--color-700)] font-medium">
                               Character Events
