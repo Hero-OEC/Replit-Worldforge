@@ -406,8 +406,29 @@ export default function Timeline() {
     enabled: !!projectId,
   });
 
+  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
+    queryKey: ["/api/projects", projectId, "timeline"],
+    enabled: !!projectId,
+  });
+
+  // Convert database events to timeline component format
+  const convertToTimelineData = (events: TimelineEvent[]) => {
+    return events.map(event => ({
+      id: event.id,
+      title: event.title,
+      date: event.date || "No Date",
+      importance: (event.importance || "medium") as "high" | "medium" | "low",
+      category: event.category || "Other",
+      description: event.description || "",
+      location: event.location || "",
+      characters: Array.isArray(event.characters) ? event.characters : []
+    }));
+  };
+
+  const timelineData = convertToTimelineData(timelineEvents);
+
   // Sort events by date for timeline display
-  const sortedEvents = [...sampleEvents].sort((a, b) => {
+  const sortedEvents = [...timelineData].sort((a, b) => {
     const getDateNumber = (dateStr: string) => {
       const match = dateStr.match(/Day (\d+)/);
       return match ? parseInt(match[1]) : 0;
@@ -417,10 +438,11 @@ export default function Timeline() {
 
   // Group events by date
   const eventsByDate = sortedEvents.reduce((acc: any, event) => {
-    if (!acc[event.date]) {
-      acc[event.date] = [];
+    const eventDate = event.date || "No Date";
+    if (!acc[eventDate]) {
+      acc[eventDate] = [];
     }
-    acc[event.date].push(event);
+    acc[eventDate].push(event);
     return acc;
   }, {});
 

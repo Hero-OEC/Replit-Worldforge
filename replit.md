@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 29, 2025. Successfully completed migration from Replit Agent to Replit environment:
+  * Fixed timeline integration to use proper API endpoints instead of static sample data
+  * Connected character detail page timeline to main timeline API for synchronized data
+  * Implemented data conversion between database TimelineEvent type and timeline component format
+  * Both main timeline and character timelines now fetch from /api/projects/:id/timeline endpoint
+  * Timeline events are properly shared between pages - adding events updates both views
+  * Fixed TypeScript compatibility issues with nullable database fields
+  * Application now runs cleanly on standard Replit environment with proper client/server separation
+  * All dependencies properly installed and working
+  * Database initialized with MemStorage and sample timeline events
 - June 28, 2025. Fixed character timeline color scheme consistency:
   * Updated character timeline tab background to use bg-[var(--worldforge-bg)] matching main timeline page
   * Fixed all stats cards to use bg-[var(--color-100)] and proper InkAlchemy gradients

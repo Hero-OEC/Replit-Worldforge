@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
-import type { Character, ProjectWithStats } from "@shared/schema";
+import type { Character, ProjectWithStats, TimelineEvent } from "@shared/schema";
 
 // Sample timeline events data
 const sampleEvents: TimelineEventData[] = [
@@ -330,8 +330,32 @@ function CharacterTimeline({ character }: { character: Character }) {
   const [location, navigate] = useLocation();
   const { projectId } = useParams<{ projectId: string }>();
 
+  // Fetch timeline events from API
+  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
+    queryKey: ["/api/projects", projectId, "timeline"],
+    enabled: !!projectId,
+  });
+
+  // Convert database events to timeline component format
+  const convertToTimelineData = (events: TimelineEvent[]) => {
+    return events.map(event => ({
+      id: event.id,
+      title: event.title,
+      date: event.date || "No Date",
+      importance: (event.importance || "medium") as "high" | "medium" | "low",
+      category: event.category || "Other",
+      description: event.description || "",
+      location: event.location || "",
+      characters: Array.isArray(event.characters) ? event.characters : []
+    }));
+  };
+
+  const timelineData = convertToTimelineData(timelineEvents);
+
   // Filter events for this character
-  const characterEvents = sampleEvents.filter(event => event.characters?.includes(character.name));
+  const characterEvents = timelineData.filter(event => 
+    event.characters && event.characters.includes(character.name)
+  );
 
   // Sort events by date
   const sortedEvents = [...characterEvents].sort((a, b) => {
@@ -344,10 +368,11 @@ function CharacterTimeline({ character }: { character: Character }) {
 
   // Group events by date
   const eventsByDate = sortedEvents.reduce((acc: any, event) => {
-    if (!acc[event.date]) {
-      acc[event.date] = [];
+    const eventDate = event.date;
+    if (!acc[eventDate]) {
+      acc[eventDate] = [];
     }
-    acc[event.date].push(event);
+    acc[eventDate].push(event);
     return acc;
   }, {});
 
