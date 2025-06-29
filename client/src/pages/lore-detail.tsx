@@ -1,6 +1,6 @@
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Trash2, Calendar, Tag, Folder } from "lucide-react";
+import { ArrowLeft, Edit3, Trash2, Calendar, Tag, Folder, Crown, Church, Users, MapPin, Gem, Eye, GraduationCap, Sparkles, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,15 +15,15 @@ import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 // Category icons and colors
 const categoryConfig = {
   "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
-  "Religion": { icon: Calendar, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Politics": { icon: Calendar, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-  "Culture": { icon: Calendar, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Geography": { icon: Calendar, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-  "Artifacts": { icon: Calendar, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Prophecies": { icon: Calendar, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Institutions": { icon: Calendar, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
-  "Legends": { icon: Calendar, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
-  "Customs": { icon: Calendar, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
+  "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
+  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
+  "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
+  "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
+  "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
+  "Customs": { icon: Heart, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
 };
 
 export default function LoreDetail() {

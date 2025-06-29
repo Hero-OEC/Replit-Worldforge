@@ -18,7 +18,6 @@ import {
   X,
   Tag as TagIcon,
   Settings,
-  Star,
   User,
   Check,
   Swords,
@@ -575,7 +574,7 @@ export default function Timeline() {
                 <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
                   <div className="flex items-center justify-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                      <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                      <Calendar className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
