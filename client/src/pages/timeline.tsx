@@ -443,6 +443,11 @@ export default function Timeline() {
   };
 
   const timelineData = convertToTimelineData(timelineEvents);
+  
+  // Debug: log first event to check data structure
+  if (timelineData.length > 0) {
+    console.log("First timeline event:", timelineData[0]);
+  }
 
   // Sort events by date for timeline display
   const sortedEvents = [...timelineData].sort((a, b) => {
@@ -470,14 +475,15 @@ export default function Timeline() {
   }));
 
   // Calculate timeline positions for serpentine layout
-  const timelineWidth = Math.max(1200, dateGroups.length * 180); // Dynamic width based on events
-  const eventsPerRow = Math.min(6, Math.max(3, Math.floor(timelineWidth / 200))); // Responsive events per row
-  const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const timelineHeight = Math.max(400, rows * 160 + 100); // Dynamic height based on rows
-  
+  const timelineWidth = 1000;
+  const timelineHeight = 600;
   const pathPoints: number[][] = [];
-  const horizontalSpacing = Math.max(180, (timelineWidth - 120) / Math.max(1, eventsPerRow - 1));
-  const verticalSpacing = rows > 1 ? Math.max(120, (timelineHeight - 120) / (rows - 1)) : 0;
+
+  // Create serpentine path - 4 events per row, alternating direction  
+  const eventsPerRow = 4;
+  const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
+  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -616,11 +622,11 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="p-8 overflow-x-auto">
+          <div className="p-8">
             <div
               ref={timelineRef}
-              className="relative mx-auto min-w-full"
-              style={{ width: Math.max(timelineWidth, 1200), height: timelineHeight }}
+              className="relative mx-auto"
+              style={{ width: timelineWidth, height: timelineHeight }}
             >
               {/* Timeline Path */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -728,15 +734,12 @@ export default function Timeline() {
                           }}
                         >
                           <div
-                            className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center shadow-lg`}
+                            className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors] || priorityColors.medium} rounded-full flex items-center justify-center shadow-lg`}
                           >
                             {React.createElement(
-                              eventTypeIcons[
-                                group.events[0]
-                                  .category as keyof typeof eventTypeIcons
-                              ] || Star,
+                              eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star,
                               {
-                                className: "w-6 h-6 text-[var(--color-50)]",
+                                className: "w-6 h-6 text-white",
                               },
                             )}
                           </div>
