@@ -744,21 +744,65 @@ export default function Timeline() {
                           onMouseEnter={(e) => {
                             setHoveredDateGroup(group);
                             const bubbleRect = e.currentTarget.getBoundingClientRect();
-                            const timelineRect = timelineRef.current?.getBoundingClientRect();
+                            const viewportWidth = window.innerWidth;
+                            const viewportHeight = window.innerHeight;
                             
-                            if (timelineRect) {
-                              const popupHeight = 300;
-                              
-                              // Get bubble center position relative to timeline
-                              const bubbleCenterX = bubbleRect.left - timelineRect.left + (bubbleRect.width / 2);
-                              const bubbleCenterY = bubbleRect.top - timelineRect.top + (bubbleRect.height / 2);
-                              
-                              // Calculate available space
+                            const popupWidth = 320;
+                            const popupHeight = 300;
+                            
+                            // Get bubble center position relative to viewport
+                            const bubbleCenterX = bubbleRect.left + (bubbleRect.width / 2);
+                            const bubbleCenterY = bubbleRect.top + (bubbleRect.height / 2);
+                            
+                            // Calculate horizontal position - center the popup on the bubble
+                            let finalX = bubbleCenterX;
+                            
+                            // Ensure popup doesn't go off screen horizontally
+                            const leftEdge = finalX - (popupWidth / 2);
+                            const rightEdge = finalX + (popupWidth / 2);
+                            
+                            if (leftEdge < 20) {
+                              finalX = 20 + (popupWidth / 2);
+                            } else if (rightEdge > viewportWidth - 20) {
+                              finalX = viewportWidth - 20 - (popupWidth / 2);
+                            }
+                            
+                            // Calculate vertical position
+                            const spaceBelow = viewportHeight - bubbleCenterY - 60;
+                            const spaceAbove = bubbleCenterY - 60;
+                            
+                            let finalY;
+                            if (spaceBelow >= popupHeight) {
+                              finalY = bubbleCenterY + 60;
+                            } else if (spaceAbove >= popupHeight) {
+                              finalY = bubbleCenterY - 60 - popupHeight;
+                            } else {
+                              finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
+                            }
+                            
+                            setPopupPosition({
+                              x: finalX,
+                              y: finalY,
+                            });pace
                               const spaceBelow = timelineRect.height - (bubbleCenterY + 20); // 20px buffer from bubble center
                               const spaceAbove = bubbleCenterY - 20; // 20px buffer from bubble center  
                               
                               let finalY;
-                              if (spaceBelow >= popupHeight + 50) {
+                            if (spaceBelow >= popupHeight) {
+                              // Show below bubble
+                              finalY = bubbleCenterY + 60;
+                            } else if (spaceAbove >= popupHeight) {
+                              // Show above bubble
+                              finalY = bubbleCenterY - 60 - popupHeight;
+                            } else {
+                              // Show in center of available space
+                              finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
+                            }
+                            
+                            setPopupPosition({
+                              x: finalX,
+                              y: finalY,
+                            }); + 50) {
                                 // Place below bubble - bubble center + 20px (to clear bubble) + 30px spacing = 50px total
                                 finalY = bubbleCenterY + 50;
                               } else if (spaceAbove >= popupHeight + 50) {
@@ -806,21 +850,35 @@ export default function Timeline() {
                           onMouseEnter={(e) => {
                             setHoveredEvent(group.events[0]);
                             const bubbleRect = e.currentTarget.getBoundingClientRect();
-                            const timelineRect = timelineRef.current?.getBoundingClientRect();
+                            const viewportWidth = window.innerWidth;
+                            const viewportHeight = window.innerHeight;
                             
-                            if (timelineRect) {
-                              const popupHeight = 250;
-                              
-                              // Get bubble center position relative to timeline
-                              const bubbleCenterX = bubbleRect.left - timelineRect.left + (bubbleRect.width / 2);
-                              const bubbleCenterY = bubbleRect.top - timelineRect.top + (bubbleRect.height / 2);
-                              
-                              // Calculate available space
-                              const spaceBelow = timelineRect.height - (bubbleCenterY + 20); // 20px buffer from bubble center
-                              const spaceAbove = bubbleCenterY - 20; // 20px buffer from bubble center  
-                              
-                              let finalY;
-                              if (spaceBelow >= popupHeight + 50) {
+                            const popupWidth = 320; // Standard popup width
+                            const popupHeight = 250;
+                            
+                            // Get bubble center position relative to viewport
+                            const bubbleCenterX = bubbleRect.left + (bubbleRect.width / 2);
+                            const bubbleCenterY = bubbleRect.top + (bubbleRect.height / 2);
+                            
+                            // Calculate horizontal position - center the popup on the bubble
+                            let finalX = bubbleCenterX;
+                            
+                            // Ensure popup doesn't go off screen horizontally
+                            const leftEdge = finalX - (popupWidth / 2);
+                            const rightEdge = finalX + (popupWidth / 2);
+                            
+                            if (leftEdge < 20) {
+                              finalX = 20 + (popupWidth / 2); // 20px margin from left edge
+                            } else if (rightEdge > viewportWidth - 20) {
+                              finalX = viewportWidth - 20 - (popupWidth / 2); // 20px margin from right edge
+                            }
+                            
+                            // Calculate vertical position
+                            const spaceBelow = viewportHeight - bubbleCenterY - 60; // 60px buffer below bubble
+                            const spaceAbove = bubbleCenterY - 60; // 60px buffer above bubble
+                            
+                            let finalY;
+                            if (spaceBelow >= popupHeight0) {
                                 // Place below bubble - bubble center + 20px (to clear bubble) + 30px spacing = 50px total
                                 finalY = bubbleCenterY + 50;
                               } else if (spaceAbove >= popupHeight + 50) {
@@ -894,11 +952,10 @@ export default function Timeline() {
           {popupPosition && (
             <div
               ref={popupRef}
-              className="absolute z-50"
+              className="fixed z-50"
               style={{
-                left: popupPosition.x,
+                left: popupPosition.x - 160, // Center the popup (320px width / 2)
                 top: popupPosition.y,
-                transform: "translateX(-50%)",
               }}
               onMouseEnter={() => {
                 // Keep popup visible when hovering over it
