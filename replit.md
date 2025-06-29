@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 29, 2025. Consolidated timeline implementations to eliminate code duplication:
+  * Replaced all three timeline implementations (main, character, location) with unified SerpentineTimeline component
+  * Created lightweight wrapper functions (CharacterTimelineWrapper, LocationTimelineWrapper) that use shared timeline with proper filtering
+  * Eliminated 500+ lines of duplicate timeline code across character-detail.tsx and location-detail.tsx
+  * All timelines now share same codebase, styling, and behavior - only differ by filtering (character vs location events)
+  * Fixed maintenance nightmare where same bugs had to be fixed in multiple places
+  * Timeline color scheme, popup behavior, and event handling now consistent across all three timeline views
 - June 29, 2025. Fixed timeline event boxes to use proper InkAlchemy color scheme:
   * Updated serpentine timeline component to use bg-[var(--color-100)] instead of hardcoded white/cream backgrounds
   * Fixed event title boxes, date labels, and multi-event popups to use consistent --color-100 variable

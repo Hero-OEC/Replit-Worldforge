@@ -14,6 +14,41 @@ import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Character, ProjectWithStats, TimelineEvent } from "@shared/schema";
 
+// Character Timeline Wrapper - using shared SerpentineTimeline
+function CharacterTimelineWrapper({ character }: { character: any }) {
+  const { projectId } = useParams<{ projectId: string }>();
+  
+  // Fetch timeline events from API
+  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
+    queryKey: [`/api/projects/${projectId}/timeline`],
+    enabled: !!projectId,
+  });
+
+  // Convert database events to timeline component format
+  const convertToTimelineData = (events: TimelineEvent[]): TimelineEventData[] => {
+    return events.map(event => ({
+      id: event.id,
+      title: event.title,
+      date: event.date || "No Date",
+      importance: (event.importance || "medium") as "high" | "medium" | "low",
+      category: event.category || "Other",
+      description: event.description || "",
+      location: event.location || "",
+      characters: Array.isArray(event.characters) ? event.characters : []
+    }));
+  };
+
+  const timelineData = convertToTimelineData(timelineEvents);
+
+  return (
+    <SerpentineTimeline 
+      events={timelineData}
+      filterCharacter={character.name}
+      className="w-full"
+    />
+  );
+}
+
 // Sample timeline events data
 const sampleEvents: TimelineEventData[] = [
   {
@@ -1550,8 +1585,8 @@ export default function CharacterDetail() {
                       </div>
                     </div>
 
-                    {/* Timeline Container - inline implementation */}
-                    <CharacterTimeline character={character} />
+                    {/* Timeline Container - using shared SerpentineTimeline */}
+                    <CharacterTimelineWrapper character={character} />
                   </div>
                 </TabsContent>
 
