@@ -294,30 +294,17 @@ export default function SerpentineTimeline({
                     )}
                   </div>
 
-                  {/* Event Title - ABOVE bubble */}
-                  {!group.isMultiEvent && (
-                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 -translate-y-full whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate bg-[var(--color-100)]">
-                        {group.events[0].title}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Date Label - BELOW bubble */}
+                  {/* Combined Title and Date Box - BELOW bubble */}
                   <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 translate-y-full whitespace-nowrap">
-                    <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)] bg-[var(--color-100)]">
-                      {group.date}
+                    <div className="px-3 py-2 rounded shadow-sm border bg-[var(--color-100)] text-center">
+                      <div className="text-xs font-medium text-[var(--color-950)] truncate max-w-32">
+                        {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
+                      </div>
+                      <div className="text-xs text-[var(--color-700)] mt-0.5">
+                        {group.date}
+                      </div>
                     </div>
                   </div>
-
-                  {/* Multi-event Title - ABOVE bubble */}
-                  {group.isMultiEvent && (
-                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 -translate-y-full whitespace-nowrap max-w-32">
-                      <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center bg-[var(--color-100)]">
-                        {group.events.length} Events
-                      </div>
-                    </div>
-                  )}
 
                   {/* Multi-event Popup */}
                   {group.isMultiEvent && isHovered && (
