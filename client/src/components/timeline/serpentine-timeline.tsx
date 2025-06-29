@@ -294,25 +294,25 @@ export default function SerpentineTimeline({
                     )}
                   </div>
 
-                  {/* Event Title */}
+                  {/* Event Title - ABOVE bubble */}
                   {!group.isMultiEvent && (
-                    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 -translate-y-full whitespace-nowrap max-w-32">
                       <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate bg-[var(--color-100)]">
                         {group.events[0].title}
                       </div>
                     </div>
                   )}
                   
-                  {/* Date Label */}
-                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                  {/* Date Label - BELOW bubble */}
+                  <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 translate-y-full whitespace-nowrap">
                     <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)] bg-[var(--color-100)]">
                       {group.date}
                     </div>
                   </div>
 
-                  {/* Multi-event Title */}
+                  {/* Multi-event Title - ABOVE bubble */}
                   {group.isMultiEvent && (
-                    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 -translate-y-full whitespace-nowrap max-w-32">
                       <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center bg-[var(--color-100)]">
                         {group.events.length} Events
                       </div>
