@@ -316,7 +316,7 @@ export default function SerpentineTimeline({
 
                   {/* Combined Title and Date Box - BELOW bubble with gap */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full mt-2 whitespace-nowrap">
-                    <div className="px-3 py-2 rounded shadow-sm border bg-[var(--color-100)] text-center mt-2">
+                    <div className="px-3 py-2 rounded shadow-sm border border-[var(--color-200)] bg-[var(--color-100)] text-center mt-2">
                       <div className="text-xs font-medium text-[var(--color-950)] truncate max-w-32">
                         {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
                       </div>
