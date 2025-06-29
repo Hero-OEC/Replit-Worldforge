@@ -783,40 +783,7 @@ export default function Timeline() {
                             setPopupPosition({
                               x: finalX,
                               y: finalY,
-                            });pace
-                              const spaceBelow = timelineRect.height - (bubbleCenterY + 20); // 20px buffer from bubble center
-                              const spaceAbove = bubbleCenterY - 20; // 20px buffer from bubble center  
-                              
-                              let finalY;
-                            if (spaceBelow >= popupHeight) {
-                              // Show below bubble
-                              finalY = bubbleCenterY + 60;
-                            } else if (spaceAbove >= popupHeight) {
-                              // Show above bubble
-                              finalY = bubbleCenterY - 60 - popupHeight;
-                            } else {
-                              // Show in center of available space
-                              finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
-                            }
-                            
-                            setPopupPosition({
-                              x: finalX,
-                              y: finalY,
-                            }); + 50) {
-                                // Place below bubble - bubble center + 20px (to clear bubble) + 30px spacing = 50px total
-                                finalY = bubbleCenterY + 50;
-                              } else if (spaceAbove >= popupHeight + 50) {
-                                // Place above bubble - bubble center - 20px (to clear bubble) - 30px spacing - popup height
-                                finalY = bubbleCenterY - popupHeight - 50;
-                              } else {
-                                // Force below as default
-                                finalY = bubbleCenterY + 50;
-                              }
-
-                              setPopupPosition({
-                                x: bubbleCenterX,
-                                y: finalY,
-                              });
+                            });
                             }
                           }}
                           onMouseLeave={() => {
@@ -878,22 +845,18 @@ export default function Timeline() {
                             const spaceAbove = bubbleCenterY - 60; // 60px buffer above bubble
                             
                             let finalY;
-                            if (spaceBelow >= popupHeight0) {
-                                // Place below bubble - bubble center + 20px (to clear bubble) + 30px spacing = 50px total
-                                finalY = bubbleCenterY + 50;
-                              } else if (spaceAbove >= popupHeight + 50) {
-                                // Place above bubble - bubble center - 20px (to clear bubble) - 30px spacing - popup height
-                                finalY = bubbleCenterY - popupHeight - 50;
-                              } else {
-                                // Force below as default
-                                finalY = bubbleCenterY + 50;
-                              }
-
-                              setPopupPosition({
-                                x: bubbleCenterX,
-                                y: finalY,
-                              });
+                            if (spaceBelow >= popupHeight) {
+                              finalY = bubbleCenterY + 60;
+                            } else if (spaceAbove >= popupHeight) {
+                              finalY = bubbleCenterY - 60 - popupHeight;
+                            } else {
+                              finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
                             }
+                            
+                            setPopupPosition({
+                              x: finalX,
+                              y: finalY,
+                            });
                           }}
                           onMouseLeave={() => {
                             setTimeout(() => {
