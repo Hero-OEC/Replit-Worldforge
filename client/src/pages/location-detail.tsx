@@ -480,7 +480,7 @@ export default function LocationDetail() {
                   </TabsList>
 
                   <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
-                    <Card className="border border-[var(--color-300)] p-6 bg-[var(--color-100)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
@@ -495,7 +495,7 @@ export default function LocationDetail() {
                   </TabsContent>
 
                   <TabsContent value="geography" className="space-y-6 bg-[var(--worldforge-bg)]">
-                    <Card className="border border-[var(--color-300)] p-6 bg-[var(--color-100)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography</label>
@@ -506,7 +506,7 @@ export default function LocationDetail() {
                   </TabsContent>
 
                   <TabsContent value="culture" className="space-y-6 bg-[var(--worldforge-bg)]">
-                    <Card className="border border-[var(--color-300)] p-6 bg-[var(--color-100)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture</label>
