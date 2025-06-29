@@ -743,20 +743,35 @@ export default function Timeline() {
                           }`}
                           onMouseEnter={(e) => {
                             setHoveredDateGroup(group);
-                            const rect =
-                              e.currentTarget.getBoundingClientRect();
-                            const viewportHeight = window.innerHeight;
-                            const popupHeight = 300; // Estimated popup height
+                            const bubbleRect = e.currentTarget.getBoundingClientRect();
+                            const timelineRect = timelineRef.current?.getBoundingClientRect();
+                            
+                            if (timelineRect) {
+                              const popupHeight = 300;
+                              const bubbleRelativeX = bubbleRect.left - timelineRect.left + bubbleRect.width / 2;
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top;
+                              
+                              // Check if there's space below the bubble
+                              const spaceBelow = timelineRect.bottom - bubbleRect.bottom;
+                              const spaceAbove = bubbleRect.top - timelineRect.top;
+                              
+                              let popupY;
+                              if (spaceBelow >= popupHeight + 20) {
+                                // Place below bubble
+                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                              } else if (spaceAbove >= popupHeight + 20) {
+                                // Place above bubble
+                                popupY = bubbleRelativeY - popupHeight - 10;
+                              } else {
+                                // Default to below if neither has enough space
+                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                              }
 
-                            let yPosition = rect.bottom + 10;
-                            if (yPosition + popupHeight > viewportHeight) {
-                              yPosition = rect.top - popupHeight - 10;
+                              setPopupPosition({
+                                x: bubbleRelativeX,
+                                y: popupY,
+                              });
                             }
-
-                            setPopupPosition({
-                              x: rect.left + rect.width / 2,
-                              y: yPosition,
-                            });
                           }}
                           onMouseLeave={() => {
                             setTimeout(() => {
@@ -788,20 +803,35 @@ export default function Timeline() {
                           }`}
                           onMouseEnter={(e) => {
                             setHoveredEvent(group.events[0]);
-                            const rect =
-                              e.currentTarget.getBoundingClientRect();
-                            const viewportHeight = window.innerHeight;
-                            const popupHeight = 250; // Estimated popup height
+                            const bubbleRect = e.currentTarget.getBoundingClientRect();
+                            const timelineRect = timelineRef.current?.getBoundingClientRect();
+                            
+                            if (timelineRect) {
+                              const popupHeight = 250;
+                              const bubbleRelativeX = bubbleRect.left - timelineRect.left + bubbleRect.width / 2;
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top;
+                              
+                              // Check if there's space below the bubble
+                              const spaceBelow = timelineRect.bottom - bubbleRect.bottom;
+                              const spaceAbove = bubbleRect.top - timelineRect.top;
+                              
+                              let popupY;
+                              if (spaceBelow >= popupHeight + 20) {
+                                // Place below bubble
+                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                              } else if (spaceAbove >= popupHeight + 20) {
+                                // Place above bubble
+                                popupY = bubbleRelativeY - popupHeight - 10;
+                              } else {
+                                // Default to below if neither has enough space
+                                popupY = bubbleRelativeY + bubbleRect.height + 10;
+                              }
 
-                            let yPosition = rect.bottom + 10;
-                            if (yPosition + popupHeight > viewportHeight) {
-                              yPosition = rect.top - popupHeight - 10;
+                              setPopupPosition({
+                                x: bubbleRelativeX,
+                                y: popupY,
+                              });
                             }
-
-                            setPopupPosition({
-                              x: rect.left + rect.width / 2,
-                              y: yPosition,
-                            });
                           }}
                           onMouseLeave={() => {
                             setTimeout(() => {
