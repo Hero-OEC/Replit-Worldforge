@@ -613,7 +613,7 @@ export default function Timeline() {
           </div>
 
           {/* Legend */}
-          <div className="mb-6 flex justify-center">
+          <div className="flex justify-center mt-[0px] mb-[0px]">
             <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
