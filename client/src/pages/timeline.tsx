@@ -6,7 +6,6 @@ import {
   Plus,
   Search,
   Filter,
-  Star,
   Calendar,
   MapPin,
   Users,
@@ -197,7 +196,7 @@ const priorityLabels = {
 
 const eventTypeIcons = {
   "Character Arc": User,
-  "World Event": Star,
+  "World Event": Calendar,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,
@@ -213,7 +212,7 @@ const eventTypeIcons = {
   Artifacts: Award,
   Betrayal: Swords,
   Competition: Award,
-  Customs: Star,
+  Customs: Users,
   Escape: Plane,
   History: Calendar,
   Institutions: Crown,
@@ -222,8 +221,14 @@ const eventTypeIcons = {
   Prophecies: Eye,
   Prophecy: Eye,
   Quest: MapPin,
-  Religion: Star,
+  Religion: Calendar,
   Tragedy: Heart,
+  Other: Calendar,
+};
+
+// Function to get icon, ensuring no Star fallback
+const getEventIcon = (category: string) => {
+  return eventTypeIcons[category as keyof typeof eventTypeIcons] || Calendar;
 };
 
 // Sample timeline events for demonstration with multi-event date
@@ -430,24 +435,28 @@ export default function Timeline() {
 
   // Convert database events to timeline component format
   const convertToTimelineData = (events: TimelineEvent[]) => {
-    return events.map(event => ({
-      id: event.id,
-      title: event.title,
-      date: event.date || "No Date",
-      importance: (event.importance || "medium") as "high" | "medium" | "low",
-      category: event.category || "Other",
-      description: event.description || "",
-      location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : []
-    }));
+    return events.map(event => {
+      // Convert day format to proper year/day format
+      let displayDate = event.date || "No Date";
+      if (displayDate.startsWith("Day ")) {
+        const dayNumber = displayDate.replace("Day ", "");
+        displayDate = `Year 1, Day ${dayNumber}`;
+      }
+      
+      return {
+        id: event.id,
+        title: event.title,
+        date: displayDate,
+        importance: (event.importance || "medium") as "high" | "medium" | "low",
+        category: event.category || "Other",
+        description: event.description || "",
+        location: event.location || "",
+        characters: Array.isArray(event.characters) ? event.characters : []
+      };
+    });
   };
 
   const timelineData = convertToTimelineData(timelineEvents);
-  
-  // Debug: log first event to check data structure
-  if (timelineData.length > 0) {
-    console.log("First timeline event:", timelineData[0]);
-  }
 
   // Sort events by date for timeline display
   const sortedEvents = [...timelineData].sort((a, b) => {
@@ -476,14 +485,13 @@ export default function Timeline() {
 
   // Calculate timeline positions for serpentine layout
   const timelineWidth = 1000;
-  const timelineHeight = 600;
-  const pathPoints: number[][] = [];
-
-  // Create serpentine path - 4 events per row, alternating direction  
   const eventsPerRow = 4;
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
+  const timelineHeight = Math.max(600, rows * 140 + 120); // Better vertical spacing
+  const pathPoints: number[][] = [];
+
   const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
-  const verticalSpacing = rows > 1 ? (timelineHeight - 120) / (rows - 1) : 0;
+  const verticalSpacing = 140; // Fixed spacing between rows
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -737,7 +745,7 @@ export default function Timeline() {
                             className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors] || priorityColors.medium} rounded-full flex items-center justify-center shadow-lg`}
                           >
                             {React.createElement(
-                              eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star,
+                              getEventIcon(group.events[0].category),
                               {
                                 className: "w-6 h-6 text-white",
                               },
@@ -813,10 +821,7 @@ export default function Timeline() {
                     {hoveredDateGroup.events
                       .slice(0, 3)
                       .map((event: any, index: number) => {
-                        const EventIcon =
-                          eventTypeIcons[
-                            event.category as keyof typeof eventTypeIcons
-                          ] || Star;
+                        const EventIcon = getEventIcon(event.category);
                         const importance =
                           event.importance as keyof typeof priorityColors;
 
@@ -879,11 +884,9 @@ export default function Timeline() {
                       className={`w-10 h-10 ${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}
                     >
                       {React.createElement(
-                        eventTypeIcons[
-                          hoveredEvent.category as keyof typeof eventTypeIcons
-                        ] || Star,
+                        getEventIcon(hoveredEvent.category),
                         {
-                          className: "w-5 h-5 text-[var(--color-50)]",
+                          className: "w-5 h-5 text-white",
                         },
                       )}
                     </div>
