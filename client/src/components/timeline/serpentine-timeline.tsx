@@ -5,6 +5,7 @@ import {
   MapPin,
   Users,
   Edit,
+  Edit3,
   User,
   Eye,
   Swords,
@@ -34,6 +35,7 @@ const priorityLabels = {
 
 const eventTypeIcons = {
   "Character Arc": User,
+  "Character Development": User,
   "World Event": Calendar,
   Discovery: Eye,
   Conflict: Swords,
@@ -55,7 +57,7 @@ const eventTypeIcons = {
   History: Calendar,
   Institutions: Crown,
   "Magic Ritual": Sparkles,
-  Preparation: Edit,
+  Preparation: Edit3,
   Prophecies: Eye,
   Prophecy: Eye,
   Quest: Star,

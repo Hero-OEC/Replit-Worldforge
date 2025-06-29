@@ -342,6 +342,8 @@ const priorityColors = {
 
 const eventTypeIcons = {
   "Character Arc": User,
+  "Character Development": User,
+  "World Event": Calendar,
   Discovery: Eye,
   Conflict: Swords,
   Revelation: Lightbulb,
@@ -350,8 +352,24 @@ const eventTypeIcons = {
   Romance: Heart,
   Mystery: HelpCircle,
   Magic: Sparkles,
+  magic: Sparkles,
   Battle: Zap,
   Traveling: Plane,
+  Alliance: Users,
+  Artifacts: Award,
+  Betrayal: Swords,
+  Competition: Award,
+  Customs: Users,
+  Escape: Plane,
+  History: Calendar,
+  Institutions: Crown,
+  "Magic Ritual": Sparkles,
+  Preparation: Edit3,
+  Prophecies: Eye,
+  Prophecy: Eye,
+  Quest: Star,
+  Religion: Heart,
+  Tragedy: HelpCircle,
 };
 
 
