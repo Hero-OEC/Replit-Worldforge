@@ -407,7 +407,7 @@ export default function Timeline() {
   });
 
   const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
-    queryKey: ["/api/projects", projectId, "timeline"],
+    queryKey: [`/api/projects/${projectId}/timeline`],
     enabled: !!projectId,
   });
 
@@ -426,10 +426,6 @@ export default function Timeline() {
   };
 
   const timelineData = convertToTimelineData(timelineEvents);
-  
-  // Debug logging to check data
-  console.log("Timeline Events Raw:", timelineEvents);
-  console.log("Timeline Data Converted:", timelineData);
 
   // Sort events by date for timeline display
   const sortedEvents = [...timelineData].sort((a, b) => {

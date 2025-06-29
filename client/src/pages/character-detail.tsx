@@ -332,7 +332,7 @@ function CharacterTimeline({ character }: { character: Character }) {
 
   // Fetch timeline events from API
   const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
-    queryKey: ["/api/projects", projectId, "timeline"],
+    queryKey: [`/api/projects/${projectId}/timeline`],
     enabled: !!projectId,
   });
 
