@@ -747,12 +747,31 @@ export default function Timeline() {
                             const timelineRect = timelineRef.current?.getBoundingClientRect();
                             
                             if (timelineRect) {
-                              const bubbleRelativeX = x;  // Use the bubble's x position directly
-                              const bubbleRelativeY = y + 50;  // 50px below bubble center
+                              const popupHeight = 300; // Estimated popup height
+                              
+                              // Calculate bubble center position relative to timeline container
+                              const bubbleRelativeX = bubbleRect.left - timelineRect.left + (bubbleRect.width / 2);
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top + (bubbleRect.height / 2);
+                              
+                              // Check available space below and above the bubble
+                              const spaceBelow = timelineRect.height - (bubbleRelativeY + 50);
+                              const spaceAbove = bubbleRelativeY - 50;
+                              
+                              let finalY;
+                              if (spaceBelow >= popupHeight) {
+                                // Place below bubble with 50px spacing
+                                finalY = bubbleRelativeY + 50;
+                              } else if (spaceAbove >= popupHeight) {
+                                // Place above bubble with 50px spacing  
+                                finalY = bubbleRelativeY - popupHeight - 50;
+                              } else {
+                                // Default to below if neither fits perfectly
+                                finalY = bubbleRelativeY + 50;
+                              }
 
                               setPopupPosition({
                                 x: bubbleRelativeX,
-                                y: bubbleRelativeY,
+                                y: finalY,
                               });
                             }
                           }}
@@ -790,12 +809,31 @@ export default function Timeline() {
                             const timelineRect = timelineRef.current?.getBoundingClientRect();
                             
                             if (timelineRect) {
-                              const bubbleRelativeX = x;  // Use the bubble's x position directly
-                              const bubbleRelativeY = y + 50;  // 50px below bubble center
+                              const popupHeight = 250; // Estimated popup height for single event
+                              
+                              // Calculate bubble center position relative to timeline container
+                              const bubbleRelativeX = bubbleRect.left - timelineRect.left + (bubbleRect.width / 2);
+                              const bubbleRelativeY = bubbleRect.top - timelineRect.top + (bubbleRect.height / 2);
+                              
+                              // Check available space below and above the bubble
+                              const spaceBelow = timelineRect.height - (bubbleRelativeY + 50);
+                              const spaceAbove = bubbleRelativeY - 50;
+                              
+                              let finalY;
+                              if (spaceBelow >= popupHeight) {
+                                // Place below bubble with 50px spacing
+                                finalY = bubbleRelativeY + 50;
+                              } else if (spaceAbove >= popupHeight) {
+                                // Place above bubble with 50px spacing  
+                                finalY = bubbleRelativeY - popupHeight - 50;
+                              } else {
+                                // Default to below if neither fits perfectly
+                                finalY = bubbleRelativeY + 50;
+                              }
 
                               setPopupPosition({
                                 x: bubbleRelativeX,
-                                y: bubbleRelativeY,
+                                y: finalY,
                               });
                             }
                           }}
