@@ -3,30 +3,22 @@ import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
 import {
-  Plus,
-  Search,
-  Filter,
   Calendar,
-  MapPin,
   Users,
-  Edit,
-  MoreHorizontal,
-  User,
-  Eye,
-  Swords,
-  Lightbulb,
-  Award,
-  Crown,
-  Heart,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Plane,
-  X,
-  ChevronLeft,
-  ChevronRight,
+  MapPin,
   Clock,
-  Check,
+  Filter,
+  Search,
+  Plus,
+  ChevronDown,
+  Edit,
+  Trash2,
+  Eye,
+  MoreHorizontal,
+  X,
+  Tag as TagIcon,
+  Settings,
+  Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -442,7 +434,7 @@ export default function Timeline() {
         const dayNumber = displayDate.replace("Day ", "");
         displayDate = `Year 1, Day ${dayNumber}`;
       }
-      
+
       return {
         id: event.id,
         title: event.title,
@@ -864,7 +856,7 @@ export default function Timeline() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4 pt-3 border-t border-[var(--color-300)] text-center">
+                  <div className="mt-4 pt-3 border-t border-[`var(--color-300)] text-center">
                     <span className="text-xs text-[var(--color-600)]">
                       Click on events to edit details
                     </span>
@@ -1270,7 +1262,6 @@ export default function Timeline() {
                 <Button
                   className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                   onClick={() => {
-                    // Here you would typically update the event via API
                     console.log("Updated Event:", {
                       id: selectedEvent.id,
                       title: eventTitle,
