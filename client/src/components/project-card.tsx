@@ -1,6 +1,5 @@
 import { format } from "date-fns";
 import {
-  Star,
   MoreHorizontal,
   Users,
   MapPin,
@@ -206,13 +205,6 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             </Badge>
           </div>
           <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover-scale animate-ripple"
-            >
-              <Star className="w-4 h-4" />
-            </Button>
             <Button
               variant="ghost"
               size="icon"
