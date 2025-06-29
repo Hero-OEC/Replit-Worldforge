@@ -650,7 +650,7 @@ export default function Timeline() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Filter Summary & Clear Button */}
               {(selectedCharacterFilters.length > 0 || selectedLocationFilters.length > 0) && (
                 <div className="mt-4 pt-4 border-t border-[var(--color-300)] flex items-center justify-between">
@@ -746,31 +746,31 @@ export default function Timeline() {
                             const bubbleRect = e.currentTarget.getBoundingClientRect();
                             const viewportWidth = window.innerWidth;
                             const viewportHeight = window.innerHeight;
-                            
+
                             const popupWidth = 320;
                             const popupHeight = 300;
-                            
+
                             // Get bubble center position relative to viewport
                             const bubbleCenterX = bubbleRect.left + (bubbleRect.width / 2);
                             const bubbleCenterY = bubbleRect.top + (bubbleRect.height / 2);
-                            
+
                             // Calculate horizontal position - center the popup on the bubble
                             let finalX = bubbleCenterX;
-                            
+
                             // Ensure popup doesn't go off screen horizontally
                             const leftEdge = finalX - (popupWidth / 2);
                             const rightEdge = finalX + (popupWidth / 2);
-                            
+
                             if (leftEdge < 20) {
                               finalX = 20 + (popupWidth / 2);
                             } else if (rightEdge > viewportWidth - 20) {
                               finalX = viewportWidth - 20 - (popupWidth / 2);
                             }
-                            
+
                             // Calculate vertical position
                             const spaceBelow = viewportHeight - bubbleCenterY - 60;
                             const spaceAbove = bubbleCenterY - 60;
-                            
+
                             let finalY;
                             if (spaceBelow >= popupHeight) {
                               finalY = bubbleCenterY + 60;
@@ -779,12 +779,11 @@ export default function Timeline() {
                             } else {
                               finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
                             }
-                            
+
                             setPopupPosition({
                               x: finalX,
                               y: finalY,
                             });
-                            }
                           }}
                           onMouseLeave={() => {
                             setTimeout(() => {
@@ -819,31 +818,31 @@ export default function Timeline() {
                             const bubbleRect = e.currentTarget.getBoundingClientRect();
                             const viewportWidth = window.innerWidth;
                             const viewportHeight = window.innerHeight;
-                            
+
                             const popupWidth = 320; // Standard popup width
                             const popupHeight = 250;
-                            
+
                             // Get bubble center position relative to viewport
                             const bubbleCenterX = bubbleRect.left + (bubbleRect.width / 2);
                             const bubbleCenterY = bubbleRect.top + (bubbleRect.height / 2);
-                            
+
                             // Calculate horizontal position - center the popup on the bubble
                             let finalX = bubbleCenterX;
-                            
+
                             // Ensure popup doesn't go off screen horizontally
                             const leftEdge = finalX - (popupWidth / 2);
                             const rightEdge = finalX + (popupWidth / 2);
-                            
+
                             if (leftEdge < 20) {
                               finalX = 20 + (popupWidth / 2); // 20px margin from left edge
                             } else if (rightEdge > viewportWidth - 20) {
                               finalX = viewportWidth - 20 - (popupWidth / 2); // 20px margin from right edge
                             }
-                            
+
                             // Calculate vertical position
                             const spaceBelow = viewportHeight - bubbleCenterY - 60; // 60px buffer below bubble
                             const spaceAbove = bubbleCenterY - 60; // 60px buffer above bubble
-                            
+
                             let finalY;
                             if (spaceBelow >= popupHeight) {
                               finalY = bubbleCenterY + 60;
@@ -852,7 +851,7 @@ export default function Timeline() {
                             } else {
                               finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
                             }
-                            
+
                             setPopupPosition({
                               x: finalX,
                               y: finalY,
@@ -893,7 +892,7 @@ export default function Timeline() {
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-[var(--color-100)] px-3 py-2 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[140px] max-w-[180px]">
+                        <div className="bg-[var(--color-100)] px-3 py-2 rounded-lg shadow-sm border border[var(--color-300)] min-w-[140px] max-w-[180px]">
                           <div className="text-sm font-semibold text-gray-800 mb-1 leading-tight truncate">
                             {group.isMultiEvent
                               ? `${group.events.length} Events`
