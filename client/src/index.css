@@ -25,7 +25,7 @@
   
   /* Timeline container background fix */
   .timeline-container-bg {
-    background-color: #faf9ec !important;
+    background-color: var(--color-100) !important;
   }
 }
 

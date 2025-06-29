@@ -586,7 +586,7 @@ function CharacterTimeline({ character }: { character: Character }) {
                   className="absolute transform -translate-x-1/2 pointer-events-none"
                 >
                   <div className="text-center">
-                    <div className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
+                    <div className="bg-[var(--color-100)] px-4 py-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
                       <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
                         {group.isMultiEvent
                           ? `${group.events.length} Events`
@@ -626,7 +626,7 @@ function CharacterTimeline({ character }: { character: Character }) {
           {hoveredDateGroup ? (
             // Multi-event popup
             (<Card
-              className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
+              className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[var(--color-100)]"
               onClick={() => navigate(`/project/${projectId}/timeline`)}
             >
               <div className="mb-3">
@@ -685,8 +685,7 @@ function CharacterTimeline({ character }: { character: Character }) {
           ) : hoveredEvent ? (
             // Single event popup - matching main timeline exactly
             (<Card
-              className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow"
-              style={{ backgroundColor: '#faf9ec' }}
+              className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[var(--color-100)]"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/project/${projectId}/timeline/${hoveredEvent.id}`);
