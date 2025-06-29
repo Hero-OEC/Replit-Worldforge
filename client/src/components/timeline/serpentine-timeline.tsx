@@ -296,7 +296,7 @@ export default function SerpentineTimeline({
 
                   {/* Event Title */}
                   {!group.isMultiEvent && (
-                    <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                    <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
                       <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center truncate bg-[var(--color-100)]">
                         {group.events[0].title}
                       </div>
@@ -304,7 +304,7 @@ export default function SerpentineTimeline({
                   )}
                   
                   {/* Date Label */}
-                  <div className="absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                  <div className="absolute top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
                     <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-700)] bg-[var(--color-100)]">
                       {group.date}
                     </div>
@@ -312,7 +312,7 @@ export default function SerpentineTimeline({
 
                   {/* Multi-event Title */}
                   {group.isMultiEvent && (
-                    <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
+                    <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 whitespace-nowrap max-w-32">
                       <div className="px-2 py-1 rounded shadow-sm border text-xs font-medium text-[var(--color-950)] text-center bg-[var(--color-100)]">
                         {group.events.length} Events
                       </div>
