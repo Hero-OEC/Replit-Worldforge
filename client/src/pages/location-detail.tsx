@@ -59,6 +59,70 @@ const eventTypeIcons = {
   Traveling: Plane,
 };
 
+// Sample timeline events for location demonstration
+const sampleLocationEvents = [
+  {
+    id: 1,
+    title: "Elena's Awakening",
+    date: "Year 1, Day 5",
+    importance: "high" as const,
+    category: "Character Arc",
+    description: "Elena discovers her true magical potential during a routine training session.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 2,
+    title: "The Forbidden Library",
+    date: "Year 1, Day 12",
+    importance: "medium" as const,
+    category: "Discovery",
+    description: "Elena and Marcus uncover ancient texts in the hidden library.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade", "Marcus"],
+  },
+  {
+    id: 3,
+    title: "Academy Exhibition",
+    date: "Year 1, Day 28",
+    importance: "low" as const,
+    category: "Character Arc",
+    description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade", "Marcus", "Students"],
+  },
+  {
+    id: 4,
+    title: "Market Day Incident",
+    date: "Year 1, Day 42",
+    importance: "low" as const,
+    category: "Character Arc",
+    description: "Elena accidentally reveals her growing powers during a crowded market day.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade"],
+  },
+  {
+    id: 5,
+    title: "Royal Council Meeting",
+    date: "Year 1, Day 50",
+    importance: "high" as const,
+    category: "Political Event",
+    description: "The kingdom's council meets to discuss the growing magical threat to the realm.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade", "King", "Council Members"],
+  },
+  {
+    id: 6,
+    title: "Ancient Prophecy Revealed",
+    date: "Year 1, Day 67",
+    importance: "high" as const,
+    category: "Revelation",
+    description: "Ancient texts reveal a prophecy about Elena's role in the coming darkness.",
+    location: "Arcanum City",
+    characters: ["Elena Brightblade", "Ancient Sage"],
+  },
+];
+
 // Location Timeline Component (copied from character timeline)
 function LocationTimeline({ location }: { location: Location }) {
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
@@ -75,25 +139,9 @@ function LocationTimeline({ location }: { location: Location }) {
     enabled: !!projectId,
   });
 
-  // Convert database events to timeline component format
-  const convertToTimelineData = (events: TimelineEvent[]) => {
-    return events.map(event => ({
-      id: event.id,
-      title: event.title,
-      date: event.date || "No Date",
-      importance: (event.importance || "medium") as "high" | "medium" | "low",
-      category: event.category || "Other",
-      description: event.description || "",
-      location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : []
-    }));
-  };
-
-  const timelineData = convertToTimelineData(timelineEvents);
-
-  // Filter events for this location (temporarily show all events for demo)
-  const locationEvents = timelineData.filter(event => 
-    event.location === location.name || !event.location // Show events with no location for demo
+  // Use sample data for demonstration - filter events for this location
+  const locationEvents = sampleLocationEvents.filter(event => 
+    event.location === location.name
   );
 
   // Sort events by date
@@ -413,6 +461,18 @@ export default function LocationDetail() {
     updatedAt: new Date()
   };
 
+  // Filter and sort events for stats calculation
+  const locationEvents = sampleLocationEvents.filter(event => 
+    event.location === sampleLocation.name
+  );
+  const sortedEvents = [...locationEvents].sort((a, b) => {
+    const getDateNumber = (dateStr: string) => {
+      const match = dateStr.match(/Day (\d+)/);
+      return match ? parseInt(match[1]) : 0;
+    };
+    return getDateNumber(a.date) - getDateNumber(b.date);
+  });
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
@@ -534,22 +594,26 @@ export default function LocationDetail() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
                           <div className="flex items-center justify-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Calendar className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                            <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                              <Calendar className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                             </div>
                             <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">5</div>
+                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
+                                {sortedEvents.length}
+                              </div>
                               <div className="text-sm text-[var(--color-700)] font-medium">Total Events</div>
                             </div>
                           </div>
                         </div>
                         <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
                           <div className="flex items-center justify-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Star className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                            <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+                              <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                             </div>
                             <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">2</div>
+                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
+                                {sortedEvents.filter(event => event.importance === "high").length}
+                              </div>
                               <div className="text-sm text-[var(--color-700)] font-medium">High Priority</div>
                             </div>
                           </div>
@@ -557,10 +621,12 @@ export default function LocationDetail() {
                         <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
                           <div className="flex items-center justify-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Users className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                              <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                             </div>
                             <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">3</div>
+                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
+                                {new Set(sortedEvents.flatMap(event => event.characters || [])).size}
+                              </div>
                               <div className="text-sm text-[var(--color-700)] font-medium">Characters Involved</div>
                             </div>
                           </div>
