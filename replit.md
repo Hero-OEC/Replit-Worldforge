@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- June 29, 2025. Fixed timeline event boxes to use proper InkAlchemy color scheme:
+  * Updated serpentine timeline component to use bg-[var(--color-100)] instead of hardcoded white/cream backgrounds
+  * Fixed event title boxes, date labels, and multi-event popups to use consistent --color-100 variable
+  * Fixed event detail popup background to match InkAlchemy palette
+  * All timeline elements now properly follow the 50-950 color scheme throughout the application
+  * Timeline boxes now display the warm cream color (#F4F0CD) as intended in the design
 - June 29, 2025. Enhanced timeline with rich sample data and completed migration:
   * Added 25 detailed timeline events showcasing the serpentine timeline layout
   * Created connected story events following Elena Brightblade's Chronicles with all main characters
