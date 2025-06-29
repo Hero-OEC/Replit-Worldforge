@@ -227,35 +227,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           {project.description}
         </p>
 
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
-              <Users className="text-[var(--color-700)] w-4 h-4" />
-            </div>
-            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
-              {project.stats.charactersCount}
-            </p>
-            <p className="text-xs text-[var(--color-600)]">Characters</p>
-          </div>
-          <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
-              <MapPin className="text-[var(--color-700)] w-4 h-4" />
-            </div>
-            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
-              {project.stats.locationsCount}
-            </p>
-            <p className="text-xs text-[var(--color-600)]">Locations</p>
-          </div>
-          <div className="text-center group">
-            <div className="flex items-center justify-center w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2 hover-scale group-hover:bg-[var(--color-300)] transition-colors duration-200">
-              <Scroll className="text-[var(--color-700)] w-4 h-4" />
-            </div>
-            <p className="text-xl font-bold text-[var(--color-950)] animate-bounce-gentle">
-              {project.stats.eventsCount}
-            </p>
-            <p className="text-xs text-[var(--color-600)]">Events</p>
-          </div>
-        </div>
+        
 
         <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
           <span>
