@@ -43,6 +43,8 @@ export default function TimelineWrapper({
   showLegend = true 
 }: TimelineWrapperProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
+  const timelineContainerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(800);
   
   // Queries for data
   const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
@@ -59,6 +61,30 @@ export default function TimelineWrapper({
     queryKey: [`/api/projects/${projectId}/locations`],
     enabled: !!projectId,
   });
+
+  // Monitor container width for responsive layout
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (timelineContainerRef.current) {
+        const width = timelineContainerRef.current.offsetWidth;
+        setContainerWidth(width);
+      }
+    };
+
+    // Initial measurement
+    updateContainerWidth();
+
+    // Set up ResizeObserver for container width changes
+    const resizeObserver = new ResizeObserver(updateContainerWidth);
+    if (timelineContainerRef.current) {
+      resizeObserver.observe(timelineContainerRef.current);
+    }
+
+    // Cleanup
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   // Convert database events to timeline component format
   const convertToTimelineData = (events: TimelineEvent[]) => {
@@ -119,9 +145,16 @@ export default function TimelineWrapper({
     isMultiEvent: (events as any[]).length > 1,
   }));
 
+  // Calculate responsive bubbles per row based on container width
+  const getEventsPerRow = (width: number) => {
+    if (width > 900) return 4; // Timeline page, location page
+    if (width > 600) return 3; // Character page
+    return 2; // Mobile
+  };
+
   // Calculate timeline positions for serpentine layout
-  const timelineWidth = 1000;
-  const eventsPerRow = 4;
+  const timelineWidth = Math.min(1000, containerWidth - 40);
+  const eventsPerRow = getEventsPerRow(containerWidth);
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
   const timelineHeight = Math.max(800, rows * 200 + 200);
   const pathPoints: number[][] = [];
@@ -231,7 +264,7 @@ export default function TimelineWrapper({
       )}
 
       {/* Timeline Display */}
-      <div className="p-8 pt-4">
+      <div ref={timelineContainerRef} className="p-8 pt-4">
         {sortedEvents.length === 0 ? (
           <div className="text-center py-12">
             <Clock className="w-12 h-12 text-[var(--color-400)] mx-auto mb-4" />
@@ -278,7 +311,7 @@ export default function TimelineWrapper({
                         w-16 h-16 rounded-full border-4 border-[var(--color-100)] shadow-lg
                         flex items-center justify-center transition-all duration-200
                         hover:scale-110 hover:shadow-xl relative
-                        ${priorityColors[dateGroup.events[0].importance]}
+                        ${priorityColors[dateGroup.events[0].importance as keyof typeof priorityColors] || priorityColors.medium}
                       `}
                     >
                       {dateGroup.isMultiEvent ? (

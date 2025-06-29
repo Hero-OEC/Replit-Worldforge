@@ -389,7 +389,9 @@ export default function Timeline() {
     y: number;
   } | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const timelineContainerRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(1000);
 
   // Initialize edit form when selectedEvent changes
   useEffect(() => {
@@ -403,6 +405,30 @@ export default function Timeline() {
       setSelectedCharacters(selectedEvent.characters || []);
     }
   }, [selectedEvent]);
+
+  // Monitor container width for responsive layout
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (timelineContainerRef.current) {
+        const width = timelineContainerRef.current.offsetWidth;
+        setContainerWidth(width);
+      }
+    };
+
+    // Initial measurement
+    updateContainerWidth();
+
+    // Set up ResizeObserver for container width changes
+    const resizeObserver = new ResizeObserver(updateContainerWidth);
+    if (timelineContainerRef.current) {
+      resizeObserver.observe(timelineContainerRef.current);
+    }
+
+    // Cleanup
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   // Form state for add/edit dialogs
   const [eventTitle, setEventTitle] = useState("");
@@ -515,9 +541,16 @@ export default function Timeline() {
     isMultiEvent: (events as any[]).length > 1,
   }));
 
+  // Calculate responsive bubbles per row based on container width
+  const getEventsPerRow = (width: number) => {
+    if (width > 900) return 4; // Timeline page, location page
+    if (width > 600) return 3; // Character page
+    return 2; // Mobile
+  };
+
   // Calculate timeline positions for serpentine layout - improved spacing
-  const timelineWidth = 1000;
-  const eventsPerRow = 4;
+  const timelineWidth = Math.min(1000, containerWidth - 40);
+  const eventsPerRow = getEventsPerRow(containerWidth);
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
   const timelineHeight = Math.max(800, rows * 200 + 200); // Much better vertical spacing
   const pathPoints: number[][] = [];
@@ -672,7 +705,7 @@ export default function Timeline() {
           </div>
 
           {/* Serpentine Timeline */}
-          <div className="p-8 pt-[0px] pb-[0px]">
+          <div ref={timelineContainerRef} className="p-8 pt-[0px] pb-[0px]">
             <div
               ref={timelineRef}
               className="relative mx-auto"
