@@ -486,29 +486,34 @@ export default function Timeline() {
     isMultiEvent: (events as any[]).length > 1,
   }));
 
-  // Calculate timeline positions for serpentine layout
+  // Calculate timeline positions for serpentine layout - improved spacing
   const timelineWidth = 1000;
   const eventsPerRow = 4;
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const timelineHeight = Math.max(600, rows * 140 + 120); // Better vertical spacing
+  const timelineHeight = Math.max(800, rows * 200 + 200); // Much better vertical spacing
   const pathPoints: number[][] = [];
 
-  const horizontalSpacing = (timelineWidth - 120) / (eventsPerRow - 1);
-  const verticalSpacing = 140; // Fixed spacing between rows
+  const horizontalSpacing = (timelineWidth - 120) / Math.max(1, eventsPerRow - 1);
+  const verticalSpacing = Math.max(180, (timelineHeight - 200) / Math.max(1, rows - 1)); // Dynamic vertical spacing
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
     const col = index % eventsPerRow;
 
     let x, y;
-    if (row % 2 === 0) {
+    if (dateGroups.length === 1) {
+      // Center single event
+      x = timelineWidth / 2;
+      y = timelineHeight / 2;
+    } else if (row % 2 === 0) {
       // Left to right for even rows
       x = 60 + col * horizontalSpacing;
+      y = 100 + row * verticalSpacing;
     } else {
       // Right to left for odd rows
       x = 60 + (eventsPerRow - 1 - col) * horizontalSpacing;
+      y = 100 + row * verticalSpacing;
     }
-    y = 60 + row * verticalSpacing;
 
     pathPoints.push([x, y]);
   });
@@ -761,13 +766,13 @@ export default function Timeline() {
                     <div
                       style={{
                         left: x,
-                        top: y + 50,
+                        top: y + 80,
                       }}
                       className="absolute transform -translate-x-1/2 pointer-events-none"
                     >
                       <div className="text-center">
-                        <div className="bg-[var(--color-100)] px-4 py-3 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[120px]">
-                          <div className="text-sm font-semibold text-gray-800 mb-1 leading-relaxed">
+                        <div className="bg-[var(--color-100)] px-3 py-2 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[140px] max-w-[180px]">
+                          <div className="text-sm font-semibold text-gray-800 mb-1 leading-tight truncate">
                             {group.isMultiEvent
                               ? `${group.events.length} Events`
                               : group.events[0].title}
