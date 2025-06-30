@@ -622,11 +622,11 @@ export default function Timeline() {
           {/* Filters */}
           <div className="mb-6 flex justify-center">
             <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)]">
-              <div className="flex items-center gap-8">
+              <div className="flex items-start gap-8">
                 <div className="flex items-center space-x-2">
-                  <User className="w-5 h-5 text-[var(--color-600)]" />
-                  <span className="text-sm font-medium text-[var(--color-950)]">Characters:</span>
-                  <div className="w-48">
+                  <User className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
+                  <span className="text-sm font-medium text-[var(--color-950)] mt-2.5 whitespace-nowrap">Characters:</span>
+                  <div className="w-64">
                     <TagSearch
                       items={characters.map(char => char.name)}
                       placeholder="Filter by character..."
@@ -637,9 +637,9 @@ export default function Timeline() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <MapPin className="w-5 h-5 text-[var(--color-600)]" />
-                  <span className="text-sm font-medium text-[var(--color-950)]">Locations:</span>
-                  <div className="w-48">
+                  <MapPin className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
+                  <span className="text-sm font-medium text-[var(--color-950)] mt-2.5 whitespace-nowrap">Locations:</span>
+                  <div className="w-64">
                     <TagSearch
                       items={locations.map(loc => loc.name)}
                       placeholder="Filter by location..."
