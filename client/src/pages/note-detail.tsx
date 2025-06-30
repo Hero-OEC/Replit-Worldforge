@@ -51,45 +51,8 @@ const categoryConfig = {
   }
 };
 
-// Sample note data (in real app, this would come from API)
-const sampleNotes = [
-  {
-    id: 1,
-    title: "Plot Outline - Act 1",
-    content: "Elena discovers her powers during the entrance exam at the Academy. She accidentally sets fire to the testing chamber but instead of being expelled, she's taken under Theron's wing. Key scenes: arrival at academy, meeting Marcus, first magic lesson gone wrong.\n\nThis act establishes the magical world and introduces our main characters. The pacing should be quick to hook readers, but allow time for world-building. Elena's character arc begins here with her feeling like an outsider.",
-    category: "Plot",
-    tags: ["plot", "act1", "elena", "academy", "character-introduction"],
-    createdAt: "2024-01-15T10:30:00.000Z",
-    updatedAt: "2024-01-16T14:22:00.000Z"
-  },
-  {
-    id: 2,
-    title: "Character Development - Elena's Arc",
-    content: "Elena starts as insecure about her abilities. Through trials and failures, she learns to control her fire magic and gains confidence. Her character arc mirrors the classic hero's journey but with focus on self-acceptance rather than defeating evil.\n\nKey character beats:\n- Denial of powers (Act 1)\n- Reluctant acceptance (Early Act 2)\n- Training montage and failures (Mid Act 2)\n- Breakthrough moment (Late Act 2)\n- Mastery and confidence (Act 3)",
-    category: "Characters",
-    tags: ["elena", "character-arc", "development", "fire-magic", "hero-journey"],
-    createdAt: "2024-01-12T09:15:00.000Z",
-    updatedAt: "2024-01-13T11:45:00.000Z"
-  },
-  {
-    id: 3,
-    title: "Magic System Rules",
-    content: "Fire magic requires emotional control. The more intense the emotion, the stronger the flame, but also the more dangerous. Users must learn meditation and breathing techniques. Overuse leads to 'burnout' - temporary loss of magical ability.\n\nDetailed rules:\n1. Emotional state directly affects power level\n2. Fear weakens flames, confidence strengthens them\n3. Anger creates destructive fire, calm creates controlled fire\n4. Physical exhaustion reduces magical capacity\n5. Each person has a daily 'magic reserve' that replenishes with rest",
-    category: "World Building",
-    tags: ["magic-system", "fire-magic", "rules", "limitations", "world-building"],
-    createdAt: "2024-01-10T16:20:00.000Z",
-    updatedAt: "2024-01-11T08:30:00.000Z"
-  },
-  {
-    id: 4,
-    title: "Research: Medieval Academy Life",
-    content: "Notes from research on medieval university structures. Students lived in dormitories, followed strict schedules, and studied by candlelight. Will adapt this for magical academy with crystal lights and floating books.\n\nKey elements to incorporate:\n- Communal dining halls with long tables\n- Shared dormitories (2-4 students per room)\n- Morning prayers/meditation (adapted to magical focus exercises)\n- Hierarchical system with older students mentoring younger ones\n- Limited personal possessions\n- Strict curfews and supervised study time",
-    category: "Research",
-    tags: ["research", "medieval", "academy", "historical", "world-building"],
-    createdAt: "2024-01-08T13:45:00.000Z",
-    updatedAt: "2024-01-09T10:15:00.000Z"
-  }
-];
+// Note: This component is using sample data for demonstration
+// In a real implementation, this would fetch from the notes API endpoint
 
 export default function NoteDetail() {
   const { projectId, noteId } = useParams<{ projectId: string; noteId: string }>();
@@ -103,8 +66,8 @@ export default function NoteDetail() {
     queryKey: ["/api/projects", projectId],
   });
 
-  // In a real app, this would be an API call
-  const note = sampleNotes.find(n => n.id === parseInt(noteId!));
+  // TODO: This needs to be connected to the actual notes API endpoint
+  const note = null; // No sample data - would fetch from API
 
   const deleteNoteMutation = useMutation({
     mutationFn: async () => {

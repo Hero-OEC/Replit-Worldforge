@@ -1491,8 +1491,121 @@ export class DatabaseStorage implements IStorage {
     return result.rowCount > 0;
   }
 
-  // Additional methods for locations, timeline events, magic systems, lore entries...
-  // (I'll implement the key ones to show the pattern)
+  // Locations
+  async getLocations(projectId: number): Promise<Location[]> {
+    return await db.select().from(locations).where(eq(locations.projectId, projectId));
+  }
+
+  async getLocation(id: number): Promise<Location | undefined> {
+    const [location] = await db.select().from(locations).where(eq(locations.id, id));
+    return location;
+  }
+
+  async createLocation(insertLocation: InsertLocation): Promise<Location> {
+    const [location] = await db.insert(locations).values(insertLocation).returning();
+    return location;
+  }
+
+  async updateLocation(id: number, updates: Partial<InsertLocation>): Promise<Location | undefined> {
+    const [location] = await db
+      .update(locations)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(locations.id, id))
+      .returning();
+    return location;
+  }
+
+  async deleteLocation(id: number): Promise<boolean> {
+    const result = await db.delete(locations).where(eq(locations.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Timeline Events
+  async getTimelineEvents(projectId: number): Promise<TimelineEvent[]> {
+    return await db.select().from(timelineEvents).where(eq(timelineEvents.projectId, projectId));
+  }
+
+  async getTimelineEvent(id: number): Promise<TimelineEvent | undefined> {
+    const [event] = await db.select().from(timelineEvents).where(eq(timelineEvents.id, id));
+    return event;
+  }
+
+  async createTimelineEvent(insertEvent: InsertTimelineEvent): Promise<TimelineEvent> {
+    const [event] = await db.insert(timelineEvents).values(insertEvent).returning();
+    return event;
+  }
+
+  async updateTimelineEvent(id: number, updates: Partial<InsertTimelineEvent>): Promise<TimelineEvent | undefined> {
+    const [event] = await db
+      .update(timelineEvents)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(timelineEvents.id, id))
+      .returning();
+    return event;
+  }
+
+  async deleteTimelineEvent(id: number): Promise<boolean> {
+    const result = await db.delete(timelineEvents).where(eq(timelineEvents.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Magic Systems
+  async getMagicSystems(projectId: number): Promise<MagicSystem[]> {
+    return await db.select().from(magicSystems).where(eq(magicSystems.projectId, projectId));
+  }
+
+  async getMagicSystem(id: number): Promise<MagicSystem | undefined> {
+    const [system] = await db.select().from(magicSystems).where(eq(magicSystems.id, id));
+    return system;
+  }
+
+  async createMagicSystem(insertSystem: InsertMagicSystem): Promise<MagicSystem> {
+    const [system] = await db.insert(magicSystems).values(insertSystem).returning();
+    return system;
+  }
+
+  async updateMagicSystem(id: number, updates: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined> {
+    const [system] = await db
+      .update(magicSystems)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(magicSystems.id, id))
+      .returning();
+    return system;
+  }
+
+  async deleteMagicSystem(id: number): Promise<boolean> {
+    const result = await db.delete(magicSystems).where(eq(magicSystems.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Lore Entries
+  async getLoreEntries(projectId: number): Promise<LoreEntry[]> {
+    return await db.select().from(loreEntries).where(eq(loreEntries.projectId, projectId));
+  }
+
+  async getLoreEntry(id: number): Promise<LoreEntry | undefined> {
+    const [entry] = await db.select().from(loreEntries).where(eq(loreEntries.id, id));
+    return entry;
+  }
+
+  async createLoreEntry(insertEntry: InsertLoreEntry): Promise<LoreEntry> {
+    const [entry] = await db.insert(loreEntries).values(insertEntry).returning();
+    return entry;
+  }
+
+  async updateLoreEntry(id: number, updates: Partial<InsertLoreEntry>): Promise<LoreEntry | undefined> {
+    const [entry] = await db
+      .update(loreEntries)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(loreEntries.id, id))
+      .returning();
+    return entry;
+  }
+
+  async deleteLoreEntry(id: number): Promise<boolean> {
+    const result = await db.delete(loreEntries).where(eq(loreEntries.id, id));
+    return result.rowCount > 0;
+  }
 
   async getEditHistory(projectId: number): Promise<EditHistory[]> {
     return await db

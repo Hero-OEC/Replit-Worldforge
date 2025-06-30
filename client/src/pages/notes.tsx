@@ -57,40 +57,8 @@ export default function Notes() {
     },
   });
 
-  const sampleNotes = [
-    {
-      id: 1,
-      title: "Plot Outline - Act 1",
-      content: "Elena discovers her powers during the entrance exam at the Academy. She accidentally sets fire to the testing chamber but instead of being expelled, she's taken under Theron's wing. Key scenes: arrival at academy, meeting Marcus, first magic lesson gone wrong.",
-      category: "Plot",
-      tags: ["plot", "act1", "elena", "academy"],
-      createdAt: "2024-01-15"
-    },
-    {
-      id: 2,
-      title: "Character Development - Elena's Arc",
-      content: "Elena starts as insecure about her abilities. Through trials and failures, she learns to control her fire magic and gains confidence. Her character arc mirrors the classic hero's journey but with focus on self-acceptance rather than defeating evil.",
-      category: "Characters",
-      tags: ["elena", "character-arc", "development", "fire-magic"],
-      createdAt: "2024-01-12"
-    },
-    {
-      id: 3,
-      title: "Magic System Rules",
-      content: "Fire magic requires emotional control. The more intense the emotion, the stronger the flame, but also the more dangerous. Users must learn meditation and breathing techniques. Overuse leads to 'burnout' - temporary loss of magical ability.",
-      category: "World Building",
-      tags: ["magic-system", "fire-magic", "rules", "limitations"],
-      createdAt: "2024-01-10"
-    },
-    {
-      id: 4,
-      title: "Research: Medieval Academy Life",
-      content: "Notes from research on medieval university structures. Students lived in dormitories, followed strict schedules, and studied by candlelight. Will adapt this for magical academy with crystal lights and floating books.",
-      category: "Research",
-      tags: ["research", "medieval", "academy", "historical"],
-      createdAt: "2024-01-08"
-    }
-  ];
+  // TODO: Notes feature needs to be implemented with proper API endpoints
+  const sampleNotes: any[] = [];
 
   const resetForm = () => {
     setNoteData({
