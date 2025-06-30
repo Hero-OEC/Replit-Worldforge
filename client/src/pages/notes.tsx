@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, Save, X, FileText, BookOpen, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import Navbar from "@/components/layout/navbar";
 import type { ProjectWithStats } from "@shared/schema";
 
@@ -36,9 +37,11 @@ const categoryConfig = {
 };
 
 export default function Notes() {
-  const { projectId } = useParams<{ projectId: string }>();
+  const { projectId } = useParams();
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteNoteId, setDeleteNoteId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingNote, setEditingNote] = useState<any>(null);
   const [noteData, setNoteData] = useState({
@@ -49,19 +52,36 @@ export default function Notes() {
   });
 
   const { data: project } = useQuery<ProjectWithStats>({
-    queryKey: ["/api/projects", projectId],
-    queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}`);
-      if (!response.ok) throw new Error("Failed to fetch project");
-      return response.json();
+    queryKey: [`/api/projects/${projectId}`],
+  });
+
+  const { data: notes = [] } = useQuery({
+    queryKey: [`/api/projects/${projectId}/notes`],
+  });
+
+  const deleteNoteMutation = useMutation({
+    mutationFn: async (noteId: number) => {
+      const res = await fetch(`/api/projects/${projectId}/notes/${noteId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to delete note");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/notes`] });
+      setDeleteNoteId(null);
     },
   });
 
-  // Fetch lore entries (notes) from API
-  const { data: notes = [] } = useQuery({
-    queryKey: ['/api/lore-entries', projectId],
-    enabled: !!projectId
-  });
+  const handleDeleteNote = () => {
+    if (deleteNoteId) {
+      deleteNoteMutation.mutate(deleteNoteId);
+    }
+  };
+
+  const selectedNote = deleteNoteId ? notes.find((note: any) => note.id === deleteNoteId) : null;
 
   const resetForm = () => {
     setNoteData({
@@ -143,7 +163,7 @@ export default function Notes() {
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;
-              
+
               return (
                 <Card 
                   key={note.id} 
@@ -162,7 +182,7 @@ export default function Notes() {
                         </Badge>
                       </div>
                     </div>
-                    
+
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                         <Button variant="ghost" size="sm">
@@ -170,17 +190,19 @@ export default function Notes() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleEdit(note); }}>
-                          <Edit3 className="w-4 h-4 mr-2" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }}
-                          className="text-destructive"
-                        >
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => setLocation(`/project/${projectId}/notes/${note.id}/edit`)}
+                            className="text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                          >
+                            <Edit3 className="w-4 h-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setDeleteNoteId(note.id)}
+                          >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -229,7 +251,7 @@ export default function Notes() {
               {editingNote ? "Edit Note" : "Add New Note"}
             </DialogTitle>
           </DialogHeader>
-          
+
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -288,6 +310,33 @@ export default function Notes() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={deleteNoteId !== null} onOpenChange={() => setDeleteNoteId(null)}>
+        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[var(--color-950)]">
+              Delete Note
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--color-700)]">
+              Are you sure you want to delete "{selectedNote?.title}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteNote}
+              disabled={deleteNoteMutation.isPending}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {deleteNoteMutation.isPending ? "Deleting..." : "Delete Note"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

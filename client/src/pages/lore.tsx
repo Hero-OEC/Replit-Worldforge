@@ -25,6 +25,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/navbar";
 import { formatDistanceToNow } from "date-fns";
@@ -49,6 +50,7 @@ export default function Lore() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [deleteLoreId, setDeleteLoreId] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -149,7 +151,7 @@ export default function Lore() {
             {filteredEntries.map((entry) => {
               const categoryInfo = categoryConfig[entry.category as keyof typeof categoryConfig] || categoryConfig["History"];
               const CategoryIcon = categoryInfo.icon;
-              
+
               return (
                 <Card 
                   key={entry.id} 
@@ -174,7 +176,7 @@ export default function Lore() {
                           </Badge>
                         </div>
                       </div>
-                      
+
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                           <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">

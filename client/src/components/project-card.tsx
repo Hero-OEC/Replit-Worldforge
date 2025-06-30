@@ -37,12 +37,18 @@ import {
   Mountain,
   Gamepad2,
   Dice1,
+  Edit3,
+  Trash2,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import type { ProjectWithStats } from "@shared/schema";
 import { useLocation } from "wouter";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface ProjectCardProps {
   project: ProjectWithStats;
@@ -176,57 +182,137 @@ const statusColors: Record<string, string> = {
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const queryClient = useQueryClient();
+  
   const genreColor = genreColors[project.genre] || "bg-[var(--color-300)] text-[var(--color-900)]";
   const statusColor = statusColors[project.status] || statusColors.active;
   const GenreIcon = genreIcons[project.genre] || Book;
 
-  const handleClick = () => {
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/projects/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to delete project");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
+      setShowDeleteDialog(false);
+    },
+  });
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent navigation when clicking on dropdown menu
+    if ((e.target as HTMLElement).closest('[data-dropdown-menu]')) {
+      return;
+    }
     setLocation(`/project/${project.id}`);
   };
 
+  const handleDelete = () => {
+    deleteProjectMutation.mutate(project.id);
+  };
+
   return (
-    <Card
-      className="bg-[var(--color-100)] border border-[var(--color-300)] overflow-hidden cursor-pointer animate-scale-in hover-lift animate-ripple"
-      onClick={handleClick}
-    >
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-[var(--color-200)]">
-                <GenreIcon className="w-4 h-4 text-[var(--color-700)]" />
+    <>
+      <Card
+        className="bg-[var(--color-100)] border border-[var(--color-300)] overflow-hidden cursor-pointer animate-scale-in hover-lift animate-ripple"
+        onClick={handleClick}
+      >
+        <div className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-[var(--color-200)]">
+                  <GenreIcon className="w-4 h-4 text-[var(--color-700)]" />
+                </div>
+                <h3 className="text-lg font-semibold text-[var(--color-950)] line-clamp-1">
+                  {project.title}
+                </h3>
               </div>
-              <h3 className="text-lg font-semibold text-[var(--color-950)] line-clamp-1">
-                {project.title}
-              </h3>
+              <Badge className={`text-xs font-medium ${genreColor}`}>
+                {project.genre}
+              </Badge>
             </div>
-            <Badge className={`text-xs font-medium ${genreColor}`}>
-              {project.genre}
-            </Badge>
+            <div className="flex items-center space-x-2" data-dropdown-menu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)] hover-scale animate-ripple"
+                  >
+                    <MoreHorizontal className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-[var(--color-50)] border border-[var(--color-300)]">
+                  <DropdownMenuItem 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLocation(`/project/${project.id}`);
+                    }}
+                    className="text-[var(--color-700)] hover:bg-[var(--color-100)] hover:text-[var(--color-950)]"
+                  >
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    Edit Project
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDeleteDialog(true);
+                    }}
+                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete Project
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover-scale animate-ripple"
+
+          <p className="text-[var(--color-700)] text-sm mb-6 line-clamp-3">
+            {project.description}
+          </p>
+
+          <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
+            <span>
+              Last modified: {format(new Date(project.updatedAt), "M/d/yyyy")}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[var(--color-950)]">
+              Delete Project
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--color-700)]">
+              Are you sure you want to delete "{project.title}"? This action cannot be undone and will permanently remove all associated data including characters, locations, timeline events, and notes.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
             >
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
-        <p className="text-[var(--color-700)] text-sm mb-6 line-clamp-3">
-          {project.description}
-        </p>
-
-        
-
-        <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
-          <span>
-            Last modified: {format(new Date(project.updatedAt), "M/d/yyyy")}
-          </span>
-        </div>
-      </div>
-    </Card>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDelete}
+              disabled={deleteProjectMutation.isPending}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {deleteProjectMutation.isPending ? "Deleting..." : "Delete Project"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

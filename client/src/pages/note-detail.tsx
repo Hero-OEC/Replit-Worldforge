@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { 
@@ -14,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import Navbar from "@/components/layout/navbar";
 import { useNavigationTracker } from "@/contexts/navigation-context";
 import { useToast } from "@/hooks/use-toast";
@@ -57,6 +59,7 @@ const categoryConfig = {
 export default function NoteDetail() {
   const { projectId, noteId } = useParams<{ projectId: string; noteId: string }>();
   const [, setLocation] = useLocation();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -92,9 +95,7 @@ export default function NoteDetail() {
   });
 
   const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this note? This action cannot be undone.")) {
-      deleteNoteMutation.mutate();
-    }
+    deleteNoteMutation.mutate();
   };
 
   if (!note) {
@@ -161,7 +162,7 @@ export default function NoteDetail() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={() => setLocation(`/project/${projectId}/notes/${noteId}/edit`)} 
@@ -172,7 +173,7 @@ export default function NoteDetail() {
               </Button>
               <Button
                 variant="outline"
-                onClick={handleDelete}
+                onClick={() => setShowDeleteDialog(true)}
                 disabled={deleteNoteMutation.isPending}
                 className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
               >
@@ -217,6 +218,26 @@ export default function NoteDetail() {
           </Card>
         </div>
       </main>
+       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[var(--worldforge-cream)] text-[var(--color-950)] border-2 border-[var(--color-200)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this note.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-[var(--color-700)] border-[var(--color-200)] hover:bg-[var(--color-50)]">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 text-white hover:bg-red-600"
+              onClick={handleDelete}
+              disabled={deleteNoteMutation.isPending}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -33,6 +33,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 const priorityColors = {
   high: "bg-[var(--color-500)]",
@@ -267,7 +268,7 @@ const sampleEvents = [
 // Location Timeline Component - using shared SerpentineTimeline
 function LocationTimelineWrapper({ location }: { location: Location }) {
   const { projectId } = useParams<{ projectId: string }>();
-  
+
   // Fetch timeline events from API
   const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
     queryKey: [`/api/projects/${projectId}/timeline`],
@@ -303,6 +304,7 @@ export default function LocationDetail() {
   const { projectId, locationId } = useParams<{ projectId: string; locationId: string }>();
   const [location, navigate] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [locationData, setLocationData] = useState({
     name: "",
     type: "",
@@ -353,7 +355,7 @@ export default function LocationDetail() {
         projectTitle={project?.title}
         showProjectNav={true}
       />
-      
+
       <main className="pt-16">
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="mb-6">
@@ -368,7 +370,7 @@ export default function LocationDetail() {
                   Back to Locations
                 </Button>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <Button
                   variant="outline"
@@ -383,6 +385,7 @@ export default function LocationDetail() {
                   variant="outline"
                   size="sm"
                   className="border-red-300 text-red-600 hover:bg-red-50"
+                  onClick={() => setShowDeleteDialog(true)}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete
@@ -476,6 +479,21 @@ export default function LocationDetail() {
           </div>
         </div>
       </main>
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[var(--worldforge-bg)] border border-[var(--color-200)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[var(--color-950)]">Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--color-700)]">
+              This action cannot be undone. This will permanently delete the location
+              and remove its data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-[var(--color-700)] bg-[var(--color-100)] hover:bg-[var(--color-200)]">Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-red-500 text-white hover:bg-red-700">Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
