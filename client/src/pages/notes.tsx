@@ -176,7 +176,7 @@ export default function Notes() {
               return (
                 <Card 
                   key={note.id} 
-                  className="p-6 hover:shadow-md transition-shadow border border-amber-200 cursor-pointer bg-amber-50" 
+                  className="p-6 hover:shadow-md transition-shadow border border-amber-200 cursor-pointer bg-[#f4f0cd]" 
                   onClick={() => handleNoteClick(note.id)}
                 >
                   <div className="flex items-start justify-between mb-4">
