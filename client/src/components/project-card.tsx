@@ -49,6 +49,7 @@ import type { ProjectWithStats } from "@shared/schema";
 import { useLocation } from "wouter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProjectCardProps {
   project: ProjectWithStats;
@@ -184,6 +185,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const genreColor = genreColors[project.genre] || "bg-[var(--color-300)] text-[var(--color-900)]";
   const statusColor = statusColors[project.status] || statusColors.active;
@@ -203,6 +205,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
       queryClient.refetchQueries({ queryKey: ["/api/projects"] });
       toast({ title: "Project deleted successfully!" });
+      setShowDeleteDialog(false);
     },
   });
 
