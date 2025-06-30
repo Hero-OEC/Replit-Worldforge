@@ -35,6 +35,14 @@ const eventCategories = [
   "Magic",
   "Battle",
   "Traveling",
+  "Death",
+  "Birth",
+  "Wedding",
+  "Betrayal",
+  "Alliance",
+  "Prophecy",
+  "Quest",
+  "Tragedy",
 ];
 
 const sampleLocations = [
