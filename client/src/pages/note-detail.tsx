@@ -66,8 +66,11 @@ export default function NoteDetail() {
     queryKey: ["/api/projects", projectId],
   });
 
-  // TODO: This needs to be connected to the actual notes API endpoint
-  const note = null; // No sample data - would fetch from API
+  // Fetch the specific lore entry (note) from API
+  const { data: note } = useQuery({
+    queryKey: ['/api/lore-entries', noteId],
+    enabled: !!noteId
+  });
 
   const deleteNoteMutation = useMutation({
     mutationFn: async () => {

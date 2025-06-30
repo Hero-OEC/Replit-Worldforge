@@ -57,8 +57,11 @@ export default function Notes() {
     },
   });
 
-  // TODO: Notes feature needs to be implemented with proper API endpoints
-  const sampleNotes: any[] = [];
+  // Fetch lore entries (notes) from API
+  const { data: notes = [] } = useQuery({
+    queryKey: ['/api/lore-entries', projectId],
+    enabled: !!projectId
+  });
 
   const resetForm = () => {
     setNoteData({
@@ -92,11 +95,11 @@ export default function Notes() {
     }
   };
 
-  const filteredNotes = sampleNotes.filter(note =>
-    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredNotes = (notes || []).filter(note =>
+    note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.tags?.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleNoteClick = (noteId: number) => {
