@@ -28,7 +28,8 @@ import {
   HelpCircle,
   Sparkles,
   Zap,
-  Plane
+  Plane,
+  Skull
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -208,7 +209,7 @@ const eventTypeIcons = {
   Magic: Sparkles,
   Battle: Zap,
   Traveling: Plane,
-  Death: X,
+  Death: Skull,
   Birth: Heart,
   Wedding: Heart,
   Betrayal: Swords,
