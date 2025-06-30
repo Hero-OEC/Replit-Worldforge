@@ -72,6 +72,7 @@ export default function Lore() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lore-entries", projectId] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
       toast({ title: "Lore entry deleted successfully!" });
     },
     onError: (error: any) => {

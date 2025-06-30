@@ -333,6 +333,7 @@ export default function LocationDetail() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
       toast({ title: "Location deleted successfully!" });
       navigate(`/project/${projectId}/locations`);
     },

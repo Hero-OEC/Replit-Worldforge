@@ -190,18 +190,19 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const GenreIcon = genreIcons[project.genre] || Book;
 
   const deleteProjectMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const res = await fetch(`/api/projects/${id}`, {
+    mutationFn: async () => {
+      const response = await fetch(`/api/projects/${project.id}`, {
         method: "DELETE",
       });
-      if (!res.ok) {
+      if (!response.ok) {
         throw new Error("Failed to delete project");
       }
-      return res.json();
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
-      setShowDeleteDialog(false);
+      queryClient.refetchQueries({ queryKey: ["/api/projects"] });
+      toast({ title: "Project deleted successfully!" });
     },
   });
 

@@ -71,6 +71,7 @@ export default function Notes() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/notes`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
       setDeleteNoteId(null);
     },
   });
