@@ -440,7 +440,7 @@ export default function Timeline() {
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
 
   const eventCategories = [
-    "Character Development",
+    "Character Arc",
     "Discovery",
     "Conflict",
     "Revelation",
