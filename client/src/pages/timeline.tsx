@@ -134,7 +134,7 @@ function TagSearch({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col">
       <div className="relative">
         <Input
           placeholder={placeholder}
@@ -165,9 +165,9 @@ function TagSearch({
         )}
       </div>
 
-      {/* Selected Tags */}
+      {/* Selected Tags - positioned right below input without extra spacing */}
       {selectedTags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mt-2">
           {selectedTags.map((tag, index) => (
             <Tag
               key={index}
@@ -624,10 +624,8 @@ export default function Timeline() {
             <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)]">
               <div className="flex items-start gap-8">
                 <div className="flex items-start space-x-2">
-                  <div className="flex items-center space-x-2 h-10">
-                    <User className="w-5 h-5 text-[var(--color-600)]" />
-                    <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap">Characters:</span>
-                  </div>
+                  <User className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
+                  <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Characters:</span>
                   <div className="w-64">
                     <TagSearch
                       items={characters.map(char => char.name)}
@@ -639,10 +637,8 @@ export default function Timeline() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-2">
-                  <div className="flex items-center space-x-2 h-10">
-                    <MapPin className="w-5 h-5 text-[var(--color-600)]" />
-                    <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap">Locations:</span>
-                  </div>
+                  <MapPin className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
+                  <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Locations:</span>
                   <div className="w-64">
                     <TagSearch
                       items={locations.map(loc => loc.name)}
