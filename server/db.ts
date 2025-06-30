@@ -1,23 +1,19 @@
 
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from "@shared/schema";
-import path from 'path';
 
-// Simple database path for development
-const dbPath = path.join(process.cwd(), 'inkalchemy.db');
+const sql = neon(process.env.DATABASE_URL!);
+export const db = drizzle(sql, { schema });
 
-const sqlite = new Database(dbPath);
-sqlite.pragma('journal_mode = WAL');
-
-export const db = drizzle(sqlite, { schema });
-
-// Initialize database - using in-memory storage as recommended
 export async function initializeDatabase() {
   try {
-    console.log('Database initialized successfully with MemStorage');
-    // Note: Using MemStorage, so no database migrations needed
+    // Test the connection
+    await sql`SELECT 1`;
+    console.log('Database connected successfully to Supabase');
   } catch (error) {
-    console.error('Database initialization failed:', error);
+    console.error('Database connection failed:', error);
+    console.log('Falling back to memory storage for development');
+    throw error;
   }
 }

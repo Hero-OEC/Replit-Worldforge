@@ -1,16 +1,16 @@
-import { sqliteTable, text, integer, blob, real } from "drizzle-orm/sqlite-core";
+import { pgTable, text, integer, timestamp, serial, json } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const projects = sqliteTable("projects", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
   title: text("title").notNull(),
   genre: text("genre").notNull(),
   description: text("description").notNull(),
   status: text("status").notNull().default("active"), // active, planning, completed, archived
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const characters = sqliteTable("characters", {
