@@ -13,8 +13,8 @@ export const projects = pgTable("projects", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const characters = sqliteTable("characters", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const characters = pgTable("characters", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
@@ -22,25 +22,25 @@ export const characters = sqliteTable("characters", {
   personality: text("personality"),
   backstory: text("backstory"),
   role: text("role"), // protagonist, antagonist, supporting, etc.
-  powerSystems: text("power_systems", { mode: "json" }).$type<string[]>().$defaultFn(() => []), // array of power/magic system names
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+  powerSystems: json("power_systems").$type<string[]>().default([]), // array of power/magic system names
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const locations = sqliteTable("locations", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const locations = pgTable("locations", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   geography: text("geography"),
   culture: text("culture"),
   significance: text("significance"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const timelineEvents = sqliteTable("timeline_events", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const timelineEvents = pgTable("timeline_events", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   description: text("description"),
@@ -48,14 +48,14 @@ export const timelineEvents = sqliteTable("timeline_events", {
   category: text("category"), // plot, character, world, etc.
   importance: text("importance").default("medium"), // high, medium, low
   location: text("location"), // location name where event occurs
-  characters: text("characters", { mode: "json" }).$type<string[]>().$defaultFn(() => []), // character names involved
+  characters: json("characters").$type<string[]>().default([]), // character names involved
   order: integer("order").notNull().default(0),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const magicSystems = sqliteTable("magic_systems", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const magicSystems = pgTable("magic_systems", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   category: text("category").notNull().default("magic"), // magic or power
@@ -64,39 +64,39 @@ export const magicSystems = sqliteTable("magic_systems", {
   limitations: text("limitations"),
   source: text("source"), // where magic comes from
   cost: text("cost"), // what using magic costs
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const loreEntries = sqliteTable("lore_entries", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const loreEntries = pgTable("lore_entries", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   content: text("content"),
   category: text("category"), // history, religion, politics, etc.
-  tags: text("tags", { mode: "json" }).$type<string[]>().$defaultFn(() => []),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+  tags: json("tags").$type<string[]>().default([]),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 // Character-Magic System relationship table
-export const characterMagicSystems = sqliteTable("character_magic_systems", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const characterMagicSystems = pgTable("character_magic_systems", {
+  id: serial("id").primaryKey(),
   characterId: integer("character_id").notNull().references(() => characters.id, { onDelete: "cascade" }),
   magicSystemId: integer("magic_system_id").notNull().references(() => magicSystems.id, { onDelete: "cascade" }),
   proficiencyLevel: text("proficiency_level").default("beginner"), // beginner, intermediate, advanced, master
   notes: text("notes"), // how they learned it, special abilities, etc.
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => Date.now()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const editHistory = sqliteTable("edit_history", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const editHistory = pgTable("edit_history", {
+  id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   action: text("action").notNull(), // created, updated, deleted
   entityType: text("entity_type").notNull(), // character, location, timeline_event, magic_system, lore_entry
   entityName: text("entity_name").notNull(),
   description: text("description"), // detailed description of what was changed
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 // Insert schemas
