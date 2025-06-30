@@ -15,27 +15,23 @@ import type { ProjectWithStats } from "@shared/schema";
 const categoryConfig = {
   "Plot": {
     icon: BookOpen,
-    color: "bg-[var(--color-200)]",
-    bgColor: "bg-[var(--color-300)]",
-    textColor: "text-[var(--color-900)]"
+    bgColor: "bg-amber-200",
+    textColor: "text-amber-800"
   },
   "Characters": {
     icon: Users,
-    color: "bg-[var(--color-200)]",
-    bgColor: "bg-[var(--color-400)]",
-    textColor: "text-[var(--color-950)]"
+    bgColor: "bg-amber-200",
+    textColor: "text-amber-800"
   },
   "World Building": {
     icon: Search,
-    color: "bg-[var(--color-200)]",
-    bgColor: "bg-[var(--color-500)]",
-    textColor: "text-[var(--color-950)]"
+    bgColor: "bg-amber-200",
+    textColor: "text-amber-800"
   },
   "Research": {
     icon: Scroll,
-    color: "bg-[var(--color-200)]",
-    bgColor: "bg-[var(--color-200)]",
-    textColor: "text-[var(--color-800)]"
+    bgColor: "bg-amber-200",
+    textColor: "text-amber-800"
   }
 };
 
@@ -180,7 +176,7 @@ export default function Notes() {
               return (
                 <Card 
                   key={note.id} 
-                  className="p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]" 
+                  className="p-6 hover:shadow-md transition-shadow border border-amber-200 cursor-pointer bg-amber-50" 
                   onClick={() => handleNoteClick(note.id)}
                 >
                   <div className="flex items-start justify-between mb-4">
@@ -190,7 +186,7 @@ export default function Notes() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{note.title}</h3>
-                        <Badge className={`${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}>
+                        <Badge className="bg-amber-100 text-amber-700 border border-amber-300 hover:bg-amber-200">
                           {note.category}
                         </Badge>
                       </div>
