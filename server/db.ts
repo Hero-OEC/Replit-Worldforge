@@ -16,7 +16,7 @@ export async function initializeDatabase() {
   try {
     // Test the connection with a simple query
     const result = await pool.query('SELECT 1');
-    console.log('Database connected successfully to Supabase via PostgreSQL driver');
+    console.log('Database connected successfully to Supabase PostgreSQL database');
     return true;
   } catch (error) {
     console.error('Database connection failed:', error);
