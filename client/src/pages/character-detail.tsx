@@ -1080,81 +1080,11 @@ export default function CharacterDetail() {
                       </div>
                     </div>
 
-                    {/* Stats Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-                        <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade")).length}
-                            </div>
-                            <div className="text-sm text-[var(--color-700)] font-medium">
-                              Total Events
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-                        <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade") && e.importance === "high").length}
-                            </div>
-                            <div className="text-sm text-[var(--color-700)] font-medium">
-                              High Priority
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-                        <div className="flex items-center justify-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                            <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                              {sampleEvents.filter(e => e.characters?.includes("Elena Brightblade") && e.category === "Character Arc").length}
-                            </div>
-                            <div className="text-sm text-[var(--color-700)] font-medium">
-                              Character Events
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    {/* Empty timeline content */}
+                    <div className="text-center py-12 text-[var(--color-600)]">
+                      <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>Timeline content will be added here</p>
                     </div>
-
-                    {/* Legend */}
-                    <div className="flex justify-center">
-                      <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
-                          <span className="text-sm text-[var(--color-700)]">High Priority</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
-                          <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
-                          <span className="text-sm text-[var(--color-700)]">Low Priority</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
-                            <span className="text-[var(--color-50)] text-xs font-bold">3</span>
-                          </div>
-                          <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Timeline Container - using shared SerpentineTimeline */}
-                    <CharacterTimelineComponent character={character} />
                   </div>
                 </TabsContent>
 

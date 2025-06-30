@@ -463,51 +463,11 @@ export default function LocationDetail() {
                         </div>
                       </div>
 
-                      {/* Timeline Stats */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
-                          <div className="flex items-center justify-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Calendar className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
-                            </div>
-                            <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                                {sortedEvents.length}
-                              </div>
-                              <div className="text-sm text-[var(--color-700)] font-medium">Total Events</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
-                          <div className="flex items-center justify-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Star className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                            </div>
-                            <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                                {sortedEvents.filter(event => event.importance === "high").length}
-                              </div>
-                              <div className="text-sm text-[var(--color-700)] font-medium">High Priority</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
-                          <div className="flex items-center justify-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                              <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
-                            </div>
-                            <div className="text-center">
-                              <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                                {new Set(sortedEvents.flatMap(event => event.characters || [])).size}
-                              </div>
-                              <div className="text-sm text-[var(--color-700)] font-medium">Characters Involved</div>
-                            </div>
-                          </div>
-                        </div>
+                      {/* Empty timeline content */}
+                      <div className="text-center py-12 text-[var(--color-600)]">
+                        <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>Timeline content will be added here</p>
                       </div>
-
-                      {/* Timeline Container */}
-                      <LocationTimelineWrapper location={sampleLocation} />
                     </div>
                   </TabsContent>
                 </Tabs>
