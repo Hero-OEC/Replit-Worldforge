@@ -84,8 +84,13 @@ export default function Lore() {
   });
 
   const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this lore entry? This action cannot be undone.")) {
-      deleteLoreEntryMutation.mutate(id);
+    setDeleteLoreId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteLoreId) {
+      deleteLoreEntryMutation.mutate(deleteLoreId);
+      setDeleteLoreId(null);
     }
   };
 
@@ -196,7 +201,7 @@ export default function Lore() {
                               e.stopPropagation();
                               handleDelete(entry.id);
                             }}
-                            className="text-destructive"
+                            className="text-red-600 hover:bg-red-50 hover:text-red-700"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete
@@ -277,6 +282,33 @@ export default function Lore() {
           )}
         </div>
       </main>
+
+      <AlertDialog open={deleteLoreId !== null} onOpenChange={() => setDeleteLoreId(null)}>
+        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-[var(--color-950)]">
+              Delete Lore Entry
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--color-700)]">
+              Are you sure you want to delete this lore entry? This action cannot be undone and will permanently remove all associated data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConfirmDelete}
+              disabled={deleteLoreEntryMutation.isPending}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {deleteLoreEntryMutation.isPending ? "Deleting..." : "Delete Entry"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

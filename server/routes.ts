@@ -153,6 +153,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/locations/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const location = await storage.getLocation(id);
+      if (!location) {
+        return res.status(404).json({ message: "Location not found" });
+      }
+      res.json(location);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch location" });
+    }
+  });
+
   app.post("/api/locations", async (req, res) => {
     try {
       const validatedData = insertLocationSchema.parse(req.body);
@@ -160,6 +173,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(location);
     } catch (error) {
       res.status(400).json({ message: "Invalid location data" });
+    }
+  });
+
+  app.put("/api/locations/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertLocationSchema.partial().parse(req.body);
+      const location = await storage.updateLocation(id, validatedData);
+      if (!location) {
+        return res.status(404).json({ message: "Location not found" });
+      }
+      res.json(location);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid location data" });
+    }
+  });
+
+  app.delete("/api/locations/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteLocation(id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Location not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete location" });
     }
   });
 
@@ -174,6 +214,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/timeline-events/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const event = await storage.getTimelineEvent(id);
+      if (!event) {
+        return res.status(404).json({ message: "Timeline event not found" });
+      }
+      res.json(event);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch timeline event" });
+    }
+  });
+
   app.post("/api/timeline-events", async (req, res) => {
     try {
       const validatedData = insertTimelineEventSchema.parse(req.body);
@@ -181,6 +234,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(event);
     } catch (error) {
       res.status(400).json({ message: "Invalid timeline event data" });
+    }
+  });
+
+  app.put("/api/timeline-events/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertTimelineEventSchema.partial().parse(req.body);
+      const event = await storage.updateTimelineEvent(id, validatedData);
+      if (!event) {
+        return res.status(404).json({ message: "Timeline event not found" });
+      }
+      res.json(event);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid timeline event data" });
+    }
+  });
+
+  app.delete("/api/timeline-events/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteTimelineEvent(id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Timeline event not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete timeline event" });
     }
   });
 

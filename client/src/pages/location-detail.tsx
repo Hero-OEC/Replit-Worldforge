@@ -34,6 +34,8 @@ import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 const priorityColors = {
   high: "bg-[var(--color-500)]",
@@ -313,9 +315,40 @@ export default function LocationDetail() {
     culture: "",
     significance: ""
   });
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   useNavigationTracker(location, navigate);
   const { goBack } = useNavigation();
+
+  const deleteLocationMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/locations/${locationId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to delete location");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
+      toast({ title: "Location deleted successfully!" });
+      navigate(`/project/${projectId}/locations`);
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to delete location", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const handleConfirmDelete = () => {
+    deleteLocationMutation.mutate();
+    setShowDeleteDialog(false);
+  };
 
   // Fetch project data
   const { data: project } = useQuery<ProjectWithStats>({
@@ -480,17 +513,28 @@ export default function LocationDetail() {
         </div>
       </main>
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-[var(--worldforge-bg)] border border-[var(--color-200)]">
+        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-[var(--color-950)]">Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle className="text-[var(--color-950)]">
+              Delete Location
+            </AlertDialogTitle>
             <AlertDialogDescription className="text-[var(--color-700)]">
-              This action cannot be undone. This will permanently delete the location
-              and remove its data from our servers.
+              Are you sure you want to delete "{sampleLocation.name}"? This action cannot be undone and will permanently remove all associated data.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-[var(--color-700)] bg-[var(--color-100)] hover:bg-[var(--color-200)]">Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-red-500 text-white hover:bg-red-700">Delete</AlertDialogAction>
+            <AlertDialogCancel 
+              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConfirmDelete}
+              disabled={deleteLocationMutation.isPending}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {deleteLocationMutation.isPending ? "Deleting..." : "Delete Location"}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

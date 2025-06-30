@@ -110,9 +110,7 @@ export default function Notes() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this note?")) {
-      console.log("Delete note:", id);
-    }
+    setDeleteNoteId(id);
   };
 
   const filteredNotes = (notes || []).filter(note =>
@@ -198,7 +196,11 @@ export default function Notes() {
                             Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => setDeleteNoteId(note.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteNoteId(note.id);
+                            }}
+                            className="text-red-600 hover:bg-red-50 hover:text-red-700"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete

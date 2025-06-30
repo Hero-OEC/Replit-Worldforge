@@ -184,7 +184,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const queryClient = useQueryClient();
-  
+
   const genreColor = genreColors[project.genre] || "bg-[var(--color-300)] text-[var(--color-900)]";
   const statusColor = statusColors[project.status] || statusColors.active;
   const GenreIcon = genreIcons[project.genre] || Book;
@@ -245,6 +245,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                     variant="ghost"
                     size="icon"
                     className="p-1 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)] hover-scale animate-ripple"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <MoreHorizontal className="w-4 h-4" />
                   </Button>
