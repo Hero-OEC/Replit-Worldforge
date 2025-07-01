@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 1, 2025. Fixed character pages to use API instead of hardcoded data:
+  * Removed hardcoded sample character data from characters.tsx and character-detail.tsx
+  * Connected character listing page to fetch characters from /api/projects/:id/characters endpoint
+  * Updated character detail page to fetch individual character data from /api/characters/:id endpoint
+  * Added proper loading states and error handling for both character pages
+  * Fixed character magic systems fetching to use dynamic character ID from URL parameters
+  * Implemented real API calls for character updates (PUT /api/characters/:id)
+  * Added multi-event bubble scrolling functionality to timeline component with max-h-48 overflow-y-auto
+  * Enhanced multi-event popups with scroll indicators and better hover effects
+  * Character pages now properly integrated with Supabase database for persistent data storage
 - July 1, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
   * Fixed all required packages and dependencies installation 
   * Application running cleanly on port 5000 with proper client/server separation and security practices

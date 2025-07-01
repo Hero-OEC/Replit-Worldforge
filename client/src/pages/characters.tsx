@@ -52,74 +52,20 @@ export default function Characters() {
     "Supporting": { icon: UserCheck, color: "bg-blue-600", bgColor: "bg-blue-50", textColor: "text-blue-800", borderColor: "border-blue-300" }
   };
 
-  // Sample characters for demonstration
-  const sampleCharacters = [
-    {
-      id: 1,
-      name: "Elena Brightflame",
-      role: "Protagonist",
-      description: "A young mage discovering her magical potential and destined to save the realm from darkness",
-      appearance: "Auburn hair, emerald eyes, average height",
-      personality: "Determined, compassionate, quick-witted",
-      backstory: "Orphaned at a young age, raised by the Magic Academy",
-      image: null
+  // Fetch characters from API
+  const { data: characters = [], isLoading } = useQuery({
+    queryKey: ["/api/characters", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/characters`);
+      if (!response.ok) throw new Error("Failed to fetch characters");
+      return response.json();
     },
-    {
-      id: 2,
-      name: "Marcus Shadowbane",
-      role: "Ally",
-      description: "Elena's mentor and former academy professor with deep knowledge of ancient magic",
-      appearance: "Silver hair, weathered face, tall and imposing",
-      personality: "Wise, mysterious, protective",
-      backstory: "Former court mage who left to teach at the academy",
-      image: null
-    },
-    {
-      id: 3,
-      name: "Lord Vex",
-      role: "Antagonist",
-      description: "Dark sorcerer seeking ultimate power to reshape the world according to his vision",
-      appearance: "Black robes, pale skin, piercing blue eyes",
-      personality: "Cunning, ruthless, charismatic",
-      backstory: "Former academy student who turned to dark magic",
-      image: null
-    },
-    {
-      id: 4,
-      name: "Princess Aria",
-      role: "Ally",
-      description: "Royal heir with a secret magical gift and political acumen",
-      appearance: "Golden hair, royal bearing, graceful",
-      personality: "Noble, brave, diplomatic",
-      backstory: "Hidden away from court politics, trained in secret",
-      image: null
-    },
-    {
-      id: 5,
-      name: "Captain Storm",
-      role: "Supporting",
-      description: "Elite guard captain loyal to the crown and skilled in combat",
-      appearance: "Scarred face, muscular build, stern expression",
-      personality: "Loyal, disciplined, honorable",
-      backstory: "Rose through ranks through merit and sacrifice",
-      image: null
-    },
-    {
-      id: 6,
-      name: "Shadow Assassin",
-      role: "Enemy",
-      description: "Mysterious killer working for unknown masters in the shadows",
-      appearance: "Always masked, lithe build, moves like smoke",
-      personality: "Silent, deadly, professional",
-      backstory: "Identity and origins completely unknown",
-      image: null
-    }
-  ];
+  });
 
-  const filteredCharacters = sampleCharacters.filter(character => {
-    const matchesSearch = character.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      character.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      character.description.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredCharacters = characters.filter((character: any) => {
+    const matchesSearch = character.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = selectedRole === "all" || character.role === selectedRole;
     return matchesSearch && matchesRole;
   });
@@ -195,7 +141,7 @@ export default function Characters() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {sampleCharacters.length}
+                    {characters.length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
                     Total Characters
@@ -210,7 +156,7 @@ export default function Characters() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {sampleCharacters.filter(c => c.role === 'Protagonist').length}
+                    {characters.filter((c: any) => c.role === 'Protagonist').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
                     Protagonists
@@ -225,7 +171,7 @@ export default function Characters() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {sampleCharacters.filter(c => c.role === 'Antagonist').length}
+                    {characters.filter((c: any) => c.role === 'Antagonist').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
                     Antagonists
@@ -240,7 +186,7 @@ export default function Characters() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {sampleCharacters.filter(c => c.role === 'Supporting').length}
+                    {characters.filter((c: any) => c.role === 'Supporting').length}
                   </div>
                   <div className="text-sm text-[var(--color-700)] font-medium">
                     Supporting
@@ -251,8 +197,13 @@ export default function Characters() {
           </div>
 
           {/* Characters Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredCharacters.map((character) => {
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="text-[var(--color-600)]">Loading characters...</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredCharacters.map((character: any) => {
               const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
               const RoleIcon = roleInfo.icon;
 
@@ -351,10 +302,11 @@ export default function Characters() {
                   </div>
                 </Card>
               );
-            })}
-          </div>
+              })}
+            </div>
+          )}
 
-          {filteredCharacters.length === 0 && (
+          {!isLoading && filteredCharacters.length === 0 && (
             <div className="text-center py-12">
               <User className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
               <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No characters found</h3>

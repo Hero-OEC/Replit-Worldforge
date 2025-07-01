@@ -631,38 +631,31 @@ export default function CharacterDetail() {
     },
   });
 
-  // Sample character data - in real app this would come from API
-  const character = {
-    id: 1,
-    name: "Elena Brightblade",
-    role: "Protagonist",
-    description: "A young mage with incredible potential and a mysterious past.",
-    personality: "Determined, compassionate, but sometimes impulsive.",
-    backstory: "Born into nobility but discovered her magical abilities late in life.",
-    age: "22",
-    race: "Human",
-    class: "Mage",
-    location: "Arcanum City",
-    weapons: "Enchanted Staff of Flames, Crystal Dagger",
-    appearance: "Auburn hair that catches fire when she uses magic, emerald eyes, average height with an athletic build from training",
-    powerSystems: ["Fire Magic", "Light Magic"],
-    image: undefined
-  };
+  // Fetch character data from API
+  const { data: character, isLoading, error } = useQuery({
+    queryKey: ["/api/characters", characterId],
+    queryFn: async () => {
+      const response = await fetch(`/api/characters/${characterId}`);
+      if (!response.ok) throw new Error("Failed to fetch character");
+      return response.json();
+    },
+  });
 
-  // Get character magic systems - using static character ID to prevent infinite loop
+  // Get character magic systems
   useEffect(() => {
-    const characterId = 1; // Static ID to prevent infinite loop
-    setCharacterMagicSystems([]);
-    fetch(`/api/characters/${characterId}/magic-systems`)
-      .then(res => res.json())
-      .then(data => {
-        setCharacterMagicSystems(data || []);
-      })
-      .catch(err => {
-        console.error('Error fetching character magic systems:', err);
-        setCharacterMagicSystems([]);
-      });
-  }, []); // Empty dependency array since we're using static ID
+    if (characterId) {
+      setCharacterMagicSystems([]);
+      fetch(`/api/characters/${characterId}/magic-systems`)
+        .then(res => res.json())
+        .then(data => {
+          setCharacterMagicSystems(data || []);
+        })
+        .catch(err => {
+          console.error('Error fetching character magic systems:', err);
+          setCharacterMagicSystems([]);
+        });
+    }
+  }, [characterId]);
 
   // Initialize power systems when character magic systems load
   useEffect(() => {
@@ -685,9 +678,25 @@ export default function CharacterDetail() {
     }
   };
 
-  const handleSave = () => {
-    console.log("Saving character data:", characterData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(characterData),
+      });
+      
+      if (!response.ok) throw new Error('Failed to update character');
+      
+      // Refetch character data to update the display
+      // queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving character:', error);
+      // In a real app, you'd show a toast notification here
+    }
   };
 
   const handleCancel = () => {
@@ -706,6 +715,42 @@ export default function CharacterDetail() {
       appearance: ""
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+          searchPlaceholder="Search characters..."
+        />
+        <main className="p-8 bg-[var(--worldforge-cream)]">
+          <div className="max-w-6xl mx-auto text-center py-12">
+            <div className="text-[var(--color-600)]">Loading character...</div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error || !character) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+          searchPlaceholder="Search characters..."
+        />
+        <main className="p-8 bg-[var(--worldforge-cream)]">
+          <div className="max-w-6xl mx-auto text-center py-12">
+            <div className="text-red-600">Character not found</div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
