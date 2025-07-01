@@ -59,10 +59,16 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter, c
   const [isOpen, setIsOpen] = useState(false);
 
   const filteredCharacters = characters.filter(
-    (char) =>
-      char.name && 
-      char.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-      !selectedCharacters.includes(char.name)
+    (char) => {
+      // Ensure char.name exists and is a non-empty string
+      if (!char.name || typeof char.name !== 'string' || char.name.trim() === '') {
+        return false;
+      }
+
+      // Check if name matches search and isn't already selected
+      return char.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+             !selectedCharacters.includes(char.name);
+    }
   );
 
   const handleAddCharacter = (character: string) => {
@@ -123,10 +129,10 @@ export default function NewTimelineEvent() {
   const { toast } = useToast();
   const { goBack, navigateWithHistory } = useNavigation();
   const queryClient = useQueryClient();
-  
+
   // Track navigation history
   useNavigationTracker();
-  
+
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [importance, setImportance] = useState("medium");
@@ -153,7 +159,7 @@ export default function NewTimelineEvent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!title.trim()) {
       toast({
         title: "Error",
@@ -200,7 +206,7 @@ export default function NewTimelineEvent() {
         title: "Success",
         description: "Timeline event created successfully",
       });
-      
+
       navigateWithHistory(`/project/${projectId}/timeline`);
     } catch (error: any) {
       toast({
@@ -221,7 +227,7 @@ export default function NewTimelineEvent() {
         showProjectNav={true}
         searchPlaceholder="Search timeline events..."
       />
-      
+
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-4xl mx-auto">
           {/* Header */}
