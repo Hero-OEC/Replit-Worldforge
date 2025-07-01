@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal } from "lucide-react";
@@ -6,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, Character, ProjectWithStats } from "@shared/schema";
 import placeholderImage from "@assets/Placeholder_1750916543106.jpg";
@@ -13,6 +15,7 @@ import placeholderImage from "@assets/Placeholder_1750916543106.jpg";
 export default function MagicSystemDetail() {
   const { projectId, magicSystemId } = useParams<{ projectId: string; magicSystemId: string }>();
   const [, setLocation] = useLocation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -81,9 +84,12 @@ export default function MagicSystemDetail() {
   });
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this magic system?")) {
-      deleteMutation.mutate(parseInt(magicSystemId!));
-    }
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    deleteMutation.mutate(parseInt(magicSystemId!));
+    setDeleteDialogOpen(false);
   };
 
   if (isLoading) {
@@ -325,6 +331,18 @@ export default function MagicSystemDetail() {
           </Tabs>
         </div>
       </main>
+
+      {magicSystem && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Magic System"
+          itemName={magicSystem.name}
+          description={`Are you sure you want to delete "${magicSystem.name}"? This action cannot be undone and will permanently remove the magic system and all associated data.`}
+          isDeleting={deleteMutation.isPending}
+        />
+      )}
     </div>
   );
 }

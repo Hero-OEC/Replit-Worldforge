@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Edit3, Trash2, Calendar, Tag, Folder, Crown, Church, Users, MapPin, Gem, Eye, GraduationCap, Sparkles, Heart } from "lucide-react";
@@ -7,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useNavigationTracker } from "@/contexts/navigation-context";
 import { apiRequest } from "@/lib/queryClient";
 import { formatDistanceToNow } from "date-fns";
@@ -29,6 +31,7 @@ const categoryConfig = {
 export default function LoreDetail() {
   const { projectId, loreId } = useParams<{ projectId: string; loreId: string }>();
   const [, setLocation] = useLocation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const queryClient = useQueryClient();
 
   useNavigationTracker();
@@ -65,9 +68,12 @@ export default function LoreDetail() {
   });
 
   const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this lore entry? This action cannot be undone.")) {
-      deleteLoreEntryMutation.mutate();
-    }
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    deleteLoreEntryMutation.mutate();
+    setDeleteDialogOpen(false);
   };
 
   if (isLoading) {
@@ -210,6 +216,18 @@ export default function LoreDetail() {
           </Card>
         </div>
       </main>
+
+      {loreEntry && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Lore Entry"
+          itemName={loreEntry.title}
+          description={`Are you sure you want to delete "${loreEntry.title}"? This action cannot be undone and will permanently remove the lore entry.`}
+          isDeleting={deleteLoreEntryMutation.isPending}
+        />
+      )}
     </div>
   );
 }

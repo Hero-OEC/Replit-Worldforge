@@ -3,6 +3,7 @@ import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
 import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle } from "lucide-react";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -19,6 +20,8 @@ export default function Characters() {
   const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<string>("all");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [characterToDelete, setCharacterToDelete] = useState<any>(null);
   const queryClient = useQueryClient();
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -121,10 +124,16 @@ export default function Characters() {
     return matchesSearch && matchesRole;
   });
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this character?")) {
-      console.log("Delete character:", id);
-      // deleteCharacterMutation.mutate(id);
+  const handleDelete = (character: any) => {
+    setCharacterToDelete(character);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (characterToDelete) {
+      deleteCharacterMutation.mutate(characterToDelete.id);
+      setDeleteDialogOpen(false);
+      setCharacterToDelete(null);
     }
   };
 
@@ -297,7 +306,7 @@ export default function Characters() {
                           <DropdownMenuItem 
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleDelete(character.id);
+                              handleDelete(character);
                             }}
                             className="text-destructive"
                           >
@@ -363,6 +372,18 @@ export default function Characters() {
           )}
         </div>
       </main>
+
+      {characterToDelete && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Character"
+          itemName={characterToDelete.name}
+          description={`Are you sure you want to delete "${characterToDelete.name}"? This action cannot be undone and will permanently remove the character and all associated data.`}
+          isDeleting={deleteCharacterMutation.isPending}
+        />
+      )}
     </div>
   );
 }

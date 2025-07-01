@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
@@ -26,6 +26,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
 
 const eventTypeIcons = {
@@ -71,6 +72,7 @@ export default function TimelineEventDetail() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
   const [, navigate] = useLocation();
   const { goBack } = useNavigation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   
   // Track navigation history
   useNavigationTracker();
@@ -84,7 +86,12 @@ export default function TimelineEventDetail() {
   const event = sampleEvent;
 
   const handleDelete = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
     // In real app, this would delete the event and redirect
+    setDeleteDialogOpen(false);
     navigate(`/project/${projectId}/timeline`);
   };
 
@@ -210,6 +217,15 @@ export default function TimelineEventDetail() {
           </div>
         </div>
       </main>
+
+      <DeleteConfirmationDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        title="Delete Timeline Event"
+        itemName={event.title}
+        description={`Are you sure you want to delete "${event.title}"? This action cannot be undone and will permanently remove the timeline event.`}
+      />
     </div>
   );
 }

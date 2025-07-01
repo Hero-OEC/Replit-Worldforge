@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import type { Location, ProjectWithStats } from "@shared/schema";
 
 export default function Locations() {
@@ -20,6 +21,8 @@ export default function Locations() {
   const { navigateWithHistory } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [locationToDelete, setLocationToDelete] = useState<any>(null);
 
   const queryClient = useQueryClient();
 
@@ -78,10 +81,17 @@ export default function Locations() {
 
 
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this location?")) {
-      console.log("Delete location:", id);
+  const handleDelete = (location: any) => {
+    setLocationToDelete(location);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (locationToDelete) {
+      console.log("Delete location:", locationToDelete.id);
       // In real app, this would call the delete API
+      setDeleteDialogOpen(false);
+      setLocationToDelete(null);
     }
   };
 
@@ -230,7 +240,7 @@ export default function Locations() {
                       <DropdownMenuItem 
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(location.id);
+                          handleDelete(location);
                         }}
                         className="text-destructive"
                       >
@@ -271,6 +281,17 @@ export default function Locations() {
           )}
         </div>
       </main>
+
+      {locationToDelete && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Location"
+          itemName={locationToDelete.name}
+          description={`Are you sure you want to delete "${locationToDelete.name}"? This action cannot be undone and will permanently remove the location and all associated data.`}
+        />
+      )}
     </div>
   );
 }

@@ -8,12 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useToast } from "@/hooks/use-toast";
 import type { MagicSystem, ProjectWithStats } from "@shared/schema";
 
 function MagicSystemCard({ system, onDelete, projectId }: { 
   system: MagicSystem; 
-  onDelete: (id: number) => void;
+  onDelete: (system: MagicSystem) => void;
   projectId: string;
 }) {
   const { navigateWithHistory } = useNavigation();
@@ -53,7 +54,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      onDelete(system.id);
+                      onDelete(system);
                     }}
                     className="h-8 w-8 p-0 hover:bg-red-100 hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                   >
@@ -88,6 +89,8 @@ export default function MagicSystems() {
   const { toast } = useToast();
   const { navigateWithHistory } = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [systemToDelete, setSystemToDelete] = useState<MagicSystem | null>(null);
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -131,9 +134,16 @@ export default function MagicSystems() {
     },
   });
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this magic system?")) {
-      deleteMutation.mutate(id);
+  const handleDelete = (system: MagicSystem) => {
+    setSystemToDelete(system);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (systemToDelete) {
+      deleteMutation.mutate(systemToDelete.id);
+      setDeleteDialogOpen(false);
+      setSystemToDelete(null);
     }
   };
 
@@ -230,6 +240,18 @@ export default function MagicSystems() {
           )}
         </div>
       </main>
+
+      {systemToDelete && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Magic System"
+          itemName={systemToDelete.name}
+          description={`Are you sure you want to delete "${systemToDelete.name}"? This action cannot be undone and will permanently remove the magic system and all associated data.`}
+          isDeleting={deleteMutation.isPending}
+        />
+      )}
     </div>
   );
 }

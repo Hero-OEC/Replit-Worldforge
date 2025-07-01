@@ -45,8 +45,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import EditProjectDialog from "@/components/edit-project-dialog";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import type { ProjectWithStats } from "@shared/schema";
 import { useLocation } from "wouter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -294,32 +294,15 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         </div>
       </Card>
 
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-[var(--color-950)]">
-              Delete Project
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-[var(--color-700)]">
-              Are you sure you want to delete "{project.title}"? This action cannot be undone and will permanently remove all associated data including characters, locations, timeline events, and notes.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel 
-              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
-            >
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDelete}
-              disabled={deleteProjectMutation.isPending}
-              className="bg-red-600 text-white hover:bg-red-700"
-            >
-              {deleteProjectMutation.isPending ? "Deleting..." : "Delete Project"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmationDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={handleDelete}
+        title="Delete Project"
+        itemName={project.title}
+        description={`Are you sure you want to delete "${project.title}"? This action cannot be undone and will permanently remove all associated data including characters, locations, timeline events, and notes.`}
+        isDeleting={deleteProjectMutation.isPending}
+      />
 
       <EditProjectDialog 
         open={showEditDialog} 
