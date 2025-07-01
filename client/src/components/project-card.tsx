@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { format } from "date-fns";
 import {
   MoreHorizontal,
@@ -45,10 +46,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import EditProjectDialog from "@/components/edit-project-dialog";
 import type { ProjectWithStats } from "@shared/schema";
 import { useLocation } from "wouter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProjectCardProps {
@@ -184,6 +185,7 @@ const statusColors: Record<string, string> = {
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [, setLocation] = useLocation();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -218,7 +220,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   };
 
   const handleDelete = () => {
-    deleteProjectMutation.mutate(project.id);
+    deleteProjectMutation.mutate();
   };
 
   return (
@@ -258,7 +260,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                   <DropdownMenuItem 
                     onClick={(e) => {
                       e.stopPropagation();
-                      setLocation(`/project/${project.id}`);
+                      setShowEditDialog(true);
                     }}
                     className="text-[var(--color-700)] hover:bg-[var(--color-100)] hover:text-[var(--color-950)]"
                   >
@@ -318,6 +320,12 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <EditProjectDialog 
+        open={showEditDialog} 
+        onOpenChange={setShowEditDialog}
+        project={project}
+      />
     </>
   );
 }
