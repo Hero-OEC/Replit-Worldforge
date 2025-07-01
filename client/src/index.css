@@ -27,6 +27,12 @@
   .timeline-container-bg {
     background-color: var(--color-100) !important;
   }
+  
+  /* Dialog overlay with dark blur effect */
+  [data-radix-dialog-overlay] {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(4px) !important;
+  }
 }
 
 :root {

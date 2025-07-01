@@ -144,7 +144,7 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md animate-scale-in">
+      <DialogContent className="max-w-md animate-scale-in backdrop-blur-sm bg-[var(--color-50)]/95 border border-[var(--color-300)]">
         <DialogHeader>
           <DialogTitle className="animate-fade-in">Create New Project</DialogTitle>
         </DialogHeader>
