@@ -127,8 +127,7 @@ export default function NewTimelineEvent() {
   useNavigationTracker();
   
   const [title, setTitle] = useState("");
-  const [year, setYear] = useState("");
-  const [day, setDay] = useState("");
+  const [date, setDate] = useState("");
   const [importance, setImportance] = useState("medium");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -167,13 +166,10 @@ export default function NewTimelineEvent() {
     setIsLoading(true);
 
     try {
-      // Combine year and day into date format
-      const formattedDate = year && day ? `Year ${year}, Day ${day}` : null;
-      
       const eventData = {
         projectId: parseInt(projectId!),
         title: title.trim(),
-        date: formattedDate,
+        date: date || null,
         category: category || null,
         description: description || null,
         importance: importance,
@@ -282,30 +278,14 @@ export default function NewTimelineEvent() {
               <div className="space-y-6">
                 <Card className="p-6">
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <Label htmlFor="year">Year</Label>
-                        <Input
-                          id="year"
-                          type="number"
-                          placeholder="1"
-                          value={year}
-                          onChange={(e) => setYear(e.target.value)}
-                          min="1"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="day">Day</Label>
-                        <Input
-                          id="day"
-                          type="number"
-                          placeholder="1"
-                          value={day}
-                          onChange={(e) => setDay(e.target.value)}
-                          min="1"
-                          max="365"
-                        />
-                      </div>
+                    <div>
+                      <Label htmlFor="date">Date</Label>
+                      <Input
+                        id="date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                      />
                     </div>
 
                     <div>
