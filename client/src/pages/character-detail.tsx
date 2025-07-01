@@ -527,7 +527,16 @@ export default function CharacterDetail() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">{character?.name}</h1>
+                {isEditing ? (
+                  <Input
+                    value={characterData.name || character?.name || ""}
+                    onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
+                    className="text-3xl font-bold text-gray-800 bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] h-12"
+                    placeholder="Character Name"
+                  />
+                ) : (
+                  <h1 className="text-3xl font-bold text-gray-800">{character?.name}</h1>
+                )}
                 <div className="mt-2">
                   {isEditing ? (
                     <Select 

@@ -48,24 +48,12 @@ const powerSystems = [
   { 
     name: "Light Magic", 
     description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
-    title: "Lumimantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Time Magic", 
-    description: "Rare temporal manipulation. Allows limited foresight, slowing time, and minor reversals.",
-    title: "Chronomantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Mind Magic", 
-    description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
-    title: "Psionic Arts",
+    title: "Illumination Arts",
     category: "magic"
   },
   { 
     name: "Super Strength", 
-    description: "Enhanced physical strength beyond normal human limits. Allows lifting heavy objects and devastating attacks.",
+    description: "Enhanced physical power beyond normal human limits. Allows lifting and moving massive objects.",
     title: "Enhanced Strength",
     category: "power"
   },
@@ -76,106 +64,80 @@ const powerSystems = [
     category: "power"
   },
   { 
-    name: "Flight", 
-    description: "Power of aerial movement without mechanical assistance. Provides tactical advantage and mobility.",
-    title: "Aerial Mobility",
+    name: "Telekinesis", 
+    description: "Mental manipulation of objects without physical contact. Can move, lift, and control matter.",
+    title: "Psychokinetic Control",
     category: "power"
   },
   { 
-    name: "Telepathy", 
-    description: "Direct mind-to-mind communication and thought reading. Mental link with other beings.",
-    title: "Mental Connection",
+    name: "Mind Reading", 
+    description: "Ability to read thoughts and emotions of others. Can penetrate mental defenses.",
+    title: "Telepathic Perception",
     category: "power"
   }
 ];
 
-// Character role configuration
-const roleConfig = {
-  "Protagonist": { icon: Crown, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Antagonist": { icon: Sword, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-  "Ally": { icon: Shield, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Enemy": { icon: UserX, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Neutral": { icon: HelpCircle, color: "bg-[var(--color-100)]0", bgColor: "bg-[var(--color-100)]", textColor: "text-gray-700", borderColor: "border-gray-200" },
-  "Supporting": { icon: UserCheck, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" }
-};
-
-// Power System Search Component
-interface PowerSystemSearchProps {
+// PowerSystemSearch Component
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
   selectedSystems: string[];
   onAddSystem: (system: string) => void;
   onRemoveSystem: (system: string) => void;
-}
-
-function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: PowerSystemSearchProps) {
+}) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [filteredSystems, setFilteredSystems] = useState<typeof powerSystems>([]);
+
+  const filteredSystems = powerSystems.filter(system =>
+    !selectedSystems.includes(system.name) &&
+    (system.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     system.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   const getCategoryIcon = (category: string) => {
     return category === "power" ? Zap : Sparkles;
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-blue-50 border-blue-200" : "bg-purple-50 border-purple-200";
   };
 
   const getCategoryBorderColor = (category: string) => {
     return category === "power" ? "border-blue-200" : "border-purple-200";
   };
 
-  useEffect(() => {
-    if (searchValue) {
-      const filtered = powerSystems.filter(
-        (system) =>
-          system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-          !selectedSystems.includes(system.name)
-      );
-      setFilteredSystems(filtered);
-      setIsOpen(filtered.length > 0);
-    } else {
-      setFilteredSystems([]);
-      setIsOpen(false);
-    }
-  }, [searchValue, selectedSystems]);
-
-  const handleSelectSystem = (systemName: string) => {
-    onAddSystem(systemName);
-    setSearchValue("");
-    setIsOpen(false);
-  };
-
   return (
     <div className="space-y-3">
+      {/* Search Input */}
       <div className="relative">
         <Input
+          type="text"
           placeholder="Search power types..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          onFocus={() => {
-            if (filteredSystems.length > 0) setIsOpen(true);
-          }}
-          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-[var(--color-100)] border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:bg-[#f8f6f2]"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setIsOpen(true)}
+          className="w-full bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)]"
         />
         {isOpen && filteredSystems.length > 0 && (
-          <div className="absolute z-[999] w-full border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1" style={{ backgroundColor: '#f8f6f2' }}>
-            {filteredSystems.map((system, index) => {
+          <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+            {filteredSystems.map((system) => {
               const CategoryIcon = getCategoryIcon(system.category);
+              const colorClass = getCategoryColor(system.category);
+              
               return (
                 <div
-                  key={index}
-                  className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer"
-                  onClick={() => handleSelectSystem(system.name)}
+                  key={system.name}
+                  className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0`}
+                  onClick={() => {
+                    onAddSystem(system.name);
+                    setSearchQuery("");
+                    setIsOpen(false);
+                  }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <CategoryIcon className="w-4 h-4 text-[var(--color-600)]" />
-                      <div>
-                        <span className="font-medium text-sm">{system.name}</span>
-                        <p className="text-xs text-[var(--color-700)] line-clamp-1">{system.description}</p>
-                      </div>
+                  <div className="flex items-start space-x-3">
+                    <CategoryIcon className="w-4 h-4 mt-0.5" />
+                    <div>
+                      <h4 className="text-sm font-medium">{system.title}</h4>
+                      <p className="text-xs text-gray-600">{system.description}</p>
                     </div>
-                    <Check className="w-4 h-4 text-[var(--color-600)]" />
                   </div>
                 </div>
               );
@@ -186,37 +148,58 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
 
       {/* Selected Systems */}
       {selectedSystems.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-1 gap-3">
           {selectedSystems.map((systemName, index) => {
             const system = powerSystems.find(s => s.name === systemName);
-            const variant = system?.category === "power" ? "power" : "magic";
-            
+            const CategoryIcon = getCategoryIcon(system?.category || "magic");
+            const colorClass = getCategoryColor(system?.category || "magic");
+            const borderColorClass = getCategoryBorderColor(system?.category || "magic");
+
             return (
-              <Tag
-                key={index}
-                variant={variant}
-                removable
-                onRemove={() => onRemoveSystem(systemName)}
-                size="lg"
-              >
-                {system?.title || systemName}
-              </Tag>
+              <div key={index} className={`p-4 ${colorClass} rounded-lg border ${borderColorClass} cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02]`}>
+                <div className="flex items-start justify-between space-x-3">
+                  <div className="flex items-start space-x-3 flex-1">
+                    <div className="flex-shrink-0">
+                      <CategoryIcon className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold mb-1">
+                        {system?.title || systemName}
+                      </h4>
+                      <p className="text-sm opacity-80 leading-relaxed">
+                        {system?.description || "Custom power type"}
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onRemoveSystem(systemName)}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
             );
           })}
+        </div>
+      )}
+
+      {selectedSystems.length === 0 && (
+        <div className="p-4 bg-[var(--color-100)] rounded-lg border border-gray-200">
+          <span className="text-sm text-[var(--color-700)]">No power types assigned</span>
         </div>
       )}
     </div>
   );
 }
 
-export default function NewCharacter() {
+export default function CharacterNew() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [characterImage, setCharacterImage] = useState<string | null>(null);
-  const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
-  const { goBack, navigateWithHistory } = useNavigation();
+  const { goBack } = useNavigation();
   
   // Track navigation history
   useNavigationTracker();
@@ -231,87 +214,81 @@ export default function NewCharacter() {
     race: "",
     location: "",
     role: "",
-    appearance: "",
-    occupation: "",
-    birthplace: "",
-    goals: "",
-    fears: "",
-    relationships: ""
+    appearance: ""
   });
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setCharacterImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
 
+  // Fetch project data
   const { data: project } = useQuery<ProjectWithStats>({
-    queryKey: ["/api/projects", projectId],
-    queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}`);
-      if (!response.ok) throw new Error("Failed to fetch project");
+    queryKey: [`/api/projects/${projectId}`],
+    enabled: !!projectId,
+  });
+
+  // Create character mutation
+  const createCharacterMutation = useMutation({
+    mutationFn: async (newCharacter: InsertCharacter) => {
+      const response = await fetch(`/api/projects/${projectId}/characters`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCharacter),
+      });
+      if (!response.ok) throw new Error("Failed to create character");
       return response.json();
     },
-  });
-
-  const createCharacterMutation = useMutation({
-    mutationFn: async (data: InsertCharacter) => {
-      return apiRequest("POST", "/api/characters", { ...data, projectId: parseInt(projectId!) });
-    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
-      navigateWithHistory(`/project/${projectId}/characters`);
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
+      setLocation(`/project/${projectId}/characters`);
     },
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!characterData.name.trim()) return;
-    
-    const characterToSave: InsertCharacter = {
+
+    const newCharacter: InsertCharacter = {
+      projectId: parseInt(projectId!),
       ...characterData,
-      projectId: parseInt(projectId!)
     };
-    
-    createCharacterMutation.mutate(characterToSave);
+
+    await createCharacterMutation.mutateAsync(newCharacter);
   };
 
   const handleCancel = () => {
-    navigateWithHistory(`/project/${projectId}/characters`);
+    setLocation(`/project/${projectId}/characters`);
   };
 
   return (
-    <div className="min-h-screen bg-[var(--worldforge-cream)]">
+    <div className="min-h-screen bg-[var(--worldforge-bg)]">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
         searchPlaceholder="Search characters..."
       />
-
-      <main className="p-8">
-        <div className="max-w-4xl mx-auto">
+      
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
               <Button 
-                variant="ghost" 
-                size="sm"
                 onClick={goBack}
+                variant="outline" 
+                size="sm"
+                className="bg-[var(--color-100)] border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)]"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-[var(--color-950)]">New Character</h1>
-                <p className="text-[var(--color-700)] mt-1">Create a new character for your story</p>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <h1 className="text-2xl font-bold text-[var(--color-950)]">Create New Character</h1>
               </div>
             </div>
-            
             <div className="flex items-center space-x-3">
               <Button onClick={handleCancel} variant="outline">
                 <X className="w-4 h-4 mr-2" />
@@ -328,63 +305,51 @@ export default function NewCharacter() {
             </div>
           </div>
 
-          {/* Character Avatar/Image Placeholder */}
-          <div className="mb-8">
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-              <div className="flex items-center space-x-6">
-                <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="w-12 h-12 text-blue-600" />
-                </div>
-                <div className="flex-1">
-                  <Input
-                    value={characterData.description}
-                    onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
-                    placeholder="Brief character description..."
-                    className="text-lg"
-                  />
-                </div>
-              </div>
-            </Card>
-          </div>
+          {/* Main Content Grid - matching character detail layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Side - Character Summary */}
+            <div className="lg:col-span-1">
+              <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                <div className="space-y-6">
+                  {/* Portrait */}
+                  <div className="text-center">
+                    <div className="relative inline-block">
+                      <div className="w-32 h-40 bg-[var(--color-200)] rounded-lg flex items-center justify-center border-2 border-dashed border-[var(--color-400)]">
+                        <User className="w-16 h-16 text-[var(--color-600)]" />
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white"
+                        onClick={() => {}}
+                      >
+                        <Upload className="w-3 h-3 mr-1" />
+                        Upload
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">Best 7:9 ratio</p>
+                  </div>
 
-          {/* Character Details Tabs */}
-          <Tabs defaultValue="basics" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="basics">Basics</TabsTrigger>
-              <TabsTrigger value="personality">Personality</TabsTrigger>
-              <TabsTrigger value="background">Background</TabsTrigger>
-              <TabsTrigger value="relationships">Relationships</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="basics" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Basic Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                  {/* Character Name */}
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                    <span className="text-sm font-medium text-gray-700">Name:</span>
                     <Input
                       value={characterData.name}
                       onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
-                      placeholder="Character's full name"
-                      required
+                      className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      placeholder="Character Name"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Age</label>
-                    <Input
-                      value={characterData.age}
-                      onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                      placeholder="Character's age"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+
+                  {/* Role */}
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                    <span className="text-sm font-medium text-gray-700">Role:</span>
                     <Select 
                       value={characterData.role} 
                       onValueChange={(value) => setCharacterData({...characterData, role: value})}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select character role" />
+                      <SelectTrigger className="w-32 h-8 text-sm bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)]">
+                        <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Protagonist">Protagonist</SelectItem>
@@ -396,94 +361,138 @@ export default function NewCharacter() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Occupation</label>
+
+                  {/* Age */}
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                    <span className="text-sm font-medium text-gray-700">Age:</span>
                     <Input
-                      value={characterData.occupation}
-                      onChange={(e) => setCharacterData({...characterData, occupation: e.target.value})}
-                      placeholder="Character's job or profession"
+                      value={characterData.age}
+                      onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
+                      className="w-16 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      placeholder="22"
                     />
                   </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Birthplace</label>
+
+                  {/* Race */}
+                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                    <span className="text-sm font-medium text-gray-700">Race:</span>
                     <Input
-                      value={characterData.birthplace}
-                      onChange={(e) => setCharacterData({...characterData, birthplace: e.target.value})}
-                      placeholder="Where was the character born?"
+                      value={characterData.race}
+                      onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
+                      className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      placeholder="Human"
+                    />
+                  </div>
+
+                  {/* Current Location */}
+                  <div className="flex justify-between items-center py-3">
+                    <span className="text-sm font-medium text-gray-700">Current Location:</span>
+                    <Input
+                      value={characterData.location}
+                      onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
+                      className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      placeholder="Arcanum City"
                     />
                   </div>
                 </div>
               </Card>
+            </div>
 
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Physical Appearance</h3>
-                <textarea
-                  value={characterData.appearance}
-                  onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
-                  className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                  placeholder="Describe the character's physical appearance (height, build, hair color, distinguishing features, etc.)"
-                />
-              </Card>
-            </TabsContent>
+            {/* Right Side - Tabbed Content */}
+            <div className="lg:col-span-2">
+              <Tabs defaultValue="details" className="w-full">
+                <TabsList className="grid w-full grid-cols-4 mb-6 bg-[var(--color-100)]">
+                  <TabsTrigger value="details" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
+                  <TabsTrigger value="appearance" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Appearance</TabsTrigger>
+                  <TabsTrigger value="backstory" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Backstory</TabsTrigger>
+                  <TabsTrigger value="weapons" className="text-sm data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Weapons</TabsTrigger>
+                </TabsList>
 
-            <TabsContent value="personality" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Personality Traits</h3>
-                <textarea
-                  value={characterData.personality}
-                  onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
-                  className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                  placeholder="Describe the character's personality, temperament, quirks, and behavioral patterns..."
-                />
-              </Card>
+                <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-[var(--color-300)] p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
+                        <textarea
+                          value={characterData.description}
+                          onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
+                          rows={3}
+                          className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
+                          placeholder="Brief character description..."
+                        />
+                      </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Goals & Motivations</h3>
-                  <textarea
-                    value={characterData.goals}
-                    onChange={(e) => setCharacterData({...characterData, goals: e.target.value})}
-                    className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="What drives this character? What do they want to achieve?"
-                  />
-                </Card>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Personality</h3>
+                        <textarea
+                          value={characterData.personality}
+                          onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
+                          className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                          placeholder="Character's personality traits..."
+                        />
+                      </div>
 
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Fears & Weaknesses</h3>
-                  <textarea
-                    value={characterData.fears}
-                    onChange={(e) => setCharacterData({...characterData, fears: e.target.value})}
-                    className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="What does this character fear? What are their weaknesses?"
-                  />
-                </Card>
-              </div>
-            </TabsContent>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Power Type</h3>
+                        <PowerSystemSearch
+                          selectedSystems={selectedPowerSystems}
+                          onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
+                          onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
 
-            <TabsContent value="background" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Backstory</h3>
-                <textarea
-                  value={characterData.backstory}
-                  onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                  className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                  placeholder="Tell the character's backstory. What events shaped who they are today?"
-                />
-              </Card>
-            </TabsContent>
+                <TabsContent value="appearance" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-[var(--color-300)] p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
+                      <textarea
+                        value={characterData.appearance}
+                        onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
+                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                        placeholder="Describe the character's physical appearance..."
+                      />
+                    </div>
+                  </Card>
+                </TabsContent>
 
-            <TabsContent value="relationships" className="space-y-6">
-              <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Relationships</h3>
-                <textarea
-                  value={characterData.relationships}
-                  onChange={(e) => setCharacterData({...characterData, relationships: e.target.value})}
-                  className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                  placeholder="Describe key relationships with other characters (family, friends, enemies, romantic interests, etc.)"
-                />
-              </Card>
-            </TabsContent>
-          </Tabs>
+                <TabsContent value="backstory" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-[var(--color-300)] p-6"
+                    style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
+                      <textarea
+                        value={characterData.backstory}
+                        onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
+                        className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                        placeholder="Character's background story..."
+                      />
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
+                  <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
+                    <div className="flex items-center mb-4">
+                      <Sword className="w-5 h-5 mr-2 text-[var(--color-700)]" />
+                      <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
+                    </div>
+                    <textarea
+                      value={characterData.weapons}
+                      onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
+                      className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                      placeholder="List the character's weapons, armor, and important equipment..."
+                    />
+                  </Card>
+                </TabsContent>
+
+              </Tabs>
+            </div>
+          </div>
         </div>
       </main>
     </div>
