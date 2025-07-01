@@ -289,7 +289,8 @@ export default function NewTimelineEvent() {
                       <Label htmlFor="date">Date</Label>
                       <Input
                         id="date"
-                        type="date"
+                        type="text"
+                        placeholder="e.g., Year 1, Day 25"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                       />
