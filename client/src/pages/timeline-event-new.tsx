@@ -310,8 +310,6 @@ export default function NewTimelineEvent() {
                             id="month"
                             type="number"
                             placeholder="3"
-                            min="1"
-                            max="12"
                             value={date.split(',')[1]?.replace(' Month ', '') || ''}
                             onChange={(e) => {
                               const month = e.target.value;
@@ -328,8 +326,6 @@ export default function NewTimelineEvent() {
                             id="day"
                             type="number"
                             placeholder="15"
-                            min="1"
-                            max="31"
                             value={date.split(',')[2]?.replace(' Day ', '') || ''}
                             onChange={(e) => {
                               const day = e.target.value;
