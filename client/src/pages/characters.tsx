@@ -255,7 +255,7 @@ export default function Characters() {
             {filteredCharacters.map((character) => {
               const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
               const RoleIcon = roleInfo.icon;
-              
+
               return (
                 <Card 
                   key={character.id} 

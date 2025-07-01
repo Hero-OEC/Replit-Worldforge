@@ -88,8 +88,8 @@ export default function Locations() {
 
   const confirmDelete = () => {
     if (locationToDelete) {
+      // TODO: Implement actual delete API call
       console.log("Delete location:", locationToDelete.id);
-      // In real app, this would call the delete API
       setDeleteDialogOpen(false);
       setLocationToDelete(null);
     }

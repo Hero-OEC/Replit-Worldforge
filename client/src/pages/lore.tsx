@@ -284,32 +284,17 @@ export default function Lore() {
         </div>
       </main>
 
-      <AlertDialog open={deleteLoreId !== null} onOpenChange={() => setDeleteLoreId(null)}>
-        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-[var(--color-950)]">
-              Delete Lore Entry
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-[var(--color-700)]">
-              Are you sure you want to delete this lore entry? This action cannot be undone and will permanently remove all associated data.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel 
-              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
-            >
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleConfirmDelete}
-              disabled={deleteLoreEntryMutation.isPending}
-              className="bg-red-600 text-white hover:bg-red-700"
-            >
-              {deleteLoreEntryMutation.isPending ? "Deleting..." : "Delete Entry"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {deleteLoreId !== null && (
+        <DeleteConfirmationDialog
+          open={deleteLoreId !== null}
+          onOpenChange={() => setDeleteLoreId(null)}
+          onConfirm={handleConfirmDelete}
+          title="Delete Lore Entry"
+          itemName="this lore entry"
+          description="Are you sure you want to delete this lore entry? This action cannot be undone and will permanently remove all associated data."
+          isDeleting={deleteLoreEntryMutation.isPending}
+        />
+      )}
     </div>
   );
 }
