@@ -664,7 +664,7 @@ export default function CharacterDetail() {
   }, [characterMagicSystems]);
 
   // Get role configuration
-  const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
+  const roleInfo = roleConfig[character?.role as keyof typeof roleConfig] || roleConfig["Supporting"];
   const RoleIcon = roleInfo.icon;
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -775,11 +775,11 @@ export default function CharacterDetail() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">{character.name}</h1>
+                <h1 className="text-3xl font-bold text-gray-800">{character?.name}</h1>
                 <div className="mt-2">
                   {isEditing ? (
                     <Select 
-                      value={characterData.role || character.role} 
+                      value={characterData.role || character?.role || ""} 
                       onValueChange={(value) => setCharacterData({...characterData, role: value})}
                     >
                       <SelectTrigger className="w-48">
@@ -797,7 +797,7 @@ export default function CharacterDetail() {
                   ) : (
                     <div className={`inline-flex items-center space-x-2 px-3 py-1 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
                       <RoleIcon className="w-4 h-4" />
-                      <span>{character.role}</span>
+                      <span>{character?.role}</span>
                     </div>
                   )}
                 </div>

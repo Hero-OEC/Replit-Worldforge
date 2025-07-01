@@ -232,7 +232,12 @@ export default function NewCharacter() {
     class: "",
     location: "",
     role: "",
-    appearance: ""
+    appearance: "",
+    occupation: "",
+    birthplace: "",
+    goals: "",
+    fears: "",
+    relationships: ""
   });
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -313,9 +318,13 @@ export default function NewCharacter() {
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+              <Button 
+                onClick={handleSave} 
+                disabled={createCharacterMutation.isPending || !characterData.name.trim()}
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <Save className="w-4 h-4 mr-2" />
-                Create Character
+                {createCharacterMutation.isPending ? "Creating..." : "Create Character"}
               </Button>
             </div>
           </div>
@@ -371,11 +380,22 @@ export default function NewCharacter() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                    <Input
-                      value={characterData.role}
-                      onChange={(e) => setCharacterData({...characterData, role: e.target.value})}
-                      placeholder="e.g., Protagonist, Antagonist, Supporting"
-                    />
+                    <Select 
+                      value={characterData.role} 
+                      onValueChange={(value) => setCharacterData({...characterData, role: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select character role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Protagonist">Protagonist</SelectItem>
+                        <SelectItem value="Antagonist">Antagonist</SelectItem>
+                        <SelectItem value="Ally">Ally</SelectItem>
+                        <SelectItem value="Enemy">Enemy</SelectItem>
+                        <SelectItem value="Neutral">Neutral</SelectItem>
+                        <SelectItem value="Supporting">Supporting</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Occupation</label>
