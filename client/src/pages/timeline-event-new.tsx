@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Calendar, Save, MapPin, Users, X, Check } from "lucide-react";
+import { ArrowLeft, Save, MapPin, Users, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,6 +60,7 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter, c
 
   const filteredCharacters = characters.filter(
     (char) =>
+      char.name && 
       char.name.toLowerCase().includes(searchValue.toLowerCase()) &&
       !selectedCharacters.includes(char.name)
   );
