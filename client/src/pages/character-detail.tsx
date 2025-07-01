@@ -49,289 +49,7 @@ function CharacterTimelineComponent({ character }: { character: any }) {
   );
 }
 
-// Sample timeline events data
-const sampleEvents: TimelineEventData[] = [
-  {
-    id: 1,
-    title: "Elena's Awakening",
-    date: "Year 1, Day 5",
-    importance: "high",
-    category: "Character Arc",
-    description: "Elena discovers her true magical potential during a routine training session.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 2,
-    title: "The Forbidden Library",
-    date: "Year 1, Day 12",
-    importance: "medium",
-    category: "Discovery",
-    description: "Elena and Marcus uncover ancient texts in the hidden library.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 3,
-    title: "First Encounter",
-    date: "Year 1, Day 18",
-    importance: "high",
-    category: "Conflict",
-    description: "The protagonists face their first major challenge.",
-    location: "Dark Forest",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 4,
-    title: "The Mentor's Secret",
-    date: "Year 1, Day 25",
-    importance: "medium",
-    category: "Revelation",
-    description: "A secret about Elena's mentor is revealed.",
-    location: "Magic Academy",
-    characters: ["Elena Brightblade", "Mentor"],
-  },
-  {
-    id: 5,
-    title: "Village Rescue",
-    date: "Year 1, Day 31",
-    importance: "low",
-    category: "Heroic Act",
-    description: "The heroes help save a village from bandits.",
-    location: "Riverside Village",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 11,
-    title: "Morning Council Meeting",
-    date: "Year 1, Day 50",
-    importance: "medium",
-    category: "Political Event",
-    description: "The kingdom's council meets to discuss the growing threat.",
-    location: "Royal Palace",
-    characters: ["Elena Brightblade", "King", "Council Members"],
-  },
-  {
-    id: 12,
-    title: "Afternoon Training",
-    date: "Year 1, Day 50",
-    importance: "low",
-    category: "Character Arc",
-    description: "Elena practices her new abilities in the training grounds.",
-    location: "Training Grounds",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 13,
-    title: "Evening Revelation",
-    date: "Year 1, Day 50",
-    importance: "high",
-    category: "Revelation",
-    description: "A shocking truth about Elena's heritage is revealed.",
-    location: "Royal Library",
-    characters: ["Elena Brightblade", "Ancient Sage"],
-  },
-  {
-    id: 6,
-    title: "Journey to the North",
-    date: "Year 1, Day 78",
-    importance: "medium",
-    category: "Traveling",
-    description: "The group begins their journey to the northern kingdoms.",
-    location: "Northern Road",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 7,
-    title: "The Great Battle",
-    date: "Year 1, Day 71",
-    importance: "high",
-    category: "Battle",
-    description: "A major battle that changes the course of the war.",
-    location: "Battlefield",
-    characters: ["Elena Brightblade", "Marcus", "Army"],
-  },
-  {
-    id: 8,
-    title: "Elemental Convergence",
-    date: "Year 1, Day 90",
-    importance: "medium",
-    category: "Magic",
-    description: "The elemental forces converge in an unprecedented way.",
-    location: "Elemental Nexus",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 9,
-    title: "The Vanishing Mist",
-    date: "Year 1, Day 95",
-    importance: "low",
-    category: "Mystery",
-    description: "A strange mist appears and disappears mysteriously.",
-    location: "Misty Marshlands",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 10,
-    title: "Hearts Entwined",
-    date: "Year 1, Day 88",
-    importance: "medium",
-    category: "Romance",
-    description: "A romantic subplot reaches a crucial moment.",
-    location: "Garden of Stars",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 14,
-    title: "Academy Exhibition",
-    date: "Year 1, Day 28",
-    importance: "low",
-    category: "Character Arc",
-    description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic to impressed faculty.",
-    location: "Magic Academy",
-    characters: ["Elena Brightblade", "Marcus", "Students"],
-  },
-  {
-    id: 15,
-    title: "The Crystal Caves Expedition",
-    date: "Year 1, Day 35",
-    importance: "medium",
-    category: "Discovery",
-    description: "Elena explores the mysterious crystal caves, discovering that the crystals resonate with her magical energy in unexpected ways.",
-    location: "Crystal Caves",
-    characters: ["Elena Brightblade", "Marcus", "Mentor"],
-  },
-  {
-    id: 16,
-    title: "Market Day Incident",
-    date: "Year 1, Day 42",
-    importance: "low",
-    category: "Character Arc",
-    description: "Elena accidentally reveals her growing powers during a crowded market day, causing both wonder and concern among the citizens.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 17,
-    title: "The Sunset Harbor Departure",
-    date: "Year 1, Day 55",
-    importance: "medium",
-    category: "Traveling",
-    description: "Elena and her companions depart from Sunset Harbor on a ship bound for the northern territories, beginning their grand quest.",
-    location: "Sunset Harbor",
-    characters: ["Elena Brightblade", "Marcus", "Captain Storm"],
-  },
-  {
-    id: 18,
-    title: "Mountain Pass Ambush",
-    date: "Year 1, Day 65",
-    importance: "high",
-    category: "Battle",
-    description: "The party is ambushed by Lord Vex's forces in the treacherous mountain pass, forcing Elena to use her powers defensively.",
-    location: "Mountain Pass",
-    characters: ["Elena Brightblade", "Marcus", "Shadow Assassin"],
-  },
-  {
-    id: 19,
-    title: "Ancient Ruins Discovery",
-    date: "Year 1, Day 82",
-    importance: "high",
-    category: "Discovery",
-    description: "Elena uncovers ancient ruins that hold the key to understanding the elemental magic that flows through her bloodline.",
-    location: "Ancient Ruins",
-    characters: ["Elena Brightblade", "Ancient Sage"],
-  },
-  {
-    id: 20,
-    title: "Dragon Guardian's Test",
-    date: "Year 1, Day 100",
-    importance: "high",
-    category: "Character Arc",
-    description: "Elena faces the ultimate test from the ancient Dragon Guardian, proving her worthiness to wield the full power of elemental magic.",
-    location: "Dragon's Lair",
-    characters: ["Elena Brightblade", "Dragon Guardian"],
-  },
-  {
-    id: 21,
-    title: "Midnight Meditation",
-    date: "Year 1, Day 15",
-    importance: "low",
-    category: "Character Arc",
-    description: "Elena discovers the power of meditation while practicing late-night magic control exercises in the academy gardens.",
-    location: "Magic Academy",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 22,
-    title: "The Fire Trial",
-    date: "Year 1, Day 38",
-    importance: "medium",
-    category: "Magic",
-    description: "Elena undergoes a dangerous trial to master advanced fire magic techniques under her mentor's guidance.",
-    location: "Training Grounds",
-    characters: ["Elena Brightblade", "Mentor"],
-  },
-  {
-    id: 23,
-    title: "Village Festival Performance",
-    date: "Year 1, Day 47",
-    importance: "low",
-    category: "Character Arc",
-    description: "Elena performs a magical light show for the village children during the harvest festival, gaining their admiration.",
-    location: "Riverside Village",
-    characters: ["Elena Brightblade", "Marcus", "Village Children"],
-  },
-  {
-    id: 24,
-    title: "The Shadow's Warning",
-    date: "Year 1, Day 60",
-    importance: "medium",
-    category: "Mystery",
-    description: "A mysterious shadowy figure appears to Elena in a dream, warning her of the dangers that lie ahead on her journey.",
-    location: "Dream Realm",
-    characters: ["Elena Brightblade", "Shadow Figure"],
-  },
-  {
-    id: 25,
-    title: "Elemental Harmony Achievement",
-    date: "Year 1, Day 85",
-    importance: "high",
-    category: "Magic",
-    description: "Elena achieves perfect balance between fire and light magic, unlocking a new level of magical prowess.",
-    location: "Elemental Nexus",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 26,
-    title: "Marcus's Secret Revealed",
-    date: "Year 1, Day 73",
-    importance: "medium",
-    category: "Revelation",
-    description: "Marcus finally reveals his noble heritage to Elena during a quiet moment after the great battle.",
-    location: "Northern Road",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 27,
-    title: "The Healing of Captain Storm",
-    date: "Year 1, Day 92",
-    importance: "low",
-    category: "Heroic Act",
-    description: "Elena uses her newly mastered light magic to heal Captain Storm's battle wounds, saving his life.",
-    location: "Ship's Cabin",
-    characters: ["Elena Brightblade", "Captain Storm"],
-  },
-  {
-    id: 28,
-    title: "Final Confrontation with Lord Vex",
-    date: "Year 1, Day 105",
-    importance: "high",
-    category: "Battle",
-    description: "Elena faces Lord Vex in an epic final battle that will determine the fate of the kingdom.",
-    location: "Dark Citadel",
-    characters: ["Elena Brightblade", "Marcus", "Lord Vex"],
-  },
-];
+
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
@@ -640,6 +358,17 @@ export default function CharacterDetail() {
     },
   });
 
+  // Fetch timeline events to find character's latest location
+  const { data: timelineEvents = [] } = useQuery({
+    queryKey: ["/api/projects", projectId, "timeline"],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/timeline`);
+      if (!response.ok) throw new Error("Failed to fetch timeline events");
+      return response.json();
+    },
+    enabled: !!projectId
+  });
+
   // Get character magic systems
   useEffect(() => {
     if (characterId) {
@@ -665,6 +394,31 @@ export default function CharacterDetail() {
   // Get role configuration
   const roleInfo = roleConfig[character?.role as keyof typeof roleConfig] || roleConfig["Supporting"];
   const RoleIcon = roleInfo.icon;
+
+  // Function to get character's latest location from timeline events
+  const getCharacterLatestLocation = () => {
+    if (!character?.name || !timelineEvents?.length) {
+      return character?.location || "Unknown Location";
+    }
+
+    // Filter events where this character appears
+    const characterEvents = timelineEvents.filter((event: any) => 
+      event.characters && Array.isArray(event.characters) && 
+      event.characters.includes(character.name)
+    );
+
+    if (characterEvents.length === 0) {
+      return character.location || "Unknown Location";
+    }
+
+    // Sort events by date (assuming date format can be sorted)
+    const sortedEvents = [...characterEvents].sort((a: any, b: any) => {
+      return new Date(b.createdAt || b.date).getTime() - new Date(a.createdAt || a.date).getTime();
+    });
+
+    // Return the location of the most recent event, or fallback to character's stored location
+    return sortedEvents[0]?.location || character.location || "Unknown Location";
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -930,18 +684,9 @@ export default function CharacterDetail() {
                       />
                     ) : (
                       <WouterLink href={`/project/${projectId}/locations/1`}>
-                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-[var(--color-300)] transition-colors">{(() => {
-                          // Get the character's most recent event location
-                          const characterEvents = sampleEvents.filter(event => event.characters?.includes("Elena Brightblade"));
-                          const sortedEvents = [...characterEvents].sort((a, b) => {
-                            const getDateNumber = (dateStr: string) => {
-                              const match = dateStr.match(/Day (\d+)/);
-                              return match ? parseInt(match[1]) : 0;
-                            };
-                            return getDateNumber(b.date) - getDateNumber(a.date); // Sort descending for latest first
-                          });
-                          return sortedEvents.length > 0 ? sortedEvents[0].location : character.location;
-                        })()}</span>
+                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-[var(--color-300)] transition-colors">
+                          {getCharacterLatestLocation()}
+                        </span>
                       </WouterLink>
                     )}
                   </div>
