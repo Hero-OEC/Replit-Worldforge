@@ -307,7 +307,7 @@ export default function LocationDetail() {
   const [location, navigate] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [locationData, setLocationData] = useState({
+  const [locationFormData, setLocationFormData] = useState({
     name: "",
     type: "",
     description: "",
@@ -318,8 +318,20 @@ export default function LocationDetail() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  useNavigationTracker(location, navigate);
+  useNavigationTracker();
   const { goBack } = useNavigation();
+
+  // Fetch project data
+  const { data: project } = useQuery<ProjectWithStats>({
+    queryKey: ["/api/projects", projectId],
+    enabled: !!projectId,
+  });
+
+  // Fetch location data from API
+  const { data: locationData, isLoading: isLocationLoading } = useQuery<Location>({
+    queryKey: [`/api/locations/${locationId}`],
+    enabled: !!locationId,
+  });
 
   const deleteLocationMutation = useMutation({
     mutationFn: async () => {
@@ -351,28 +363,9 @@ export default function LocationDetail() {
     setShowDeleteDialog(false);
   };
 
-  // Fetch project data
-  const { data: project } = useQuery<ProjectWithStats>({
-    queryKey: ["/api/projects", projectId],
-    enabled: !!projectId,
-  });
-
-  // Sample location data - in real app this would come from API
-  const sampleLocation: Location = {
-    id: parseInt(locationId || "1"),
-    name: "Arcanum City",
-    description: "The grand capital of the magical realm, home to the most prestigious academy of arcane arts.",
-    geography: "Built on seven hills overlooking the Azure Bay, surrounded by enchanted forests.",
-    culture: "A melting pot of magical traditions from across the realm, where scholars and mages gather to share knowledge.",
-    significance: "The heart of magical learning and governance in the known world.",
-    projectId: parseInt(projectId || "1"),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  };
-
   // Filter and sort events for stats calculation
   const locationEvents = sampleEvents.filter(event => 
-    event.location === sampleLocation.name
+    event.location === locationData?.name
   );
   const sortedEvents = [...locationEvents].sort((a, b) => {
     const getDateNumber = (dateStr: string) => {
@@ -381,6 +374,44 @@ export default function LocationDetail() {
     };
     return getDateNumber(a.date) - getDateNumber(b.date);
   });
+
+  if (isLocationLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+        />
+        <main className="pt-16">
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            <div className="text-center">
+              <p className="text-[var(--color-700)]">Loading location...</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (!locationData) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+        />
+        <main className="pt-16">
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            <div className="text-center">
+              <p className="text-[var(--color-700)]">Location not found</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
@@ -397,7 +428,7 @@ export default function LocationDetail() {
               <div className="flex items-center space-x-4">
                 <Button
                   variant="ghost" 
-                  onClick={() => goBack('/projects/' + projectId + '/locations')}
+                  onClick={() => goBack()}
                   className="text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-100)]"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
@@ -434,7 +465,7 @@ export default function LocationDetail() {
                 <MapPin className="w-5 h-5 text-white transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-[var(--color-950)]">{sampleLocation.name}</h1>
+                <h1 className="text-2xl font-bold text-[var(--color-950)]">{locationData.name}</h1>
                 <p className="text-[var(--color-700)]">Location Details</p>
               </div>
             </div>
@@ -454,11 +485,11 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{sampleLocation.description}</p>
+                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.description}</p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{sampleLocation.significance}</p>
+                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.significance}</p>
                         </div>
                       </div>
                     </Card>
@@ -469,7 +500,7 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{sampleLocation.geography}</p>
+                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.geography}</p>
                         </div>
                       </div>
                     </Card>
@@ -480,7 +511,7 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{sampleLocation.culture}</p>
+                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.culture}</p>
                         </div>
                       </div>
                     </Card>
@@ -494,7 +525,7 @@ export default function LocationDetail() {
                           <div>
                             <h3 className="text-lg font-semibold text-[var(--color-950)]">Location Timeline</h3>
                             <p className="text-sm text-[var(--color-700)]">
-                              Events that take place in {sampleLocation.name}
+                              Events that take place in {locationData.name}
                             </p>
                           </div>
                         </div>
@@ -520,7 +551,7 @@ export default function LocationDetail() {
               Delete Location
             </AlertDialogTitle>
             <AlertDialogDescription className="text-[var(--color-700)]">
-              Are you sure you want to delete "{sampleLocation.name}"? This action cannot be undone and will permanently remove all associated data.
+              Are you sure you want to delete "{locationData.name}"? This action cannot be undone and will permanently remove all associated data.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
