@@ -182,19 +182,6 @@ function TagSearch({
           ))}
         </div>
       )}
-
-      {/* Delete Confirmation Dialog */}
-      {eventToDelete && (
-        <DeleteConfirmationDialog
-          open={deleteDialogOpen}
-          onOpenChange={setDeleteDialogOpen}
-          onConfirm={confirmDelete}
-          title="Delete Timeline Event"
-          itemName={eventToDelete.title}
-          description={`Are you sure you want to delete "${eventToDelete.title}"? This action cannot be undone and will permanently remove the timeline event.`}
-          isDeleting={deleteTimelineEventMutation.isPending}
-        />
-      )}
     </div>
   );
 }
@@ -1111,6 +1098,20 @@ export default function Timeline() {
           )}
         </div>
       </main>
+
+      {/* Delete Confirmation Dialog */}
+      {eventToDelete && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Timeline Event"
+          itemName={eventToDelete.title}
+          description={`Are you sure you want to delete "${eventToDelete.title}"? This action cannot be undone and will permanently remove the timeline event.`}
+          isDeleting={deleteTimelineEventMutation.isPending}
+        />
+      )}
+
       {/* Add Event Dialog */}
       {showAddDialog && (
         <div
