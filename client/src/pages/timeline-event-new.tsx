@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Calendar, Save, MapPin, Users, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ import {
 import { Link } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
-import type { ProjectWithStats } from "@shared/schema";
+import type { ProjectWithStats, Character, Location } from "@shared/schema";
 
 const eventCategories = [
   "Character Arc",
@@ -45,47 +44,24 @@ const eventCategories = [
   "Tragedy",
 ];
 
-const sampleLocations = [
-  "Arcanum City",
-  "Dark Forest",
-  "Magic Academy",
-  "Riverside Village",
-  "Northern Road",
-  "Battlefield",
-  "Elemental Nexus",
-  "Misty Marshlands",
-  "Garden of Stars",
-  "Royal Palace",
-];
 
-const sampleCharacters = [
-  "Elena",
-  "Marcus",
-  "Mentor",
-  "King",
-  "Ancient Sage",
-  "Council Members",
-  "Army",
-  "Lord Vex",
-  "Princess Aria",
-  "Captain Storm",
-];
 
 // Character tagging component
 interface CharacterTagProps {
   selectedCharacters: string[];
   onAddCharacter: (character: string) => void;
   onRemoveCharacter: (character: string) => void;
+  characters: Character[];
 }
 
-function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }: CharacterTagProps) {
+function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter, characters }: CharacterTagProps) {
   const [searchValue, setSearchValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const filteredCharacters = sampleCharacters.filter(
+  const filteredCharacters = characters.filter(
     (char) =>
-      char.toLowerCase().includes(searchValue.toLowerCase()) &&
-      !selectedCharacters.includes(char)
+      char.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+      !selectedCharacters.includes(char.name)
   );
 
   const handleAddCharacter = (character: string) => {
@@ -108,12 +84,12 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }:
           <div className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredCharacters.map((character) => (
               <div
-                key={character}
+                key={character.id}
                 className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
-                onClick={() => handleAddCharacter(character)}
+                onClick={() => handleAddCharacter(character.name)}
               >
                 <div className="flex items-center justify-between">
-                  <span>{character}</span>
+                  <span>{character.name}</span>
                   <Check className="w-4 h-4 text-[var(--color-600)]" />
                 </div>
               </div>
@@ -145,6 +121,7 @@ export default function NewTimelineEvent() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const { goBack, navigateWithHistory } = useNavigation();
+  const queryClient = useQueryClient();
   
   // Track navigation history
   useNavigationTracker();
@@ -161,6 +138,16 @@ export default function NewTimelineEvent() {
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
+    enabled: !!projectId,
+  });
+
+  const { data: locations = [] } = useQuery<Location[]>({
+    queryKey: ["/api/projects", projectId, "locations"],
+    enabled: !!projectId,
+  });
+
+  const { data: characters = [] } = useQuery<Character[]>({
+    queryKey: ["/api/projects", projectId, "characters"],
     enabled: !!projectId,
   });
 
@@ -364,9 +351,9 @@ export default function NewTimelineEvent() {
                       <SelectValue placeholder="Select location" />
                     </SelectTrigger>
                     <SelectContent>
-                      {sampleLocations.map((loc) => (
-                        <SelectItem key={loc} value={loc}>
-                          {loc}
+                      {locations.map((loc) => (
+                        <SelectItem key={loc.id} value={loc.name}>
+                          {loc.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -383,6 +370,7 @@ export default function NewTimelineEvent() {
                     selectedCharacters={selectedCharacters}
                     onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
                     onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
+                    characters={characters}
                   />
                 </Card>
 
