@@ -286,14 +286,61 @@ export default function NewTimelineEvent() {
                 <Card className="p-6">
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="date">Date</Label>
-                      <Input
-                        id="date"
-                        type="text"
-                        placeholder="e.g., Year 1247, Third Moon, Day 15"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                      />
+                      <Label>Date</Label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>
+                          <Label htmlFor="year" className="text-sm text-[var(--color-600)]">Year</Label>
+                          <Input
+                            id="year"
+                            type="number"
+                            placeholder="1247"
+                            value={date.split(',')[0]?.replace('Year ', '') || ''}
+                            onChange={(e) => {
+                              const year = e.target.value;
+                              const parts = date.split(', ');
+                              const month = parts[1] || '';
+                              const day = parts[2] || '';
+                              setDate(`Year ${year}${month ? `, ${month}` : ''}${day ? `, ${day}` : ''}`);
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="month" className="text-sm text-[var(--color-600)]">Month</Label>
+                          <Input
+                            id="month"
+                            type="number"
+                            placeholder="3"
+                            min="1"
+                            max="12"
+                            value={date.split(',')[1]?.replace(' Month ', '') || ''}
+                            onChange={(e) => {
+                              const month = e.target.value;
+                              const parts = date.split(', ');
+                              const year = parts[0] || 'Year ';
+                              const day = parts[2] || '';
+                              setDate(`${year}${month ? `, Month ${month}` : ''}${day ? `, ${day}` : ''}`);
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="day" className="text-sm text-[var(--color-600)]">Day</Label>
+                          <Input
+                            id="day"
+                            type="number"
+                            placeholder="15"
+                            min="1"
+                            max="31"
+                            value={date.split(',')[2]?.replace(' Day ', '') || ''}
+                            onChange={(e) => {
+                              const day = e.target.value;
+                              const parts = date.split(', ');
+                              const year = parts[0] || 'Year ';
+                              const month = parts[1] || '';
+                              setDate(`${year}${month ? `, ${month}` : ''}${day ? `, Day ${day}` : ''}`);
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
 
                     <div>
