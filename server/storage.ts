@@ -73,7 +73,7 @@ export class MemStorage implements IStorage {
   private magicSystems: Map<number, MagicSystem> = new Map();
   private loreEntries: Map<number, LoreEntry> = new Map();
   private editHistory: Map<number, EditHistory> = new Map();
-  
+
   private currentProjectId = 1;
   private currentCharacterId = 1;
   private currentLocationId = 1;
@@ -174,19 +174,19 @@ export class MemStorage implements IStorage {
     Array.from(this.characters.entries())
       .filter(([, character]) => character.projectId === id)
       .forEach(([charId]) => this.characters.delete(charId));
-    
+
     Array.from(this.locations.entries())
       .filter(([, location]) => location.projectId === id)
       .forEach(([locId]) => this.locations.delete(locId));
-    
+
     Array.from(this.timelineEvents.entries())
       .filter(([, event]) => event.projectId === id)
       .forEach(([eventId]) => this.timelineEvents.delete(eventId));
-    
+
     Array.from(this.magicSystems.entries())
       .filter(([, system]) => system.projectId === id)
       .forEach(([systemId]) => this.magicSystems.delete(systemId));
-    
+
     Array.from(this.loreEntries.entries())
       .filter(([, entry]) => entry.projectId === id)
       .forEach(([entryId]) => this.loreEntries.delete(entryId));
@@ -471,7 +471,7 @@ export class DatabaseStorage implements IStorage {
   async getProjectWithStats(id: number): Promise<ProjectWithStats | undefined> {
     const project = await this.getProject(id);
     if (!project) return undefined;
-    
+
     const stats = await this.getProjectStats(id);
     return { ...project, stats };
   }

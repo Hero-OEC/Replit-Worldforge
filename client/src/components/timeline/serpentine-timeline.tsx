@@ -323,7 +323,7 @@ export default function SerpentineTimeline({
                         {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
                       </div>
                       <div className="text-xs text-[var(--color-700)] mt-0.5">
-                        {group.date}
+                        {group.date || 'No date'}
                       </div>
                     </div>
                   </div>
