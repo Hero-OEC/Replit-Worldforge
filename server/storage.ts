@@ -540,23 +540,62 @@ export class DatabaseStorage implements IStorage {
     return character;
   }
 
-  async createCharacter(insertCharacter: InsertCharacter): Promise<Character> {
-    const [character] = await db.insert(characters).values(insertCharacter).returning();
+  async createCharacter(data: InsertCharacter): Promise<Character> {
+    const [character] = await db.insert(characters).values(data).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      data.projectId,
+      'created',
+      'character',
+      data.name,
+      `Created character with ${data.role || 'unspecified'} role`
+    );
+
     return character;
   }
 
-  async updateCharacter(id: number, updates: Partial<InsertCharacter>): Promise<Character | undefined> {
+  async updateCharacter(id: number, data: Partial<InsertCharacter>): Promise<Character | null> {
+    const existing = await this.getCharacter(id);
+    if (!existing) return null;
+
     const [character] = await db
       .update(characters)
-      .set({ ...updates, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(characters.id, id))
       .returning();
-    return character;
+
+    // Record edit history
+    await this.recordEditHistory(
+      existing.projectId,
+      'updated',
+      'character',
+      existing.name,
+      `Updated character details`
+    );
+
+    return character || null;
   }
 
   async deleteCharacter(id: number): Promise<boolean> {
+    const existing = await this.getCharacter(id);
+    if (!existing) return false;
+
     const result = await db.delete(characters).where(eq(characters.id, id));
-    return result.rowCount > 0;
+    const success = result.rowCount > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'character',
+        existing.name,
+        `Deleted character`
+      );
+    }
+
+    return success;
   }
 
   // Locations
@@ -569,23 +608,62 @@ export class DatabaseStorage implements IStorage {
     return location;
   }
 
-  async createLocation(insertLocation: InsertLocation): Promise<Location> {
-    const [location] = await db.insert(locations).values(insertLocation).returning();
+  async createLocation(data: InsertLocation): Promise<Location> {
+    const [location] = await db.insert(locations).values(data).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      data.projectId,
+      'created',
+      'location',
+      data.name,
+      `Created location of type ${data.type || 'unspecified'}`
+    );
+
     return location;
   }
 
-  async updateLocation(id: number, updates: Partial<InsertLocation>): Promise<Location | undefined> {
+  async updateLocation(id: number, data: Partial<InsertLocation>): Promise<Location | null> {
+    const existing = await this.getLocation(id);
+    if (!existing) return null;
+
     const [location] = await db
       .update(locations)
-      .set({ ...updates, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(locations.id, id))
       .returning();
-    return location;
+
+    // Record edit history
+    await this.recordEditHistory(
+      existing.projectId,
+      'updated',
+      'location',
+      existing.name,
+      `Updated location details`
+    );
+
+    return location || null;
   }
 
   async deleteLocation(id: number): Promise<boolean> {
+    const existing = await this.getLocation(id);
+    if (!existing) return false;
+
     const result = await db.delete(locations).where(eq(locations.id, id));
-    return result.rowCount > 0;
+    const success = result.rowCount > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'location',
+        existing.name,
+        `Deleted location`
+      );
+    }
+
+    return success;
   }
 
   // Timeline Events
@@ -598,23 +676,62 @@ export class DatabaseStorage implements IStorage {
     return event;
   }
 
-  async createTimelineEvent(insertEvent: InsertTimelineEvent): Promise<TimelineEvent> {
-    const [event] = await db.insert(timelineEvents).values(insertEvent).returning();
+  async createTimelineEvent(data: InsertTimelineEvent): Promise<TimelineEvent> {
+    const [event] = await db.insert(timelineEvents).values(data).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      data.projectId,
+      'created',
+      'timeline_event',
+      data.title,
+      `Created timeline event for ${data.date || 'unspecified date'}`
+    );
+
     return event;
   }
 
-  async updateTimelineEvent(id: number, updates: Partial<InsertTimelineEvent>): Promise<TimelineEvent | undefined> {
+  async updateTimelineEvent(id: number, data: Partial<InsertTimelineEvent>): Promise<TimelineEvent | null> {
+    const existing = await this.getTimelineEvent(id);
+    if (!existing) return null;
+
     const [event] = await db
       .update(timelineEvents)
-      .set({ ...updates, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(timelineEvents.id, id))
       .returning();
-    return event;
+
+    // Record edit history
+    await this.recordEditHistory(
+      existing.projectId,
+      'updated',
+      'timeline_event',
+      existing.title,
+      `Updated timeline event details`
+    );
+
+    return event || null;
   }
 
   async deleteTimelineEvent(id: number): Promise<boolean> {
+    const existing = await this.getTimelineEvent(id);
+    if (!existing) return false;
+
     const result = await db.delete(timelineEvents).where(eq(timelineEvents.id, id));
-    return result.rowCount > 0;
+    const success = result.rowCount > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'timeline_event',
+        existing.title,
+        `Deleted timeline event`
+      );
+    }
+
+    return success;
   }
 
   // Magic Systems
@@ -627,23 +744,62 @@ export class DatabaseStorage implements IStorage {
     return system;
   }
 
-  async createMagicSystem(insertSystem: InsertMagicSystem): Promise<MagicSystem> {
-    const [system] = await db.insert(magicSystems).values(insertSystem).returning();
+  async createMagicSystem(data: InsertMagicSystem): Promise<MagicSystem> {
+    const [system] = await db.insert(magicSystems).values(data).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      data.projectId,
+      'created',
+      'magic_system',
+      data.name,
+      `Created magic system with ${data.type || 'unspecified'} type`
+    );
+
     return system;
   }
 
-  async updateMagicSystem(id: number, updates: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined> {
+  async updateMagicSystem(id: number, data: Partial<InsertMagicSystem>): Promise<MagicSystem | null> {
+    const existing = await this.getMagicSystem(id);
+    if (!existing) return null;
+
     const [system] = await db
       .update(magicSystems)
-      .set({ ...updates, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(magicSystems.id, id))
       .returning();
-    return system;
+
+    // Record edit history
+    await this.recordEditHistory(
+      existing.projectId,
+      'updated',
+      'magic_system',
+      existing.name,
+      `Updated magic system details`
+    );
+
+    return system || null;
   }
 
   async deleteMagicSystem(id: number): Promise<boolean> {
+    const existing = await this.getMagicSystem(id);
+    if (!existing) return false;
+
     const result = await db.delete(magicSystems).where(eq(magicSystems.id, id));
-    return result.rowCount > 0;
+    const success = result.rowCount > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'magic_system',
+        existing.name,
+        `Deleted magic system`
+      );
+    }
+
+    return success;
   }
 
   // Lore Entries
@@ -656,31 +812,94 @@ export class DatabaseStorage implements IStorage {
     return entry;
   }
 
-  async createLoreEntry(insertEntry: InsertLoreEntry): Promise<LoreEntry> {
-    const [entry] = await db.insert(loreEntries).values(insertEntry).returning();
+  async createLoreEntry(data: InsertLoreEntry): Promise<LoreEntry> {
+    const [entry] = await db.insert(loreEntries).values(data).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      data.projectId,
+      'created',
+      'lore_entry',
+      data.title,
+      `Created lore entry of type ${data.type || 'general'}`
+    );
+
     return entry;
   }
 
-  async updateLoreEntry(id: number, updates: Partial<InsertLoreEntry>): Promise<LoreEntry | undefined> {
+  async updateLoreEntry(id: number, data: Partial<InsertLoreEntry>): Promise<LoreEntry | null> {
+    const existing = await this.getLoreEntry(id);
+    if (!existing) return null;
+
     const [entry] = await db
       .update(loreEntries)
-      .set({ ...updates, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(loreEntries.id, id))
       .returning();
-    return entry;
+
+    // Record edit history
+    await this.recordEditHistory(
+      existing.projectId,
+      'updated',
+      'lore_entry',
+      existing.title,
+      `Updated lore entry details`
+    );
+
+    return entry || null;
   }
 
   async deleteLoreEntry(id: number): Promise<boolean> {
+    const existing = await this.getLoreEntry(id);
+    if (!existing) return false;
+
     const result = await db.delete(loreEntries).where(eq(loreEntries.id, id));
-    return result.rowCount > 0;
+    const success = result.rowCount > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'lore_entry',
+        existing.title,
+        `Deleted lore entry`
+      );
+    }
+
+    return success;
   }
 
+  // Edit History
   async getEditHistory(projectId: number): Promise<EditHistory[]> {
     return await db
       .select()
       .from(editHistory)
       .where(eq(editHistory.projectId, projectId))
-      .orderBy(desc(editHistory.createdAt));
+      .orderBy(desc(editHistory.createdAt))
+      .limit(50);
+  }
+
+  private async recordEditHistory(
+    projectId: number,
+    action: 'created' | 'updated' | 'deleted',
+    entityType: 'character' | 'location' | 'timeline_event' | 'magic_system' | 'lore_entry',
+    entityName: string,
+    description?: string
+  ): Promise<void> {
+    try {
+      await db.insert(editHistory).values({
+        projectId,
+        action,
+        entityType,
+        entityName,
+        description,
+        createdAt: new Date(),
+      });
+    } catch (error) {
+      console.error('Failed to record edit history:', error);
+      // Don't throw error to avoid breaking the main operation
+    }
   }
 
   async createEditHistory(insertEntry: InsertEditHistory): Promise<EditHistory> {
