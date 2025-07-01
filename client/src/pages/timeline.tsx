@@ -986,10 +986,6 @@ export default function Timeline() {
                           <div
                             key={event.id}
                             className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-50)]"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/project/${projectId}/timeline/${event.id}`);
-                            }}
                           >
                             <div className="flex items-start space-x-3">
                               <div
@@ -997,7 +993,13 @@ export default function Timeline() {
                               >
                                 <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
                               </div>
-                              <div className="flex-1 min-w-0">
+                              <div
+                                className="flex-1 min-w-0 cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/project/${projectId}/timeline/${event.id}`);
+                                }}
+                              >
                                 <h4 className="font-medium text-[var(--color-950)] text-sm">
                                   {event.title}
                                 </h4>
@@ -1011,6 +1013,31 @@ export default function Timeline() {
                                   </div>
                                 </div>
                               </div>
+                              <div className="flex items-center space-x-1">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/project/${projectId}/timeline/${event.id}/edit`);
+                                  }}
+                                  className="h-7 w-7 p-0 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)]"
+                                >
+                                  <Edit className="w-3 h-3" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEventToDelete(event);
+                                    setDeleteDialogOpen(true);
+                                  }}
+                                  className="h-7 w-7 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         );
@@ -1021,7 +1048,7 @@ export default function Timeline() {
                       </div>
                     )}
                   </div>
-                  <div className="mt-4 pt-3 border-t border-[`var(--color-300)] text-center">
+                  <div className="mt-4 pt-3 border-t border-[var(--color-300)] text-center">
                     <span className="text-xs text-[var(--color-600)]">
                       Click on events to edit details
                     </span>
@@ -1081,15 +1108,42 @@ export default function Timeline() {
                       <span>{hoveredEvent.characters.join(", ")}</span>
                     </div>
                   </div>
-                  <div
-                    className="mt-4 pt-3 border-t border-[var(--color-300)] text-center cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
-                    }}
-                  >
-                    <span className="text-xs text-[var(--color-600)] hover:text-gray-700">
-                      Click to view event
+                  <div className="mt-4 pt-3 border-t border-[var(--color-300)] flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/project/${projectId}/timeline/${hoveredEvent.id}/edit`);
+                        }}
+                        className="h-7 px-2 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)]"
+                      >
+                        <Edit className="w-3 h-3 mr-1" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEventToDelete(hoveredEvent);
+                          setDeleteDialogOpen(true);
+                        }}
+                        className="h-7 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-3 h-3 mr-1" />
+                        Delete
+                      </Button>
+                    </div>
+                    <span
+                      className="text-xs text-[var(--color-600)] hover:text-gray-700 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
+                      }}
+                    >
+                      View details →
                     </span>
                   </div>
                 </Card>)
