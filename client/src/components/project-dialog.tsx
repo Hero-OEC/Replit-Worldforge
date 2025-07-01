@@ -139,6 +139,7 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
   const onSubmit = (data: InsertProject) => {
     console.log("Form submitted with data:", data);
     console.log("Form errors:", form.formState.errors);
+    if (createProjectMutation.isPending) return; // Prevent double submission
     createProjectMutation.mutate(data);
   };
 

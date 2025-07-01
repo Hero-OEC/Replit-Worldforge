@@ -246,6 +246,7 @@ export default function CharacterNew() {
 
   const handleSave = async () => {
     if (!characterData.name.trim()) return;
+    if (createCharacterMutation.isPending) return; // Prevent double submission
 
     const newCharacter: InsertCharacter = {
       projectId: parseInt(projectId!),

@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
+import { useToast } from "@/hooks/use-toast";
 import type { Location, ProjectWithStats } from "@shared/schema";
 
 export default function LocationNew() {
@@ -25,6 +26,7 @@ export default function LocationNew() {
   });
   const queryClient = useQueryClient();
   const { goBack, navigateWithHistory } = useNavigation();
+  const { toast } = useToast();
   
   // Track navigation history
   useNavigationTracker();
@@ -43,13 +45,23 @@ export default function LocationNew() {
       return apiRequest("POST", "/api/locations", { ...data, projectId: parseInt(projectId!) });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/locations", projectId] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
+      toast({ title: "Location created successfully!" });
       navigateWithHistory(`/project/${projectId}/locations`);
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to create location", 
+        description: error.message || "An error occurred while creating the location",
+        variant: "destructive" 
+      });
     },
   });
 
   const handleSave = () => {
     if (!locationData.name.trim()) return;
+    if (createLocationMutation.isPending) return; // Prevent double submission
     
     const locationToSave = {
       ...locationData,
@@ -97,9 +109,13 @@ export default function LocationNew() {
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+              <Button 
+                onClick={handleSave} 
+                disabled={createLocationMutation.isPending || !locationData.name.trim()}
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <Save className="w-4 h-4 mr-2" />
-                Create Location
+                {createLocationMutation.isPending ? "Creating..." : "Create Location"}
               </Button>
             </div>
           </div>
