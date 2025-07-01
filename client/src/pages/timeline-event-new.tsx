@@ -360,8 +360,8 @@ export default function NewTimelineEvent() {
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          {eventCategories.map((cat) => (
-                            <SelectItem key={cat} value={cat}>
+                          {eventCategories.map((cat, index) => (
+                            <SelectItem key={`category-${index}-${cat}`} value={cat}>
                               {cat}
                             </SelectItem>
                           ))}
