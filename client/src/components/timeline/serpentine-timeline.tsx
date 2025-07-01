@@ -335,13 +335,19 @@ export default function SerpentineTimeline({
                         <div className="text-sm font-medium text-[var(--color-950)] mb-2">
                           Events on {group.date}
                         </div>
-                        <div className="space-y-2">
+                        <div 
+                          className="space-y-2 max-h-48 overflow-y-auto"
+                          style={{ 
+                            scrollbarWidth: 'thin',
+                            scrollbarColor: 'var(--color-400) var(--color-100)'
+                          }}
+                        >
                           {group.events.map((event) => {
                             const IconComponent = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Calendar;
                             return (
                               <div
                                 key={event.id}
-                                className="flex items-center space-x-2 p-2 hover:bg-[var(--color-100)] rounded cursor-pointer"
+                                className="flex items-center space-x-2 p-2 hover:bg-[var(--color-200)] rounded cursor-pointer transition-colors duration-150"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   const rect = timelineRef.current?.getBoundingClientRect();
@@ -363,6 +369,11 @@ export default function SerpentineTimeline({
                             );
                           })}
                         </div>
+                        {group.events.length > 3 && (
+                          <div className="text-xs text-[var(--color-600)] mt-2 text-center">
+                            Scroll to see all {group.events.length} events
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
