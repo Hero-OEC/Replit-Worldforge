@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
 import {
   Calendar,
@@ -37,6 +37,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import type { TimelineEvent, ProjectWithStats, Character, Location } from "@shared/schema";
 
 // Sample data for autocomplete
@@ -180,6 +181,19 @@ function TagSearch({
             </Tag>
           ))}
         </div>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {eventToDelete && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Timeline Event"
+          itemName={eventToDelete.title}
+          description={`Are you sure you want to delete "${eventToDelete.title}"? This action cannot be undone and will permanently remove the timeline event.`}
+          isDeleting={deleteTimelineEventMutation.isPending}
+        />
       )}
     </div>
   );
@@ -366,6 +380,7 @@ export default function Timeline() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, navigate] = useLocation();
   const { navigateWithHistory } = useNavigation();
+  const queryClient = useQueryClient();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
@@ -376,6 +391,8 @@ export default function Timeline() {
   const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<any>(null);
   const [popupPosition, setPopupPosition] = useState<{
     x: number;
     y: number;
@@ -431,6 +448,14 @@ export default function Timeline() {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
 
+  const confirmDelete = () => {
+    if (eventToDelete) {
+      deleteTimelineEventMutation.mutate(eventToDelete.id);
+      setDeleteDialogOpen(false);
+      setEventToDelete(null);
+    }
+  };
+
   const eventCategories = [
     "Character Arc",
     "Discovery",
@@ -471,6 +496,23 @@ export default function Timeline() {
   const { data: locations = [] } = useQuery<Location[]>({
     queryKey: [`/api/projects/${projectId}/locations`],
     enabled: !!projectId,
+  });
+
+  // Delete timeline event mutation
+  const deleteTimelineEventMutation = useMutation({
+    mutationFn: async (eventId: number) => {
+      const response = await fetch(`/api/timeline-events/${eventId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete timeline event');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      // Refetch timeline events after successful deletion
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/timeline`] });
+    },
   });
 
   // Convert database events to timeline component format
