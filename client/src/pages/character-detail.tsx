@@ -616,7 +616,6 @@ export default function CharacterDetail() {
     weapons: "",
     age: "",
     race: "",
-    class: "",
     location: "",
     role: "",
     appearance: ""
@@ -709,7 +708,6 @@ export default function CharacterDetail() {
       weapons: "",
       age: "",
       race: "",
-      class: "",
       location: "",
       role: "",
       appearance: ""
@@ -920,19 +918,7 @@ export default function CharacterDetail() {
                       <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
-                    <span className="text-sm font-medium text-gray-700">Class:</span>
-                    {isEditing ? (
-                      <Input
-                        value={characterData.class || character.class}
-                        onChange={(e) => setCharacterData({...characterData, class: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
-                        placeholder="Mage"
-                      />
-                    ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.class}</span>
-                    )}
-                  </div>
+
                   <div className="flex justify-between items-center py-3">
                     <span className="text-sm font-medium text-gray-700">Current Location:</span>
                     {isEditing ? (

@@ -229,7 +229,6 @@ export default function NewCharacter() {
     weapons: "",
     age: "",
     race: "",
-    class: "",
     location: "",
     role: "",
     appearance: "",
