@@ -681,7 +681,7 @@ export default function CharacterDetail() {
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
                         {isEditing ? (
                           <textarea
-                            value={characterData.description || character.description}
+                            value={characterData.description || character.description || ""}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                             rows={3}
                             className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
@@ -696,7 +696,7 @@ export default function CharacterDetail() {
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Personality</h3>
                         {isEditing ? (
                           <textarea
-                            value={characterData.personality || character.personality}
+                            value={characterData.personality || character.personality || ""}
                             onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
                             className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                             placeholder="Character's personality traits..."
@@ -760,7 +760,7 @@ export default function CharacterDetail() {
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
                       {isEditing ? (
                         <textarea
-                          value={characterData.appearance || character.appearance}
+                          value={characterData.appearance || character.appearance || ""}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
                           className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Describe the character's physical appearance..."
@@ -779,7 +779,7 @@ export default function CharacterDetail() {
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
                       {isEditing ? (
                         <textarea
-                          value={characterData.backstory || character.backstory}
+                          value={characterData.backstory || character.backstory || ""}
                           onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
                           className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Character's background story..."
@@ -799,7 +799,7 @@ export default function CharacterDetail() {
                     </div>
                     {isEditing ? (
                       <textarea
-                        value={characterData.weapons || character.weapons}
+                        value={characterData.weapons || character.weapons || ""}
                         onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
                         className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                         placeholder="List the character's weapons, armor, and important equipment..."
