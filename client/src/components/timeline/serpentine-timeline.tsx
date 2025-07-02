@@ -431,7 +431,8 @@ export default function SerpentineTimeline({
                             </p>
                             {event.location && (
                               <div className="flex items-center space-x-1 text-[var(--color-600)] mb-2">
-                                <span className="text-xs">📍 {event.location}</span>
+                                <MapPin className="w-3 h-3" />
+                                <span className="text-xs">{event.location}</span>
                               </div>
                             )}
                             {event.characters && event.characters.length > 0 && (
@@ -538,7 +539,8 @@ export default function SerpentineTimeline({
               <div className="space-y-2 mb-4">
                 {hoveredEvent.location && (
                   <div className="flex items-center space-x-2 text-[var(--color-600)]">
-                    <span className="text-sm">📍 {hoveredEvent.location}</span>
+                    <MapPin className="w-4 h-4" />
+                    <span className="text-sm">{hoveredEvent.location}</span>
                   </div>
                 )}
                 {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
