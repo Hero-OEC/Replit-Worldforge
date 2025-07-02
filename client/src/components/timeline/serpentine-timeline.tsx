@@ -153,7 +153,7 @@ export default function SerpentineTimeline({
         const availableWidth = Math.max(600, containerWidth - 64); // Min 600px, with padding
         const eventsPerRow = Math.max(3, Math.min(6, Math.floor(availableWidth / 180))); // More spacing per event
         const rows = Math.ceil(dateGroups.length / eventsPerRow);
-        const calculatedHeight = Math.max(300, rows * 140 + 60); // Dynamic height based on rows
+        const calculatedHeight = Math.max(300, rows * 100 + 60); // Dynamic height based on rows
         
         setDimensions({
           width: availableWidth,
@@ -175,7 +175,7 @@ export default function SerpentineTimeline({
   const eventsPerRow = Math.max(3, Math.min(6, Math.floor(dimensions.width / 180)));
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
   const horizontalSpacing = dateGroups.length > 1 ? Math.max(150, (dimensions.width - 120) / Math.min(eventsPerRow - 1, dateGroups.length - 1)) : 0;
-  const verticalSpacing = rows > 1 ? Math.max(120, (dimensions.height - 120) / (rows - 1)) : 0;
+  const verticalSpacing = rows > 1 ? Math.max(80, (dimensions.height - 120) / (rows - 1)) : 0;
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
