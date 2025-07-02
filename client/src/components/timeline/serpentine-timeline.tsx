@@ -1,69 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Calendar,
-  Star,
-  Users,
-  User,
-  Eye,
-  Swords,
-  Lightbulb,
-  Award,
-  Crown,
-  Heart,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Plane,
-  Edit3,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useParams } from "wouter";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import type { TimelineEvent } from "@shared/schema";
 
-// Event type icons mapping
-const eventTypeIcons = {
-  "Character Arc": Users,
-  Plot: Star,
-  World: Users,
-  Discovery: Eye,
-  Conflict: Swords,
-  Revelation: Lightbulb,
-  "Heroic Act": Award,
-  "Political Event": Crown,
-  Romance: Heart,
-  Mystery: HelpCircle,
-  Magic: Sparkles,
-  magic: Sparkles,
-  Battle: Zap,
-  Traveling: Plane,
-  Alliance: Users,
-  Artifacts: Award,
-  Betrayal: Swords,
-  Competition: Award,
-  Customs: Users,
-  Escape: Plane,
-  History: Calendar,
-  Institutions: Crown,
-  "Magic Ritual": Sparkles,
-  Preparation: Edit3,
-  Prophecies: Eye,
-  Prophecy: Eye,
-  Quest: Star,
-  Religion: Heart,
-  Tragedy: HelpCircle,
-};
-
-export interface TimelineEventData {
+interface TimelineEventData {
   id: number;
   title: string;
   date: string;
   importance: "high" | "medium" | "low";
   category: string;
-  description?: string;
-  location?: string;
-  characters?: string[];
+  description: string;
+  location: string;
+  characters: string[];
 }
 
 interface SerpentineTimelineProps {
@@ -73,16 +23,32 @@ interface SerpentineTimelineProps {
   className?: string;
 }
 
+// Event type icons matching main timeline
+const getEventIcon = (category: string) => {
+  const iconMap: any = {
+    "Character Arc": User,
+    Discovery: Eye,
+    Conflict: Swords,
+    Revelation: Lightbulb,
+    "Heroic Act": Award,
+    "Political Event": Crown,
+    Romance: Heart,
+    Mystery: HelpCircle,
+    Magic: Sparkles,
+    Battle: Zap,
+    Traveling: Plane,
+    Prophecy: Eye,
+    Wedding: Heart,
+    Other: Calendar,
+  };
+  return iconMap[category] || Calendar;
+};
+
+// Priority colors matching main timeline
 const priorityColors = {
   high: "bg-[var(--color-500)]",
   medium: "bg-[var(--color-400)]",
   low: "bg-[var(--color-300)]",
-};
-
-const priorityLabels = {
-  high: "High Priority",
-  medium: "Medium Priority",
-  low: "Low Priority",
 };
 
 export default function SerpentineTimeline({
@@ -92,24 +58,26 @@ export default function SerpentineTimeline({
   className = "",
 }: SerpentineTimelineProps) {
   const { projectId } = useParams<{ projectId: string }>();
-  const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
-  const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
-  const [popupPosition, setPopupPosition] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
-  const [containerWidth, setContainerWidth] = useState(1000);
   
+  // State for hover effects and popups
+  const [hoveredEvent, setHoveredEvent] = useState<TimelineEventData | null>(null);
+  const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
+  
+  // Refs for container management
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+  
+  // Container width for responsive layout
+  const [containerWidth, setContainerWidth] = useState(1000);
 
-  // Fetch timeline events from API with auto-refresh
-  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
+  // Fetch timeline events from API
+  const { data: timelineEvents = [], isLoading } = useQuery<TimelineEvent[]>({
     queryKey: [`/api/projects/${projectId}/timeline`],
     enabled: !!projectId,
     refetchOnWindowFocus: true,
-    refetchInterval: 5000, // Auto-refresh every 5 seconds
+    refetchInterval: 5000,
   });
 
   // Convert database events to timeline component format
@@ -128,14 +96,6 @@ export default function SerpentineTimeline({
 
   const events = convertToTimelineData(timelineEvents);
 
-  // Debug logging
-  console.log('SerpentineTimeline Debug:', { 
-    filterCharacter, 
-    totalEvents: events.length, 
-    eventsWithCharacters: events.filter(e => e.characters && e.characters.length > 0),
-    allCharacters: events.map(e => e.characters).filter(c => c && c.length > 0)
-  });
-
   // Filter events by character or location if specified
   const filteredEvents = filterCharacter
     ? events.filter(event => 
@@ -146,8 +106,6 @@ export default function SerpentineTimeline({
         event.location === filterLocation
       )
     : events;
-
-  console.log('Filtered events:', filteredEvents);
 
   // Sort events by date for timeline display
   const sortedEvents = [...filteredEvents].sort((a, b) => {
@@ -176,37 +134,29 @@ export default function SerpentineTimeline({
 
   // Calculate responsive bubbles per row based on container width
   const getEventsPerRow = (width: number) => {
-    if (width > 900) return 4; // Timeline page, location page
-    if (width > 600) return 3; // Character page
-    return 2; // Mobile
+    if (width > 900) return 4;
+    if (width > 600) return 3;
+    return 2;
   };
 
-  // Calculate timeline positions for serpentine layout - using same logic as main timeline
-  const timelineWidth = Math.min(1000, containerWidth - 40);
   const eventsPerRow = getEventsPerRow(containerWidth);
-  const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const timelineHeight = Math.max(400, rows * 80 + 100); // Same spacing as main timeline
-  const pathPoints: number[][] = [];
+  const timelineWidth = Math.min(containerWidth - 40, 1200);
+  const bubbleSpacing = timelineWidth / (eventsPerRow + 1);
+  const verticalSpacing = 60;
+  const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 200);
 
-  const horizontalSpacing = (timelineWidth - 120) / Math.max(1, eventsPerRow - 1);
-  const verticalSpacing = Math.max(60, (timelineHeight - 100) / Math.max(1, rows - 1)); // Same spacing as main timeline
-
-  dateGroups.forEach((group, index) => {
+  // Calculate path points for serpentine layout
+  const pathPoints: [number, number][] = [];
+  dateGroups.forEach((_, index) => {
     const row = Math.floor(index / eventsPerRow);
     const col = index % eventsPerRow;
-
+    
     let x, y;
-    if (dateGroups.length === 1) {
-      // Center single event
-      x = timelineWidth / 2;
-      y = timelineHeight / 2;
-    } else if (row % 2 === 0) {
-      // Left to right for even rows
-      x = 60 + col * horizontalSpacing;
+    if (row % 2 === 0) {
+      x = bubbleSpacing * (col + 1);
       y = 50 + row * verticalSpacing;
     } else {
-      // Right to left for odd rows
-      x = 60 + (eventsPerRow - 1 - col) * horizontalSpacing;
+      x = bubbleSpacing * (eventsPerRow - col);
       y = 50 + row * verticalSpacing;
     }
 
@@ -226,29 +176,30 @@ export default function SerpentineTimeline({
     return () => window.removeEventListener('resize', updateContainerWidth);
   }, []);
 
-  const handleEventClick = (event: TimelineEventData, x: number, y: number) => {
-    setSelectedEvent(event);
-    setPopupPosition({ x, y });
-  };
-
-  const handleClosePopup = () => {
-    setSelectedEvent(null);
-    setPopupPosition(null);
-  };
-
   // Close popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        handleClosePopup();
+        setHoveredEvent(null);
+        setHoveredDateGroup(null);
+        setPopupPosition(null);
       }
     };
 
-    if (selectedEvent) {
+    if (hoveredEvent || hoveredDateGroup) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [selectedEvent]);
+  }, [hoveredEvent, hoveredDateGroup]);
+
+  if (isLoading) {
+    return (
+      <div className={`text-center py-12 ${className}`}>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-600)] mx-auto"></div>
+        <p className="text-[var(--color-600)] mt-2">Loading timeline...</p>
+      </div>
+    );
+  }
 
   if (sortedEvents.length === 0) {
     return (
@@ -296,115 +247,124 @@ export default function SerpentineTimeline({
           {/* Event Nodes */}
           {dateGroups.map((group, index) => {
             const [x, y] = pathPoints[index];
-            const isHovered = hoveredDateGroup === group;
 
             return (
               <div
                 key={group.date}
                 className="absolute transform -translate-x-1/2 -translate-y-1/2"
                 style={{ left: x, top: y }}
-                onMouseEnter={() => setHoveredDateGroup(group)}
-                onMouseLeave={() => setHoveredDateGroup(null)}
               >
-                {/* Date Node */}
+                {/* Event Node */}
                 <div
-                  className={`relative cursor-pointer transition-all duration-200 ${
-                    isHovered ? "scale-110" : ""
-                  }`}
-                  onClick={(e) => {
-                    if (group.events.length === 1) {
-                      const rect = timelineRef.current?.getBoundingClientRect();
-                      if (rect) {
-                        handleEventClick(
-                          group.events[0],
-                          rect.left + x,
-                          rect.top + y - 50
-                        );
-                      }
+                  className="relative"
+                  onMouseEnter={(e) => {
+                    const bubbleRect = e.currentTarget.getBoundingClientRect();
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+
+                    const popupWidth = 320;
+                    const popupHeight = 250;
+
+                    const bubbleCenterX = bubbleRect.left + (bubbleRect.width / 2);
+                    const bubbleCenterY = bubbleRect.top + (bubbleRect.height / 2);
+
+                    let finalX = bubbleCenterX;
+                    const leftEdge = finalX - (popupWidth / 2);
+                    const rightEdge = finalX + (popupWidth / 2);
+
+                    if (leftEdge < 20) {
+                      finalX = 20 + (popupWidth / 2);
+                    } else if (rightEdge > viewportWidth - 20) {
+                      finalX = viewportWidth - 20 - (popupWidth / 2);
+                    }
+
+                    const spaceBelow = viewportHeight - bubbleCenterY - 60;
+                    const spaceAbove = bubbleCenterY - 60;
+
+                    let finalY;
+                    if (spaceBelow >= popupHeight) {
+                      finalY = bubbleCenterY + 60;
+                    } else if (spaceAbove >= popupHeight) {
+                      finalY = bubbleCenterY - 60 - popupHeight;
+                    } else {
+                      finalY = Math.max(20, Math.min(viewportHeight - popupHeight - 20, bubbleCenterY - popupHeight / 2));
+                    }
+
+                    setPopupPosition({ x: finalX, y: finalY });
+                    
+                    if (group.isMultiEvent) {
+                      setHoveredDateGroup(group);
+                    } else {
+                      setHoveredEvent(group.events[0]);
                     }
                   }}
+                  onMouseLeave={() => {
+                    setTimeout(() => {
+                      if (!popupRef.current?.matches(":hover")) {
+                        setHoveredEvent(null);
+                        setHoveredDateGroup(null);
+                        setPopupPosition(null);
+                      }
+                    }, 100);
+                  }}
                 >
-                  {/* Main Node Circle */}
-                  <div
-                    className={`w-12 h-12 rounded-full border-4 border-[var(--color-400)] flex items-center justify-center shadow-lg transition-all duration-200 ${
-                      group.isMultiEvent
-                        ? "bg-[var(--color-500)]"
-                        : priorityColors[group.events[0].importance]
-                    } ${isHovered ? "shadow-xl border-[var(--color-500)]" : ""}`}
-                  >
-                    {group.isMultiEvent ? (
-                      <span className="text-[var(--color-50)] font-bold text-sm">
-                        {group.events.length}
-                      </span>
-                    ) : (
-                      (() => {
-                        const IconComponent = eventTypeIcons[group.events[0].category as keyof typeof eventTypeIcons] || Star;
-                        return <IconComponent className="w-5 h-5 text-[var(--color-50)]" fill="currentColor" />;
-                      })()
-                    )}
-                  </div>
-
-                  {/* Combined Title and Date Box - BELOW bubble with gap */}
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full mt-2 whitespace-nowrap">
-                    <div className="px-3 py-2 rounded shadow-sm border border-[var(--color-200)] bg-[var(--color-100)] text-center mt-2">
-                      <div className="text-xs font-medium text-[var(--color-950)] truncate max-w-32">
-                        {group.isMultiEvent ? `${group.events.length} Events` : group.events[0].title}
+                  {group.isMultiEvent ? (
+                    // Multi-event node
+                    <div className="relative">
+                      <div className="w-12 h-12 bg-[var(--color-600)] rounded-full flex items-center justify-center shadow-lg">
+                        <Calendar className="w-6 h-6 text-[var(--color-50)]" />
                       </div>
-                      <div className="text-xs text-[var(--color-700)] mt-0.5">
-                        {group.date || 'No date'}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-500)] rounded-full flex items-center justify-center">
+                        <span className="text-[var(--color-50)] font-bold text-xs">
+                          {group.events.length}
+                        </span>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Multi-event Popup */}
-                  {group.isMultiEvent && isHovered && (
-                    <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-                      <div className="rounded-lg shadow-xl border p-3 w-64 bg-[var(--color-100)]">
-                        <div className="text-sm font-medium text-[var(--color-950)] mb-2">
-                          Events on {group.date}
-                        </div>
-                        <div 
-                          className="space-y-2 max-h-48 overflow-y-auto"
-                          style={{ 
-                            scrollbarWidth: 'thin',
-                            scrollbarColor: 'var(--color-400) var(--color-100)'
-                          }}
-                        >
-                          {group.events.map((event) => {
-                            const IconComponent = eventTypeIcons[event.category as keyof typeof eventTypeIcons] || Calendar;
-                            return (
-                              <div
-                                key={event.id}
-                                className="flex items-center space-x-2 p-2 hover:bg-[var(--color-200)] rounded cursor-pointer transition-colors duration-150"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  const rect = timelineRef.current?.getBoundingClientRect();
-                                  if (rect) {
-                                    handleEventClick(
-                                      event,
-                                      rect.left + x,
-                                      rect.top + y - 50
-                                    );
-                                  }
-                                }}
-                              >
-                                <div className={`w-3 h-3 rounded-full ${priorityColors[event.importance]}`} />
-                                <IconComponent className="w-4 h-4 text-[var(--color-700)]" />
-                                <span className="text-sm text-[var(--color-800)] flex-1 truncate">
-                                  {event.title}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        {group.events.length > 3 && (
-                          <div className="text-xs text-[var(--color-600)] mt-2 text-center">
-                            Scroll to see all {group.events.length} events
-                          </div>
+                  ) : (
+                    // Single event node
+                    <div
+                      className={`relative cursor-pointer transform transition-all duration-200 hover:scale-105`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (showEditButtons) {
+                          window.location.href = `/project/${projectId}/timeline/${group.events[0].id}`;
+                        }
+                      }}
+                    >
+                      <div
+                        className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors] || priorityColors.medium} rounded-full flex items-center justify-center shadow-lg`}
+                      >
+                        {React.createElement(
+                          getEventIcon(group.events[0].category),
+                          {
+                            className: "w-6 h-6 text-white",
+                          },
                         )}
                       </div>
                     </div>
                   )}
+                </div>
+                
+                {/* Event Labels */}
+                <div
+                  style={{
+                    left: x,
+                    top: y + 50,
+                  }}
+                  className="absolute transform -translate-x-1/2 pointer-events-none"
+                >
+                  <div className="text-center">
+                    <div className="bg-[var(--color-100)] px-3 py-2 rounded-lg shadow-sm border border[var(--color-300)] min-w-[140px] max-w-[180px]">
+                      <div className="text-sm font-semibold text-gray-800 mb-1 leading-tight truncate">
+                        {group.isMultiEvent
+                          ? `${group.events.length} Events`
+                          : group.events[0].title}
+                      </div>
+                      <div className="text-xs text-[var(--color-700)] font-medium">
+                        {group.date}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -412,67 +372,124 @@ export default function SerpentineTimeline({
         </div>
       </div>
 
-      {/* Event Detail Popup */}
-      {selectedEvent && popupPosition && (
+      {/* Hover popups */}
+      {popupPosition && (
         <div
           ref={popupRef}
-          className="fixed z-50 rounded-lg shadow-2xl border p-6 w-96 bg-[var(--color-100)]"
+          className="fixed z-50"
           style={{
-            left: Math.min(popupPosition.x, window.innerWidth - 400),
-            top: Math.max(50, popupPosition.y - 100),
+            left: popupPosition.x - 160,
+            top: popupPosition.y,
+          }}
+          onMouseEnter={() => {
+            // Keep popup visible when hovering over it
+          }}
+          onMouseLeave={() => {
+            setHoveredDateGroup(null);
+            setHoveredEvent(null);
+            setPopupPosition(null);
           }}
         >
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center space-x-3">
-              <div className={`w-3 h-3 rounded-full ${priorityColors[selectedEvent.importance]}`} />
-              <div>
-                <h3 className="font-semibold text-[var(--color-950)]">{selectedEvent.title}</h3>
-                <p className="text-sm text-[var(--color-700)]">{selectedEvent.date}</p>
+          {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
+            // Multi-event popup
+            <Card className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]">
+              <div className="mb-3">
+                <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
+                  {hoveredDateGroup.date}
+                </h3>
+                <p className="text-sm text-[var(--color-700)]">
+                  {hoveredDateGroup.events.length} events on this date
+                </p>
               </div>
-            </div>
-          </div>
+              <div className="max-h-48 overflow-y-auto space-y-2">
+                {hoveredDateGroup.events.map((event: TimelineEventData) => {
+                  const EventIcon = getEventIcon(event.category);
+                  const importance = event.importance as keyof typeof priorityColors;
 
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="text-xs">
-                {selectedEvent.category}
-              </Badge>
-              <Badge 
-                variant="outline" 
-                className={`text-xs ${
-                  selectedEvent.importance === 'high' ? 'border-[var(--color-600)] text-[var(--color-700)]' :
-                  selectedEvent.importance === 'medium' ? 'border-[var(--color-400)] text-[var(--color-700)]' :
-                  'border-[var(--color-400)] text-[var(--color-700)]'
-                }`}
-              >
-                {priorityLabels[selectedEvent.importance]}
-              </Badge>
-            </div>
-
-            {selectedEvent.description && (
-              <p className="text-sm text-[var(--color-800)]">{selectedEvent.description}</p>
-            )}
-
-            {selectedEvent.location && (
-              <div className="flex items-center space-x-2">
-                <span className="text-xs text-[var(--color-600)]">Location:</span>
-                <span className="text-sm text-[var(--color-800)]">{selectedEvent.location}</span>
+                  return (
+                    <div
+                      key={event.id}
+                      className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-50)]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (showEditButtons) {
+                          window.location.href = `/project/${projectId}/timeline/${event.id}`;
+                        }
+                      }}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                          <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-semibold text-[var(--color-950)] truncate">
+                            {event.title}
+                          </h4>
+                          <p className="text-xs text-[var(--color-700)] line-clamp-2">
+                            {event.description || "No description"}
+                          </p>
+                          {event.location && (
+                            <p className="text-xs text-[var(--color-600)] mt-1">
+                              📍 {event.location}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            )}
-
-            {selectedEvent.characters && selectedEvent.characters.length > 0 && (
-              <div className="flex items-center space-x-2">
-                <span className="text-xs text-[var(--color-600)]">Characters:</span>
-                <div className="flex flex-wrap gap-1">
-                  {selectedEvent.characters.map((character, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {character}
-                    </Badge>
-                  ))}
+            </Card>
+          ) : hoveredEvent ? (
+            // Single event popup
+            <Card className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]">
+              <div className="flex items-start space-x-3">
+                <div className={`w-10 h-10 ${priorityColors[hoveredEvent.importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  {React.createElement(getEventIcon(hoveredEvent.category), {
+                    className: "w-5 h-5 text-white",
+                  })}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
+                    {hoveredEvent.title}
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <p className="text-[var(--color-700)]">
+                      <strong>Date:</strong> {hoveredEvent.date}
+                    </p>
+                    {hoveredEvent.location && (
+                      <p className="text-[var(--color-700)]">
+                        <strong>Location:</strong> {hoveredEvent.location}
+                      </p>
+                    )}
+                    {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
+                      <p className="text-[var(--color-700)]">
+                        <strong>Characters:</strong> {hoveredEvent.characters.join(", ")}
+                      </p>
+                    )}
+                    {hoveredEvent.description && (
+                      <p className="text-[var(--color-700)] line-clamp-3">
+                        {hoveredEvent.description}
+                      </p>
+                    )}
+                  </div>
+                  {showEditButtons && (
+                    <div className="mt-3">
+                      <button
+                        className="text-xs text-[var(--color-600)] hover:text-[var(--color-800)] font-medium"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = `/project/${projectId}/timeline/${hoveredEvent.id}`;
+                        }}
+                      >
+                        Click to edit →
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
-          </div>
+            </Card>
+          ) : null}
         </div>
       )}
     </div>
