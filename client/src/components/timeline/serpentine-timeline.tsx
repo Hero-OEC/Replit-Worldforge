@@ -128,6 +128,14 @@ export default function SerpentineTimeline({
 
   const events = convertToTimelineData(timelineEvents);
 
+  // Debug logging
+  console.log('SerpentineTimeline Debug:', { 
+    filterCharacter, 
+    totalEvents: events.length, 
+    eventsWithCharacters: events.filter(e => e.characters && e.characters.length > 0),
+    allCharacters: events.map(e => e.characters).filter(c => c && c.length > 0)
+  });
+
   // Filter events by character or location if specified
   const filteredEvents = filterCharacter
     ? events.filter(event => 
@@ -138,6 +146,8 @@ export default function SerpentineTimeline({
         event.location === filterLocation
       )
     : events;
+
+  console.log('Filtered events:', filteredEvents);
 
   // Sort events by date for timeline display
   const sortedEvents = [...filteredEvents].sort((a, b) => {
