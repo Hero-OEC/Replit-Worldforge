@@ -45,6 +45,9 @@ export interface IStorage {
   updateMagicSystem(id: number, system: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined>;
   deleteMagicSystem(id: number): Promise<boolean>;
 
+  // Character Magic Systems relationships
+  getCharacterMagicSystems(characterId: number): Promise<any[]>;
+
   // Lore Entries
   getLoreEntries(projectId: number): Promise<LoreEntry[]>;
   getLoreEntry(id: number): Promise<LoreEntry | undefined>;
@@ -436,6 +439,18 @@ export class MemStorage implements IStorage {
     };
     this.editHistory.set(entry.id, entry);
     return entry;
+  }
+
+  // Character Magic Systems relationships
+  async getCharacterMagicSystems(characterId: number): Promise<any[]> {
+    try {
+      // For now, return empty array since we don't have the relationship table set up yet
+      // This will be implemented when we add the character_magic_systems table
+      return [];
+    } catch (error) {
+      console.error('Error fetching character magic systems:', error);
+      return [];
+    }
   }
 
   // Stats
@@ -905,6 +920,18 @@ export class DatabaseStorage implements IStorage {
   async createEditHistory(insertEntry: InsertEditHistory): Promise<EditHistory> {
     const [entry] = await db.insert(editHistory).values(insertEntry).returning();
     return entry;
+  }
+
+  // Character Magic Systems relationships
+  async getCharacterMagicSystems(characterId: number): Promise<any[]> {
+    try {
+      // For now, return empty array since we don't have the relationship table set up yet
+      // This will be implemented when we add the character_magic_systems table
+      return [];
+    } catch (error) {
+      console.error('Error fetching character magic systems:', error);
+      return [];
+    }
   }
 
   async getOverallStats(): Promise<{

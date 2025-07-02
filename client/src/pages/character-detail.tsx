@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -299,11 +298,11 @@ export default function CharacterDetail() {
   // Get character magic systems
   useEffect(() => {
     if (characterId) {
-      setCharacterMagicSystems([]);
       fetch(`/api/characters/${characterId}/magic-systems`)
         .then(res => res.json())
         .then(data => {
-          setCharacterMagicSystems(data || []);
+          // Ensure we always have an array
+          setCharacterMagicSystems(Array.isArray(data) ? data : []);
         })
         .catch(err => {
           console.error('Error fetching character magic systems:', err);
@@ -311,6 +310,14 @@ export default function CharacterDetail() {
         });
     }
   }, [characterId]);
+
+  // Initialize power systems when character magic systems load
+  useEffect(() => {
+    if (Array.isArray(characterMagicSystems)) {
+      const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem?.name || cms.name).filter(Boolean);
+      setSelectedPowerSystems(systemNames);
+    }
+  }, [characterMagicSystems]);
 
   // Initialize character data when character is loaded
   useEffect(() => {
@@ -331,10 +338,7 @@ export default function CharacterDetail() {
   }, [character]);
 
   // Initialize power systems when character magic systems load
-  useEffect(() => {
-    const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem?.name).filter(Boolean);
-    setSelectedPowerSystems(systemNames);
-  }, [characterMagicSystems]);
+
 
   // Get role configuration
   const roleInfo = roleConfig[character?.role as keyof typeof roleConfig] || roleConfig["Supporting"];
@@ -457,6 +461,18 @@ export default function CharacterDetail() {
       </div>
     );
   }
+
+  // Fetch real magic systems data
+  const { data: powerSystemsData = [] } = useQuery({
+    queryKey: ["/api/magic-systems", projectId],
+    queryFn: async () => {
+      if (!projectId) return [];
+      const response = await fetch(`/api/magic-systems?projectId=${projectId}`);
+      if (!response.ok) throw new Error("Failed to fetch magic systems");
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
