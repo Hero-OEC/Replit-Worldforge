@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 2, 2025. Fixed timeline vertical spacing and cleaned up duplicate components:
+  * Fixed excessive vertical spacing in main timeline page serpentine layout
+  * Reduced row height from 200px to 80px per row (60% reduction)
+  * Reduced minimum vertical spacing from 180px to 60px between rows (67% reduction)  
+  * Reduced base Y offset from 100px to 50px (50% reduction)
+  * Reduced overall timeline height minimum from 800px to 400px (50% reduction)
+  * Timeline arms are now much shorter when wrapping to new rows, eliminating excessive downward positioning
+  * Replaced duplicate SerpentineTimeline component with simplified stub since main timeline page handles all functionality
+  * Completed migration from Replit Agent to standard Replit environment with full Supabase database connectivity
 - July 1, 2025. Added comprehensive double-click prevention to all creation forms:
   * Enhanced location creation form with proper double-click prevention in handleSave function
   * Added button disabled state during submission and loading text feedback ("Creating...")
