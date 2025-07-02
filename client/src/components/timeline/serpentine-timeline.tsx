@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight } from "lucide-react";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { TimelineEvent } from "@shared/schema";
 
 interface TimelineEventData {
@@ -459,36 +461,91 @@ export default function SerpentineTimeline({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-[var(--color-950)] text-lg">
+                  <h3 className="font-semibold text-[var(--color-950)] text-lg mb-1">
                     {hoveredEvent.title}
                   </h3>
-                  <p className="text-sm text-[var(--color-700)] mt-2">
+                  <p className="text-sm text-[var(--color-700)] mb-2">
                     {hoveredEvent.date}
                   </p>
+                  
+                  {/* Priority and Category Badges */}
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Badge
+                      className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-[var(--color-50)] text-xs px-2 py-1`}
+                    >
+                      {hoveredEvent.importance === 'high' ? 'High Priority' : 
+                       hoveredEvent.importance === 'medium' ? 'Medium Priority' : 'Low Priority'}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs px-2 py-1">
+                      {hoveredEvent.category}
+                    </Badge>
+                  </div>
                 </div>
               </div>
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-[var(--color-700)] leading-relaxed">
+
+              {/* Description */}
+              <div className="mb-4">
+                <p className="text-sm text-[var(--color-700)] leading-relaxed">
                   {hoveredEvent.description.length > 120 
                     ? `${hoveredEvent.description.substring(0, 120)}...`
                     : hoveredEvent.description}
                 </p>
+              </div>
+
+              {/* Location and Characters with Icons */}
+              <div className="space-y-2 mb-4">
                 {hoveredEvent.location && (
                   <div className="flex items-center space-x-2 text-[var(--color-600)]">
                     <MapPin className="w-4 h-4" />
-                    <span>{hoveredEvent.location}</span>
+                    <span className="text-sm">{hoveredEvent.location}</span>
                   </div>
                 )}
                 {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
                   <div className="flex items-center space-x-2 text-[var(--color-600)]">
                     <Users className="w-4 h-4" />
-                    <span>{hoveredEvent.characters.join(", ")}</span>
+                    <span className="text-sm">{hoveredEvent.characters.join(", ")}</span>
                   </div>
                 )}
               </div>
-              <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-[var(--color-300)]">
-                <span>Click to view details</span>
-                <ChevronRight className="w-4 h-4" />
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-3 border-t border-[var(--color-300)]">
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = `/project/${projectId}/timeline/${hoveredEvent.id}/edit`;
+                    }}
+                    className="h-8 px-3 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)] flex items-center space-x-1"
+                  >
+                    <Edit className="w-3 h-3" />
+                    <span className="text-xs">Edit</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Handle delete action if needed
+                    }}
+                    className="h-8 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center space-x-1"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    <span className="text-xs">Delete</span>
+                  </Button>
+                </div>
+                <span
+                  className="text-xs text-[var(--color-600)] hover:text-[var(--color-700)] cursor-pointer flex items-center space-x-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `/project/${projectId}/timeline/${hoveredEvent.id}`;
+                  }}
+                >
+                  <span>View details</span>
+                  <ChevronRight className="w-3 h-3" />
+                </span>
               </div>
             </Card>
           ) : null}
