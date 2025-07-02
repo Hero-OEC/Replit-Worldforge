@@ -245,15 +245,24 @@ export default function CharacterNew() {
   });
 
   const handleSave = async () => {
-    if (!characterData.name.trim()) return;
+    if (!characterData.name.trim()) {
+      console.log("Character name is required");
+      return;
+    }
     if (createCharacterMutation.isPending) return; // Prevent double submission
 
-    const newCharacter: InsertCharacter = {
-      projectId: parseInt(projectId!),
-      ...characterData,
-    };
+    try {
+      const newCharacter: InsertCharacter = {
+        projectId: parseInt(projectId!),
+        ...characterData,
+        powerSystems: selectedPowerSystems,
+      };
 
-    await createCharacterMutation.mutateAsync(newCharacter);
+      console.log("Creating character:", newCharacter);
+      await createCharacterMutation.mutateAsync(newCharacter);
+    } catch (error) {
+      console.error("Error creating character:", error);
+    }
   };
 
   const handleCancel = () => {
