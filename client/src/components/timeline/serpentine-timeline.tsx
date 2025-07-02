@@ -391,7 +391,7 @@ export default function SerpentineTimeline({
           }}
         >
           {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
-            // Multi-event popup
+            // Multi-event popup matching timeline page style
             <Card className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]">
               <div className="mb-3">
                 <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
@@ -401,43 +401,85 @@ export default function SerpentineTimeline({
                   {hoveredDateGroup.events.length} events on this date
                 </p>
               </div>
-              <div className="max-h-48 overflow-y-auto space-y-2">
-                {hoveredDateGroup.events.map((event: TimelineEventData) => {
-                  const EventIcon = getEventIcon(event.category);
-                  const importance = event.importance as keyof typeof priorityColors;
+              <div className="space-y-3">
+                <div className="max-h-64 overflow-y-auto space-y-3">
+                  {hoveredDateGroup.events.slice(0, 3).map((event: TimelineEventData) => {
+                    const EventIcon = getEventIcon(event.category);
+                    const importance = event.importance as keyof typeof priorityColors;
 
-                  return (
-                    <div
-                      key={event.id}
-                      className="relative p-3 rounded-lg bg-[var(--color-100)] border cursor-pointer hover:bg-[var(--color-50)]"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (showEditButtons) {
+                    return (
+                      <div
+                        key={event.id}
+                        className="relative p-3 rounded-lg bg-[var(--color-100)] border border-[var(--color-300)] cursor-pointer hover:bg-[var(--color-50)] transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
                           window.location.href = `/project/${projectId}/timeline/${event.id}`;
-                        }
-                      }}
-                    >
-                      <div className="flex items-start space-x-3">
-                        <div className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
-                          <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-semibold text-[var(--color-950)] truncate">
-                            {event.title}
-                          </h4>
-                          <p className="text-xs text-[var(--color-700)] line-clamp-2">
-                            {event.description || "No description"}
-                          </p>
-                          {event.location && (
-                            <p className="text-xs text-[var(--color-600)] mt-1">
-                              📍 {event.location}
+                        }}
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div className={`w-10 h-10 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                            <EventIcon className="w-5 h-5 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-[var(--color-950)] mb-1">
+                              {event.title}
+                            </h4>
+                            <p className="text-sm text-[var(--color-700)] line-clamp-2 mb-2">
+                              {event.description.length > 80 
+                                ? `${event.description.substring(0, 80)}...`
+                                : event.description || "No description"}
                             </p>
-                          )}
+                            {event.location && (
+                              <div className="flex items-center space-x-1 text-[var(--color-600)] mb-2">
+                                <span className="text-xs">📍 {event.location}</span>
+                              </div>
+                            )}
+                            {event.characters && event.characters.length > 0 && (
+                              <div className="flex items-center space-x-1 text-[var(--color-600)]">
+                                <Users className="w-3 h-3" />
+                                <span className="text-xs">{event.characters.join(", ")}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.location.href = `/project/${projectId}/timeline/${event.id}/edit`;
+                              }}
+                              className="h-7 w-7 p-0 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)]"
+                            >
+                              <Edit className="w-3 h-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Handle delete action if needed
+                              }}
+                              className="h-7 w-7 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
+                    );
+                  })}
+                  {hoveredDateGroup.events.length > 3 && (
+                    <div className="text-center text-xs text-[var(--color-600)] pt-2">
+                      +{hoveredDateGroup.events.length - 3} more events
                     </div>
-                  );
-                })}
+                  )}
+                </div>
+                <div className="pt-3 border-t border-[var(--color-300)] text-center">
+                  <span className="text-xs text-[var(--color-600)]">
+                    Click on events to edit details
+                  </span>
+                </div>
               </div>
             </Card>
           ) : hoveredEvent ? (
@@ -496,8 +538,7 @@ export default function SerpentineTimeline({
               <div className="space-y-2 mb-4">
                 {hoveredEvent.location && (
                   <div className="flex items-center space-x-2 text-[var(--color-600)]">
-                    <MapPin className="w-4 h-4" />
-                    <span className="text-sm">{hoveredEvent.location}</span>
+                    <span className="text-sm">📍 {hoveredEvent.location}</span>
                   </div>
                 )}
                 {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
