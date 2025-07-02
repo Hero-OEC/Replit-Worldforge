@@ -375,7 +375,7 @@ export default function CharacterNew() {
                   </div>
 
                   {/* Race */}
-                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                  <div className="flex justify-between items-center py-3">
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     <Input
                       value={characterData.race}
