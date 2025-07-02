@@ -653,7 +653,7 @@ export default function CharacterDetail() {
                         placeholder="Human"
                       />
                     ) : (
-                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md border border-gray-300">{character.race}</span>
+                      <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.race}</span>
                     )}
                   </div>
 
