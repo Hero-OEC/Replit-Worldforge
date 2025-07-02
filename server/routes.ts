@@ -79,6 +79,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/projects/:projectId/characters", async (req, res) => {
+    try {
+      const projectId = parseInt(req.params.projectId);
+      const validatedData = insertCharacterSchema.parse({ ...req.body, projectId });
+      const character = await storage.createCharacter(validatedData);
+      res.status(201).json(character);
+    } catch (error) {
+      console.error("Character creation error:", error);
+      res.status(400).json({ message: "Invalid character data" });
+    }
+  });
+
   app.get("/api/characters/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
