@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane } from "lucide-react";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import type { TimelineEvent } from "@shared/schema";
 
@@ -225,7 +225,7 @@ export default function SerpentineTimeline({
   return (
     <div ref={timelineContainerRef} className={`relative w-full ${className}`}>
       {/* Serpentine Timeline */}
-      <div className="p-8 pt-[0px] pb-[0px]">
+      <div className="p-8 pt-[0px] pb-[0px] ml-6">
         <div
           ref={timelineRef}
           className="relative mx-auto"
@@ -435,52 +435,56 @@ export default function SerpentineTimeline({
               </div>
             </Card>
           ) : hoveredEvent ? (
-            // Single event popup
-            <Card className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]">
-              <div className="flex items-start space-x-3">
-                <div className={`w-10 h-10 ${priorityColors[hoveredEvent.importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
-                  {React.createElement(getEventIcon(hoveredEvent.category), {
-                    className: "w-5 h-5 text-white",
-                  })}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
-                    {hoveredEvent.title}
-                  </h3>
-                  <div className="space-y-2 text-sm">
-                    <p className="text-[var(--color-700)]">
-                      <strong>Date:</strong> {hoveredEvent.date}
-                    </p>
-                    {hoveredEvent.location && (
-                      <p className="text-[var(--color-700)]">
-                        <strong>Location:</strong> {hoveredEvent.location}
-                      </p>
-                    )}
-                    {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
-                      <p className="text-[var(--color-700)]">
-                        <strong>Characters:</strong> {hoveredEvent.characters.join(", ")}
-                      </p>
-                    )}
-                    {hoveredEvent.description && (
-                      <p className="text-[var(--color-700)] line-clamp-3">
-                        {hoveredEvent.description}
-                      </p>
-                    )}
-                  </div>
-                  {showEditButtons && (
-                    <div className="mt-3">
-                      <button
-                        className="text-xs text-[var(--color-600)] hover:text-[var(--color-800)] font-medium"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.location.href = `/project/${projectId}/timeline/${hoveredEvent.id}`;
-                        }}
-                      >
-                        Click to edit →
-                      </button>
-                    </div>
+            // Single event popup - matching main timeline styling exactly
+            <Card
+              className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
+              onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = `/project/${projectId}/timeline/${hoveredEvent.id}`;
+              }}
+            >
+              <div className="flex items-start space-x-3 mb-3">
+                <div
+                  className={`w-10 h-10 ${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}
+                >
+                  {React.createElement(
+                    getEventIcon(hoveredEvent.category),
+                    {
+                      className: "w-5 h-5 text-white",
+                    },
                   )}
                 </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-[var(--color-950)] text-lg">
+                    {hoveredEvent.title}
+                  </h3>
+                  <p className="text-sm text-[var(--color-700)] mt-2">
+                    {hoveredEvent.date}
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-2 text-sm mb-4">
+                <p className="text-[var(--color-700)] leading-relaxed">
+                  {hoveredEvent.description.length > 120 
+                    ? `${hoveredEvent.description.substring(0, 120)}...`
+                    : hoveredEvent.description}
+                </p>
+                {hoveredEvent.location && (
+                  <div className="flex items-center space-x-2 text-[var(--color-600)]">
+                    <MapPin className="w-4 h-4" />
+                    <span>{hoveredEvent.location}</span>
+                  </div>
+                )}
+                {hoveredEvent.characters && hoveredEvent.characters.length > 0 && (
+                  <div className="flex items-center space-x-2 text-[var(--color-600)]">
+                    <Users className="w-4 h-4" />
+                    <span>{hoveredEvent.characters.join(", ")}</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-[var(--color-300)]">
+                <span>Click to view details</span>
+                <ChevronRight className="w-4 h-4" />
               </div>
             </Card>
           ) : null}
