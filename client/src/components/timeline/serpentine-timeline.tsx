@@ -146,7 +146,7 @@ export default function SerpentineTimeline({
   const bubbleMargin = 60; // Space from edges
   const availableWidth = timelineWidth - (bubbleMargin * 2);
   const bubbleSpacing = eventsPerRow > 1 ? availableWidth / (eventsPerRow - 1) : 0;
-  const verticalSpacing = 60;
+  const verticalSpacing = 90;
   const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 200);
 
   // Calculate path points for serpentine layout
