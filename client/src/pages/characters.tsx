@@ -217,16 +217,7 @@ export default function Characters() {
                       </p>
                     </div>
 
-                    <div className="space-y-2 text-body-xs text-[var(--color-700)]">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-label-md text-[var(--color-700)]">Personality:</span>
-                        <span className="line-clamp-1">{character.personality}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-label-md text-[var(--color-700)]">Appearance:</span>
-                        <span className="line-clamp-1">{character.appearance}</span>
-                      </div>
-                    </div>
+                    
 
                     {/* Character Stats/Info Bar */}
                     <div className={`mt-4 pt-3 border-t ${roleInfo.borderColor} flex items-center justify-between`}>
