@@ -285,6 +285,18 @@ export default function CharacterDetail() {
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
   const { goBack } = useNavigation();
   const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
+  const [characterData, setCharacterData] = useState({
+    name: "",
+    description: "",
+    personality: "",
+    backstory: "",
+    weapons: "",
+    age: "",
+    race: "",
+    location: "",
+    role: "",
+    appearance: ""
+  });
 
   // Track navigation history
   useNavigationTracker();
@@ -301,18 +313,6 @@ export default function CharacterDetail() {
   const getCategoryBorderColor = (category: string) => {
     return category === "power" ? "border-blue-200" : "border-purple-200";
   };
-  const [characterData, setCharacterData] = useState({
-    name: "",
-    description: "",
-    personality: "",
-    backstory: "",
-    weapons: "",
-    age: "",
-    race: "",
-    location: "",
-    role: "",
-    appearance: ""
-  });
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -359,6 +359,24 @@ export default function CharacterDetail() {
         });
     }
   }, [characterId]);
+
+  // Initialize character data when character is loaded
+  useEffect(() => {
+    if (character) {
+      setCharacterData({
+        name: character.name || "",
+        description: character.description || "",
+        personality: character.personality || "",
+        backstory: character.backstory || "",
+        weapons: character.weapons || "",
+        age: character.age || "",
+        race: character.race || "",
+        location: character.location || "",
+        role: character.role || "",
+        appearance: character.appearance || ""
+      });
+    }
+  }, [character]);
 
   // Initialize power systems when character magic systems load
   useEffect(() => {
@@ -478,24 +496,6 @@ export default function CharacterDetail() {
       </div>
     );
   }
-
-  // Initialize character data when character is loaded
-  useEffect(() => {
-    if (character) {
-      setCharacterData({
-        name: character.name || "",
-        description: character.description || "",
-        personality: character.personality || "",
-        backstory: character.backstory || "",
-        weapons: character.weapons || "",
-        age: character.age || "",
-        race: character.race || "",
-        location: character.location || "",
-        role: character.role || "",
-        appearance: character.appearance || ""
-      });
-    }
-  }, [character]);
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
