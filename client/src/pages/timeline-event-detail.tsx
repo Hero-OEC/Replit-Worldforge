@@ -27,7 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
-import type { TimelineEvent, ProjectWithStats } from "@shared/schema";
+import type { TimelineEvent, ProjectWithStats, Character } from "@shared/schema";
 
 const eventTypeIcons = {
   "Character Arc": User,
@@ -73,6 +73,18 @@ export default function TimelineEventDetail() {
     queryKey: [`/api/timeline-events/${eventId}`],
     enabled: !!eventId,
   });
+
+  // Fetch characters to get actual character IDs
+  const { data: characters = [] } = useQuery<any[]>({
+    queryKey: [`/api/projects/${projectId}/characters`],
+    enabled: !!projectId,
+  });
+
+  // Helper function to find character ID by name
+  const findCharacterIdByName = (characterName: string): number | null => {
+    const character = characters.find(char => char.name === characterName);
+    return character ? character.id : null;
+  };
 
   // Convert database event to display format
   const event = timelineEvent ? {
@@ -225,13 +237,20 @@ export default function TimelineEventDetail() {
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {event.characters.map((character, index) => (
-                    <Link key={index} href={`/project/${projectId}/characters/${index + 1}`}>
-                      <Tag variant="supporting" className="cursor-pointer">
+                  {event.characters.map((character, index) => {
+                    const characterId = findCharacterIdByName(character);
+                    return characterId ? (
+                      <Link key={index} href={`/project/${projectId}/characters/${characterId}`}>
+                        <Tag variant="supporting" className="cursor-pointer">
+                          {character}
+                        </Tag>
+                      </Link>
+                    ) : (
+                      <Tag key={index} variant="supporting" className="opacity-60">
                         {character}
                       </Tag>
-                    </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </Card>
 
