@@ -634,7 +634,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Age:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.age || character.age}
+                        value={characterData.age || character.age || ""}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
                         className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="22"
@@ -647,7 +647,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.race || character.race}
+                        value={characterData.race || character.race || ""}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
                         className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Human"
