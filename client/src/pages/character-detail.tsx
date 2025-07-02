@@ -14,7 +14,7 @@ import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
-// Character Timeline Component - using reusable SerpentineTimeline
+// Character Timeline Component - using enhanced SerpentineTimeline
 
 
 // Event type icons and colors (matching main timeline page)
@@ -800,10 +800,11 @@ export default function CharacterDetail() {
                       </div>
                     </div>
 
-                    {/* Character Timeline using SerpentineTimeline component */}
+                    {/* Character Timeline using same implementation as main timeline */}
                     <div className="min-h-[400px]">
                       <SerpentineTimeline 
                         filterCharacter={character.name}
+                        showEditButtons={true}
                         className="w-full"
                       />
                     </div>
