@@ -235,12 +235,21 @@ export default function CharacterNew() {
         },
         body: JSON.stringify(newCharacter),
       });
-      if (!response.ok) throw new Error("Failed to create character");
-      return response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to create character: ${errorText}`);
+      }
+      const result = await response.json();
+      return result;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Character created successfully:", data);
       queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
       setLocation(`/project/${projectId}/characters`);
+    },
+    onError: (error) => {
+      console.error("Character creation error:", error);
     },
   });
 
