@@ -141,7 +141,9 @@ export default function SerpentineTimeline({
 
   const eventsPerRow = getEventsPerRow(containerWidth);
   const timelineWidth = containerWidth;
-  const bubbleSpacing = timelineWidth / (eventsPerRow + 1);
+  const bubbleMargin = 60; // Space from edges
+  const availableWidth = timelineWidth - (bubbleMargin * 2);
+  const bubbleSpacing = eventsPerRow > 1 ? availableWidth / (eventsPerRow - 1) : 0;
   const verticalSpacing = 60;
   const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 200);
 
@@ -153,10 +155,12 @@ export default function SerpentineTimeline({
     
     let x, y;
     if (row % 2 === 0) {
-      x = bubbleSpacing * (col + 1);
+      // Left to right
+      x = eventsPerRow === 1 ? timelineWidth / 2 : bubbleMargin + (col * bubbleSpacing);
       y = 50 + row * verticalSpacing;
     } else {
-      x = bubbleSpacing * (eventsPerRow - col);
+      // Right to left
+      x = eventsPerRow === 1 ? timelineWidth / 2 : bubbleMargin + ((eventsPerRow - 1 - col) * bubbleSpacing);
       y = 50 + row * verticalSpacing;
     }
 
