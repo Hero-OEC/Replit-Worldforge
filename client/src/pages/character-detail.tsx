@@ -1,6 +1,7 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users, Calendar, MapPin, Eye, Swords, Lightbulb, Award, Heart, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,6 @@ function CharacterTimelineComponent({ character }: { character: any }) {
     />
   );
 }
-
-
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
@@ -64,7 +63,6 @@ const eventTypeIcons = {
   Religion: Heart,
   Tragedy: HelpCircle,
 };
-
 
 // Power/Magic Systems with descriptions and categories
 const powerSystems = [
@@ -141,8 +139,6 @@ const powerSystems = [
     category: "power"
   }
 ];
-
-
 
 // Character role configuration
 const roleConfig = {
@@ -279,11 +275,13 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
 export default function CharacterDetail() {
   const { projectId, characterId } = useParams<{ projectId: string; characterId: string }>();
   const [location, navigate] = useLocation();
+  const queryClient = useQueryClient();
+  const { goBack } = useNavigation();
+
+  // All state declarations first
   const [isEditing, setIsEditing] = useState(false);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
-  const { goBack } = useNavigation();
   const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
   const [characterData, setCharacterData] = useState({
     name: "",
@@ -297,6 +295,9 @@ export default function CharacterDetail() {
     role: "",
     appearance: ""
   });
+
+  // All refs
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Track navigation history
   useNavigationTracker();
@@ -314,6 +315,7 @@ export default function CharacterDetail() {
     return category === "power" ? "border-blue-200" : "border-purple-200";
   };
 
+  // All queries
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
     queryFn: async () => {
@@ -344,6 +346,7 @@ export default function CharacterDetail() {
     enabled: !!projectId
   });
 
+  // All effects
   // Get character magic systems
   useEffect(() => {
     if (characterId) {
@@ -437,7 +440,7 @@ export default function CharacterDetail() {
       if (!response.ok) throw new Error('Failed to update character');
 
       // Refetch character data to update the display
-      // queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving character:', error);
@@ -447,18 +450,21 @@ export default function CharacterDetail() {
 
   const handleCancel = () => {
     setIsEditing(false);
-    setCharacterData({
-      name: "",
-      description: "",
-      personality: "",
-      backstory: "",
-      weapons: "",
-      age: "",
-      race: "",
-      location: "",
-      role: "",
-      appearance: ""
-    });
+    // Reset character data to original values
+    if (character) {
+      setCharacterData({
+        name: character.name || "",
+        description: character.description || "",
+        personality: character.personality || "",
+        backstory: character.backstory || "",
+        weapons: character.weapons || "",
+        age: character.age || "",
+        race: character.race || "",
+        location: character.location || "",
+        role: character.role || "",
+        appearance: character.appearance || ""
+      });
+    }
   };
 
   if (isLoading) {
@@ -522,7 +528,7 @@ export default function CharacterDetail() {
               <div>
                 {isEditing ? (
                   <Input
-                    value={characterData.name || character?.name || ""}
+                    value={characterData.name}
                     onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
                     className="text-3xl font-bold text-gray-800 bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] h-12"
                     placeholder="Character Name"
@@ -533,7 +539,7 @@ export default function CharacterDetail() {
                 <div className="mt-2">
                   {isEditing ? (
                     <Select 
-                      value={characterData.role || character?.role || ""} 
+                      value={characterData.role} 
                       onValueChange={(value) => setCharacterData({...characterData, role: value})}
                     >
                       <SelectTrigger className="w-48">
@@ -652,7 +658,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Age:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.age || character?.age || ""}
+                        value={characterData.age}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
                         className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="22"
@@ -665,7 +671,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.race || character?.race || ""}
+                        value={characterData.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
                         className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Human"
@@ -674,8 +680,6 @@ export default function CharacterDetail() {
                       <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.race}</span>
                     )}
                   </div>
-
-
                 </div>
               </Card>
             </div>
@@ -699,7 +703,7 @@ export default function CharacterDetail() {
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
                         {isEditing ? (
                           <textarea
-                            value={characterData.description || character.description || ""}
+                            value={characterData.description}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                             rows={3}
                             className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
@@ -714,7 +718,7 @@ export default function CharacterDetail() {
                         <h3 className="text-lg font-semibold text-gray-800 mb-3">Personality</h3>
                         {isEditing ? (
                           <textarea
-                            value={characterData.personality || character.personality || ""}
+                            value={characterData.personality}
                             onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
                             className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                             placeholder="Character's personality traits..."
@@ -778,7 +782,7 @@ export default function CharacterDetail() {
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
                       {isEditing ? (
                         <textarea
-                          value={characterData.appearance || character.appearance || ""}
+                          value={characterData.appearance}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
                           className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Describe the character's physical appearance..."
@@ -797,7 +801,7 @@ export default function CharacterDetail() {
                       <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
                       {isEditing ? (
                         <textarea
-                          value={characterData.backstory || character.backstory || ""}
+                          value={characterData.backstory}
                           onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
                           className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                           placeholder="Character's background story..."
@@ -817,7 +821,7 @@ export default function CharacterDetail() {
                     </div>
                     {isEditing ? (
                       <textarea
-                        value={characterData.weapons || character.weapons || ""}
+                        value={characterData.weapons}
                         onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
                         className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
                         placeholder="List the character's weapons, armor, and important equipment..."
