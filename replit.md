@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 2, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
+  * Fixed database schema synchronization issues by adding missing character columns (age, race, weapons)
+  * Connected application to user's Supabase PostgreSQL database with permanent schema updates
+  * Resolved API 500 errors by ensuring database structure matches application schema
+  * All functionality now working with persistent database storage and proper authentication
+  * Migration completed with enhanced database connectivity and full feature availability
 - July 2, 2025. Enhanced character database schema with age, race, and weapons fields:
   * Added three new fields to characters table: age (text), race (text), weapons (text)
   * Successfully migrated database schema using PostgreSQL-specific configuration 
