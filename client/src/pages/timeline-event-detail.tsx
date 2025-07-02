@@ -55,19 +55,6 @@ const importanceLabels = {
   low: "Low Importance",
 };
 
-// Sample data - in real app this would come from API
-const sampleEvent = {
-  id: 1,
-  title: "Elena's Awakening",
-  date: "Year 1, Day 5",
-  importance: "high",
-  category: "Character Development",
-  description:
-    "Elena discovers her true magical potential during a routine training session. This pivotal moment changes the course of her journey and reveals the depth of power she possesses.",
-  location: "Arcanum City",
-  characters: ["Elena", "Marcus"],
-};
-
 export default function TimelineEventDetail() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
   const [, navigate] = useLocation();
@@ -82,8 +69,44 @@ export default function TimelineEventDetail() {
     enabled: !!projectId,
   });
 
-  // In real app, this would fetch the specific event
-  const event = sampleEvent;
+  const { data: timelineEvent, isLoading, error } = useQuery<TimelineEvent>({
+    queryKey: [`/api/timeline-events/${eventId}`],
+    enabled: !!eventId,
+  });
+
+  // Convert database event to display format
+  const event = timelineEvent ? {
+    id: timelineEvent.id,
+    title: timelineEvent.title,
+    date: timelineEvent.date || "No Date",
+    importance: (timelineEvent.importance || "medium") as "high" | "medium" | "low",
+    category: timelineEvent.category || "Other",
+    description: timelineEvent.description || "",
+    location: timelineEvent.location || "",
+    characters: Array.isArray(timelineEvent.characters) ? timelineEvent.characters : []
+  } : null;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
+        <div className="text-[var(--color-700)]">Loading timeline event...</div>
+      </div>
+    );
+  }
+
+  if (error || !event) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-[var(--color-950)] mb-4">Timeline Event Not Found</h1>
+          <p className="text-[var(--color-700)] mb-6">The timeline event you're looking for doesn't exist.</p>
+          <Button onClick={goBack} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+            Go Back
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleDelete = () => {
     setDeleteDialogOpen(true);
