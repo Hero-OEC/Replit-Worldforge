@@ -147,14 +147,25 @@ export default function NewTimelineEvent() {
     enabled: !!projectId,
   });
 
-  const { data: locations = [] } = useQuery<Location[]>({
-    queryKey: ["/api/projects", projectId, "locations"],
+  const { data: locations = [], isLoading: locationsLoading, error: locationsError } = useQuery<Location[]>({
+    queryKey: [`/api/projects/${projectId}/locations`],
     enabled: !!projectId,
   });
 
-  const { data: characters = [] } = useQuery<Character[]>({
-    queryKey: ["/api/projects", projectId, "characters"],
+  const { data: characters = [], isLoading: charactersLoading, error: charactersError } = useQuery<Character[]>({
+    queryKey: [`/api/projects/${projectId}/characters`],
     enabled: !!projectId,
+  });
+
+  // Debug: Log the data to console
+  console.log('Timeline Event Form Debug:', {
+    projectId,
+    characters: characters.length > 0 ? characters : 'No characters loaded',
+    locations: locations.length > 0 ? locations : 'No locations loaded',
+    charactersLoading,
+    locationsLoading,
+    charactersError,
+    locationsError
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -377,9 +388,9 @@ export default function NewTimelineEvent() {
                     <MapPin className="w-5 h-5 text-[var(--color-600)]" />
                     <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
                   </div>
-                  <Select onValueChange={setLocation} value={location}>
+                  <Select onValueChange={setLocation} value={location} disabled={locationsLoading}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select location" />
+                      <SelectValue placeholder={locationsLoading ? "Loading locations..." : locations.length === 0 ? "No locations found" : "Select location"} />
                     </SelectTrigger>
                     <SelectContent>
                       {locations.map((loc) => (
@@ -389,6 +400,9 @@ export default function NewTimelineEvent() {
                       ))}
                     </SelectContent>
                   </Select>
+                  {locationsError && (
+                    <p className="text-sm text-red-500 mt-1">Error loading locations: {String(locationsError)}</p>
+                  )}
                 </Card>
 
                 {/* Characters */}
@@ -397,12 +411,20 @@ export default function NewTimelineEvent() {
                     <Users className="w-5 h-5 text-[var(--color-600)]" />
                     <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
                   </div>
-                  <CharacterTag
-                    selectedCharacters={selectedCharacters}
-                    onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
-                    onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
-                    characters={characters}
-                  />
+                  {charactersLoading ? (
+                    <div className="text-sm text-[var(--color-600)]">Loading characters...</div>
+                  ) : charactersError ? (
+                    <div className="text-sm text-red-500">Error loading characters: {String(charactersError)}</div>
+                  ) : characters.length === 0 ? (
+                    <div className="text-sm text-[var(--color-600)]">No characters found for this project</div>
+                  ) : (
+                    <CharacterTag
+                      selectedCharacters={selectedCharacters}
+                      onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
+                      onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
+                      characters={characters}
+                    />
+                  )}
                 </Card>
 
                 <Button
