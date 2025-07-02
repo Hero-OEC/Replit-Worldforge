@@ -239,20 +239,7 @@ export default function CharacterDetail() {
   // Track navigation history
   useNavigationTracker();
 
-  // Helper functions for power system display
-  const getCategoryIcon = (category: string) => {
-    return category === "power" ? Zap : Sparkles;
-  };
-
-  const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
-  };
-
-  const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
-  };
-
-  // All queries
+  // All queries - moved before any conditional logic or effects
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
     queryFn: async () => {
@@ -260,6 +247,7 @@ export default function CharacterDetail() {
       if (!response.ok) throw new Error("Failed to fetch project");
       return response.json();
     },
+    enabled: !!projectId,
   });
 
   // Fetch magic systems for display
@@ -281,6 +269,7 @@ export default function CharacterDetail() {
       if (!response.ok) throw new Error("Failed to fetch character");
       return response.json();
     },
+    enabled: !!characterId,
   });
 
   // Fetch timeline events to find character's latest location
@@ -293,6 +282,19 @@ export default function CharacterDetail() {
     },
     enabled: !!projectId
   });
+
+  // Helper functions for power system display
+  const getCategoryIcon = (category: string) => {
+    return category === "power" ? Zap : Sparkles;
+  };
+
+  const getCategoryColor = (category: string) => {
+    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+  };
+
+  const getCategoryBorderColor = (category: string) => {
+    return category === "power" ? "border-blue-200" : "border-purple-200";
+  };
 
   // All effects
   // Get character magic systems
@@ -336,9 +338,6 @@ export default function CharacterDetail() {
       });
     }
   }, [character]);
-
-  // Initialize power systems when character magic systems load
-
 
   // Get role configuration
   const roleInfo = roleConfig[character?.role as keyof typeof roleConfig] || roleConfig["Supporting"];
@@ -462,17 +461,7 @@ export default function CharacterDetail() {
     );
   }
 
-  // Fetch real magic systems data
-  const { data: powerSystemsData = [] } = useQuery({
-    queryKey: ["/api/magic-systems", projectId],
-    queryFn: async () => {
-      if (!projectId) return [];
-      const response = await fetch(`/api/magic-systems?projectId=${projectId}`);
-      if (!response.ok) throw new Error("Failed to fetch magic systems");
-      return response.json();
-    },
-    enabled: !!projectId,
-  });
+  
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
