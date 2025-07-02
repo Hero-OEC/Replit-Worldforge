@@ -788,26 +788,24 @@ export default function CharacterDetail() {
 
                 <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-bg)]">
                   <div className="space-y-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center">
-                          <Clock className="w-5 h-5 text-[var(--color-50)]" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-semibold text-[var(--color-950)]">Character Timeline</h3>
-                          <p className="text-sm text-[var(--color-700)]">
-                            Events where {character.name} appears throughout the story
-                          </p>
-                        </div>
+                    <div className="flex items-center space-x-3 mb-6">
+                      <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center">
+                        <Clock className="w-5 h-5 text-[var(--color-50)]" />
                       </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-[var(--color-950)]">Character Timeline</h3>
+                        <p className="text-sm text-[var(--color-700)]">
+                          Events where {character.name} appears throughout the story
+                        </p>
+                      </div>
+                    </div>
 
-                      <div className="flex-1 ml-8">
-                        <SerpentineTimeline 
-                          filterCharacter={character.name}
-                          showEditButtons={true}
-                          className="w-full"
-                        />
-                      </div>
+                    <div className="w-full">
+                      <SerpentineTimeline 
+                        filterCharacter={character.name}
+                        showEditButtons={true}
+                        className="w-full"
+                      />
                     </div>
                   </div>
                 </TabsContent>
