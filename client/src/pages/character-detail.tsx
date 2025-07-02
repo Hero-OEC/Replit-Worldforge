@@ -415,9 +415,9 @@ export default function CharacterDetail() {
         },
         body: JSON.stringify(characterData),
       });
-      
+
       if (!response.ok) throw new Error('Failed to update character');
-      
+
       // Refetch character data to update the display
       // queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
       setIsEditing(false);
@@ -478,6 +478,24 @@ export default function CharacterDetail() {
       </div>
     );
   }
+
+  // Initialize character data when character is loaded
+  useEffect(() => {
+    if (character) {
+      setCharacterData({
+        name: character.name || "",
+        description: character.description || "",
+        personality: character.personality || "",
+        backstory: character.backstory || "",
+        weapons: character.weapons || "",
+        age: character.age || "",
+        race: character.race || "",
+        location: character.location || "",
+        role: character.role || "",
+        appearance: character.appearance || ""
+      });
+    }
+  }, [character]);
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
@@ -634,7 +652,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Age:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.age || character.age || ""}
+                        value={characterData.age || character?.age || ""}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
                         className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="22"
@@ -647,7 +665,7 @@ export default function CharacterDetail() {
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
-                        value={characterData.race || character.race || ""}
+                        value={characterData.race || character?.race || ""}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
                         className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
                         placeholder="Human"
