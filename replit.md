@@ -98,6 +98,18 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 2, 2025. Enhanced character database schema with age, race, and weapons fields:
+  * Added three new fields to characters table: age (text), race (text), weapons (text)
+  * Successfully migrated database schema using PostgreSQL-specific configuration 
+  * Updated character creation and storage to support new fields for enhanced character development
+  * Character records now include comprehensive physical and equipment details
+  * All existing character functionality preserved while expanding data model capabilities
+- July 2, 2025. Completed migration from Replit Agent to standard Replit environment:
+  * Successfully migrated project from Replit Agent environment to standard Replit
+  * Connected to Replit-provided PostgreSQL database with full schema deployment
+  * Removed Current Location section from character detail pages per user request
+  * All functionality working correctly with proper client/server separation and database persistence
+  * Migration completed with enhanced database connectivity and streamlined UI
 - July 2, 2025. Fixed timeline vertical spacing and cleaned up duplicate components:
   * Fixed excessive vertical spacing in main timeline page serpentine layout
   * Reduced row height from 200px to 80px per row (60% reduction)

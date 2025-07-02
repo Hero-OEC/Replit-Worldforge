@@ -22,6 +22,9 @@ export const characters = pgTable("characters", {
   personality: text("personality"),
   backstory: text("backstory"),
   role: text("role"), // protagonist, antagonist, supporting, etc.
+  age: text("age"), // flexible age format (e.g., "25", "Ancient", "Immortal")
+  race: text("race"), // character's race/species
+  weapons: text("weapons"), // weapons and equipment
   powerSystems: json("power_systems").$type<string[]>().default([]), // array of power/magic system names
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
