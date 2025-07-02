@@ -11,38 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
-import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
-import type { Character, ProjectWithStats, TimelineEvent } from "@shared/schema";
+import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
+import type { Character, ProjectWithStats } from "@shared/schema";
 
-// Character Timeline Component - using shared SerpentineTimeline
+// Character Timeline Component - using reusable SerpentineTimeline
 function CharacterTimelineComponent({ character }: { character: any }) {
-  const { projectId } = useParams<{ projectId: string }>();
-  
-  // Fetch timeline events from API
-  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
-    queryKey: [`/api/projects/${projectId}/timeline`],
-    enabled: !!projectId,
-  });
-
-  // Convert database events to timeline component format
-  const convertToTimelineData = (events: TimelineEvent[]): TimelineEventData[] => {
-    return events.map(event => ({
-      id: event.id,
-      title: event.title,
-      date: event.date || "No Date",
-      importance: (event.importance || "medium") as "high" | "medium" | "low",
-      category: event.category || "Other",
-      description: event.description || "",
-      location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : []
-    }));
-  };
-
-  const timelineData = convertToTimelineData(timelineEvents);
-
   return (
     <SerpentineTimeline 
-      events={timelineData}
       filterCharacter={character.name}
       className="w-full"
     />
