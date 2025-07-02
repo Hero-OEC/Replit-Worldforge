@@ -244,8 +244,8 @@ export default function CharacterNew() {
     },
     onSuccess: (data) => {
       console.log("Character created successfully:", data);
-      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
       setLocation(`/project/${projectId}/characters`);
     },
     onError: (error) => {
