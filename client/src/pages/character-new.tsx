@@ -385,16 +385,7 @@ export default function CharacterNew() {
                     />
                   </div>
 
-                  {/* Current Location */}
-                  <div className="flex justify-between items-center py-3">
-                    <span className="text-sm font-medium text-gray-700">Current Location:</span>
-                    <Input
-                      value={characterData.location}
-                      onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
-                      className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
-                      placeholder="Arcanum City"
-                    />
-                  </div>
+
                 </div>
               </Card>
             </div>
