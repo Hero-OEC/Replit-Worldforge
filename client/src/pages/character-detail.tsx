@@ -657,23 +657,7 @@ export default function CharacterDetail() {
                     )}
                   </div>
 
-                  <div className="flex justify-between items-center py-3">
-                    <span className="text-sm font-medium text-gray-700">Current Location:</span>
-                    {isEditing ? (
-                      <Input
-                        value={characterData.location || character.location}
-                        onChange={(e) => setCharacterData({...characterData, location: e.target.value})}
-                        className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
-                        placeholder="Arcanum City"
-                      />
-                    ) : (
-                      <WouterLink href={`/project/${projectId}/locations/1`}>
-                        <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md cursor-pointer hover:bg-[var(--color-300)] transition-colors">
-                          {getCharacterLatestLocation()}
-                        </span>
-                      </WouterLink>
-                    )}
-                  </div>
+
                 </div>
               </Card>
             </div>
