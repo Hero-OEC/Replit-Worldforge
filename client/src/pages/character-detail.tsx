@@ -643,7 +643,7 @@ export default function CharacterDetail() {
                       <span className="text-sm font-medium text-gray-800 bg-[var(--color-200)] px-3 py-1 rounded-md">{character.age}</span>
                     )}
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
+                  <div className="flex justify-between items-center py-3">
                     <span className="text-sm font-medium text-gray-700">Race:</span>
                     {isEditing ? (
                       <Input
