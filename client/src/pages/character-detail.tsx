@@ -64,81 +64,7 @@ const eventTypeIcons = {
   Tragedy: HelpCircle,
 };
 
-// Power/Magic Systems with descriptions and categories
-const powerSystems = [
-  { 
-    name: "Fire Magic", 
-    description: "Manipulation of flames and heat energy. Practitioners can create, control, and extinguish fire.",
-    title: "Pyromancy Arts",
-    category: "magic"
-  },
-  { 
-    name: "Water Magic", 
-    description: "Control over water and ice. Masters can manipulate precipitation, create barriers, and heal.",
-    title: "Hydromantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Earth Magic", 
-    description: "Communion with stone, soil, and minerals. Allows for terraforming and defensive magic.",
-    title: "Geomantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Air Magic", 
-    description: "Mastery over wind and atmosphere. Enables flight, weather control, and sonic attacks.",
-    title: "Aeromantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Shadow Magic", 
-    description: "Manipulation of darkness and stealth. Grants invisibility, teleportation, and fear effects.",
-    title: "Umbramantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Light Magic", 
-    description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
-    title: "Lumimantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Time Magic", 
-    description: "Rare temporal manipulation. Allows limited foresight, slowing time, and minor reversals.",
-    title: "Chronomantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Mind Magic", 
-    description: "Mental manipulation and telepathy. Enables thought reading, illusions, and psychic attacks.",
-    title: "Psionic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Super Strength", 
-    description: "Enhanced physical strength beyond normal human limits. Allows lifting heavy objects and devastating attacks.",
-    title: "Enhanced Strength",
-    category: "power"
-  },
-  { 
-    name: "Super Speed", 
-    description: "Ability to move at superhuman velocities. Grants enhanced reflexes and time perception.",
-    title: "Enhanced Speed",
-    category: "power"
-  },
-  { 
-    name: "Flight", 
-    description: "Power of aerial movement without mechanical assistance. Provides tactical advantage and mobility.",
-    title: "Aerial Mobility",
-    category: "power"
-  },
-  { 
-    name: "Telepathy", 
-    description: "Direct mind-to-mind communication and thought reading. Mental link with other beings.",
-    title: "Mental Connection",
-    category: "power"
-  }
-];
+
 
 // Character role configuration
 const roleConfig = {
@@ -155,12 +81,24 @@ interface PowerSystemSearchProps {
   selectedSystems: string[];
   onAddSystem: (system: string) => void;
   onRemoveSystem: (system: string) => void;
+  projectId: string;
 }
 
-function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: PowerSystemSearchProps) {
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, projectId }: PowerSystemSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [filteredSystems, setFilteredSystems] = useState<typeof powerSystems>([]);
+  const [filteredSystems, setFilteredSystems] = useState<any[]>([]);
+
+  // Fetch magic systems from database
+  const { data: magicSystems = [] } = useQuery({
+    queryKey: ["/api/magic-systems", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/magic-systems?projectId=${projectId}`);
+      if (!response.ok) throw new Error("Failed to fetch magic systems");
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
 
   const getCategoryIcon = (category: string) => {
     return category === "power" ? Zap : Sparkles;
@@ -176,8 +114,8 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
 
   useEffect(() => {
     if (searchValue) {
-      const filtered = powerSystems.filter(
-        (system) =>
+      const filtered = magicSystems.filter(
+        (system: any) =>
           system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
           !selectedSystems.includes(system.name)
       );
@@ -187,7 +125,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
       setFilteredSystems([]);
       setIsOpen(false);
     }
-  }, [searchValue, selectedSystems]);
+  }, [searchValue, selectedSystems, magicSystems]);
 
   const handleSelectSystem = (systemName: string) => {
     onAddSystem(systemName);
@@ -239,7 +177,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
       {selectedSystems.length > 0 && (
         <div className="space-y-2">
           {selectedSystems.map((systemName, index) => {
-            const system = powerSystems.find(s => s.name === systemName);
+            const system = magicSystems.find((s: any) => s.name === systemName);
             const CategoryIcon = getCategoryIcon(system?.category || "magic");
             const colorClass = getCategoryColor(system?.category || "magic");
             const borderColorClass = getCategoryBorderColor(system?.category || "magic");
@@ -252,7 +190,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: Pow
                 <div className="flex items-center space-x-3">
                   <CategoryIcon className="w-4 h-4" />
                   <div>
-                    <span className="text-sm font-medium">{system?.title || systemName}</span>
+                    <span className="text-sm font-medium">{system?.name || systemName}</span>
                     <p className="text-xs opacity-80">{system?.description || "Custom power type"}</p>
                   </div>
                 </div>
@@ -325,6 +263,17 @@ export default function CharacterDetail() {
     },
   });
 
+  // Fetch magic systems for display
+  const { data: magicSystems = [] } = useQuery({
+    queryKey: ["/api/magic-systems", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/magic-systems?projectId=${projectId}`);
+      if (!response.ok) throw new Error("Failed to fetch magic systems");
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
   // Fetch character data from API
   const { data: character, isLoading, error } = useQuery({
     queryKey: ["/api/characters", characterId],
@@ -383,7 +332,7 @@ export default function CharacterDetail() {
 
   // Initialize power systems when character magic systems load
   useEffect(() => {
-    const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem.name);
+    const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem?.name).filter(Boolean);
     setSelectedPowerSystems(systemNames);
   }, [characterMagicSystems]);
 
@@ -429,18 +378,24 @@ export default function CharacterDetail() {
 
   const handleSave = async () => {
     try {
+      const updateData = {
+        ...characterData,
+        powerSystems: selectedPowerSystems
+      };
+
       const response = await fetch(`/api/characters/${characterId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(characterData),
+        body: JSON.stringify(updateData),
       });
 
       if (!response.ok) throw new Error('Failed to update character');
 
       // Refetch character data to update the display
       queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId, "magic-systems"] });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving character:', error);
@@ -735,17 +690,18 @@ export default function CharacterDetail() {
                             selectedSystems={selectedPowerSystems}
                             onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
                             onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
+                            projectId={projectId!}
                           />
                         ) : selectedPowerSystems.length > 0 ? (
                           <div className="grid grid-cols-1 gap-3">
                             {selectedPowerSystems.map((systemName, index) => {
-                              const system = powerSystems.find(s => s.name === systemName);
+                              const system = magicSystems.find((s: any) => s.name === systemName);
                               const CategoryIcon = getCategoryIcon(system?.category || "magic");
                               const colorClass = getCategoryColor(system?.category || "magic");
                               const borderColorClass = getCategoryBorderColor(system?.category || "magic");
 
                               return (
-                                <WouterLink key={index} href={`/project/${projectId}/magic-systems`}>
+                                <WouterLink key={index} href={`/project/${projectId}/magic-systems/${system?.id || ''}`}>
                                   <div className={`p-4 ${colorClass} rounded-lg border ${borderColorClass} cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02]`}>
                                     <div className="flex items-start space-x-3">
                                       <div className="flex-shrink-0">
@@ -753,7 +709,7 @@ export default function CharacterDetail() {
                                       </div>
                                       <div className="flex-1 min-w-0">
                                         <h4 className="text-base font-semibold mb-1">
-                                          {system?.title || systemName}
+                                          {system?.name || systemName}
                                         </h4>
                                         <p className="text-sm opacity-80 leading-relaxed">
                                           {system?.description || "Custom power type"}

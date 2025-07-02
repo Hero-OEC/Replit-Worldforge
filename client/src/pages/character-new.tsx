@@ -13,80 +13,30 @@ import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import type { InsertCharacter, ProjectWithStats } from "@shared/schema";
 
-// Power/Magic Systems with descriptions and categories
-const powerSystems = [
-  { 
-    name: "Fire Magic", 
-    description: "Manipulation of flames and heat energy. Practitioners can create, control, and extinguish fire.",
-    title: "Pyromancy Arts",
-    category: "magic"
-  },
-  { 
-    name: "Water Magic", 
-    description: "Control over water and ice. Masters can manipulate precipitation, create barriers, and heal.",
-    title: "Hydromantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Earth Magic", 
-    description: "Communion with stone, soil, and minerals. Allows for terraforming and defensive magic.",
-    title: "Geomantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Air Magic", 
-    description: "Mastery over wind and atmosphere. Enables flight, weather control, and sonic attacks.",
-    title: "Aeromantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Shadow Magic", 
-    description: "Manipulation of darkness and stealth. Grants invisibility, teleportation, and fear effects.",
-    title: "Umbramantic Arts",
-    category: "magic"
-  },
-  { 
-    name: "Light Magic", 
-    description: "Channeling of pure light energy. Provides healing, purification, and divine protection.",
-    title: "Illumination Arts",
-    category: "magic"
-  },
-  { 
-    name: "Super Strength", 
-    description: "Enhanced physical power beyond normal human limits. Allows lifting and moving massive objects.",
-    title: "Enhanced Strength",
-    category: "power"
-  },
-  { 
-    name: "Super Speed", 
-    description: "Ability to move at superhuman velocities. Grants enhanced reflexes and time perception.",
-    title: "Enhanced Speed",
-    category: "power"
-  },
-  { 
-    name: "Telekinesis", 
-    description: "Mental manipulation of objects without physical contact. Can move, lift, and control matter.",
-    title: "Psychokinetic Control",
-    category: "power"
-  },
-  { 
-    name: "Mind Reading", 
-    description: "Ability to read thoughts and emotions of others. Can penetrate mental defenses.",
-    title: "Telepathic Perception",
-    category: "power"
-  }
-];
+
 
 // PowerSystemSearch Component
-function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, projectId }: {
   selectedSystems: string[];
   onAddSystem: (system: string) => void;
   onRemoveSystem: (system: string) => void;
+  projectId: string;
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const filteredSystems = powerSystems.filter(system =>
+  // Fetch magic systems from database
+  const { data: magicSystems = [] } = useQuery({
+    queryKey: ["/api/magic-systems", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/magic-systems?projectId=${projectId}`);
+      if (!response.ok) throw new Error("Failed to fetch magic systems");
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
+  const filteredSystems = magicSystems.filter((system: any) =>
     !selectedSystems.includes(system.name) &&
     (system.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
      system.description.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -118,7 +68,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
         />
         {isOpen && filteredSystems.length > 0 && (
           <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-            {filteredSystems.map((system) => {
+            {filteredSystems.map((system: any) => {
               const CategoryIcon = getCategoryIcon(system.category);
               const colorClass = getCategoryColor(system.category);
               
@@ -135,7 +85,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
                   <div className="flex items-start space-x-3">
                     <CategoryIcon className="w-4 h-4 mt-0.5" />
                     <div>
-                      <h4 className="text-sm font-medium">{system.title}</h4>
+                      <h4 className="text-sm font-medium">{system.name}</h4>
                       <p className="text-xs text-gray-600">{system.description}</p>
                     </div>
                   </div>
@@ -150,7 +100,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
       {selectedSystems.length > 0 && (
         <div className="grid grid-cols-1 gap-3">
           {selectedSystems.map((systemName, index) => {
-            const system = powerSystems.find(s => s.name === systemName);
+            const system = magicSystems.find((s: any) => s.name === systemName);
             const CategoryIcon = getCategoryIcon(system?.category || "magic");
             const colorClass = getCategoryColor(system?.category || "magic");
             const borderColorClass = getCategoryBorderColor(system?.category || "magic");
@@ -164,7 +114,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem }: {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="text-base font-semibold mb-1">
-                        {system?.title || systemName}
+                        {system?.name || systemName}
                       </h4>
                       <p className="text-sm opacity-80 leading-relaxed">
                         {system?.description || "Custom power type"}
@@ -449,6 +399,7 @@ export default function CharacterNew() {
                           selectedSystems={selectedPowerSystems}
                           onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
                           onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
+                          projectId={projectId!}
                         />
                       </div>
                     </div>

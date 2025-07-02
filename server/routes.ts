@@ -326,9 +326,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/characters/:id/magic-systems", async (req, res) => {
     try {
       const characterId = parseInt(req.params.id);
-      // For now, return empty array since we don't have the relationship table implemented yet
-      // TODO: Implement proper character-magic system relationships
-      res.json([]);
+      const relationships = await storage.getCharacterMagicSystems(characterId);
+      res.json(relationships);
     } catch (error) {
       console.error("Error fetching character magic systems:", error);
       res.status(500).json({ error: "Failed to fetch character magic systems" });
