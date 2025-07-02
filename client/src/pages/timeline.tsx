@@ -473,6 +473,8 @@ export default function Timeline() {
   const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
     queryKey: [`/api/projects/${projectId}/timeline`],
     enabled: !!projectId,
+    refetchOnWindowFocus: true,
+    refetchInterval: 5000, // Auto-refresh every 5 seconds
   });
 
   const { data: characters = [] } = useQuery<Character[]>({
