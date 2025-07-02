@@ -581,11 +581,11 @@ export default function Timeline() {
   const timelineWidth = Math.min(1000, containerWidth - 40);
   const eventsPerRow = getEventsPerRow(containerWidth);
   const rows = Math.ceil(dateGroups.length / eventsPerRow);
-  const timelineHeight = Math.max(800, rows * 200 + 200); // Much better vertical spacing
+  const timelineHeight = Math.max(400, rows * 80 + 100); // Reduced vertical spacing
   const pathPoints: number[][] = [];
 
   const horizontalSpacing = (timelineWidth - 120) / Math.max(1, eventsPerRow - 1);
-  const verticalSpacing = Math.max(180, (timelineHeight - 200) / Math.max(1, rows - 1)); // Dynamic vertical spacing
+  const verticalSpacing = Math.max(60, (timelineHeight - 100) / Math.max(1, rows - 1)); // Reduced vertical spacing
 
   dateGroups.forEach((group, index) => {
     const row = Math.floor(index / eventsPerRow);
@@ -599,11 +599,11 @@ export default function Timeline() {
     } else if (row % 2 === 0) {
       // Left to right for even rows
       x = 60 + col * horizontalSpacing;
-      y = 100 + row * verticalSpacing;
+      y = 50 + row * verticalSpacing;
     } else {
       // Right to left for odd rows
       x = 60 + (eventsPerRow - 1 - col) * horizontalSpacing;
-      y = 100 + row * verticalSpacing;
+      y = 50 + row * verticalSpacing;
     }
 
     pathPoints.push([x, y]);
