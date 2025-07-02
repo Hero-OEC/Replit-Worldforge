@@ -15,14 +15,7 @@ import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Character Timeline Component - using reusable SerpentineTimeline
-function CharacterTimelineComponent({ character }: { character: any }) {
-  return (
-    <SerpentineTimeline 
-      filterCharacter={character.name}
-      className="w-full"
-    />
-  );
-}
+
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
@@ -807,10 +800,12 @@ export default function CharacterDetail() {
                       </div>
                     </div>
 
-                    {/* Empty timeline content */}
-                    <div className="text-center py-12 text-[var(--color-600)]">
-                      <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                      <p>Timeline content will be added here</p>
+                    {/* Character Timeline using SerpentineTimeline component */}
+                    <div className="min-h-[400px]">
+                      <SerpentineTimeline 
+                        filterCharacter={character.name}
+                        className="w-full"
+                      />
                     </div>
                   </div>
                 </TabsContent>
