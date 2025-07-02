@@ -132,69 +132,7 @@ export default function Characters() {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-200)] to-[var(--color-300)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                  <Users className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {characters.length}
-                  </div>
-                  <div className="text-sm text-[var(--color-700)] font-medium">
-                    Total Characters
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-300)] to-[var(--color-400)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                  <Crown className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {characters.filter((c: any) => c.role === 'Protagonist').length}
-                  </div>
-                  <div className="text-sm text-[var(--color-700)] font-medium">
-                    Protagonists
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-400)] to-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                  <Sword className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-45 group-hover:scale-110" />
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {characters.filter((c: any) => c.role === 'Antagonist').length}
-                  </div>
-                  <div className="text-sm text-[var(--color-700)] font-medium">
-                    Antagonists
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border border-[var(--color-300)] rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[var(--color-400)] bg-[var(--color-100)]">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                  <Shield className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-[var(--color-950)] mb-1">
-                    {characters.filter((c: any) => c.role === 'Supporting').length}
-                  </div>
-                  <div className="text-sm text-[var(--color-700)] font-medium">
-                    Supporting
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
 
           {/* Characters Grid */}
           {isLoading ? (
