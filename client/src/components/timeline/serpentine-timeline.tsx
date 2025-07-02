@@ -140,7 +140,7 @@ export default function SerpentineTimeline({
   };
 
   const eventsPerRow = getEventsPerRow(containerWidth);
-  const timelineWidth = Math.min(containerWidth - 40, 1200);
+  const timelineWidth = containerWidth;
   const bubbleSpacing = timelineWidth / (eventsPerRow + 1);
   const verticalSpacing = 60;
   const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 200);
@@ -225,10 +225,10 @@ export default function SerpentineTimeline({
   return (
     <div ref={timelineContainerRef} className={`relative w-full ${className}`}>
       {/* Serpentine Timeline */}
-      <div className="p-8 pt-[0px] pb-[0px] ml-6">
+      <div className="py-4">
         <div
           ref={timelineRef}
-          className="relative mx-auto"
+          className="relative w-full"
           style={{ width: timelineWidth, height: timelineHeight }}
         >
           {/* Timeline Path */}
