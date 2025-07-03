@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Fixed character deletion functionality and cache invalidation:
+  * Implemented proper delete confirmation dialog using reusable DeleteConfirmationDialog component
+  * Fixed character deletion to properly redirect users back to characters list after successful deletion
+  * Updated cache invalidation to use correct query keys matching the characters list page
+  * Added proper navigation using wouter's setLocation function for SPA behavior
+  * Character deletion now works completely - removes character from database and updates UI immediately
+  * Fixed power system search functionality in character creation form with proper dropdown behavior
+  * Added click-outside handling and improved search filtering for magic/power systems
 - July 2, 2025. Integrated SerpentineTimeline component into character detail pages:
   * Replaced placeholder timeline content with fully functional SerpentineTimeline component
   * Character timeline now shows all events where that specific character is mentioned
