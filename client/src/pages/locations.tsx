@@ -57,7 +57,8 @@ export default function Locations() {
       if (!response.ok) {
         throw new Error("Failed to delete location");
       }
-      return response.json();
+      // DELETE requests typically return 204 No Content, so don't try to parse JSON
+      return null;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
