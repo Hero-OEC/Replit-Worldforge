@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
@@ -20,7 +20,7 @@ import {
 import { Link } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
-import type { ProjectWithStats } from "@shared/schema";
+import type { ProjectWithStats, TimelineEvent } from "@shared/schema";
 
 const eventCategories = [
   "Character Arc",
@@ -82,18 +82,7 @@ const importanceLabels = {
   low: "Low Importance",
 };
 
-// Sample event data - in real app this would come from API
-const sampleEvent = {
-  id: 1,
-  title: "Elena's Awakening",
-  date: "Year 1, Day 5",
-  importance: "high",
-  category: "Character Arc",
-  description:
-    "Elena discovers her true magical potential during a routine training session. This pivotal moment changes the course of her journey and reveals the depth of power she possesses.",
-  location: "Arcanum City",
-  characters: ["Elena", "Marcus"],
-};
+// Removed hardcoded sample event - now using API data
 
 // Character tagging component
 interface CharacterTagProps {
@@ -173,22 +162,65 @@ export default function EditTimelineEvent() {
   // Track navigation history
   useNavigationTracker();
   
-  // In real app, this would fetch the specific event
-  const event = sampleEvent;
+  // Fetch the actual event data from API
+  const { data: timelineEvent, isLoading: eventLoading, error } = useQuery<TimelineEvent>({
+    queryKey: [`/api/timeline-events/${eventId}`],
+    enabled: !!eventId,
+  });
   
-  const [title, setTitle] = useState(event.title);
-  const [date, setDate] = useState(event.date);
-  const [importance, setImportance] = useState(event.importance);
-  const [category, setCategory] = useState(event.category);
-  const [description, setDescription] = useState(event.description);
-  const [location, setLocation] = useState(event.location);
-  const [selectedCharacters, setSelectedCharacters] = useState<string[]>(event.characters);
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [importance, setImportance] = useState("medium");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Update form fields when event data loads
+  React.useEffect(() => {
+    if (timelineEvent) {
+      setTitle(timelineEvent.title || "");
+      setDate(timelineEvent.date || "");
+      setImportance(timelineEvent.importance || "medium");
+      setCategory(timelineEvent.category || "");
+      setDescription(timelineEvent.description || "");
+      setLocation(timelineEvent.location || "");
+      setSelectedCharacters(Array.isArray(timelineEvent.characters) ? timelineEvent.characters : []);
+    }
+  }, [timelineEvent]);
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
     enabled: !!projectId,
   });
+
+  // Loading state
+  if (eventLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-600)] mx-auto mb-4"></div>
+          <p className="text-[var(--color-700)]">Loading timeline event...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !timelineEvent) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-[var(--color-950)] mb-4">Timeline Event Not Found</h1>
+          <p className="text-[var(--color-700)] mb-6">The timeline event you're trying to edit doesn't exist.</p>
+          <Button onClick={goBack} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+            Go Back
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -265,7 +297,7 @@ export default function EditTimelineEvent() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
+                <h1 className="text-3xl font-bold text-[var(--color-950)]">{timelineEvent.title}</h1>
                 <p className="text-[var(--color-700)]">Edit Timeline Event</p>
               </div>
             </div>
@@ -275,17 +307,17 @@ export default function EditTimelineEvent() {
           <div className="flex flex-wrap items-center gap-6 mb-8">
             <div className="flex items-center space-x-2 text-[var(--color-700)]">
               <Calendar className="w-4 h-4" />
-              <span>{event.date}</span>
+              <span>{timelineEvent.date}</span>
             </div>
             
             <Badge
-              className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+              className={`${importanceColors[timelineEvent.importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
             >
-              {importanceLabels[event.importance as keyof typeof importanceLabels]}
+              {importanceLabels[timelineEvent.importance as keyof typeof importanceLabels]}
             </Badge>
 
             <div className="flex items-center space-x-2 text-[var(--color-700)]">
-              <span>{event.category}</span>
+              <span>{timelineEvent.category}</span>
             </div>
           </div>
 
