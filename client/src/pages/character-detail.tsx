@@ -378,6 +378,17 @@ export default function CharacterDetail() {
 
       // Refetch character data to update the display
       queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
+      
+      // Invalidate magic system character caches since power systems may have changed
+      queryClient.invalidateQueries({ 
+        queryKey: ["/api/magic-systems"], 
+        predicate: (query) => {
+          // Invalidate any magic system character queries
+          return query.queryKey.length === 3 && 
+                 query.queryKey[0] === "/api/magic-systems" && 
+                 query.queryKey[2] === "characters";
+        }
+      });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving character:', error);
