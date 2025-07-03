@@ -22,8 +22,7 @@ import {
   Sparkles,
   Zap,
   Plane,
-  User,
-  Trash2
+  User
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,7 +32,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
@@ -306,7 +304,6 @@ export default function LocationDetail() {
   const { projectId, locationId } = useParams<{ projectId: string; locationId: string }>();
   const [location, navigate] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [locationFormData, setLocationFormData] = useState({
     name: "",
     type: "",
@@ -333,35 +330,7 @@ export default function LocationDetail() {
     enabled: !!locationId,
   });
 
-  const deleteLocationMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`/api/locations/${locationId}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        throw new Error("Failed to delete location");
-      }
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
-      toast({ title: "Location deleted successfully!" });
-      navigate(`/project/${projectId}/locations`);
-    },
-    onError: (error: any) => {
-      toast({ 
-        title: "Failed to delete location", 
-        description: error.message,
-        variant: "destructive" 
-      });
-    },
-  });
 
-  const handleConfirmDelete = () => {
-    deleteLocationMutation.mutate();
-    setShowDeleteDialog(false);
-  };
 
   // Filter and sort events for stats calculation
   const locationEvents = sampleEvents.filter(event => 
@@ -438,22 +407,11 @@ export default function LocationDetail() {
 
               <div className="flex items-center space-x-3">
                 <Button
-                  variant="outline"
-                  size="sm"
                   onClick={() => setIsEditing(!isEditing)}
-                  className="border-[var(--color-500)] text-[var(--color-700)] hover:bg-[var(--color-500)] hover:text-white"
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
-                  Edit
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-red-300 text-red-600 hover:bg-red-50"
-                  onClick={() => setShowDeleteDialog(true)}
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
+                  Edit Location
                 </Button>
               </div>
             </div>
@@ -544,32 +502,6 @@ export default function LocationDetail() {
           </div>
         </div>
       </main>
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-[var(--color-950)]">
-              Delete Location
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-[var(--color-700)]">
-              Are you sure you want to delete "{locationData.name}"? This action cannot be undone and will permanently remove all associated data.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel 
-              className="bg-[var(--color-100)] border border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)] hover:text-[var(--color-950)]"
-            >
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleConfirmDelete}
-              disabled={deleteLocationMutation.isPending}
-              className="bg-red-600 text-white hover:bg-red-700"
-            >
-              {deleteLocationMutation.isPending ? "Deleting..." : "Delete Location"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
