@@ -314,8 +314,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       const projectId = magicSystem.projectId;
 
-      const characters = await storage.getCharacters(projectId);
-      res.json(characters);
+      // Get all characters in the project
+      const allCharacters = await storage.getCharacters(projectId);
+      
+      // Filter characters that have this magic system in their powerSystems array
+      const connectedCharacters = allCharacters.filter(character => 
+        character.powerSystems && 
+        Array.isArray(character.powerSystems) && 
+        character.powerSystems.includes(magicSystem.name)
+      );
+
+      res.json(connectedCharacters);
     } catch (error) {
       console.error("Error fetching connected characters:", error);
       res.status(500).json({ error: "Failed to fetch connected characters" });
