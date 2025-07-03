@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Completely redesigned lore new entry page to match edit page design:
+  * Applied identical layout to new entry page using same structure as lore edit page
+  * Title input field positioned exactly like the detail page with proper InkAlchemy styling
+  * Category selector positioned below title with dynamic icon display matching current selection
+  * Tags section implemented with fixed positioning to prevent layout shifts during editing
+  * Dynamic tag recommendations based on both category selection and content analysis
+  * Content textarea styled consistently with edit page using proper InkAlchemy color scheme
+  * All form elements use --color-* variables for consistent brand appearance
+  * Both create and edit forms now have identical user experience and visual design
 - July 3, 2025. Enhanced lore edit page with proper InkAlchemy color scheme and improved usability:
   * Updated all category configurations to use consistent InkAlchemy color variables instead of hardcoded colors
   * Made title input field highly visible with proper background, border, and focus states
