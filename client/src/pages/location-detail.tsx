@@ -398,7 +398,7 @@ export default function LocationDetail() {
                               <Textarea
                                 value={locationFormData.description}
                                 onChange={(e) => setLocationFormData({...locationFormData, description: e.target.value})}
-                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-24"
+                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
                                 placeholder="Describe the location..."
                               />
                             </div>
@@ -407,7 +407,7 @@ export default function LocationDetail() {
                               <Textarea
                                 value={locationFormData.significance}
                                 onChange={(e) => setLocationFormData({...locationFormData, significance: e.target.value})}
-                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-24"
+                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
                                 placeholder="What makes this location significant..."
                               />
                             </div>
@@ -437,7 +437,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.geography}
                               onChange={(e) => setLocationFormData({...locationFormData, geography: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-32"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
                               placeholder="Describe the geographical features..."
                             />
                           ) : (
@@ -457,7 +457,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.culture}
                               onChange={(e) => setLocationFormData({...locationFormData, culture: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-32"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
                               placeholder="Describe the cultural aspects..."
                             />
                           ) : (
