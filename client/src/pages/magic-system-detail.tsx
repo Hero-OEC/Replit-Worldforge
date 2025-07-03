@@ -301,17 +301,13 @@ export default function MagicSystemDetail() {
                           className="block"
                         >
                           <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                                <img 
-                                  src={placeholderImage} 
-                                  alt={character.name}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <h3 className="font-semibold text-[var(--color-950)] truncate">{character.name}</h3>
+                            <div className="space-y-2">
+                              <h3 className="font-semibold text-[var(--color-950)] truncate">{character.name}</h3>
+                              <div className="space-y-1">
                                 <p className="text-sm text-[var(--color-700)] truncate">{character.role || "Character"}</p>
+                                {character.race && (
+                                  <p className="text-sm text-[var(--color-600)] truncate">{character.race}</p>
+                                )}
                               </div>
                             </div>
                           </div>
