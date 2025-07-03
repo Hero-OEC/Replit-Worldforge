@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star } from "lucide-react";
+import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -44,27 +44,27 @@ const eventCategories = [
   "Tragedy",
 ];
 
-// Category configuration matching lore page approach
+// Category configuration with distinct icons for each event type
 const categoryConfig = {
   "Character Arc": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
   "Discovery": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Conflict": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Revelation": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Heroic Act": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Political Event": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Romance": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Conflict": { icon: Sword, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Revelation": { icon: Eye, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Heroic Act": { icon: Shield, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Political Event": { icon: Crown, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Romance": { icon: Heart, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
   "Mystery": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Magic": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Battle": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Magic": { icon: Zap, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Battle": { icon: Swords, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
   "Traveling": { icon: MapPin, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Death": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Birth": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Wedding": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Betrayal": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Alliance": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Prophecy": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Quest": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Tragedy": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Death": { icon: Skull, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Birth": { icon: Baby, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Wedding": { icon: Church, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Betrayal": { icon: UserX, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Alliance": { icon: Handshake, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Prophecy": { icon: Scroll, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Quest": { icon: Target, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Tragedy": { icon: Frown, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
 };
 
 // Remove hardcoded data - will fetch from database
