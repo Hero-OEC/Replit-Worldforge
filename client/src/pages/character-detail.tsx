@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useLocation } from "wouter";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users, Calendar, MapPin, Eye, Swords, Lightbulb, Award, Heart, Plane } from "lucide-react";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -213,6 +214,7 @@ export default function CharacterDetail() {
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
   const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [characterData, setCharacterData] = useState({
     name: "",
     description: "",
@@ -274,6 +276,23 @@ export default function CharacterDetail() {
       return response.json();
     },
     enabled: !!projectId
+  });
+
+  // Delete character mutation
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete character");
+      return response.json();
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
+      // Navigate back to characters list
+      navigate(`/project/${projectId}/characters`);
+    },
   });
 
   // Helper functions for power system display
@@ -426,6 +445,11 @@ export default function CharacterDetail() {
     }
   };
 
+  const confirmDelete = () => {
+    deleteMutation.mutate();
+    setDeleteDialogOpen(false);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[var(--worldforge-cream)]">
@@ -545,12 +569,7 @@ export default function CharacterDetail() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      if (confirm("Are you sure you want to delete this character?")) {
-                        // In real app, this would delete the character and redirect
-                        console.log("Delete character:", character.id);
-                      }
-                    }}
+                    onClick={() => setDeleteDialogOpen(true)}
                     className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
@@ -700,7 +719,7 @@ export default function CharacterDetail() {
                           />
                         ) : selectedPowerSystems.length > 0 || character?.powerSystems?.length > 0 ? (
                           <div className="grid grid-cols-1 gap-3">
-                            {(selectedPowerSystems.length > 0 ? selectedPowerSystems : character?.powerSystems || []).map((systemName, index) => {
+                            {(selectedPowerSystems.length > 0 ? selectedPowerSystems : character?.powerSystems || []).map((systemName: string, index: number) => {
                               const system = magicSystems.find((s: any) => s.name === systemName);
                               const CategoryIcon = getCategoryIcon(system?.category || "magic");
                               const colorClass = getCategoryColor(system?.category || "magic");
@@ -823,6 +842,19 @@ export default function CharacterDetail() {
           </div>
         </div>
       </main>
+
+      {/* Delete Confirmation Dialog */}
+      {character && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={confirmDelete}
+          title="Delete Character"
+          itemName={character.name}
+          description={`Are you sure you want to delete "${character.name}"? This action cannot be undone and will permanently remove the character and all associated data.`}
+          isDeleting={deleteMutation.isPending}
+        />
+      )}
     </div>
   );
 }
