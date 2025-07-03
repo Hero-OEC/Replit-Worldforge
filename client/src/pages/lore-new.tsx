@@ -30,16 +30,16 @@ const categories = [
 ];
 
 const categoryConfig = {
-  "History": { icon: Calendar, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
-  "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
-  "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Geography": { icon: MapPin, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
-  "Legends": { icon: Sparkles, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
+  "History": { icon: Calendar, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Religion": { icon: Church, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-400)]" },
+  "Politics": { icon: Crown, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-500)]" },
+  "Culture": { icon: Users, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Prophecies": { icon: Eye, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-400)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+  "Customs": { icon: Heart, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" }
 };
 
 export default function NewLoreEntry() {
@@ -189,7 +189,7 @@ export default function NewLoreEntry() {
                   <div>
                     <div className="flex items-center space-x-3 mb-2">
                       <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                        <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
+                        <CategoryIcon className={`w-5 h-5 ${categoryInfo.textColor}`} />
                       </div>
                       <div className="flex-1">
                         <FormField

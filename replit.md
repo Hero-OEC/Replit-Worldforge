@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Standardized category icon styling across all lore pages:
+  * Updated all lore pages (listing, detail, edit, new) to use consistent light gray icon backgrounds
+  * Changed icon containers from varied colored backgrounds to uniform bg-[var(--color-200)]
+  * Updated icon colors to use dark text-[var(--color-700)] instead of white for better readability
+  * Maintained all existing hover animations and transitions while ensuring visual consistency
+  * All category icons now have identical styling whether on cards, detail pages, or forms
 - July 3, 2025. Completely redesigned lore new entry page to match edit page design:
   * Applied identical layout to new entry page using same structure as lore edit page
   * Title input field positioned exactly like the detail page with proper InkAlchemy styling

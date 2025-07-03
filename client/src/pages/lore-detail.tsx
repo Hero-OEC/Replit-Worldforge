@@ -147,7 +147,7 @@ export default function LoreDetail() {
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
+                    <CategoryIcon className={`w-5 h-5 ${categoryInfo.textColor}`} />
                   </div>
                   <h1 className="text-3xl font-bold text-gray-800">{loreEntry.title}</h1>
                 </div>
