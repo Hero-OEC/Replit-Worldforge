@@ -27,7 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tag, getTagVariant } from "@/components/ui/tag";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
-import type { TimelineEvent, ProjectWithStats, Character } from "@shared/schema";
+import type { TimelineEvent, ProjectWithStats, Character, Location } from "@shared/schema";
 
 const eventTypeIcons = {
   "Character Arc": User,
@@ -50,10 +50,12 @@ const importanceColors = {
 };
 
 const importanceLabels = {
-  high: "High Importance",
-  medium: "Medium Importance",
-  low: "Low Importance",
+  high: "High Priority",
+  medium: "Medium Priority",
+  low: "Low Priority",
 };
+
+
 
 export default function TimelineEventDetail() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
@@ -80,10 +82,22 @@ export default function TimelineEventDetail() {
     enabled: !!projectId,
   });
 
+  // Fetch locations to get actual location IDs
+  const { data: locations = [] } = useQuery<Location[]>({
+    queryKey: [`/api/projects/${projectId}/locations`],
+    enabled: !!projectId,
+  });
+
   // Helper function to find character ID by name
   const findCharacterIdByName = (characterName: string): number | null => {
     const character = characters.find(char => char.name === characterName);
     return character ? character.id : null;
+  };
+
+  // Helper function to find location ID by name
+  const findLocationIdByName = (locationName: string): number | null => {
+    const location = locations.find(loc => loc.name === locationName);
+    return location ? location.id : null;
   };
 
   // Convert database event to display format
@@ -223,11 +237,20 @@ export default function TimelineEventDetail() {
                   <MapPin className="w-5 h-5 text-[var(--color-600)]" />
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
                 </div>
-                <Link href={`/project/${projectId}/locations/1`}>
-                  <Tag variant="location" className="cursor-pointer">
-                    {event.location}
-                  </Tag>
-                </Link>
+                {(() => {
+                  const locationId = findLocationIdByName(event.location);
+                  return locationId ? (
+                    <Link href={`/project/${projectId}/locations/${locationId}`}>
+                      <Tag variant="location" className="cursor-pointer">
+                        {event.location}
+                      </Tag>
+                    </Link>
+                  ) : (
+                    <Tag variant="location" className="opacity-60">
+                      {event.location}
+                    </Tag>
+                  );
+                })()}
               </Card>
 
               {/* Characters */}
