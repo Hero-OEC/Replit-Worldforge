@@ -288,10 +288,16 @@ export default function CharacterDetail() {
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate characters cache
+      // Invalidate characters cache with exact matching key
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
+      // Also invalidate with string projectId to be safe
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", String(projectId)] });
+      // Force refetch
+      queryClient.refetchQueries({ queryKey: ["/api/characters", projectId] });
       // Navigate back to characters list
-      setLocation(`/project/${projectId}/characters`);
+      setTimeout(() => {
+        setLocation(`/project/${projectId}/characters`);
+      }, 100);
     },
   });
 
