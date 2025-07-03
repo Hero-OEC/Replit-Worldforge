@@ -98,6 +98,26 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Applied lore edit page styling to timeline event creation page:
+  * Updated timeline event new page to match lore edit page layout with inputs positioned exactly like detail page content
+  * Title input positioned in header with proper InkAlchemy styling and dynamic category icon display
+  * Category selector positioned below title with dynamic icon display matching current selection
+  * Event description textarea styled consistently with edit page using proper InkAlchemy color scheme
+  * Event details section organized in clean layout with consistent input styling for date fields (Year/Month/Day)
+  * All form elements use --color-* variables for consistent brand appearance
+  * Priority and location selectors styled with proper InkAlchemy focus states
+  * Characters section integrated with same styling pattern as other edit pages
+  * New event creation page now has identical user experience to edit page with inputs in same positions
+- July 3, 2025. Applied lore edit page styling to character creation page:
+  * Updated character new page header to match lore edit layout with proper icon positioning
+  * Title input positioned exactly like detail page with consistent InkAlchemy styling
+  * Role selector moved to proper position with dynamic icon display based on selected role
+  * Enhanced section titles with proper icon-text pairs using text-xl sizing (20px)
+  * All form textareas now use consistent InkAlchemy color scheme with proper focus states
+  * Age and Race inputs styled with consistent borders, backgrounds, and transitions (both w-20 width)
+  * Character creation page now has identical user experience to lore edit with inputs replacing detail content
+  * All edit elements use --color-* variables for consistent brand appearance
+  * Removed duplicate name and role inputs, keeping only header versions with dynamic role icons
 - July 3, 2025. Applied lore edit page styling to character detail edit page:
   * Updated character edit header to match lore edit layout with proper icon positioning
   * Title input positioned exactly like detail page with consistent InkAlchemy styling
