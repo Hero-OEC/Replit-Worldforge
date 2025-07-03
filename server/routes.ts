@@ -3,7 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { 
   insertProjectSchema, insertCharacterSchema, insertLocationSchema,
-  insertTimelineEventSchema, insertMagicSystemSchema, insertLoreEntrySchema
+  insertTimelineEventSchema, insertMagicSystemSchema, insertLoreEntrySchema,
+  insertNoteSchema
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -473,6 +474,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: "Failed to delete lore entry" });
+    }
+  });
+
+  // Notes
+  app.get("/api/projects/:projectId/notes", async (req, res) => {
+    try {
+      const projectId = parseInt(req.params.projectId);
+      const notes = await storage.getNotes(projectId);
+      res.json(notes);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch notes" });
+    }
+  });
+
+  app.get("/api/notes", async (req, res) => {
+    try {
+      const projectId = parseInt(req.query.projectId as string);
+      if (!projectId) {
+        return res.status(400).json({ message: "Project ID is required" });
+      }
+      const notes = await storage.getNotes(projectId);
+      res.json(notes);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch notes" });
+    }
+  });
+
+  app.get("/api/notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const note = await storage.getNote(id);
+      if (!note) {
+        return res.status(404).json({ message: "Note not found" });
+      }
+      res.json(note);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch note" });
+    }
+  });
+
+  app.post("/api/notes", async (req, res) => {
+    try {
+      const validatedData = insertNoteSchema.parse(req.body);
+      const note = await storage.createNote(validatedData);
+      res.status(201).json(note);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid note data" });
+    }
+  });
+
+  app.put("/api/notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertNoteSchema.partial().parse(req.body);
+      const note = await storage.updateNote(id, validatedData);
+      if (!note) {
+        return res.status(404).json({ message: "Note not found" });
+      }
+      res.json(note);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid note data" });
+    }
+  });
+
+  app.delete("/api/notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteNote(id);
+      if (!success) {
+        return res.status(404).json({ message: "Note not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete note" });
     }
   });
 

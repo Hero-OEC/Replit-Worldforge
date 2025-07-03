@@ -83,6 +83,17 @@ export const loreEntries = pgTable("lore_entries", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const notes = pgTable("notes", {
+  id: serial("id").primaryKey(),
+  projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  content: text("content"),
+  category: text("category"), // Plot, Characters, World Building, Research
+  tags: text("tags"), // comma-separated tags
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 // Character-Magic System relationship table
 export const characterMagicSystems = pgTable("character_magic_systems", {
   id: serial("id").primaryKey(),
@@ -140,6 +151,12 @@ export const insertLoreEntrySchema = createInsertSchema(loreEntries).omit({
   updatedAt: true,
 });
 
+export const insertNoteSchema = createInsertSchema(notes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertCharacterMagicSystemSchema = createInsertSchema(characterMagicSystems).omit({
   id: true,
   createdAt: true,
@@ -168,6 +185,9 @@ export type InsertMagicSystem = z.infer<typeof insertMagicSystemSchema>;
 
 export type LoreEntry = typeof loreEntries.$inferSelect;
 export type InsertLoreEntry = z.infer<typeof insertLoreEntrySchema>;
+
+export type Note = typeof notes.$inferSelect;
+export type InsertNote = z.infer<typeof insertNoteSchema>;
 
 export type CharacterMagicSystem = typeof characterMagicSystems.$inferSelect;
 export type InsertCharacterMagicSystem = z.infer<typeof insertCharacterMagicSystemSchema>;

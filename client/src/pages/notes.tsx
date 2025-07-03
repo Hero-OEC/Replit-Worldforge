@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import Navbar from "@/components/layout/navbar";
-import type { ProjectWithStats } from "@shared/schema";
+import type { ProjectWithStats, Note } from "@shared/schema";
 
 // Category configuration for consistent styling
 const categoryConfig = {
@@ -47,13 +47,19 @@ export default function Notes() {
     queryKey: [`/api/projects/${projectId}`],
   });
 
-  const { data: notes = [] } = useQuery({
-    queryKey: [`/api/projects/${projectId}/notes`],
+  const { data: notes = [] } = useQuery<Note[]>({
+    queryKey: [`/api/notes`],
+    queryFn: async () => {
+      const res = await fetch(`/api/notes?projectId=${projectId}`);
+      if (!res.ok) throw new Error("Failed to fetch notes");
+      return res.json();
+    },
+    enabled: !!projectId,
   });
 
   const deleteNoteMutation = useMutation({
     mutationFn: async (noteId: number) => {
-      const res = await fetch(`/api/projects/${projectId}/notes/${noteId}`, {
+      const res = await fetch(`/api/notes/${noteId}`, {
         method: "DELETE",
       });
       if (!res.ok) {
@@ -62,7 +68,7 @@ export default function Notes() {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/notes`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/notes`] });
       queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
       setDeleteNoteId(null);
     },
@@ -82,12 +88,15 @@ export default function Notes() {
     setDeleteNoteId(id);
   };
 
-  const filteredNotes = (notes || []).filter(note =>
-    note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.tags?.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredNotes = (notes || []).filter((note: Note) => {
+    const tags = note.tags ? note.tags.split(',').map(tag => tag.trim()) : [];
+    return (
+      note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+  });
 
   const handleNoteClick = (noteId: number) => {
     setLocation(`/project/${projectId}/notes/${noteId}`);
@@ -181,18 +190,18 @@ export default function Notes() {
                   <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-4">{note.content}</p>
 
                   <div className="flex flex-wrap gap-2 mb-3">
-                    {note.tags.map((tag, index) => (
+                    {note.tags && typeof note.tags === 'string' && note.tags.split(',').map((tag: string, index: number) => (
                       <span 
                         key={index}
                         className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-amber-100 border-amber-200 text-amber-800 hover:bg-amber-200"
                       >
-                        {tag}
+                        {tag.trim()}
                       </span>
                     ))}
                   </div>
 
                   <div className="text-xs text-[var(--color-600)]">
-                    {note.createdAt}
+                    {note.createdAt instanceof Date ? note.createdAt.toLocaleDateString() : new Date(note.createdAt).toLocaleDateString()}
                   </div>
                 </Card>
               );

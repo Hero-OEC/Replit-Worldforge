@@ -1,9 +1,9 @@
 import { 
-  projects, characters, locations, timelineEvents, magicSystems, loreEntries, editHistory,
+  projects, characters, locations, timelineEvents, magicSystems, loreEntries, notes, editHistory,
   type Project, type InsertProject, type Character, type InsertCharacter,
   type Location, type InsertLocation, type TimelineEvent, type InsertTimelineEvent,
   type MagicSystem, type InsertMagicSystem, type LoreEntry, type InsertLoreEntry,
-  type EditHistory, type InsertEditHistory,
+  type Note, type InsertNote, type EditHistory, type InsertEditHistory,
   type ProjectWithStats, type ProjectStats
 } from "@shared/schema";
 
@@ -55,6 +55,13 @@ export interface IStorage {
   updateLoreEntry(id: number, entry: Partial<InsertLoreEntry>): Promise<LoreEntry | undefined>;
   deleteLoreEntry(id: number): Promise<boolean>;
 
+  // Notes
+  getNotes(projectId: number): Promise<Note[]>;
+  getNote(id: number): Promise<Note | undefined>;
+  createNote(note: InsertNote): Promise<Note>;
+  updateNote(id: number, note: Partial<InsertNote>): Promise<Note | undefined>;
+  deleteNote(id: number): Promise<boolean>;
+
   // Edit History
   getEditHistory(projectId: number): Promise<EditHistory[]>;
   createEditHistory(entry: InsertEditHistory): Promise<EditHistory>;
@@ -75,6 +82,7 @@ export class MemStorage implements IStorage {
   private timelineEvents: Map<number, TimelineEvent> = new Map();
   private magicSystems: Map<number, MagicSystem> = new Map();
   private loreEntries: Map<number, LoreEntry> = new Map();
+  private notes: Map<number, Note> = new Map();
   private editHistory: Map<number, EditHistory> = new Map();
 
   private currentProjectId = 1;
@@ -83,6 +91,7 @@ export class MemStorage implements IStorage {
   private currentTimelineEventId = 1;
   private currentMagicSystemId = 1;
   private currentLoreEntryId = 1;
+  private currentNoteId = 1;
   private currentEditHistoryId = 1;
 
   constructor() {
@@ -97,7 +106,44 @@ export class MemStorage implements IStorage {
     this.currentTimelineEventId = 1;
     this.currentMagicSystemId = 1;
     this.currentLoreEntryId = 1;
+    this.currentNoteId = 1;
     this.currentEditHistoryId = 1;
+
+    // Add sample notes data for testing
+    this.notes.set(1, {
+      id: 1,
+      title: "Character Development Ideas",
+      content: "Elena needs a stronger motivation for pursuing shadow magic. Consider adding a family tragedy that drives her quest for power. Perhaps her younger brother was killed by someone who used corrupted light magic.",
+      category: "Characters",
+      tags: "Elena,motivation,backstory",
+      projectId: 1,
+      createdAt: new Date(Date.now() - 86400000), // 1 day ago
+      updatedAt: new Date(Date.now() - 86400000),
+    });
+
+    this.notes.set(2, {
+      id: 2,
+      title: "Plot Twist Concepts",
+      content: "What if Marcus Shadowbane is actually Elena's father? This would explain his protective nature and deep knowledge of shadow magic. The revelation could come during the confrontation with Lord Vex.",
+      category: "Plot",
+      tags: "plot twist,Marcus,Elena,family",
+      projectId: 1,
+      createdAt: new Date(Date.now() - 172800000), // 2 days ago
+      updatedAt: new Date(Date.now() - 172800000),
+    });
+
+    this.notes.set(3, {
+      id: 3,
+      title: "Magic System Balance",
+      content: "The shadow magic system needs more limitations to prevent it from being overpowered. Consider: 1) Physical exhaustion after use, 2) Risk of corruption with overuse, 3) Inability to use in pure light environments.",
+      category: "World Building",
+      tags: "magic system,balance,limitations",
+      projectId: 1,
+      createdAt: new Date(Date.now() - 259200000), // 3 days ago
+      updatedAt: new Date(Date.now() - 259200000),
+    });
+
+    this.currentNoteId = 4;
   }
   // Projects
   async getProjects(): Promise<Project[]> {
@@ -421,6 +467,47 @@ export class MemStorage implements IStorage {
 
   async deleteLoreEntry(id: number): Promise<boolean> {
     return this.loreEntries.delete(id);
+  }
+
+  // Notes
+  async getNotes(projectId: number): Promise<Note[]> {
+    return Array.from(this.notes.values())
+      .filter(note => note.projectId === projectId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async getNote(id: number): Promise<Note | undefined> {
+    return this.notes.get(id);
+  }
+
+  async createNote(insertNote: InsertNote): Promise<Note> {
+    const note: Note = {
+      id: this.currentNoteId++,
+      ...insertNote,
+      content: insertNote.content || null,
+      tags: insertNote.tags || [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.notes.set(note.id, note);
+    return note;
+  }
+
+  async updateNote(id: number, updates: Partial<InsertNote>): Promise<Note | undefined> {
+    const note = this.notes.get(id);
+    if (!note) return undefined;
+
+    const updatedNote: Note = {
+      ...note,
+      ...updates,
+      updatedAt: new Date(),
+    };
+    this.notes.set(id, updatedNote);
+    return updatedNote;
+  }
+
+  async deleteNote(id: number): Promise<boolean> {
+    return this.notes.delete(id);
   }
 
   // Edit History
@@ -898,7 +985,7 @@ export class DatabaseStorage implements IStorage {
   private async recordEditHistory(
     projectId: number,
     action: 'created' | 'updated' | 'deleted',
-    entityType: 'character' | 'location' | 'timeline_event' | 'magic_system' | 'lore_entry',
+    entityType: 'character' | 'location' | 'timeline_event' | 'magic_system' | 'lore_entry' | 'note',
     entityName: string,
     description?: string
   ): Promise<void> {
@@ -958,6 +1045,91 @@ export class DatabaseStorage implements IStorage {
       totalLocations,
       totalEvents
     };
+  }
+
+  // Notes
+  async getNotes(projectId: number): Promise<Note[]> {
+    return await db
+      .select()
+      .from(notes)
+      .where(eq(notes.projectId, projectId))
+      .orderBy(desc(notes.createdAt));
+  }
+
+  async getNote(id: number): Promise<Note | undefined> {
+    const result = await db.select().from(notes).where(eq(notes.id, id)).limit(1);
+    return result[0];
+  }
+
+  async createNote(data: InsertNote): Promise<Note> {
+    const noteData = {
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const [note] = await db.insert(notes).values(noteData).returning();
+
+    // Record edit history
+    await this.recordEditHistory(
+      note.projectId,
+      'created',
+      'note',
+      note.title,
+      `Created note`
+    );
+
+    return note;
+  }
+
+  async updateNote(id: number, data: Partial<InsertNote>): Promise<Note | undefined> {
+    const existing = await this.getNote(id);
+    if (!existing) return undefined;
+
+    const updateData = {
+      ...data,
+      updatedAt: new Date(),
+    };
+
+    const [note] = await db
+      .update(notes)
+      .set(updateData)
+      .where(eq(notes.id, id))
+      .returning();
+
+    if (note) {
+      // Record edit history
+      await this.recordEditHistory(
+        note.projectId,
+        'updated',
+        'note',
+        note.title,
+        `Updated note`
+      );
+    }
+
+    return note || undefined;
+  }
+
+  async deleteNote(id: number): Promise<boolean> {
+    const existing = await this.getNote(id);
+    if (!existing) return false;
+
+    const result = await db.delete(notes).where(eq(notes.id, id));
+    const success = result.rowCount! > 0;
+
+    if (success) {
+      // Record edit history
+      await this.recordEditHistory(
+        existing.projectId,
+        'deleted',
+        'note',
+        existing.title,
+        `Deleted note`
+      );
+    }
+
+    return success;
   }
 }
 
