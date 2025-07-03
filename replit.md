@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Applied lore edit page styling to timeline event edit page:
+  * Redesigned timeline event edit page to match lore edit page layout with inputs replacing display content
+  * Title input positioned exactly like detail page with proper InkAlchemy styling and consistent category icon
+  * Category selector positioned below title with dynamic icon display matching current selection
+  * Content description textarea styled consistently with edit page using proper InkAlchemy color scheme
+  * Event details section organized in clean grid layout with consistent input styling
+  * All form elements use --color-* variables for consistent brand appearance
+  * Edit page now has identical user experience to lore edit page with inputs in same positions as detail content
 - July 3, 2025. Standardized category icon styling across all lore pages:
   * Updated all lore pages (listing, detail, edit, new) to use consistent light gray icon backgrounds
   * Changed icon containers from varied colored backgrounds to uniform bg-[var(--color-200)]

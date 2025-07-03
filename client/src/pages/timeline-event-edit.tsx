@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check } from "lucide-react";
+import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,6 +43,29 @@ const eventCategories = [
   "Quest",
   "Tragedy",
 ];
+
+// Category configuration matching lore page approach
+const categoryConfig = {
+  "Character Arc": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Discovery": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Conflict": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Revelation": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Heroic Act": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Political Event": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Romance": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Mystery": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Magic": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Battle": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Traveling": { icon: MapPin, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Death": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Birth": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Wedding": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Betrayal": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Alliance": { icon: Users, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Prophecy": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Quest": { icon: Star, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+  "Tragedy": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
+};
 
 const sampleLocations = [
   "Arcanum City",
@@ -116,9 +139,10 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }:
           onChange={(e) => setSearchValue(e.target.value)}
           onFocus={() => setIsOpen(true)}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
         />
         {isOpen && filteredCharacters.length > 0 && (
-          <div className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+          <div className="absolute z-50 w-full bg-[var(--color-50)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
             {filteredCharacters.map((character) => (
               <div
                 key={character}
@@ -222,9 +246,7 @@ export default function EditTimelineEvent() {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = async () => {
     if (!title.trim()) {
       toast({
         title: "Error",
@@ -242,6 +264,9 @@ export default function EditTimelineEvent() {
         date: date || null,
         category: category || null,
         description: description || null,
+        importance: importance,
+        location: location || null,
+        characters: selectedCharacters,
       };
 
       const response = await fetch(`/api/timeline-events/${eventId}`, {
@@ -284,209 +309,172 @@ export default function EditTimelineEvent() {
       
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={goBack}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-[var(--color-950)]">{timelineEvent.title}</h1>
-                <p className="text-[var(--color-700)]">Edit Timeline Event</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Event metadata */}
-          <div className="flex flex-wrap items-center gap-6 mb-8">
-            <div className="flex items-center space-x-2 text-[var(--color-700)]">
-              <Calendar className="w-4 h-4" />
-              <span>{timelineEvent.date}</span>
-            </div>
-            
-            <Badge
-              className={`${importanceColors[timelineEvent.importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
-            >
-              {importanceLabels[timelineEvent.importance as keyof typeof importanceLabels]}
-            </Badge>
-
-            <div className="flex items-center space-x-2 text-[var(--color-700)]">
-              <span>{timelineEvent.category}</span>
-            </div>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid lg:grid-cols-3 gap-6">
-              {/* Main Content */}
-              <div className="lg:col-span-2 space-y-6">
-                <Card className="p-6">
-                  <div className="space-y-6">
-                    <div>
-                      <Label htmlFor="title">Event Title</Label>
-                      <Input
-                        id="title"
-                        placeholder="Enter event title..."
+          {/* Header - matching lore edit page layout */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-[var(--color-700)] hover:text-[var(--color-950)]"
+                  onClick={goBack}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back
+                </Button>
+                <div>
+                  <div className="flex items-center space-x-3 mb-2">
+                    {/* Category icon matching current category */}
+                    {category && categoryConfig[category as keyof typeof categoryConfig] && (
+                      <div className={`w-10 h-10 ${categoryConfig[category as keyof typeof categoryConfig].color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                        {React.createElement(categoryConfig[category as keyof typeof categoryConfig].icon, { 
+                          className: `w-5 h-5 ${categoryConfig[category as keyof typeof categoryConfig].textColor}` 
+                        })}
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <Input 
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea
-                        id="description"
-                        placeholder="Describe what happens in this event..."
-                        className="min-h-[120px]"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Enter event title..."
+                        className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
                       />
                     </div>
                   </div>
-                </Card>
+                  <div className="ml-13 flex items-center space-x-4">
+                    {/* Category selector */}
+                    <Select value={category} onValueChange={setCategory}>
+                      <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {eventCategories.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    {/* Date display */}
+                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
+                      <Calendar className="w-4 h-4" />
+                      <span>{date || "No date set"}</span>
+                    </div>
+                    
+                    {/* Importance badge */}
+                    <Badge
+                      className={`${importanceColors[importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+                    >
+                      {importanceLabels[importance as keyof typeof importanceLabels]}
+                    </Badge>
+                  </div>
+                </div>
               </div>
-
-              {/* Sidebar */}
-              <div className="space-y-6">
-                <Card className="p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <Label>Date</Label>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div>
-                          <Label htmlFor="year" className="text-sm text-[var(--color-600)]">Year</Label>
-                          <Input
-                            id="year"
-                            type="number"
-                            placeholder="1247"
-                            value={date.split(',')[0]?.replace('Year ', '') || ''}
-                            onChange={(e) => {
-                              const year = e.target.value;
-                              const parts = date.split(', ');
-                              const month = parts[1] || '';
-                              const day = parts[2] || '';
-                              setDate(`Year ${year}${month ? `, ${month}` : ''}${day ? `, ${day}` : ''}`);
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="month" className="text-sm text-[var(--color-600)]">Month</Label>
-                          <Input
-                            id="month"
-                            type="number"
-                            placeholder="3"
-                            value={date.split(',')[1]?.replace(' Month ', '') || ''}
-                            onChange={(e) => {
-                              const month = e.target.value;
-                              const parts = date.split(', ');
-                              const year = parts[0] || 'Year ';
-                              const day = parts[2] || '';
-                              setDate(`${year}${month ? `, Month ${month}` : ''}${day ? `, ${day}` : ''}`);
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="day" className="text-sm text-[var(--color-600)]">Day</Label>
-                          <Input
-                            id="day"
-                            type="number"
-                            placeholder="15"
-                            value={date.split(',')[2]?.replace(' Day ', '') || ''}
-                            onChange={(e) => {
-                              const day = e.target.value;
-                              const parts = date.split(', ');
-                              const year = parts[0] || 'Year ';
-                              const month = parts[1] || '';
-                              setDate(`${year}${month ? `, ${month}` : ''}${day ? `, Day ${day}` : ''}`);
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="importance">Priority</Label>
-                      <Select onValueChange={setImportance} value={importance}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select priority" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="low">Low Priority</SelectItem>
-                          <SelectItem value="medium">Medium Priority</SelectItem>
-                          <SelectItem value="high">High Priority</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="category">Category</Label>
-                      <Select onValueChange={setCategory} value={category}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {eventCategories.map((cat) => (
-                            <SelectItem key={cat} value={cat}>
-                              {cat}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Location */}
-                <Card className="p-6">
-                  <div className="flex items-center space-x-2 mb-4">
-                    <MapPin className="w-5 h-5 text-[var(--color-600)]" />
-                    <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
-                  </div>
-                  <Select onValueChange={setLocation} value={location}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {sampleLocations.map((loc) => (
-                        <SelectItem key={loc} value={loc}>
-                          {loc}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </Card>
-
-                {/* Characters */}
-                <Card className="p-6">
-                  <div className="flex items-center space-x-2 mb-4">
-                    <Users className="w-5 h-5 text-[var(--color-600)]" />
-                    <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
-                  </div>
-                  <CharacterTag
-                    selectedCharacters={selectedCharacters}
-                    onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
-                    onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
-                  />
-                </Card>
-
+              
+              <div className="flex items-center space-x-3">
                 <Button
-                  type="submit"
-                  className="w-full bg-[var(--color-500)] hover:bg-[var(--color-600)]"
+                  type="button"
+                  variant="outline"
+                  onClick={goBack}
+                  className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmit}
                   disabled={isLoading}
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {isLoading ? "Saving..." : "Save Changes"}
+                  {isLoading ? "Updating..." : "Update Event"}
                 </Button>
               </div>
             </div>
-          </form>
+          </div>
+
+          {/* Content - matching lore edit page structure */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Clock className="w-4 h-4 text-[var(--color-700)]" />
+              <span className="text-sm font-medium text-gray-700">Description</span>
+            </div>
+            <Textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Describe what happens in this event..."
+              className="min-h-[200px] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
+            />
+          </div>
+
+          {/* Event Details Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Calendar className="w-4 h-4 text-[var(--color-700)]" />
+              <span className="text-sm font-medium text-gray-700">Event Details</span>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Date Input */}
+              <div>
+                <Label htmlFor="date" className="text-sm text-[var(--color-600)]">Date</Label>
+                <Input
+                  id="date"
+                  placeholder="e.g., Year 1247, Month 3, Day 15"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
+                />
+              </div>
+
+              {/* Importance Selector */}
+              <div>
+                <Label htmlFor="importance" className="text-sm text-[var(--color-600)]">Priority</Label>
+                <Select onValueChange={setImportance} value={importance}>
+                  <SelectTrigger className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low Priority</SelectItem>
+                    <SelectItem value="medium">Medium Priority</SelectItem>
+                    <SelectItem value="high">High Priority</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Location Selector */}
+              <div>
+                <Label htmlFor="location" className="text-sm text-[var(--color-600)]">Location</Label>
+                <Select onValueChange={setLocation} value={location}>
+                  <SelectTrigger className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all">
+                    <SelectValue placeholder="Select location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sampleLocations.map((loc) => (
+                      <SelectItem key={loc} value={loc}>
+                        {loc}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {/* Characters Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Users className="w-4 h-4 text-[var(--color-700)]" />
+              <span className="text-sm font-medium text-gray-700">Characters</span>
+            </div>
+            
+            <CharacterTag
+              selectedCharacters={selectedCharacters}
+              onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
+              onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
+            />
+          </div>
         </div>
       </main>
     </div>
