@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Enhanced lore edit page with proper InkAlchemy color scheme and improved usability:
+  * Updated all category configurations to use consistent InkAlchemy color variables instead of hardcoded colors
+  * Made title input field highly visible with proper background, border, and focus states
+  * Improved tag input styling with InkAlchemy colors and better hover effects
+  * Enhanced content textarea with proper color scheme and focus transitions
+  * All form elements now use consistent --color-* variables for brand consistency
+  * Title input now has clear visual distinction making it intuitive to edit
 - July 3, 2025. Created missing lore edit page functionality:
   * Added lore-edit.tsx page with full editing capabilities for existing lore entries
   * Implemented proper form initialization with existing lore entry data  

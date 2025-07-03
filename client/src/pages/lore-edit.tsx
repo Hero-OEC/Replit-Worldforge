@@ -31,16 +31,16 @@ const categories = [
 ];
 
 const categoryConfig = {
-  "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
-  "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-  "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
-  "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
-  "Customs": { icon: Heart, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
+  "History": { icon: Calendar, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
+  "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-650)]", bgColor: "bg-[var(--color-150)]", textColor: "text-[var(--color-850)]", borderColor: "border-[var(--color-350)]" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-550)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
 };
 
 export default function EditLoreEntry() {
@@ -248,7 +248,7 @@ export default function EditLoreEntry() {
                                   {...field} 
                                   value={field.value || ""}
                                   placeholder="Enter the lore entry title..."
-                                  className="text-3xl font-bold text-gray-800 border-none bg-transparent p-0 focus:ring-0 focus:border-none shadow-none"
+                                  className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-white focus:ring-2 focus:ring-[var(--color-200)] transition-all"
                                 />
                               </FormControl>
                             </FormItem>
@@ -329,18 +329,18 @@ export default function EditLoreEntry() {
                   ))}
                   
                   {/* Add Tag Input */}
-                  <div className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium bg-white border-[var(--color-300)]">
+                  <div className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium bg-[var(--color-50)] border-[var(--color-400)] hover:bg-white hover:border-[var(--color-500)] transition-all">
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
                       placeholder="Add tag..."
-                      className="border-none bg-transparent p-0 h-auto text-xs focus:ring-0 shadow-none min-w-[80px] w-auto"
+                      className="border-none bg-transparent p-0 h-auto text-xs focus:ring-0 shadow-none min-w-[80px] w-auto text-[var(--color-800)] placeholder:text-[var(--color-600)]"
                       onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
                     />
                     <button
                       type="button"
                       onClick={addTag}
-                      className="hover:text-[var(--color-600)]"
+                      className="text-[var(--color-600)] hover:text-[var(--color-800)] transition-colors"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -351,13 +351,13 @@ export default function EditLoreEntry() {
                 {showRecommendations && recommendedTags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     <div className="flex items-center space-x-2 w-full mb-2">
-                      <Lightbulb className="w-4 h-4 text-yellow-500" />
+                      <Lightbulb className="w-4 h-4 text-[var(--color-600)]" />
                       <span className="text-sm font-medium text-[var(--color-700)]">Suggested Tags</span>
                     </div>
                     {recommendedTags.map((tag, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 cursor-pointer"
+                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-150)] border-[var(--color-400)] text-[var(--color-800)] hover:bg-[var(--color-200)] hover:border-[var(--color-500)] cursor-pointer"
                         onClick={() => addRecommendedTag(tag)}
                       >
                         {tag}
@@ -384,7 +384,7 @@ export default function EditLoreEntry() {
                                 {...field}
                                 value={field.value || ""}
                                 placeholder="Write your lore entry content here..."
-                                className="min-h-[300px] text-gray-700 leading-relaxed whitespace-pre-wrap border-[var(--color-300)] focus:border-[var(--color-500)] resize-none"
+                                className="min-h-[300px] text-[var(--color-800)] leading-relaxed whitespace-pre-wrap bg-[var(--color-50)] border-[var(--color-300)] focus:border-[var(--color-500)] focus:bg-white focus:ring-2 focus:ring-[var(--color-200)] resize-none transition-all placeholder:text-[var(--color-600)]"
                               />
                             </FormControl>
                           </FormItem>
