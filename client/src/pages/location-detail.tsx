@@ -86,7 +86,7 @@ const getTypeIcon = (type: string) => {
     'Academy': GraduationCap,
     'Palace': Crown,
     'Village': MapPin,
-    'Caves': Castle,
+    'Caves': Mountain,
     'Harbor': Anchor,
     'Ruins': Building2,
     'Other': Eye,
