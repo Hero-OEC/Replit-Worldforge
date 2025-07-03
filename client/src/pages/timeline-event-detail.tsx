@@ -183,14 +183,7 @@ export default function TimelineEventDetail() {
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Event
               </Button>
-              <Button
-                variant="outline"
-                onClick={handleDelete}
-                className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
-              >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete
-              </Button>
+              
             </div>
           </div>
 
