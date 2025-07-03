@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Applied lore edit page styling to magic system creation and edit pages:
+  * Updated magic system new and edit pages to match lore edit page layout with inputs positioned exactly like detail page content
+  * Title input positioned in header with proper InkAlchemy styling and dynamic category icon display (Sparkles for magic, Zap for power)
+  * Category selector positioned below title with dynamic icon display matching current selection
+  * All textarea fields styled consistently with edit page using proper InkAlchemy color scheme and min-h-48 height
+  * Section titles use text-xl (20px) with proper icon-text pairs (Sparkles, Zap, X, Battery)
+  * Source and Cost inputs grouped in organized grid layout with consistent styling
+  * All form elements use --color-* variables for consistent brand appearance
+  * Both magic system creation and edit pages now have identical user experience to lore edit with inputs in same positions
+  * Save button moved to header navigation area for consistent interface layout
 - July 3, 2025. Applied lore edit page styling to location creation page:
   * Updated location new page to match lore edit page layout with inputs positioned exactly like detail page content
   * Title input positioned in header with proper InkAlchemy styling and dynamic location type icon display
