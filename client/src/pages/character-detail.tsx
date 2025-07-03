@@ -3,7 +3,7 @@ import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users, Calendar, MapPin, Eye, Swords, Lightbulb, Award, Heart, Plane } from "lucide-react";
-import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -214,7 +214,7 @@ export default function CharacterDetail() {
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
   const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const [characterData, setCharacterData] = useState({
     name: "",
     description: "",
@@ -278,28 +278,7 @@ export default function CharacterDetail() {
     enabled: !!projectId
   });
 
-  // Delete character mutation
-  const deleteMutation = useMutation({
-    mutationFn: async () => {
-      const response = await fetch(`/api/characters/${characterId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete character");
-      return response.json();
-    },
-    onSuccess: () => {
-      // Invalidate characters cache with exact matching key
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
-      // Also invalidate with string projectId to be safe
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", String(projectId)] });
-      // Force refetch
-      queryClient.refetchQueries({ queryKey: ["/api/characters", projectId] });
-      // Navigate back to characters list
-      setTimeout(() => {
-        setLocation(`/project/${projectId}/characters`);
-      }, 100);
-    },
-  });
+
 
   // Helper functions for power system display
   const getCategoryIcon = (category: string) => {
@@ -451,10 +430,7 @@ export default function CharacterDetail() {
     }
   };
 
-  const confirmDelete = () => {
-    deleteMutation.mutate();
-    setDeleteDialogOpen(false);
-  };
+
 
   if (isLoading) {
     return (
@@ -572,14 +548,6 @@ export default function CharacterDetail() {
                   <Button onClick={() => setIsEditing(true)} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Character
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setDeleteDialogOpen(true)}
-                    className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
                   </Button>
                 </>
               )}
@@ -849,18 +817,7 @@ export default function CharacterDetail() {
         </div>
       </main>
 
-      {/* Delete Confirmation Dialog */}
-      {character && (
-        <DeleteConfirmationDialog
-          open={deleteDialogOpen}
-          onOpenChange={setDeleteDialogOpen}
-          onConfirm={confirmDelete}
-          title="Delete Character"
-          itemName={character.name}
-          description={`Are you sure you want to delete "${character.name}"? This action cannot be undone and will permanently remove the character and all associated data.`}
-          isDeleting={deleteMutation.isPending}
-        />
-      )}
+
     </div>
   );
 }
