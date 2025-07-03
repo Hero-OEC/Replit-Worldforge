@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal } from "lucide-react";
+import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal, Crown, Shield, Sword, UserCheck, UserX, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,6 +29,16 @@ export default function MagicSystemDetail() {
     return category === "power" 
       ? "bg-[var(--color-200)] text-[var(--color-950)]" 
       : "bg-[var(--color-300)] text-[var(--color-950)]";
+  };
+
+  // Character role configuration
+  const roleConfig = {
+    "Protagonist": { icon: Crown, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
+    "Antagonist": { icon: Sword, color: "bg-[var(--color-950)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-700)]" },
+    "Ally": { icon: Shield, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+    "Enemy": { icon: UserX, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-600)]" },
+    "Neutral": { icon: HelpCircle, color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-600)]", borderColor: "border-[var(--color-300)]" },
+    "Supporting": { icon: UserCheck, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" }
   };
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -294,25 +304,70 @@ export default function MagicSystemDetail() {
                 <CardContent>
                   {connectedCharacters.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {connectedCharacters.map((character) => (
-                        <Link 
-                          key={character.id} 
-                          href={`/project/${projectId}/characters/${character.id}`}
-                          className="block"
-                        >
-                          <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
-                            <div className="space-y-2">
-                              <h3 className="font-semibold text-[var(--color-950)] truncate">{character.name}</h3>
-                              <div className="space-y-1">
-                                <p className="text-sm text-[var(--color-700)] truncate">{character.role || "Character"}</p>
-                                {character.race && (
-                                  <p className="text-sm text-[var(--color-600)] truncate">{character.race}</p>
+                      {connectedCharacters.map((character) => {
+                        const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
+                        const RoleIcon = roleInfo.icon;
+                        
+                        return (
+                          <Link 
+                            key={character.id} 
+                            href={`/project/${projectId}/characters/${character.id}`}
+                            className="block"
+                          >
+                            <Card className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}>
+                              {/* Character Image */}
+                              <div className="relative aspect-[7/9] bg-[var(--color-200)] overflow-hidden">
+                                {character.image ? (
+                                  <img 
+                                    src={character.image} 
+                                    alt={character.name}
+                                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
+                                  />
+                                ) : (
+                                  <img 
+                                    src={placeholderImage} 
+                                    alt="Character placeholder"
+                                    className="w-full h-full object-cover object-center opacity-30"
+                                  />
                                 )}
+                                {/* Role Badge */}
+                                <div className={`absolute top-3 left-3 ${roleInfo.bgColor} ${roleInfo.textColor} px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium border ${roleInfo.borderColor}`}>
+                                  <RoleIcon className="w-3 h-3" />
+                                  <span>{character.role}</span>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
+                              {/* Character Info */}
+                              <div className="p-4 bg-[var(--color-100)]">
+                                <div className="mb-3">
+                                  <h3 className="text-heading-sm text-[var(--color-950)] mb-1 group-hover:text-[var(--color-600)] transition-colors">
+                                    {character.name}
+                                  </h3>
+                                  <div className="space-y-1">
+                                    <p className="text-body-sm text-[var(--color-700)] line-clamp-2 leading-relaxed">
+                                      {character.description || "No description provided"}
+                                    </p>
+                                    {character.race && (
+                                      <p className="text-sm text-[var(--color-600)] font-medium">
+                                        {character.race}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                
+                                {/* Character Stats/Info Bar */}
+                                <div className={`mt-4 pt-3 border-t ${roleInfo.borderColor} flex items-center justify-between`}>
+                                  <div className={`${roleInfo.color} rounded-full p-1 transition-all duration-300 hover:scale-110 hover:shadow-lg group/role-icon`}>
+                                    <RoleIcon className="w-4 h-4 text-[var(--color-50)] transition-transform duration-300 group-hover/role-icon:bounce group-hover/role-icon:scale-110" />
+                                  </div>
+                                  <span className="text-caption text-[var(--color-600)] font-medium">
+                                    Click to view details
+                                  </span>
+                                </div>
+                              </div>
+                            </Card>
+                          </Link>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-8">
