@@ -72,7 +72,7 @@ export default function SerpentineTimeline({
   const popupRef = useRef<HTMLDivElement>(null);
   
   // Container width for responsive layout
-  const [containerWidth, setContainerWidth] = useState(1000);
+  const [containerWidth, setContainerWidth] = useState(800);
 
   // Fetch timeline events from API
   const { data: timelineEvents = [], isLoading } = useQuery<TimelineEvent[]>({
@@ -138,7 +138,8 @@ export default function SerpentineTimeline({
   const getEventsPerRow = (width: number) => {
     if (width > 900) return 4;
     if (width > 600) return 3;
-    return 2;
+    if (width > 400) return 2;
+    return 1;
   };
 
   const eventsPerRow = getEventsPerRow(containerWidth);
@@ -169,18 +170,42 @@ export default function SerpentineTimeline({
     pathPoints.push([x, y]);
   });
 
-  // Update container width on resize
+  // Update container width on resize and initial load
   useEffect(() => {
     const updateContainerWidth = () => {
       if (timelineContainerRef.current) {
-        setContainerWidth(timelineContainerRef.current.offsetWidth);
+        const width = timelineContainerRef.current.offsetWidth;
+        if (width > 0) {
+          setContainerWidth(width);
+        }
       }
     };
 
+    // Use a slight delay to ensure DOM is fully rendered
+    const timeoutId = setTimeout(updateContainerWidth, 100);
     updateContainerWidth();
+    
     window.addEventListener('resize', updateContainerWidth);
-    return () => window.removeEventListener('resize', updateContainerWidth);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updateContainerWidth);
+    };
   }, []);
+
+  // Also update when events change (tab switch scenario)
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (timelineContainerRef.current) {
+        const width = timelineContainerRef.current.offsetWidth;
+        if (width > 0) {
+          setContainerWidth(width);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(updateContainerWidth, 50);
+    return () => clearTimeout(timeoutId);
+  }, [timelineEvents]);
 
   // Close popup when clicking outside
   useEffect(() => {
@@ -229,13 +254,13 @@ export default function SerpentineTimeline({
   }
 
   return (
-    <div ref={timelineContainerRef} className={`relative w-full ${className}`}>
+    <div ref={timelineContainerRef} className={`relative w-full overflow-hidden ${className}`}>
       {/* Serpentine Timeline */}
       <div className="py-4">
         <div
           ref={timelineRef}
           className="relative w-full"
-          style={{ width: timelineWidth, height: timelineHeight }}
+          style={{ width: Math.min(timelineWidth, containerWidth), height: timelineHeight }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
