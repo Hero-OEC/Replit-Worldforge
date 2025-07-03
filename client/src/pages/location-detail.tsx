@@ -39,7 +39,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/layout/navbar";
-import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
+import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -107,244 +107,9 @@ const eventTypeIcons = {
   Traveling: Plane,
 };
 
-// Sample timeline events (shared with other pages)
-const sampleEvents = [
-  {
-    id: 1,
-    title: "Elena's Awakening",
-    date: "Year 1, Day 5",
-    importance: "high" as const,
-    category: "Character Arc",
-    description: "Elena discovers her true magical potential during a routine training session.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 2,
-    title: "The Forbidden Library",
-    date: "Year 1, Day 12",
-    importance: "medium" as const,
-    category: "Discovery",
-    description: "Elena and Marcus uncover ancient texts in the hidden library.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 3,
-    title: "First Encounter",
-    date: "Year 1, Day 18",
-    importance: "high" as const,
-    category: "Conflict",
-    description: "The protagonists face their first major challenge.",
-    location: "Dark Forest",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 4,
-    title: "The Mentor's Secret",
-    date: "Year 1, Day 25",
-    importance: "medium" as const,
-    category: "Revelation",
-    description: "A secret about Elena's mentor is revealed.",
-    location: "Magic Academy",
-    characters: ["Elena Brightblade", "Mentor"],
-  },
-  {
-    id: 5,
-    title: "Village Rescue",
-    date: "Year 1, Day 31",
-    importance: "low" as const,
-    category: "Heroic Act",
-    description: "The heroes help save a village from bandits.",
-    location: "Riverside Village",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 11,
-    title: "Morning Council Meeting",
-    date: "Year 1, Day 50",
-    importance: "medium" as const,
-    category: "Political Event",
-    description: "The kingdom's council meets to discuss the growing threat.",
-    location: "Royal Palace",
-    characters: ["Elena Brightblade", "King", "Council Members"],
-  },
-  {
-    id: 12,
-    title: "Afternoon Training",
-    date: "Year 1, Day 50",
-    importance: "low" as const,
-    category: "Character Arc",
-    description: "Elena practices her new abilities in the training grounds.",
-    location: "Training Grounds",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 13,
-    title: "Evening Revelation",
-    date: "Year 1, Day 50",
-    importance: "high" as const,
-    category: "Revelation",
-    description: "A shocking truth about Elena's heritage is revealed.",
-    location: "Royal Library",
-    characters: ["Elena Brightblade", "Ancient Sage"],
-  },
-  {
-    id: 6,
-    title: "Journey to the North",
-    date: "Year 1, Day 78",
-    importance: "medium" as const,
-    category: "Traveling",
-    description: "The group begins their journey to the northern kingdoms.",
-    location: "Northern Road",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 7,
-    title: "The Great Battle",
-    date: "Year 1, Day 71",
-    importance: "high" as const,
-    category: "Battle",
-    description: "A major battle that changes the course of the war.",
-    location: "Battlefield",
-    characters: ["Elena Brightblade", "Marcus", "Army"],
-  },
-  {
-    id: 8,
-    title: "Elemental Convergence",
-    date: "Year 1, Day 90",
-    importance: "medium" as const,
-    category: "Magic",
-    description: "The elemental forces converge in an unprecedented way.",
-    location: "Elemental Nexus",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 9,
-    title: "The Vanishing Mist",
-    date: "Year 1, Day 95",
-    importance: "low" as const,
-    category: "Mystery",
-    description: "A strange mist appears and disappears mysteriously.",
-    location: "Misty Marshlands",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 10,
-    title: "Hearts Entwined",
-    date: "Year 1, Day 88",
-    importance: "medium" as const,
-    category: "Romance",
-    description: "A romantic subplot reaches a crucial moment.",
-    location: "Garden of Stars",
-    characters: ["Elena Brightblade", "Marcus"],
-  },
-  {
-    id: 14,
-    title: "Academy Exhibition",
-    date: "Year 1, Day 28",
-    importance: "low" as const,
-    category: "Character Arc",
-    description: "Elena participates in the annual magic exhibition, showcasing her improved control over fire magic to impressed faculty.",
-    location: "Magic Academy",
-    characters: ["Elena Brightblade", "Marcus", "Students"],
-  },
-  {
-    id: 15,
-    title: "The Crystal Caves Expedition",
-    date: "Year 1, Day 35",
-    importance: "medium" as const,
-    category: "Discovery",
-    description: "Elena explores the mysterious crystal caves, discovering that the crystals resonate with her magical energy in unexpected ways.",
-    location: "Crystal Caves",
-    characters: ["Elena Brightblade", "Marcus", "Mentor"],
-  },
-  {
-    id: 16,
-    title: "Market Day Incident",
-    date: "Year 1, Day 42",
-    importance: "low" as const,
-    category: "Character Arc",
-    description: "Elena accidentally reveals her growing powers during a crowded market day, causing both wonder and concern among the citizens.",
-    location: "Arcanum City",
-    characters: ["Elena Brightblade"],
-  },
-  {
-    id: 17,
-    title: "The Sunset Harbor Departure",
-    date: "Year 1, Day 55",
-    importance: "medium" as const,
-    category: "Traveling",
-    description: "Elena and her companions depart from Sunset Harbor on a ship bound for the northern territories, beginning their grand quest.",
-    location: "Sunset Harbor",
-    characters: ["Elena Brightblade", "Marcus", "Captain Storm"],
-  },
-  {
-    id: 18,
-    title: "Mountain Pass Ambush",
-    date: "Year 1, Day 65",
-    importance: "high" as const,
-    category: "Battle",
-    description: "The party is ambushed by Lord Vex's forces in the treacherous mountain pass, forcing Elena to use her powers defensively.",
-    location: "Mountain Pass",
-    characters: ["Elena Brightblade", "Marcus", "Shadow Assassin"],
-  },
-  {
-    id: 19,
-    title: "Ancient Ruins Discovery",
-    date: "Year 1, Day 82",
-    importance: "high" as const,
-    category: "Discovery",
-    description: "Elena uncovers ancient ruins that hold the key to understanding the elemental magic that flows through her bloodline.",
-    location: "Ancient Ruins",
-    characters: ["Elena Brightblade", "Ancient Sage"],
-  },
-  {
-    id: 20,
-    title: "Dragon Guardian's Test",
-    date: "Year 1, Day 100",
-    importance: "high" as const,
-    category: "Character Arc",
-    description: "Elena faces the ultimate test from the ancient Dragon Guardian, proving her worthiness to wield the full power of elemental magic.",
-    location: "Dragon's Lair",
-    characters: ["Elena Brightblade", "Dragon Guardian"],
-  },
-];
 
-// Location Timeline Component - using shared SerpentineTimeline
-function LocationTimelineWrapper({ location }: { location: Location }) {
-  const { projectId } = useParams<{ projectId: string }>();
 
-  // Fetch timeline events from API
-  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
-    queryKey: [`/api/projects/${projectId}/timeline`],
-    enabled: !!projectId,
-  });
 
-  // Convert database events to timeline component format
-  const convertToTimelineData = (events: TimelineEvent[]): TimelineEventData[] => {
-    return events.map(event => ({
-      id: event.id,
-      title: event.title,
-      date: event.date || "No Date",
-      importance: (event.importance || "medium") as "high" | "medium" | "low",
-      category: event.category || "Other",
-      description: event.description || "",
-      location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : []
-    }));
-  };
-
-  const timelineData = convertToTimelineData(timelineEvents);
-
-  return (
-    <SerpentineTimeline 
-      events={timelineData}
-      filterLocation={location.name}
-      className="w-full"
-    />
-  );
-}
 
 export default function LocationDetail() {
   const { projectId, locationId } = useParams<{ projectId: string; locationId: string }>();
@@ -450,17 +215,7 @@ export default function LocationDetail() {
 
 
 
-  // Filter and sort events for stats calculation
-  const locationEvents = sampleEvents.filter(event => 
-    event.location === locationData?.name
-  );
-  const sortedEvents = [...locationEvents].sort((a, b) => {
-    const getDateNumber = (dateStr: string) => {
-      const match = dateStr.match(/Day (\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    return getDateNumber(a.date) - getDateNumber(b.date);
-  });
+
 
   if (isLocationLoading) {
     return (
@@ -700,22 +455,24 @@ export default function LocationDetail() {
 
                   <TabsContent value="timeline" className="space-y-6 bg-[var(--worldforge-bg)]">
                     <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <Clock className="w-5 h-5 text-[var(--color-600)]" />
-                          <div>
-                            <h3 className="text-lg font-semibold text-[var(--color-950)]">Location Timeline</h3>
-                            <p className="text-sm text-[var(--color-700)]">
-                              Events that take place in {locationData.name}
-                            </p>
-                          </div>
+                      <div className="flex items-center space-x-3 mb-6">
+                        <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center">
+                          <Clock className="w-5 h-5 text-[var(--color-50)]" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-[var(--color-950)]">Location Timeline</h3>
+                          <p className="text-sm text-[var(--color-700)]">
+                            Events that take place in {locationData.name}
+                          </p>
                         </div>
                       </div>
 
-                      {/* Empty timeline content */}
-                      <div className="text-center py-12 text-[var(--color-600)]">
-                        <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p>Timeline content will be added here</p>
+                      <div className="w-full">
+                        <SerpentineTimeline 
+                          filterLocation={locationData.name}
+                          showEditButtons={true}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                   </TabsContent>
