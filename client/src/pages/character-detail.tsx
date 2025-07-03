@@ -648,7 +648,7 @@ export default function CharacterDetail() {
                       <Input
                         value={characterData.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                        className="w-24 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                        className="w-20 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                         placeholder="Human"
                       />
                     ) : (
