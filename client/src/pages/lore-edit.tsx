@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, X, Plus, Minus, Lightbulb } from "lucide-react";
+import { ArrowLeft, Save, X, Plus, Minus, Lightbulb, Tag, Calendar, Church, Crown, Users, MapPin, Gem, Eye, GraduationCap, Sparkles, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,6 +29,19 @@ const categories = [
   "Legends",
   "Customs"
 ];
+
+const categoryConfig = {
+  "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
+  "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
+  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
+  "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
+  "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
+  "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
+  "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
+  "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
+  "Customs": { icon: Heart, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
+};
 
 export default function EditLoreEntry() {
   const { projectId, loreId } = useParams<{ projectId: string; loreId: string }>();
@@ -191,6 +204,10 @@ export default function EditLoreEntry() {
     );
   }
 
+  const currentCategory = form.watch("category") || "";
+  const categoryInfo = categoryConfig[currentCategory as keyof typeof categoryConfig] || categoryConfig["History"];
+  const CategoryIcon = categoryInfo.icon;
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
@@ -201,83 +218,54 @@ export default function EditLoreEntry() {
       
       <main className="p-8">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={() => setLocation(`/project/${projectId}/lore/${loreId}`)}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-[var(--color-950)]">Edit Lore Entry</h1>
-                <p className="text-[var(--color-700)]">Update your world's knowledge and history</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                onClick={() => setLocation(`/project/${projectId}/lore/${loreId}`)}
-                className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
-              >
-                <X className="w-4 h-4 mr-2" />
-                Cancel
-              </Button>
-              <Button
-                onClick={form.handleSubmit(handleSave)}
-                disabled={updateLoreEntryMutation.isPending}
-                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {updateLoreEntryMutation.isPending ? "Updating..." : "Update Entry"}
-              </Button>
-            </div>
-          </div>
-
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSave)} className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Main Content */}
-                <div className="lg:col-span-2 space-y-6">
-                  {/* Basic Information */}
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)]">
-                    <CardHeader>
-                      <CardTitle className="text-xl text-[var(--color-950)]">Basic Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-[var(--color-800)]">Title</FormLabel>
-                            <FormControl>
-                              <Input 
-                                {...field} 
-                                value={field.value || ""}
-                                placeholder="Enter the lore entry title..."
-                                className="bg-white border-[var(--color-300)] focus:border-[var(--color-500)]"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
+            <form onSubmit={form.handleSubmit(handleSave)}>
+              {/* Header with buttons - matching lore detail layout */}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-4">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-[var(--color-700)] hover:text-[var(--color-950)]"
+                    onClick={() => setLocation(`/project/${projectId}/lore/${loreId}`)}
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back
+                  </Button>
+                  <div>
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                        <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
+                      </div>
+                      <div className="flex-1">
+                        <FormField
+                          control={form.control}
+                          name="title"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input 
+                                  {...field} 
+                                  value={field.value || ""}
+                                  placeholder="Enter the lore entry title..."
+                                  className="text-3xl font-bold text-gray-800 border-none bg-transparent p-0 focus:ring-0 focus:border-none shadow-none"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <div className="ml-13">
                       <FormField
                         control={form.control}
                         name="category"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-[var(--color-800)]">Category</FormLabel>
                             <FormControl>
                               <Select value={field.value || ""} onValueChange={field.onChange}>
-                                <SelectTrigger className="bg-white border-[var(--color-300)] focus:border-[var(--color-500)]">
-                                  <SelectValue placeholder="Select a category" />
+                                <SelectTrigger className={`w-auto ${categoryInfo.bgColor} ${categoryInfo.textColor} border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium`}>
+                                  <SelectValue placeholder="Select category" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   {categories.map((category) => (
@@ -291,15 +279,101 @@ export default function EditLoreEntry() {
                           </FormItem>
                         )}
                       />
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setLocation(`/project/${projectId}/lore/${loreId}`)}
+                    className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={updateLoreEntryMutation.isPending}
+                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    {updateLoreEntryMutation.isPending ? "Updating..." : "Update Entry"}
+                  </Button>
+                </div>
+              </div>
 
-                  {/* Content */}
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)]">
-                    <CardHeader>
-                      <CardTitle className="text-xl text-[var(--color-950)]">Content</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+              {/* Tags Section - matching lore detail layout */}
+              <div className="mb-6">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Tag className="w-4 h-4 text-[var(--color-700)]" />
+                  <span className="text-sm font-medium text-gray-700">Tags</span>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {/* Current Tags */}
+                  {tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeTag(tag)}
+                        className="ml-1 hover:text-red-600"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                  
+                  {/* Add Tag Input */}
+                  <div className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium bg-white border-[var(--color-300)]">
+                    <Input
+                      value={newTag}
+                      onChange={(e) => setNewTag(e.target.value)}
+                      placeholder="Add tag..."
+                      className="border-none bg-transparent p-0 h-auto text-xs focus:ring-0 shadow-none min-w-[80px] w-auto"
+                      onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                    />
+                    <button
+                      type="button"
+                      onClick={addTag}
+                      className="hover:text-[var(--color-600)]"
+                    >
+                      <Plus className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Recommended Tags */}
+                {showRecommendations && recommendedTags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    <div className="flex items-center space-x-2 w-full mb-2">
+                      <Lightbulb className="w-4 h-4 text-yellow-500" />
+                      <span className="text-sm font-medium text-[var(--color-700)]">Suggested Tags</span>
+                    </div>
+                    {recommendedTags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 cursor-pointer"
+                        onClick={() => addRecommendedTag(tag)}
+                      >
+                        {tag}
+                        <Plus className="w-3 h-3" />
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Content Section - matching lore detail layout */}
+              <Card className="bg-transparent">
+                <CardContent className="space-y-6 pt-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-[var(--color-950)] mb-3">Content</h3>
+                    <div className="prose max-w-none">
                       <FormField
                         control={form.control}
                         name="content"
@@ -310,92 +384,16 @@ export default function EditLoreEntry() {
                                 {...field}
                                 value={field.value || ""}
                                 placeholder="Write your lore entry content here..."
-                                className="min-h-[300px] bg-white border-[var(--color-300)] focus:border-[var(--color-500)] resize-none"
+                                className="min-h-[300px] text-gray-700 leading-relaxed whitespace-pre-wrap border-[var(--color-300)] focus:border-[var(--color-500)] resize-none"
                               />
                             </FormControl>
                           </FormItem>
                         )}
                       />
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Sidebar */}
-                <div className="space-y-6">
-                  {/* Tags */}
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)]">
-                    <CardHeader>
-                      <CardTitle className="text-lg text-[var(--color-950)]">Tags</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {/* Current Tags */}
-                      {tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {tags.map((tag, index) => (
-                            <Badge
-                              key={index}
-                              variant="secondary"
-                              className="bg-[var(--color-200)] text-[var(--color-800)] hover:bg-[var(--color-300)] transition-colors"
-                            >
-                              {tag}
-                              <button
-                                type="button"
-                                onClick={() => removeTag(tag)}
-                                className="ml-2 hover:text-red-600"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Add New Tag */}
-                      <div className="flex space-x-2">
-                        <Input
-                          value={newTag}
-                          onChange={(e) => setNewTag(e.target.value)}
-                          placeholder="Add a tag..."
-                          className="flex-1 bg-white border-[var(--color-300)]"
-                          onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={addTag}
-                          className="border-[var(--color-300)] hover:bg-[var(--color-100)]"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </Button>
-                      </div>
-
-                      {/* Recommended Tags */}
-                      {showRecommendations && recommendedTags.length > 0 && (
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <Lightbulb className="w-4 h-4 text-yellow-500" />
-                            <span className="text-sm font-medium text-[var(--color-700)]">Suggested Tags</span>
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            {recommendedTags.map((tag, index) => (
-                              <Badge
-                                key={index}
-                                variant="outline"
-                                className="cursor-pointer border-[var(--color-400)] text-[var(--color-700)] hover:bg-[var(--color-200)] transition-colors"
-                                onClick={() => addRecommendedTag(tag)}
-                              >
-                                {tag}
-                                <Plus className="w-3 h-3 ml-1" />
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </form>
           </Form>
         </div>
