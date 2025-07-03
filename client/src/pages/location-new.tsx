@@ -173,60 +173,82 @@ export default function LocationNew() {
             </div>
           </div>
 
-          {/* Description Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <MapPin className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Description</span>
-            </div>
-            <textarea
-              value={locationData.description}
-              onChange={(e) => setLocationData({...locationData, description: e.target.value})}
-              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-              placeholder="Brief description of the location. What makes this place unique and important?"
-            />
-          </div>
+          {/* Tabbed Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-3">
+              <Tabs defaultValue="details" className="w-full">
+                <TabsList className="grid w-full grid-cols-4 bg-[var(--color-100)]">
+                  <TabsTrigger value="details" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
+                  <TabsTrigger value="geography" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Geography</TabsTrigger>
+                  <TabsTrigger value="culture" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Culture</TabsTrigger>
+                  <TabsTrigger value="significance" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Significance</TabsTrigger>
+                </TabsList>
 
-          {/* Geography Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Mountain className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Geography & Environment</span>
-            </div>
-            <textarea
-              value={locationData.geography}
-              onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
-              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-              placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
-            />
-          </div>
+                <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                        <textarea
+                          value={locationData.description}
+                          onChange={(e) => setLocationData({...locationData, description: e.target.value})}
+                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          placeholder="Brief description of the location. What makes this place unique and important?"
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
 
-          {/* Culture Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Users className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Culture & Society</span>
-            </div>
-            <textarea
-              value={locationData.culture}
-              onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
-              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-              placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
-            />
-          </div>
+                <TabsContent value="geography" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography & Environment</label>
+                        <textarea
+                          value={locationData.geography}
+                          onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
+                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
 
-          {/* Significance Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Star className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Story Significance</span>
+                <TabsContent value="culture" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture & Society</label>
+                        <textarea
+                          value={locationData.culture}
+                          onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
+                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="significance" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Story Significance</label>
+                        <textarea
+                          value={locationData.significance}
+                          onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
+                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+              </Tabs>
             </div>
-            <textarea
-              value={locationData.significance}
-              onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
-              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-              placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
-            />
           </div>
         </div>
       </main>
