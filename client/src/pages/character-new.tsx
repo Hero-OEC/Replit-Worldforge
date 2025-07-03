@@ -76,7 +76,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsOpen(true)}
-          className="w-full bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)]"
+          className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
         />
         {isOpen && searchQuery && filteredSystems.length > 0 && (
           <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
@@ -254,38 +254,72 @@ export default function CharacterNew() {
       
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <Button 
-                onClick={goBack}
-                variant="outline" 
-                size="sm"
-                className="bg-[var(--color-100)] border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-200)]"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--color-500)] to-[var(--color-600)] rounded-lg flex items-center justify-center">
-                  <User className="w-5 h-5 text-white" />
+          {/* Header - matching lore edit page layout */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <Button 
+                  onClick={goBack}
+                  variant="ghost" 
+                  size="sm"
+                  className="text-[var(--color-700)] hover:text-[var(--color-950)]"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back
+                </Button>
+                <div>
+                  <div className="flex items-center space-x-3 mb-2">
+                    <div className="w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <User className="w-5 h-5 text-[var(--color-700)]" />
+                    </div>
+                    <div className="flex-1">
+                      <Input
+                        value={characterData.name}
+                        onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
+                        placeholder="Enter character name..."
+                        className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+                  <div className="ml-13">
+                    <Select 
+                      value={characterData.role} 
+                      onValueChange={(value) => setCharacterData({...characterData, role: value})}
+                    >
+                      <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Protagonist">Protagonist</SelectItem>
+                        <SelectItem value="Antagonist">Antagonist</SelectItem>
+                        <SelectItem value="Ally">Ally</SelectItem>
+                        <SelectItem value="Enemy">Enemy</SelectItem>
+                        <SelectItem value="Neutral">Neutral</SelectItem>
+                        <SelectItem value="Supporting">Supporting</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-                <h1 className="text-2xl font-bold text-[var(--color-950)]">Create New Character</h1>
               </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Button onClick={handleCancel} variant="outline">
-                <X className="w-4 h-4 mr-2" />
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleSave} 
-                disabled={createCharacterMutation.isPending || !characterData.name.trim()}
-                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {createCharacterMutation.isPending ? "Creating..." : "Create Character"}
-              </Button>
+              
+              <div className="flex items-center space-x-3">
+                <Button 
+                  onClick={handleCancel} 
+                  variant="outline"
+                  className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleSave} 
+                  disabled={createCharacterMutation.isPending || !characterData.name.trim()}
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {createCharacterMutation.isPending ? "Creating..." : "Create Character"}
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -320,7 +354,7 @@ export default function CharacterNew() {
                     <Input
                       value={characterData.name}
                       onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
-                      className="w-32 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      className="w-32 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                       placeholder="Character Name"
                     />
                   </div>
@@ -352,7 +386,7 @@ export default function CharacterNew() {
                     <Input
                       value={characterData.age}
                       onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                      className="w-16 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      className="w-20 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                       placeholder="22"
                     />
                   </div>
@@ -363,7 +397,7 @@ export default function CharacterNew() {
                     <Input
                       value={characterData.race}
                       onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                      className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                      className="w-20 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                       placeholder="Human"
                     />
                   </div>
@@ -388,28 +422,37 @@ export default function CharacterNew() {
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
+                        <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                          <User className="w-5 h-5" />
+                          <span>Brief Description</span>
+                        </h3>
                         <textarea
                           value={characterData.description}
                           onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                           rows={3}
-                          className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
+                          className="w-full p-3 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                           placeholder="Brief character description..."
                         />
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Personality</h3>
+                        <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                          <User className="w-5 h-5" />
+                          <span>Personality</span>
+                        </h3>
                         <textarea
                           value={characterData.personality}
                           onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
-                          className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                          className="w-full h-20 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                           placeholder="Character's personality traits..."
                         />
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Power Type</h3>
+                        <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                          <Wand2 className="w-5 h-5" />
+                          <span>Power Type</span>
+                        </h3>
                         <PowerSystemSearch
                           selectedSystems={selectedPowerSystems}
                           onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
@@ -425,11 +468,14 @@ export default function CharacterNew() {
                   <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
+                      <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                        <User className="w-5 h-5" />
+                        <span>Physical Appearance</span>
+                      </h3>
                       <textarea
                         value={characterData.appearance}
                         onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
-                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                        className="w-full h-32 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                         placeholder="Describe the character's physical appearance..."
                       />
                     </div>
@@ -440,11 +486,14 @@ export default function CharacterNew() {
                   <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
+                      <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                        <User className="w-5 h-5" />
+                        <span>Backstory</span>
+                      </h3>
                       <textarea
                         value={characterData.backstory}
                         onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                        className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                        className="w-full h-40 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                         placeholder="Character's background story..."
                       />
                     </div>
@@ -453,16 +502,18 @@ export default function CharacterNew() {
 
                 <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
                   <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
-                    <div className="flex items-center mb-4">
-                      <Sword className="w-5 h-5 mr-2 text-[var(--color-700)]" />
-                      <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
+                    <div>
+                      <h3 className="text-xl font-semibold text-[var(--color-950)] mb-3 flex items-center space-x-2">
+                        <Sword className="w-5 h-5" />
+                        <span>Weapons & Equipment</span>
+                      </h3>
+                      <textarea
+                        value={characterData.weapons}
+                        onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
+                        className="w-full h-32 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
+                        placeholder="List the character's weapons, armor, and important equipment..."
+                      />
                     </div>
-                    <textarea
-                      value={characterData.weapons}
-                      onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
-                      className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
-                      placeholder="List the character's weapons, armor, and important equipment..."
-                    />
                   </Card>
                 </TabsContent>
 
