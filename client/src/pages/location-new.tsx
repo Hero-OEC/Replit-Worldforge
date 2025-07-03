@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, X, MapPin } from "lucide-react";
+import { ArrowLeft, Save, X, MapPin, Building, Trees, GraduationCap, Crown, Home, Mountain, Anchor, Castle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,28 @@ export default function LocationNew() {
   const queryClient = useQueryClient();
   const { goBack, navigateWithHistory } = useNavigation();
   const { toast } = useToast();
+  
+  // Get the appropriate icon for the location type
+  const getTypeIcon = (type: string) => {
+    const icons = {
+      'City': MapPin,
+      'Building': Building,
+      'Wilderness': Trees,
+      'Mountains': Mountain,
+      'Forest': Trees,
+      'Academy': GraduationCap,
+      'Palace': Crown,
+      'Village': Home,
+      'Caves': Mountain,
+      'Harbor': Anchor,
+      'Ruins': Castle,
+      'Other': MapPin,
+    };
+    return icons[type as keyof typeof icons] || MapPin;
+  };
+
+  // Get the dynamic icon component
+  const IconComponent = getTypeIcon(locationData.type);
   
   // Track navigation history
   useNavigationTracker();
@@ -126,7 +148,7 @@ export default function LocationNew() {
             <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
               <div className="flex items-center space-x-6">
                 <div className="w-24 h-24 bg-[var(--color-200)] rounded-full flex items-center justify-center">
-                  <MapPin className="w-12 h-12 text-orange-600" />
+                  <IconComponent className="w-12 h-12 text-[var(--color-700)]" />
                 </div>
                 <div className="flex-1 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
