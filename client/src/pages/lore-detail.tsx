@@ -16,16 +16,16 @@ import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 
 // Category icons and colors
 const categoryConfig = {
-  "History": { icon: Calendar, color: "bg-blue-500", bgColor: "bg-blue-50", textColor: "text-blue-700", borderColor: "border-blue-200" },
-  "Religion": { icon: Church, color: "bg-purple-500", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-  "Politics": { icon: Crown, color: "bg-destructive", bgColor: "bg-red-50", textColor: "text-red-700", borderColor: "border-red-200" },
-  "Culture": { icon: Users, color: "bg-green-500", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" },
-  "Geography": { icon: MapPin, color: "bg-teal-500", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-orange-50", textColor: "text-orange-700", borderColor: "border-orange-200" },
-  "Prophecies": { icon: Eye, color: "bg-yellow-500", bgColor: "bg-yellow-50", textColor: "text-yellow-700", borderColor: "border-yellow-200" },
-  "Institutions": { icon: GraduationCap, color: "bg-indigo-500", bgColor: "bg-indigo-50", textColor: "text-indigo-700", borderColor: "border-indigo-200" },
-  "Legends": { icon: Sparkles, color: "bg-pink-500", bgColor: "bg-pink-50", textColor: "text-pink-700", borderColor: "border-pink-200" },
-  "Customs": { icon: Heart, color: "bg-cyan-500", bgColor: "bg-cyan-50", textColor: "text-cyan-700", borderColor: "border-cyan-200" }
+  "History": { icon: Calendar, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
+  "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
 };
 
 export default function LoreDetail() {
