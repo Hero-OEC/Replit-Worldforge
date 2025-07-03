@@ -192,7 +192,7 @@ export default function LocationNew() {
                         <textarea
                           value={locationData.description}
                           onChange={(e) => setLocationData({...locationData, description: e.target.value})}
-                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
                           placeholder="Brief description of the location. What makes this place unique and important?"
                         />
                       </div>
@@ -208,7 +208,7 @@ export default function LocationNew() {
                         <textarea
                           value={locationData.geography}
                           onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
-                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
                           placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
                         />
                       </div>
@@ -224,7 +224,7 @@ export default function LocationNew() {
                         <textarea
                           value={locationData.culture}
                           onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
-                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
                           placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
                         />
                       </div>
@@ -240,7 +240,7 @@ export default function LocationNew() {
                         <textarea
                           value={locationData.significance}
                           onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
-                          className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
                           placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
                         />
                       </div>
