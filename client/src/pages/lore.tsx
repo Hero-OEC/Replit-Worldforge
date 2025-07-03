@@ -28,22 +28,23 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/navbar";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { formatDistanceToNow } from "date-fns";
 import { apiRequest } from "@/lib/queryClient";
 import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 
-// Category icons and colors
+// Category icons and colors - matching detail page
 const categoryConfig = {
-  "History": { icon: Calendar, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Religion": { icon: Church, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Politics": { icon: Crown, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Culture": { icon: Users, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Geography": { icon: MapPin, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Artifacts": { icon: Gem, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Prophecies": { icon: Eye, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Institutions": { icon: GraduationCap, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Legends": { icon: Sparkles, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
-  "Customs": { icon: Heart, bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" }
+  "History": { icon: Calendar, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]" },
+  "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]" },
+  "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" },
+  "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]" }
 };
 
 export default function Lore() {
@@ -167,8 +168,8 @@ export default function Lore() {
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-12 h-12 ${categoryInfo.bgColor} rounded-lg flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-sm`}>
-                          <CategoryIcon className={`w-6 h-6 ${categoryInfo.textColor} group-hover:scale-110 transition-transform duration-300`} />
+                        <div className={`w-12 h-12 ${categoryInfo.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-sm`}>
+                          <CategoryIcon className="w-6 h-6 text-[var(--color-50)] group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <div>
                           <h3 className="text-lg font-semibold text-[var(--color-950)] group-hover:text-orange-600 transition-colors duration-300">
