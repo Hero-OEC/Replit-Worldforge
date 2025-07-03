@@ -117,17 +117,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/characters/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      console.log('Updating character with data:', req.body);
       const validatedData = insertCharacterSchema.partial().parse(req.body);
-      console.log('Validated data:', validatedData);
       const character = await storage.updateCharacter(id, validatedData);
       if (!character) {
         return res.status(404).json({ message: "Character not found" });
       }
-      console.log('Updated character:', character);
       res.json(character);
     } catch (error) {
-      console.error('Character update error:', error);
       res.status(400).json({ message: "Invalid character data" });
     }
   });

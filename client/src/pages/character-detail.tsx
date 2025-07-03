@@ -329,6 +329,11 @@ export default function CharacterDetail() {
         role: character.role || "",
         appearance: character.appearance || ""
       });
+      
+      // Initialize power systems from character data
+      if (character.powerSystems && Array.isArray(character.powerSystems)) {
+        setSelectedPowerSystems(character.powerSystems);
+      }
     }
   }, [character]);
 
@@ -378,8 +383,6 @@ export default function CharacterDetail() {
         ...characterData,
         powerSystems: selectedPowerSystems
       };
-
-      console.log('Saving character with power systems:', updateData);
 
       const response = await fetch(`/api/characters/${characterId}`, {
         method: 'PUT',
