@@ -290,7 +290,10 @@ export default function CharacterNew() {
                 <div>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center flex-shrink-0">
-                      <User className="w-5 h-5 text-[var(--color-700)]" />
+                      {(() => {
+                        const RoleIcon = getRoleIcon(characterData.role);
+                        return <RoleIcon className="w-5 h-5 text-[var(--color-700)]" />;
+                      })()}
                     </div>
                     <div className="flex-1">
                       <Input
@@ -408,16 +411,7 @@ export default function CharacterNew() {
                     <p className="text-xs text-gray-500 mt-2">Best 7:9 ratio</p>
                   </div>
 
-                  {/* Character Name */}
-                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
-                    <span className="text-sm font-medium text-gray-700">Name:</span>
-                    <Input
-                      value={characterData.name}
-                      onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
-                      className="w-32 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
-                      placeholder="Character Name"
-                    />
-                  </div>
+
 
 
 
