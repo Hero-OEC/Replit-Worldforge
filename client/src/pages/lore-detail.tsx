@@ -14,18 +14,18 @@ import { apiRequest } from "@/lib/queryClient";
 import { formatDistanceToNow } from "date-fns";
 import type { LoreEntry, ProjectWithStats } from "@shared/schema";
 
-// Category icons and colors
+// Category icons and colors - matching main page styling
 const categoryConfig = {
-  "History": { icon: Calendar, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
-  "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
-  "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Geography": { icon: MapPin, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
-  "Legends": { icon: Sparkles, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
+  "History": { icon: Calendar, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Religion": { icon: Church, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Politics": { icon: Crown, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
+  "Culture": { icon: Users, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Artifacts": { icon: Gem, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Prophecies": { icon: Eye, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Institutions": { icon: GraduationCap, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Customs": { icon: Heart, color: "bg-[var(--color-200)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
 };
 
 export default function LoreDetail() {
