@@ -317,19 +317,11 @@ export default function MagicSystemDetail() {
                             <Card className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}>
                               {/* Character Image */}
                               <div className="relative aspect-[7/9] bg-[var(--color-200)] overflow-hidden">
-                                {character.image ? (
-                                  <img 
-                                    src={character.image} 
-                                    alt={character.name}
-                                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
-                                  />
-                                ) : (
-                                  <img 
-                                    src={placeholderImage} 
-                                    alt="Character placeholder"
-                                    className="w-full h-full object-cover object-center opacity-30"
-                                  />
-                                )}
+                                <img 
+                                  src={placeholderImage} 
+                                  alt="Character placeholder"
+                                  className="w-full h-full object-cover object-center opacity-30"
+                                />
                                 {/* Role Badge */}
                                 <div className={`absolute top-3 left-3 ${roleInfo.bgColor} ${roleInfo.textColor} px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium border ${roleInfo.borderColor}`}>
                                   <RoleIcon className="w-3 h-3" />

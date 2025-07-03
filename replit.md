@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Created missing lore edit page functionality:
+  * Added lore-edit.tsx page with full editing capabilities for existing lore entries
+  * Implemented proper form initialization with existing lore entry data  
+  * Added route registration in App.tsx for /project/:projectId/lore/:loreId/edit
+  * Fixed character card display in magic system detail page to use consistent design
+  * Updated magic system character cards to remove image dependency and use proper InkAlchemy styling
+  * Lore edit page includes title, category, content, and tag editing with category-based tag suggestions
+  * All edit buttons in lore listing and detail pages now properly navigate to working edit functionality
 - July 3, 2025. Fixed power system persistence issue in character edit mode:
   * Resolved bug where selected power systems would disappear when entering edit mode
   * Simplified power system loading logic to use character.powerSystems as primary source
