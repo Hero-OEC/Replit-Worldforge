@@ -205,7 +205,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
 
 export default function CharacterDetail() {
   const { projectId, characterId } = useParams<{ projectId: string; characterId: string }>();
-  const [location, navigate] = useLocation();
+  const [location, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const { goBack } = useNavigation();
 
@@ -291,7 +291,7 @@ export default function CharacterDetail() {
       // Invalidate and refetch characters list
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
       // Navigate back to characters list
-      navigate(`/project/${projectId}/characters`);
+      setLocation(`/project/${projectId}/characters`);
     },
   });
 
