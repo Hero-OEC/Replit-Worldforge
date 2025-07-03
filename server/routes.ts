@@ -481,10 +481,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/projects/:projectId/notes", async (req, res) => {
     try {
       const projectId = parseInt(req.params.projectId);
+      console.log("Fetching notes for project:", projectId);
       const notes = await storage.getNotes(projectId);
       res.json(notes);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch notes" });
+      console.error("Error fetching notes:", error);
+      res.status(500).json({ message: "Failed to fetch notes", error: error instanceof Error ? error.message : String(error) });
     }
   });
 
@@ -516,25 +518,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/notes", async (req, res) => {
     try {
-      const validatedData = insertNoteSchema.parse(req.body);
+      // Convert tags array to string if necessary
+      const requestData = { ...req.body };
+      if (Array.isArray(requestData.tags)) {
+        requestData.tags = requestData.tags.join(', ');
+      }
+      
+      const validatedData = insertNoteSchema.parse(requestData);
       const note = await storage.createNote(validatedData);
       res.status(201).json(note);
     } catch (error) {
-      res.status(400).json({ message: "Invalid note data" });
+      console.error("Note creation error:", error);
+      res.status(400).json({ message: "Invalid note data", error: error instanceof Error ? error.message : String(error) });
     }
   });
 
   app.put("/api/notes/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const validatedData = insertNoteSchema.partial().parse(req.body);
+      
+      // Convert tags array to string if necessary
+      const requestData = { ...req.body };
+      if (Array.isArray(requestData.tags)) {
+        requestData.tags = requestData.tags.join(', ');
+      }
+      
+      const validatedData = insertNoteSchema.partial().parse(requestData);
       const note = await storage.updateNote(id, validatedData);
       if (!note) {
         return res.status(404).json({ message: "Note not found" });
       }
       res.json(note);
     } catch (error) {
-      res.status(400).json({ message: "Invalid note data" });
+      res.status(400).json({ message: "Invalid note data", error: error instanceof Error ? error.message : String(error) });
     }
   });
 
