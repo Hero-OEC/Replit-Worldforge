@@ -570,7 +570,6 @@ export default function LocationDetail() {
                   <Badge className={getTypeColor(locationData.type || 'Other')}>
                     {locationData.type || 'Location'}
                   </Badge>
-                  <span className="text-[var(--color-700)]">Location Details</span>
                 </div>
               </div>
             </div>
