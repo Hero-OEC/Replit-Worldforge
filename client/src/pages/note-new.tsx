@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, FileText, BookOpen, Users, Search, Scroll } from "lucide-react";
+import { ArrowLeft, Save, FileText, BookOpen, Users, Search, Scroll, Tag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -53,6 +53,7 @@ export default function NewNote() {
     content: "",
     tags: [],
   });
+  const [newTag, setNewTag] = useState("");
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
@@ -114,6 +115,20 @@ export default function NewNote() {
 
   const getCategoryIcon = (category: string) => {
     return categoryConfig[category as keyof typeof categoryConfig]?.icon || FileText;
+  };
+
+  const addTag = () => {
+    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+      setFormData({ ...formData, tags: [...formData.tags, newTag.trim()] });
+      setNewTag("");
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setFormData({ 
+      ...formData, 
+      tags: formData.tags.filter(tag => tag !== tagToRemove) 
+    });
   };
 
   const CategoryIcon = getCategoryIcon(formData.category);
@@ -198,6 +213,53 @@ export default function NewNote() {
                     })}
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
+
+            {/* Tags Section */}
+            <div className="mb-6">
+              <div className="flex items-center space-x-2 mb-3">
+                <Tag className="w-5 h-5 text-[var(--color-700)]" />
+                <span className="text-xl font-medium text-gray-700">Tags</span>
+              </div>
+              <div className="space-y-3">
+                {/* Tag Input */}
+                <div className="flex space-x-2">
+                  <Input
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                    placeholder="Add a tag..."
+                    className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                  />
+                  <Button
+                    type="button"
+                    onClick={addTag}
+                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                  >
+                    Add
+                  </Button>
+                </div>
+                {/* Existing Tags */}
+                {formData.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {formData.tags.map((tag, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center space-x-1 bg-[var(--color-200)] text-[var(--color-700)] px-3 py-1 rounded-full text-sm"
+                      >
+                        <span>{tag}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeTag(tag)}
+                          className="text-[var(--color-600)] hover:text-[var(--color-800)] transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
