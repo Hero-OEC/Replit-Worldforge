@@ -294,8 +294,7 @@ export default function CharacterDetail() {
       queryClient.refetchQueries({ queryKey: ["/api/characters", projectId] });
       // Navigate back to characters list
       console.log("Navigating to:", `/project/${projectId}/characters`);
-      // Force navigation using window.location as a fallback
-      window.location.href = `/project/${projectId}/characters`;
+      setLocation(`/project/${projectId}/characters`);
     },
   });
 
