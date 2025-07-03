@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Applied lore edit page styling to character detail edit page:
+  * Updated character edit header to match lore edit layout with proper icon positioning
+  * Title input positioned exactly like detail page with consistent InkAlchemy styling
+  * Role selector moved to proper position with age/race display below in header
+  * Enhanced section titles with proper icon-text pairs using text-xl sizing (20px)
+  * All form textareas now use consistent InkAlchemy color scheme with proper focus states
+  * Age and Race inputs styled with consistent borders, backgrounds, and transitions
+  * Character edit mode now has identical user experience to lore edit with inputs replacing detail content
+  * All edit elements use --color-* variables for consistent brand appearance
 - July 3, 2025. Applied lore edit page styling to timeline event edit page:
   * Redesigned timeline event edit page to match lore edit page layout with inputs replacing display content
   * Title input positioned exactly like detail page with proper InkAlchemy styling and consistent category icon
