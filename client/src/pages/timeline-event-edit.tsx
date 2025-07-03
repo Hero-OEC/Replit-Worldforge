@@ -20,7 +20,7 @@ import {
 import { Link } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
-import type { ProjectWithStats, TimelineEvent } from "@shared/schema";
+import type { ProjectWithStats, TimelineEvent, Location, Character } from "@shared/schema";
 
 const eventCategories = [
   "Character Arc",
@@ -67,31 +67,7 @@ const categoryConfig = {
   "Tragedy": { icon: AlertCircle, color: "bg-[var(--color-200)]", textColor: "text-[var(--color-700)]" },
 };
 
-const sampleLocations = [
-  "Arcanum City",
-  "Dark Forest",
-  "Magic Academy",
-  "Riverside Village",
-  "Northern Road",
-  "Battlefield",
-  "Elemental Nexus",
-  "Misty Marshlands",
-  "Garden of Stars",
-  "Royal Palace",
-];
-
-const sampleCharacters = [
-  "Elena",
-  "Marcus",
-  "Mentor",
-  "King",
-  "Ancient Sage",
-  "Council Members",
-  "Army",
-  "Lord Vex",
-  "Princess Aria",
-  "Captain Storm",
-];
+// Remove hardcoded data - will fetch from database
 
 const importanceColors = {
   high: "bg-destructive",
@@ -112,16 +88,17 @@ interface CharacterTagProps {
   selectedCharacters: string[];
   onAddCharacter: (character: string) => void;
   onRemoveCharacter: (character: string) => void;
+  availableCharacters: Character[];
 }
 
-function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }: CharacterTagProps) {
+function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter, availableCharacters }: CharacterTagProps) {
   const [searchValue, setSearchValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const filteredCharacters = sampleCharacters.filter(
-    (char) =>
-      char.toLowerCase().includes(searchValue.toLowerCase()) &&
-      !selectedCharacters.includes(char)
+  const filteredCharacters = (availableCharacters || []).filter(
+    (char: Character) =>
+      char.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+      !selectedCharacters.includes(char.name)
   );
 
   const handleAddCharacter = (character: string) => {
@@ -143,14 +120,14 @@ function CharacterTag({ selectedCharacters, onAddCharacter, onRemoveCharacter }:
         />
         {isOpen && filteredCharacters.length > 0 && (
           <div className="absolute z-50 w-full bg-[var(--color-50)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {filteredCharacters.map((character) => (
+            {filteredCharacters.map((character: Character) => (
               <div
-                key={character}
+                key={character.id}
                 className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
-                onClick={() => handleAddCharacter(character)}
+                onClick={() => handleAddCharacter(character.name)}
               >
                 <div className="flex items-center justify-between">
-                  <span>{character}</span>
+                  <span>{character.name}</span>
                   <Check className="w-4 h-4 text-[var(--color-600)]" />
                 </div>
               </div>
@@ -216,6 +193,18 @@ export default function EditTimelineEvent() {
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
+    enabled: !!projectId,
+  });
+
+  // Fetch locations for the project
+  const { data: locations = [] } = useQuery<Location[]>({
+    queryKey: [`/api/projects/${projectId}/locations`],
+    enabled: !!projectId,
+  });
+
+  // Fetch characters for the project
+  const { data: characters = [] } = useQuery<Character[]>({
+    queryKey: [`/api/projects/${projectId}/characters`],
     enabled: !!projectId,
   });
 
@@ -497,9 +486,9 @@ export default function EditTimelineEvent() {
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>
                   <SelectContent>
-                    {sampleLocations.map((loc) => (
-                      <SelectItem key={loc} value={loc}>
-                        {loc}
+                    {locations.map((loc: Location) => (
+                      <SelectItem key={loc.id} value={loc.name}>
+                        {loc.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -519,6 +508,7 @@ export default function EditTimelineEvent() {
               selectedCharacters={selectedCharacters}
               onAddCharacter={(character) => setSelectedCharacters([...selectedCharacters, character])}
               onRemoveCharacter={(character) => setSelectedCharacters(selectedCharacters.filter(c => c !== character))}
+              availableCharacters={characters}
             />
           </div>
         </div>
