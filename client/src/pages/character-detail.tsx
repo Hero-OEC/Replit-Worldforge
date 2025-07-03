@@ -213,7 +213,6 @@ export default function CharacterDetail() {
   const [isEditing, setIsEditing] = useState(false);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
-  const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
 
   const [characterData, setCharacterData] = useState({
     name: "",
@@ -294,30 +293,6 @@ export default function CharacterDetail() {
   };
 
   // All effects
-  // Get character magic systems
-  useEffect(() => {
-    if (characterId) {
-      fetch(`/api/characters/${characterId}/magic-systems`)
-        .then(res => res.json())
-        .then(data => {
-          // Ensure we always have an array
-          setCharacterMagicSystems(Array.isArray(data) ? data : []);
-        })
-        .catch(err => {
-          console.error('Error fetching character magic systems:', err);
-          setCharacterMagicSystems([]);
-        });
-    }
-  }, [characterId]);
-
-  // Initialize power systems when character magic systems load
-  useEffect(() => {
-    if (Array.isArray(characterMagicSystems)) {
-      const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem?.name || cms.name).filter(Boolean);
-      setSelectedPowerSystems(systemNames);
-    }
-  }, [characterMagicSystems]);
-
   // Initialize character data when character is loaded
   useEffect(() => {
     if (character) {
@@ -334,7 +309,7 @@ export default function CharacterDetail() {
         appearance: character.appearance || ""
       });
       
-      // Initialize power systems from character data
+      // Initialize power systems from character data (this is the primary source)
       if (character.powerSystems && Array.isArray(character.powerSystems)) {
         setSelectedPowerSystems(character.powerSystems);
       } else {
@@ -403,7 +378,6 @@ export default function CharacterDetail() {
 
       // Refetch character data to update the display
       queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId, "magic-systems"] });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving character:', error);
@@ -427,6 +401,13 @@ export default function CharacterDetail() {
         role: character.role || "",
         appearance: character.appearance || ""
       });
+      
+      // Reset power systems to original values
+      if (character.powerSystems && Array.isArray(character.powerSystems)) {
+        setSelectedPowerSystems(character.powerSystems);
+      } else {
+        setSelectedPowerSystems([]);
+      }
     }
   };
 

@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Fixed power system persistence issue in character edit mode:
+  * Resolved bug where selected power systems would disappear when entering edit mode
+  * Simplified power system loading logic to use character.powerSystems as primary source
+  * Removed conflicting useEffect hooks that were overwriting power system selections
+  * Fixed handleCancel to properly restore original power system selections
+  * Power systems now correctly persist and display when editing characters
 - July 3, 2025. Fixed character deletion functionality and cache invalidation:
   * Implemented proper delete confirmation dialog using reusable DeleteConfirmationDialog component
   * Fixed character deletion to properly redirect users back to characters list after successful deletion
