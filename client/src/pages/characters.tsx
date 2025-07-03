@@ -44,12 +44,12 @@ export default function Characters() {
 
   // Character role icons and colors
   const roleConfig = {
-    "Protagonist": { icon: Crown, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
-    "Antagonist": { icon: Sword, color: "bg-red-600", bgColor: "bg-red-50", textColor: "text-red-800", borderColor: "border-red-300" },
-    "Ally": { icon: Shield, color: "bg-emerald-600", bgColor: "bg-emerald-50", textColor: "text-emerald-800", borderColor: "border-emerald-300" },
-    "Enemy": { icon: UserX, color: "bg-orange-600", bgColor: "bg-orange-50", textColor: "text-orange-800", borderColor: "border-orange-300" },
-    "Neutral": { icon: HelpCircle, color: "bg-slate-600", bgColor: "bg-slate-50", textColor: "text-slate-800", borderColor: "border-slate-300" },
-    "Supporting": { icon: UserCheck, color: "bg-blue-600", bgColor: "bg-blue-50", textColor: "text-blue-800", borderColor: "border-blue-300" }
+    "Protagonist": { icon: Crown, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
+    "Antagonist": { icon: Sword, color: "bg-[var(--color-950)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-700)]" },
+    "Ally": { icon: Shield, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+    "Enemy": { icon: UserX, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-600)]" },
+    "Neutral": { icon: HelpCircle, color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-600)]", borderColor: "border-[var(--color-300)]" },
+    "Supporting": { icon: UserCheck, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" }
   };
 
   // Fetch characters from API
