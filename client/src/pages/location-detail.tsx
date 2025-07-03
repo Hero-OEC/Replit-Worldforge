@@ -22,13 +22,22 @@ import {
   Sparkles,
   Zap,
   Plane,
-  User
+  User,
+  Building,
+  Trees,
+  Mountain,
+  GraduationCap,
+  Home,
+  Anchor,
+  Castle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline, { TimelineEventData } from "@/components/timeline/serpentine-timeline";
 import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
@@ -45,6 +54,43 @@ const priorityLabels = {
   high: "High Priority",
   medium: "Medium Priority",
   low: "Low Priority",
+};
+
+// Helper functions for location types
+const getTypeIcon = (type: string) => {
+  const icons = {
+    'City': MapPin,
+    'Building': Building,
+    'Wilderness': Trees,
+    'Mountains': Mountain,
+    'Forest': Trees,
+    'Academy': GraduationCap,
+    'Palace': Crown,
+    'Village': Home,
+    'Caves': Mountain,
+    'Harbor': Anchor,
+    'Ruins': Castle,
+    'Other': MapPin,
+  };
+  return icons[type as keyof typeof icons] || MapPin;
+};
+
+const getTypeColor = (type: string) => {
+  const colors = {
+    'City': 'bg-[var(--color-300)] text-[var(--color-900)]',
+    'Building': 'bg-[var(--color-200)] text-[var(--color-800)]',
+    'Wilderness': 'bg-[var(--color-400)] text-[var(--color-950)]',
+    'Mountains': 'bg-[var(--color-500)] text-[var(--color-950)]',
+    'Forest': 'bg-[var(--color-400)] text-[var(--color-950)]',
+    'Academy': 'bg-[var(--color-300)] text-[var(--color-900)]',
+    'Palace': 'bg-[var(--color-500)] text-[var(--color-950)]',
+    'Village': 'bg-[var(--color-200)] text-[var(--color-800)]',
+    'Caves': 'bg-[var(--color-600)] text-[var(--color-50)]',
+    'Harbor': 'bg-[var(--color-400)] text-[var(--color-950)]',
+    'Ruins': 'bg-[var(--color-700)] text-[var(--color-50)]',
+    'Other': 'bg-[var(--color-300)] text-[var(--color-900)]',
+  };
+  return colors[type as keyof typeof colors] || 'bg-[var(--color-300)] text-[var(--color-900)]';
 };
 
 const eventTypeIcons = {
@@ -330,6 +376,78 @@ export default function LocationDetail() {
     enabled: !!locationId,
   });
 
+  // Initialize form data when location data is loaded
+  useEffect(() => {
+    if (locationData && !isEditing) {
+      setLocationFormData({
+        name: locationData.name || "",
+        type: locationData.type || "",
+        description: locationData.description || "",
+        geography: locationData.geography || "",
+        culture: locationData.culture || "",
+        significance: locationData.significance || ""
+      });
+    }
+  }, [locationData, isEditing]);
+
+  // Update location mutation
+  const updateLocationMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/locations/${locationId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(locationFormData),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update location");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/locations/${locationId}`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
+      toast({ title: "Location updated successfully!" });
+      setIsEditing(false);
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to update location", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const handleSave = () => {
+    if (!locationFormData.name.trim()) {
+      toast({ 
+        title: "Name is required", 
+        description: "Please enter a location name",
+        variant: "destructive" 
+      });
+      return;
+    }
+    updateLocationMutation.mutate();
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset form data to original values
+    if (locationData) {
+      setLocationFormData({
+        name: locationData.name || "",
+        type: locationData.type || "",
+        description: locationData.description || "",
+        geography: locationData.geography || "",
+        culture: locationData.culture || "",
+        significance: locationData.significance || ""
+      });
+    }
+  };
+
 
 
   // Filter and sort events for stats calculation
@@ -406,13 +524,34 @@ export default function LocationDetail() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                >
-                  <Edit3 className="w-4 h-4 mr-2" />
-                  Edit Location
-                </Button>
+                {isEditing ? (
+                  <>
+                    <Button
+                      onClick={handleSave}
+                      disabled={updateLocationMutation.isPending}
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      {updateLocationMutation.isPending ? "Saving..." : "Save"}
+                    </Button>
+                    <Button
+                      onClick={handleCancel}
+                      variant="outline"
+                      className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                    >
+                      <X className="w-4 h-4 mr-2" />
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={() => setIsEditing(true)}
+                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                  >
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    Edit Location
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -420,11 +559,19 @@ export default function LocationDetail() {
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
-                <MapPin className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
+                {(() => {
+                  const IconComponent = getTypeIcon(locationData.type || 'Other');
+                  return <IconComponent className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />;
+                })()}
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-[var(--color-950)]">{locationData.name}</h1>
-                <p className="text-[var(--color-700)]">Location Details</p>
+                <div className="flex items-center space-x-2">
+                  <Badge className={getTypeColor(locationData.type || 'Other')}>
+                    {locationData.type || 'Location'}
+                  </Badge>
+                  <span className="text-[var(--color-700)]">Location Details</span>
+                </div>
               </div>
             </div>
 
@@ -441,14 +588,73 @@ export default function LocationDetail() {
                   <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
                     <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                       <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.description}</p>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.significance}</p>
-                        </div>
+                        {isEditing ? (
+                          <>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Name</label>
+                              <Input
+                                value={locationFormData.name}
+                                onChange={(e) => setLocationFormData({...locationFormData, name: e.target.value})}
+                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)]"
+                                placeholder="Enter location name"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Type</label>
+                              <Select 
+                                value={locationFormData.type} 
+                                onValueChange={(value) => setLocationFormData({...locationFormData, type: value})}
+                              >
+                                <SelectTrigger className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)]">
+                                  <SelectValue placeholder="Select location type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="City">City</SelectItem>
+                                  <SelectItem value="Building">Building</SelectItem>
+                                  <SelectItem value="Wilderness">Wilderness</SelectItem>
+                                  <SelectItem value="Mountains">Mountains</SelectItem>
+                                  <SelectItem value="Forest">Forest</SelectItem>
+                                  <SelectItem value="Academy">Academy</SelectItem>
+                                  <SelectItem value="Palace">Palace</SelectItem>
+                                  <SelectItem value="Village">Village</SelectItem>
+                                  <SelectItem value="Caves">Caves</SelectItem>
+                                  <SelectItem value="Harbor">Harbor</SelectItem>
+                                  <SelectItem value="Ruins">Ruins</SelectItem>
+                                  <SelectItem value="Other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                              <Textarea
+                                value={locationFormData.description}
+                                onChange={(e) => setLocationFormData({...locationFormData, description: e.target.value})}
+                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-24"
+                                placeholder="Describe the location..."
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
+                              <Textarea
+                                value={locationFormData.significance}
+                                onChange={(e) => setLocationFormData({...locationFormData, significance: e.target.value})}
+                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-24"
+                                placeholder="What makes this location significant..."
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                              <p className="text-[var(--color-950)] leading-relaxed">{locationData.description}</p>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
+                              <p className="text-[var(--color-950)] leading-relaxed">{locationData.significance}</p>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </Card>
                   </TabsContent>
@@ -458,7 +664,16 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.geography}</p>
+                          {isEditing ? (
+                            <Textarea
+                              value={locationFormData.geography}
+                              onChange={(e) => setLocationFormData({...locationFormData, geography: e.target.value})}
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-32"
+                              placeholder="Describe the geographical features..."
+                            />
+                          ) : (
+                            <p className="text-[var(--color-950)] leading-relaxed">{locationData.geography}</p>
+                          )}
                         </div>
                       </div>
                     </Card>
@@ -469,7 +684,16 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture</label>
-                          <p className="text-[var(--color-950)] leading-relaxed">{locationData.culture}</p>
+                          {isEditing ? (
+                            <Textarea
+                              value={locationFormData.culture}
+                              onChange={(e) => setLocationFormData({...locationFormData, culture: e.target.value})}
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-32"
+                              placeholder="Describe the cultural aspects..."
+                            />
+                          ) : (
+                            <p className="text-[var(--color-950)] leading-relaxed">{locationData.culture}</p>
+                          )}
                         </div>
                       </div>
                     </Card>
