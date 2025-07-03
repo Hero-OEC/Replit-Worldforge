@@ -69,19 +69,27 @@ export default function NoteDetail() {
     queryKey: ["/api/projects", projectId],
   });
 
-  // Fetch the specific lore entry (note) from API
+  // Fetch the specific note from API
   const { data: note } = useQuery({
-    queryKey: ['/api/lore-entries', noteId],
+    queryKey: ['/api/notes', noteId],
+    queryFn: async () => {
+      const response = await fetch(`/api/notes/${noteId}`);
+      if (!response.ok) throw new Error("Failed to fetch note");
+      return response.json();
+    },
     enabled: !!noteId
   });
 
   const deleteNoteMutation = useMutation({
     mutationFn: async () => {
-      // In real app: return apiRequest("DELETE", `/api/notes/${noteId}`);
-      return Promise.resolve();
+      const response = await fetch(`/api/notes/${noteId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete note");
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/notes", projectId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "notes"] });
       toast({ title: "Note deleted successfully!" });
       setLocation(`/project/${projectId}/notes`);
     },

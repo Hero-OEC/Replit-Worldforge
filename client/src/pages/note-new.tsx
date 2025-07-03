@@ -223,32 +223,15 @@ export default function NewNote() {
                 <span className="text-xl font-medium text-gray-700">Tags</span>
               </div>
               <div className="space-y-3">
-                {/* Tag Input */}
-                <div className="flex space-x-2">
-                  <Input
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                    placeholder="Add a tag..."
-                    className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                  />
-                  <Button
-                    type="button"
-                    onClick={addTag}
-                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                  >
-                    Add
-                  </Button>
-                </div>
-                {/* Existing Tags */}
+                {/* Current Tags */}
                 {formData.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {formData.tags.map((tag, index) => (
-                      <div
+                      <span
                         key={index}
-                        className="flex items-center space-x-1 bg-[var(--color-200)] text-[var(--color-700)] px-3 py-1 rounded-full text-sm"
+                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 bg-[var(--color-200)] border-[var(--color-400)] text-[var(--color-800)]"
                       >
-                        <span>{tag}</span>
+                        {tag}
                         <button
                           type="button"
                           onClick={() => removeTag(tag)}
@@ -256,10 +239,20 @@ export default function NewNote() {
                         >
                           <X className="w-3 h-3" />
                         </button>
-                      </div>
+                      </span>
                     ))}
                   </div>
                 )}
+                {/* Tag Input */}
+                <div className="space-y-2">
+                  <Input
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    placeholder="Add a new tag..."
+                    className="text-sm text-[var(--color-800)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all placeholder:text-[var(--color-600)]"
+                    onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                  />
+                </div>
               </div>
             </div>
 
