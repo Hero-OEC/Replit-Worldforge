@@ -35,11 +35,11 @@ const categoryConfig = {
   "Religion": { icon: Church, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
   "Politics": { icon: Crown, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-500)]" },
   "Culture": { icon: Users, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
-  "Geography": { icon: MapPin, color: "bg-[var(--color-650)]", bgColor: "bg-[var(--color-150)]", textColor: "text-[var(--color-850)]", borderColor: "border-[var(--color-350)]" },
+  "Geography": { icon: MapPin, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
   "Artifacts": { icon: Gem, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
   "Prophecies": { icon: Eye, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
   "Institutions": { icon: GraduationCap, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-400)]" },
-  "Legends": { icon: Sparkles, color: "bg-[var(--color-550)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
+  "Legends": { icon: Sparkles, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" },
   "Customs": { icon: Heart, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-300)]" }
 };
 
@@ -172,7 +172,7 @@ export default function EditLoreEntry() {
       
       // Combine and deduplicate
       const allSuggestions = [...suggestedTags, ...contentSuggestions];
-      const uniqueSuggestions = [...new Set(allSuggestions)];
+      const uniqueSuggestions = allSuggestions.filter((tag, index) => allSuggestions.indexOf(tag) === index);
       const filteredSuggestions = uniqueSuggestions.filter(tag => !tags.includes(tag));
       
       setRecommendedTags(filteredSuggestions.slice(0, 8)); // Limit to 8 suggestions
