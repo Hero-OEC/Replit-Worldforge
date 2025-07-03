@@ -289,7 +289,7 @@ export default function CharacterDetail() {
     },
     onSuccess: () => {
       // Invalidate and refetch characters list
-      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
       // Navigate back to characters list
       navigate(`/project/${projectId}/characters`);
     },
