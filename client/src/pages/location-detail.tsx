@@ -132,8 +132,6 @@ export default function LocationDetail() {
   const { projectId, locationId } = useParams<{ projectId: string; locationId: string }>();
   const [location, navigate] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingType, setIsEditingType] = useState(false);
   const [locationFormData, setLocationFormData] = useState({
     name: "",
     type: "",
@@ -232,51 +230,7 @@ export default function LocationDetail() {
     }
   };
 
-  const handleSaveInlineEdit = async (field: 'name' | 'type') => {
-    try {
-      const updateData = {
-        ...locationData,
-        [field]: locationFormData[field]
-      };
-      
-      const res = await fetch(`/api/locations/${locationId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateData),
-      });
-      
-      if (!res.ok) {
-        throw new Error("Failed to update location");
-      }
-      
-      queryClient.invalidateQueries({ queryKey: [`/api/locations/${locationId}`] });
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
-      toast({ title: "Location updated successfully!" });
-      
-      if (field === 'name') setIsEditingName(false);
-      if (field === 'type') setIsEditingType(false);
-    } catch (error) {
-      toast({ 
-        title: "Error updating location", 
-        description: "Please try again", 
-        variant: "destructive" 
-      });
-    }
-  };
 
-  const handleCancelInlineEdit = (field: 'name' | 'type') => {
-    if (locationData) {
-      setLocationFormData({
-        ...locationFormData,
-        [field]: locationData[field] || ""
-      });
-    }
-    if (field === 'name') setIsEditingName(false);
-    if (field === 'type') setIsEditingType(false);
-  };
 
 
 
@@ -385,86 +339,36 @@ export default function LocationDetail() {
                 })()}
               </div>
               <div>
-                {/* Inline editable name */}
-                {isEditingName ? (
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      value={locationFormData.name}
-                      onChange={(e) => setLocationFormData({...locationFormData, name: e.target.value})}
-                      className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] px-2 py-1"
-                      autoFocus
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSaveInlineEdit('name');
-                        if (e.key === 'Escape') handleCancelInlineEdit('name');
-                      }}
-                    />
-                    <Button
-                      size="sm"
-                      onClick={() => handleSaveInlineEdit('name')}
-                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] h-8 w-8 p-0"
-                    >
-                      <Check className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleCancelInlineEdit('name')}
-                      className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)] h-8 w-8 p-0"
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
-                  </div>
+                {isEditing ? (
+                  <Input
+                    value={locationFormData.name}
+                    onChange={(e) => setLocationFormData({...locationFormData, name: e.target.value})}
+                    className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] h-12"
+                    placeholder="Location Name"
+                  />
                 ) : (
-                  <h1 
-                    className="text-2xl font-bold text-[var(--color-950)] cursor-pointer hover:text-[var(--color-700)] transition-colors"
-                    onClick={() => setIsEditingName(true)}
-                    title="Click to edit name"
-                  >
-                    {locationData.name}
-                  </h1>
+                  <h1 className="text-2xl font-bold text-[var(--color-950)]">{locationData.name}</h1>
                 )}
                 
-                {/* Inline editable type */}
-                <div className="flex items-center space-x-2 mt-1">
-                  {isEditingType ? (
-                    <div className="flex items-center space-x-2">
-                      <Select 
-                        value={locationFormData.type} 
-                        onValueChange={(value) => setLocationFormData({...locationFormData, type: value})}
-                      >
-                        <SelectTrigger className="w-32 h-7 text-xs">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {locationTypes.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        size="sm"
-                        onClick={() => handleSaveInlineEdit('type')}
-                        className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] h-7 w-7 p-0"
-                      >
-                        <Check className="w-3 h-3" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleCancelInlineEdit('type')}
-                        className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)] h-7 w-7 p-0"
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <Badge 
-                      className={`${getTypeColor(locationData.type || 'Other')} cursor-pointer hover:opacity-80 transition-opacity`}
-                      onClick={() => setIsEditingType(true)}
-                      title="Click to edit type"
+                <div className="mt-2">
+                  {isEditing ? (
+                    <Select 
+                      value={locationFormData.type} 
+                      onValueChange={(value) => setLocationFormData({...locationFormData, type: value})}
                     >
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {locationTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Badge className={getTypeColor(locationData.type || 'Other')}>
                       {locationData.type || 'Location'}
                     </Badge>
                   )}
@@ -487,40 +391,6 @@ export default function LocationDetail() {
                       <div className="space-y-4">
                         {isEditing ? (
                           <>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Name</label>
-                              <Input
-                                value={locationFormData.name}
-                                onChange={(e) => setLocationFormData({...locationFormData, name: e.target.value})}
-                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)]"
-                                placeholder="Enter location name"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Type</label>
-                              <Select 
-                                value={locationFormData.type} 
-                                onValueChange={(value) => setLocationFormData({...locationFormData, type: value})}
-                              >
-                                <SelectTrigger className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)]">
-                                  <SelectValue placeholder="Select location type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="City">City</SelectItem>
-                                  <SelectItem value="Building">Building</SelectItem>
-                                  <SelectItem value="Wilderness">Wilderness</SelectItem>
-                                  <SelectItem value="Mountains">Mountains</SelectItem>
-                                  <SelectItem value="Forest">Forest</SelectItem>
-                                  <SelectItem value="Academy">Academy</SelectItem>
-                                  <SelectItem value="Palace">Palace</SelectItem>
-                                  <SelectItem value="Village">Village</SelectItem>
-                                  <SelectItem value="Caves">Caves</SelectItem>
-                                  <SelectItem value="Harbor">Harbor</SelectItem>
-                                  <SelectItem value="Ruins">Ruins</SelectItem>
-                                  <SelectItem value="Other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
                             <div>
                               <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
                               <Textarea
