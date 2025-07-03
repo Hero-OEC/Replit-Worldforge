@@ -288,7 +288,7 @@ export default function CharacterDetail() {
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate and refetch
+      // Invalidate and refetch characters list
       queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
       // Navigate back to characters list
       navigate(`/project/${projectId}/characters`);
