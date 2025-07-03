@@ -13,6 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
+import { useToast } from "@/hooks/use-toast";
 import type { Location, ProjectWithStats } from "@shared/schema";
 
 export default function Locations() {
@@ -25,6 +26,7 @@ export default function Locations() {
   const [locationToDelete, setLocationToDelete] = useState<any>(null);
 
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const handleView = (locationId: number) => {
     navigateWithHistory(`/project/${projectId}/locations/${locationId}`);
@@ -47,17 +49,40 @@ export default function Locations() {
 
 
 
+  const deleteLocationMutation = useMutation({
+    mutationFn: async (locationId: number) => {
+      const response = await fetch(`/api/locations/${locationId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete location");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/locations`] });
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
+      toast({ title: "Location deleted successfully!" });
+      setDeleteDialogOpen(false);
+      setLocationToDelete(null);
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to delete location", 
+        description: error.message || "An error occurred while deleting the location",
+        variant: "destructive" 
+      });
+    },
+  });
+
   const handleDelete = (location: any) => {
     setLocationToDelete(location);
     setDeleteDialogOpen(true);
   };
 
   const confirmDelete = () => {
-    if (locationToDelete) {
-      // TODO: Implement actual delete API call
-      console.log("Delete location:", locationToDelete.id);
-      setDeleteDialogOpen(false);
-      setLocationToDelete(null);
+    if (locationToDelete && !deleteLocationMutation.isPending) {
+      deleteLocationMutation.mutate(locationToDelete.id);
     }
   };
 
