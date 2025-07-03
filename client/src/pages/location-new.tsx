@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, X, MapPin, Building, Trees, GraduationCap, Crown, Home, Mountain, Anchor, Castle } from "lucide-react";
+import { ArrowLeft, Save, X, MapPin, Building, Trees, GraduationCap, Crown, Home, Mountain, Anchor, Castle, Building2, Eye, Star, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -31,18 +31,18 @@ export default function LocationNew() {
   // Get the appropriate icon for the location type
   const getTypeIcon = (type: string) => {
     const icons = {
-      'City': MapPin,
-      'Building': Building,
+      'City': Building,
+      'Building': Home,
       'Wilderness': Trees,
       'Mountains': Mountain,
       'Forest': Trees,
       'Academy': GraduationCap,
       'Palace': Crown,
-      'Village': Home,
+      'Village': MapPin,
       'Caves': Mountain,
       'Harbor': Anchor,
-      'Ruins': Castle,
-      'Other': MapPin,
+      'Ruins': Building2,
+      'Other': Eye,
     };
     return icons[type as keyof typeof icons] || MapPin;
   };
@@ -106,28 +106,59 @@ export default function LocationNew() {
         searchPlaceholder="Search locations..."
       />
 
-      <main className="p-8 bg-[var(--worldforge-cream)]">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={goBack}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800">Add New Location</h1>
-                <p className="text-[var(--color-700)]">Create a new place in your world</p>
+      <main className="pt-16">
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          {/* Back Button */}
+          <div className="mb-6">
+            <Button
+              variant="ghost" 
+              onClick={goBack}
+              className="text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-100)]"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Locations
+            </Button>
+          </div>
+
+          {/* Header with Icon and Title Input */}
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
+              <IconComponent className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
+            </div>
+            <div className="flex-1">
+              <Input
+                value={locationData.name}
+                onChange={(e) => setLocationData({...locationData, name: e.target.value})}
+                className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] h-12 focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                placeholder="Location Name"
+              />
+              <div className="mt-2">
+                <Select 
+                  value={locationData.type} 
+                  onValueChange={(value) => setLocationData({...locationData, type: value})}
+                >
+                  <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)]">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="City">City</SelectItem>
+                    <SelectItem value="Building">Building</SelectItem>
+                    <SelectItem value="Wilderness">Wilderness</SelectItem>
+                    <SelectItem value="Mountains">Mountains</SelectItem>
+                    <SelectItem value="Forest">Forest</SelectItem>
+                    <SelectItem value="Academy">Academy</SelectItem>
+                    <SelectItem value="Palace">Palace</SelectItem>
+                    <SelectItem value="Village">Village</SelectItem>
+                    <SelectItem value="Caves">Caves</SelectItem>
+                    <SelectItem value="Harbor">Harbor</SelectItem>
+                    <SelectItem value="Ruins">Ruins</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
-            
             <div className="flex items-center space-x-3">
-              <Button onClick={handleCancel} variant="outline">
+              <Button onClick={handleCancel} variant="outline" className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]">
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
@@ -142,109 +173,60 @@ export default function LocationNew() {
             </div>
           </div>
 
-          {/* Location Form */}
-          <div className="space-y-8">
-            {/* Basic Info Card */}
-            <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-              <div className="flex items-center space-x-6">
-                <div className="w-24 h-24 bg-[var(--color-200)] rounded-full flex items-center justify-center">
-                  <IconComponent className="w-12 h-12 text-[var(--color-700)]" />
-                </div>
-                <div className="flex-1 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
-                      <Input
-                        value={locationData.name}
-                        onChange={(e) => setLocationData({...locationData, name: e.target.value})}
-                        placeholder="Location name"
-                        className="text-lg"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                      <Select 
-                        value={locationData.type} 
-                        onValueChange={(value) => setLocationData({...locationData, type: value})}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="City">City</SelectItem>
-                          <SelectItem value="Forest">Forest</SelectItem>
-                          <SelectItem value="Academy">Academy</SelectItem>
-                          <SelectItem value="Palace">Palace</SelectItem>
-                          <SelectItem value="Village">Village</SelectItem>
-                          <SelectItem value="Caves">Caves</SelectItem>
-                          <SelectItem value="Harbor">Harbor</SelectItem>
-                          <SelectItem value="Ruins">Ruins</SelectItem>
-                          <SelectItem value="Other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
+          {/* Description Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <MapPin className="w-5 h-5 text-[var(--color-700)]" />
+              <span className="text-xl font-medium text-gray-700">Description</span>
+            </div>
+            <textarea
+              value={locationData.description}
+              onChange={(e) => setLocationData({...locationData, description: e.target.value})}
+              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+              placeholder="Brief description of the location. What makes this place unique and important?"
+            />
+          </div>
 
-            {/* Details Tabs */}
-            <Tabs defaultValue="basics" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="basics">Basics</TabsTrigger>
-                <TabsTrigger value="geography">Geography</TabsTrigger>
-                <TabsTrigger value="culture">Culture</TabsTrigger>
-                <TabsTrigger value="significance">Significance</TabsTrigger>
-              </TabsList>
+          {/* Geography Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Mountain className="w-5 h-5 text-[var(--color-700)]" />
+              <span className="text-xl font-medium text-gray-700">Geography & Environment</span>
+            </div>
+            <textarea
+              value={locationData.geography}
+              onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
+              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+              placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
+            />
+          </div>
 
-              <TabsContent value="basics" className="space-y-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Description</h3>
-                  <textarea
-                    value={locationData.description}
-                    onChange={(e) => setLocationData({...locationData, description: e.target.value})}
-                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="Brief description of the location. What makes this place unique and important?"
-                  />
-                </Card>
-              </TabsContent>
+          {/* Culture Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Users className="w-5 h-5 text-[var(--color-700)]" />
+              <span className="text-xl font-medium text-gray-700">Culture & Society</span>
+            </div>
+            <textarea
+              value={locationData.culture}
+              onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
+              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+              placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
+            />
+          </div>
 
-              <TabsContent value="geography" className="space-y-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Geography & Environment</h3>
-                  <textarea
-                    value={locationData.geography}
-                    onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
-                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
-                  />
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="culture" className="space-y-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Culture & Society</h3>
-                  <textarea
-                    value={locationData.culture}
-                    onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
-                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
-                  />
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="significance" className="space-y-6">
-                <Card className="bg-[var(--worldforge-card)] border border-[var(--border)] p-6">
-                  <h3 className="text-lg font-semibold text-[var(--color-950)] mb-4">Story Significance</h3>
-                  <textarea
-                    value={locationData.significance}
-                    onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
-                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                    placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
-                  />
-                </Card>
-              </TabsContent>
-            </Tabs>
+          {/* Significance Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Star className="w-5 h-5 text-[var(--color-700)]" />
+              <span className="text-xl font-medium text-gray-700">Story Significance</span>
+            </div>
+            <textarea
+              value={locationData.significance}
+              onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
+              className="w-full min-h-32 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+              placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
+            />
           </div>
         </div>
       </main>

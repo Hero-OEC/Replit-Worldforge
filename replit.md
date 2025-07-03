@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 3, 2025. Applied lore edit page styling to location creation page:
+  * Updated location new page to match lore edit page layout with inputs positioned exactly like detail page content
+  * Title input positioned in header with proper InkAlchemy styling and dynamic location type icon display
+  * Location type selector positioned below title with dynamic icon display matching current selection
+  * All textarea fields styled consistently with edit page using proper InkAlchemy color scheme
+  * Section titles use text-xl (20px) with proper icon-text pairs (MapPin, Mountain, Users, Star)
+  * All form elements use --color-* variables for consistent brand appearance
+  * Removed redundant basic info card and tabbed interface for streamlined single-page design
+  * New location creation page now has identical user experience to edit page with inputs in same positions
+  * Fixed duplicate icon usage to ensure each location type has unique visual identifier
 - July 3, 2025. Applied lore edit page styling to timeline event creation page:
   * Updated timeline event new page to match lore edit page layout with inputs positioned exactly like detail page content
   * Title input positioned in header with proper InkAlchemy styling and dynamic category icon display
