@@ -34,6 +34,7 @@ export const locations = pgTable("locations", {
   id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
+  type: text("type").default("Other"), // City, Forest, Academy, Palace, Village, Caves, Harbor, Ruins, etc.
   description: text("description"),
   geography: text("geography"),
   culture: text("culture"),

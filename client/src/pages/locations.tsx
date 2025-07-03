@@ -191,12 +191,15 @@ export default function Locations() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
-                        <MapPin className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
+                        {(() => {
+                          const IconComponent = getTypeIcon(location.type || 'Other');
+                          return <IconComponent className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />;
+                        })()}
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-[var(--color-950)]">{location.name}</h3>
-                        <Badge className="bg-[var(--color-300)] text-[var(--color-900)]">
-                          Location
+                        <Badge className={getTypeColor(location.type || 'Other')}>
+                          {location.type || 'Location'}
                         </Badge>
                       </div>
                     </div>
