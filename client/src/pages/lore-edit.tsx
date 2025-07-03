@@ -356,22 +356,23 @@ export default function EditLoreEntry() {
                 
                 {/* Add Tag Input - Fixed position */}
                 <div className="mb-4">
-                  <div className="flex items-center gap-2 p-3 bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg hover:bg-[var(--color-100)] hover:border-[var(--color-400)] focus-within:bg-[var(--color-100)] focus-within:border-[var(--color-500)] focus-within:ring-2 focus-within:ring-[var(--color-200)] transition-all">
-                    <input
-                      type="text"
+                  <div className="flex items-center gap-2">
+                    <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
                       placeholder="Add a new tag..."
-                      className="border-none bg-transparent p-0 h-auto text-sm outline-none focus:outline-none focus:ring-0 shadow-none flex-1 text-[var(--color-800)] placeholder:text-[var(--color-600)]"
+                      className="text-sm text-[var(--color-800)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all placeholder:text-[var(--color-600)]"
                       onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
                     />
-                    <button
+                    <Button
                       type="button"
+                      variant="outline"
+                      size="sm"
                       onClick={addTag}
-                      className="text-[var(--color-600)] hover:text-[var(--color-800)] transition-colors p-1"
+                      className="border-[var(--color-300)] text-[var(--color-600)] hover:bg-[var(--color-100)] hover:text-[var(--color-800)] transition-colors"
                     >
                       <Plus className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
