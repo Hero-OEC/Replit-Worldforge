@@ -379,6 +379,8 @@ export default function CharacterDetail() {
         powerSystems: selectedPowerSystems
       };
 
+      console.log('Saving character with power systems:', updateData);
+
       const response = await fetch(`/api/characters/${characterId}`, {
         method: 'PUT',
         headers: {
