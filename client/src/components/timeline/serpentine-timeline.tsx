@@ -111,11 +111,34 @@ export default function SerpentineTimeline({
 
   // Sort events by date for timeline display
   const sortedEvents = [...filteredEvents].sort((a, b) => {
-    const getDateNumber = (dateStr: string) => {
-      const match = dateStr.match(/Day (\d+)/);
-      return match ? parseInt(match[1]) : 0;
+    const parseDateString = (dateStr: string) => {
+      // Handle "Year X, Month Y, Day Z" format
+      const yearMonthDayMatch = dateStr.match(/Year (\d+), Month (\d+), Day (\d+)/);
+      if (yearMonthDayMatch) {
+        const year = parseInt(yearMonthDayMatch[1]);
+        const month = parseInt(yearMonthDayMatch[2]);
+        const day = parseInt(yearMonthDayMatch[3]);
+        return year * 10000 + month * 100 + day; // Create sortable number: YYYYMMDD
+      }
+      
+      // Handle "Year X, Day Y" format (legacy)
+      const yearDayMatch = dateStr.match(/Year (\d+), Day (\d+)/);
+      if (yearDayMatch) {
+        const year = parseInt(yearDayMatch[1]);
+        const day = parseInt(yearDayMatch[2]);
+        return year * 10000 + day; // Create sortable number: YYYY00DD
+      }
+      
+      // Handle "Day X" format (legacy)
+      const dayMatch = dateStr.match(/Day (\d+)/);
+      if (dayMatch) {
+        return parseInt(dayMatch[1]);
+      }
+      
+      return 0; // Default for unparseable dates
     };
-    return getDateNumber(a.date) - getDateNumber(b.date);
+    
+    return parseDateString(a.date) - parseDateString(b.date);
   });
 
   // Group events by date
