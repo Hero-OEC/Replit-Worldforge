@@ -270,7 +270,7 @@ export default function EditLoreEntry() {
                                   {...field} 
                                   value={field.value || ""}
                                   placeholder="Enter the lore entry title..."
-                                  className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-white focus:ring-2 focus:ring-[var(--color-200)] transition-all"
+                                  className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
                                 />
                               </FormControl>
                             </FormItem>
@@ -356,7 +356,7 @@ export default function EditLoreEntry() {
                 
                 {/* Add Tag Input - Fixed position */}
                 <div className="mb-4">
-                  <div className="flex items-center gap-2 p-3 bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg hover:bg-white hover:border-[var(--color-400)] transition-all">
+                  <div className="flex items-center gap-2 p-3 bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg hover:bg-[var(--color-100)] hover:border-[var(--color-400)] transition-all">
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
@@ -413,7 +413,7 @@ export default function EditLoreEntry() {
                                 {...field}
                                 value={field.value || ""}
                                 placeholder="Write your lore entry content here..."
-                                className="min-h-[300px] text-[var(--color-800)] leading-relaxed whitespace-pre-wrap bg-[var(--color-50)] border-[var(--color-300)] focus:border-[var(--color-500)] focus:bg-white focus:ring-2 focus:ring-[var(--color-200)] resize-none transition-all placeholder:text-[var(--color-600)]"
+                                className="min-h-[300px] text-[var(--color-800)] leading-relaxed whitespace-pre-wrap bg-[var(--color-50)] border-[var(--color-300)] focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] resize-none transition-all placeholder:text-[var(--color-600)]"
                               />
                             </FormControl>
                           </FormItem>
