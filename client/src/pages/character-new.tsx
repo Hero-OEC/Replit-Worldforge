@@ -157,6 +157,26 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
   );
 }
 
+// Role icon helper function
+const getRoleIcon = (role: string) => {
+  switch (role) {
+    case 'Protagonist':
+      return Crown;
+    case 'Antagonist':
+      return UserX;
+    case 'Ally':
+      return UserCheck;
+    case 'Enemy':
+      return Sword;
+    case 'Supporting':
+      return Shield;
+    case 'Neutral':
+      return HelpCircle;
+    default:
+      return User;
+  }
+};
+
 export default function CharacterNew() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
@@ -287,15 +307,55 @@ export default function CharacterNew() {
                       onValueChange={(value) => setCharacterData({...characterData, role: value})}
                     >
                       <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
-                        <SelectValue placeholder="Select role" />
+                        {characterData.role ? (
+                          <div className="flex items-center space-x-2">
+                            {(() => {
+                              const RoleIcon = getRoleIcon(characterData.role);
+                              return <RoleIcon className="w-4 h-4" />;
+                            })()}
+                            <span>{characterData.role}</span>
+                          </div>
+                        ) : (
+                          <SelectValue placeholder="Select role" />
+                        )}
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Protagonist">Protagonist</SelectItem>
-                        <SelectItem value="Antagonist">Antagonist</SelectItem>
-                        <SelectItem value="Ally">Ally</SelectItem>
-                        <SelectItem value="Enemy">Enemy</SelectItem>
-                        <SelectItem value="Neutral">Neutral</SelectItem>
-                        <SelectItem value="Supporting">Supporting</SelectItem>
+                        <SelectItem value="Protagonist">
+                          <div className="flex items-center space-x-2">
+                            <Crown className="w-4 h-4" />
+                            <span>Protagonist</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="Antagonist">
+                          <div className="flex items-center space-x-2">
+                            <UserX className="w-4 h-4" />
+                            <span>Antagonist</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="Ally">
+                          <div className="flex items-center space-x-2">
+                            <UserCheck className="w-4 h-4" />
+                            <span>Ally</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="Enemy">
+                          <div className="flex items-center space-x-2">
+                            <Sword className="w-4 h-4" />
+                            <span>Enemy</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="Supporting">
+                          <div className="flex items-center space-x-2">
+                            <Shield className="w-4 h-4" />
+                            <span>Supporting</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="Neutral">
+                          <div className="flex items-center space-x-2">
+                            <HelpCircle className="w-4 h-4" />
+                            <span>Neutral</span>
+                          </div>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -359,26 +419,7 @@ export default function CharacterNew() {
                     />
                   </div>
 
-                  {/* Role */}
-                  <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
-                    <span className="text-sm font-medium text-gray-700">Role:</span>
-                    <Select 
-                      value={characterData.role} 
-                      onValueChange={(value) => setCharacterData({...characterData, role: value})}
-                    >
-                      <SelectTrigger className="w-32 h-8 text-sm bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)]">
-                        <SelectValue placeholder="Select role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Protagonist">Protagonist</SelectItem>
-                        <SelectItem value="Antagonist">Antagonist</SelectItem>
-                        <SelectItem value="Ally">Ally</SelectItem>
-                        <SelectItem value="Enemy">Enemy</SelectItem>
-                        <SelectItem value="Neutral">Neutral</SelectItem>
-                        <SelectItem value="Supporting">Supporting</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+
 
                   {/* Age */}
                   <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
