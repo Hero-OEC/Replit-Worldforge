@@ -27,8 +27,8 @@ export default function MagicSystemDetail() {
 
   const getCategoryColor = (category: string) => {
     return category === "power" 
-      ? "bg-blue-100 text-blue-800" 
-      : "bg-purple-100 text-purple-800";
+      ? "bg-[var(--color-200)] text-[var(--color-950)]" 
+      : "bg-[var(--color-300)] text-[var(--color-950)]";
   };
 
   const { data: project } = useQuery<ProjectWithStats>({
