@@ -133,33 +133,55 @@ export default function EditLoreEntry() {
     }
   };
 
-  // Simple tag recommendations based on category
+  // Dynamic tag recommendations based on category and content
   useEffect(() => {
     const currentCategory = form.watch("category") || "";
+    const currentContent = form.watch("content") || "";
+    const currentTitle = form.watch("title") || "";
     
     if (currentCategory) {
       const categoryBasedTags: { [key: string]: string[] } = {
-        "History": ["ancient", "war", "empire", "legacy"],
-        "Religion": ["gods", "temple", "ritual", "faith"],
-        "Politics": ["kingdom", "ruler", "law", "power"],
-        "Culture": ["tradition", "custom", "ceremony", "community"],
-        "Geography": ["mountains", "rivers", "cities", "regions"],
-        "Artifacts": ["magical", "ancient", "powerful", "legendary"],
-        "Prophecies": ["future", "fate", "destiny", "oracle"],
-        "Institutions": ["academy", "guild", "organization", "learning"],
-        "Legends": ["heroes", "myths", "stories", "epic"],
-        "Customs": ["festival", "celebration", "ritual", "tradition"]
+        "History": ["ancient", "war", "empire", "legacy", "battle", "chronicle"],
+        "Religion": ["gods", "temple", "ritual", "faith", "divine", "sacred"],
+        "Politics": ["kingdom", "ruler", "law", "power", "royal", "court"],
+        "Culture": ["tradition", "custom", "ceremony", "community", "festival", "heritage"],
+        "Geography": ["mountains", "rivers", "cities", "regions", "landscape", "territory"],
+        "Artifacts": ["magical", "ancient", "powerful", "legendary", "enchanted", "relic"],
+        "Prophecies": ["future", "fate", "destiny", "oracle", "vision", "foretelling"],
+        "Institutions": ["academy", "guild", "organization", "learning", "school", "order"],
+        "Legends": ["heroes", "myths", "stories", "epic", "folklore", "tales"],
+        "Customs": ["festival", "celebration", "ritual", "tradition", "ceremony", "practice"]
       };
       
-      const suggestedTags = categoryBasedTags[currentCategory] || [];
-      const filteredSuggestions = suggestedTags.filter(tag => !tags.includes(tag));
-      setRecommendedTags(filteredSuggestions);
+      // Get base suggestions from category
+      let suggestedTags = categoryBasedTags[currentCategory] || [];
+      
+      // Add content-based suggestions
+      const contentWords = (currentTitle + " " + currentContent).toLowerCase();
+      const contentSuggestions: string[] = [];
+      
+      // Check for common themes in content
+      if (contentWords.includes("magic") || contentWords.includes("spell")) contentSuggestions.push("magical");
+      if (contentWords.includes("war") || contentWords.includes("battle")) contentSuggestions.push("conflict");
+      if (contentWords.includes("king") || contentWords.includes("queen")) contentSuggestions.push("royal");
+      if (contentWords.includes("dragon") || contentWords.includes("beast")) contentSuggestions.push("creatures");
+      if (contentWords.includes("secret") || contentWords.includes("hidden")) contentSuggestions.push("mystery");
+      if (contentWords.includes("love") || contentWords.includes("romance")) contentSuggestions.push("romance");
+      if (contentWords.includes("death") || contentWords.includes("dark")) contentSuggestions.push("dark");
+      if (contentWords.includes("light") || contentWords.includes("bright")) contentSuggestions.push("light");
+      
+      // Combine and deduplicate
+      const allSuggestions = [...suggestedTags, ...contentSuggestions];
+      const uniqueSuggestions = [...new Set(allSuggestions)];
+      const filteredSuggestions = uniqueSuggestions.filter(tag => !tags.includes(tag));
+      
+      setRecommendedTags(filteredSuggestions.slice(0, 8)); // Limit to 8 suggestions
       setShowRecommendations(filteredSuggestions.length > 0);
     } else {
       setRecommendedTags([]);
       setShowRecommendations(false);
     }
-  }, [form.watch("category"), tags]);
+  }, [form.watch("category"), form.watch("content"), form.watch("title"), tags]);
 
   if (isLoading) {
     return (
@@ -310,60 +332,67 @@ export default function EditLoreEntry() {
                   <Tag className="w-4 h-4 text-[var(--color-700)]" />
                   <span className="text-sm font-medium text-gray-700">Tags</span>
                 </div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {/* Current Tags */}
-                  {tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
-                    >
-                      {tag}
-                      <button
-                        type="button"
-                        onClick={() => removeTag(tag)}
-                        className="ml-1 hover:text-red-600"
+                
+                {/* Current Tags */}
+                {tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
                       >
-                        <Minus className="w-3 h-3" />
-                      </button>
-                    </span>
-                  ))}
-                  
-                  {/* Add Tag Input */}
-                  <div className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium bg-[var(--color-50)] border-[var(--color-400)] hover:bg-white hover:border-[var(--color-500)] transition-all">
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => removeTag(tag)}
+                          className="ml-1 hover:text-red-600"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Add Tag Input - Fixed position */}
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 p-3 bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg hover:bg-white hover:border-[var(--color-400)] transition-all">
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
-                      placeholder="Add tag..."
-                      className="border-none bg-transparent p-0 h-auto text-xs focus:ring-0 shadow-none min-w-[80px] w-auto text-[var(--color-800)] placeholder:text-[var(--color-600)]"
+                      placeholder="Add a new tag..."
+                      className="border-none bg-transparent p-0 h-auto text-sm focus:ring-0 shadow-none flex-1 text-[var(--color-800)] placeholder:text-[var(--color-600)]"
                       onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
                     />
                     <button
                       type="button"
                       onClick={addTag}
-                      className="text-[var(--color-600)] hover:text-[var(--color-800)] transition-colors"
+                      className="text-[var(--color-600)] hover:text-[var(--color-800)] transition-colors p-1"
                     >
-                      <Plus className="w-3 h-3" />
+                      <Plus className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
                 {/* Recommended Tags */}
                 {showRecommendations && recommendedTags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    <div className="flex items-center space-x-2 w-full mb-2">
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
                       <Lightbulb className="w-4 h-4 text-[var(--color-600)]" />
-                      <span className="text-sm font-medium text-[var(--color-700)]">Suggested Tags</span>
+                      <span className="text-sm font-medium text-[var(--color-700)]">Suggested for {form.watch("category") || "this category"}</span>
                     </div>
-                    {recommendedTags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-150)] border-[var(--color-400)] text-[var(--color-800)] hover:bg-[var(--color-200)] hover:border-[var(--color-500)] cursor-pointer"
-                        onClick={() => addRecommendedTag(tag)}
-                      >
-                        {tag}
-                        <Plus className="w-3 h-3" />
-                      </span>
-                    ))}
+                    <div className="flex flex-wrap gap-2">
+                      {recommendedTags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-150)] border-[var(--color-400)] text-[var(--color-800)] hover:bg-[var(--color-200)] hover:border-[var(--color-500)] cursor-pointer"
+                          onClick={() => addRecommendedTag(tag)}
+                        >
+                          {tag}
+                          <Plus className="w-3 h-3" />
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
