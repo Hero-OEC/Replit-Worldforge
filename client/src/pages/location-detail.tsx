@@ -381,49 +381,30 @@ export default function LocationDetail() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-3">
                 <Tabs defaultValue="details" className="w-full">
-                  <TabsList className="grid w-full grid-cols-4 bg-[var(--color-100)]">
+                  <TabsList className="grid w-full grid-cols-5 bg-[var(--color-100)]">
                     <TabsTrigger value="details" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
                     <TabsTrigger value="geography" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Geography</TabsTrigger>
                     <TabsTrigger value="culture" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Culture</TabsTrigger>
+                    <TabsTrigger value="significance" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Significance</TabsTrigger>
                     <TabsTrigger value="timeline" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Timeline</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
                     <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                       <div className="space-y-4">
-                        {isEditing ? (
-                          <>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
-                              <Textarea
-                                value={locationFormData.description}
-                                onChange={(e) => setLocationFormData({...locationFormData, description: e.target.value})}
-                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
-                                placeholder="Describe the location..."
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
-                              <Textarea
-                                value={locationFormData.significance}
-                                onChange={(e) => setLocationFormData({...locationFormData, significance: e.target.value})}
-                                className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
-                                placeholder="What makes this location significant..."
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
-                              <p className="text-[var(--color-950)] leading-relaxed">{locationData.description}</p>
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
-                              <p className="text-[var(--color-950)] leading-relaxed">{locationData.significance}</p>
-                            </div>
-                          </>
-                        )}
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                          {isEditing ? (
+                            <Textarea
+                              value={locationFormData.description}
+                              onChange={(e) => setLocationFormData({...locationFormData, description: e.target.value})}
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                              placeholder="Describe the location..."
+                            />
+                          ) : (
+                            <p className="text-[var(--color-950)] leading-relaxed">{locationData.description}</p>
+                          )}
+                        </div>
                       </div>
                     </Card>
                   </TabsContent>
@@ -462,6 +443,26 @@ export default function LocationDetail() {
                             />
                           ) : (
                             <p className="text-[var(--color-950)] leading-relaxed">{locationData.culture}</p>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  </TabsContent>
+
+                  <TabsContent value="significance" className="space-y-6 bg-[var(--worldforge-bg)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Significance</label>
+                          {isEditing ? (
+                            <Textarea
+                              value={locationFormData.significance}
+                              onChange={(e) => setLocationFormData({...locationFormData, significance: e.target.value})}
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                              placeholder="What makes this location significant..."
+                            />
+                          ) : (
+                            <p className="text-[var(--color-950)] leading-relaxed">{locationData.significance}</p>
                           )}
                         </div>
                       </div>
