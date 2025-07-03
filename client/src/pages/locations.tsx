@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { Plus, Search, Filter, MapPin, Edit3, MoreHorizontal, Map, Trash2, Building, Trees, GraduationCap, Crown, Home, Mountain, Anchor, Castle } from "lucide-react";
+import { Plus, Search, Filter, MapPin, Edit3, MoreHorizontal, Map, Trash2, Building, Trees, GraduationCap, Crown, Home, Mountain, Anchor, Castle, Building2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -114,18 +114,18 @@ export default function Locations() {
 
   const getTypeIcon = (type: string) => {
     const icons = {
-      'City': MapPin,
-      'Building': Building,
+      'City': Building,
+      'Building': Home,
       'Wilderness': Trees,
       'Mountains': Mountain,
       'Forest': Trees,
       'Academy': GraduationCap,
       'Palace': Crown,
-      'Village': Home,
-      'Caves': Mountain,
+      'Village': MapPin,
+      'Caves': Castle,
       'Harbor': Anchor,
-      'Ruins': Castle,
-      'Other': MapPin,
+      'Ruins': Building2,
+      'Other': Eye,
     };
     return icons[type as keyof typeof icons] || MapPin;
   };

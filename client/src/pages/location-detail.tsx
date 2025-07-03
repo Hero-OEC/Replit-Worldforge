@@ -30,7 +30,9 @@ import {
   GraduationCap,
   Home,
   Anchor,
-  Castle
+  Castle,
+  Building2,
+  Tent
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,18 +78,18 @@ const locationTypes = [
 // Helper functions for location types
 const getTypeIcon = (type: string) => {
   const icons = {
-    'City': MapPin,
-    'Building': Building,
+    'City': Building,
+    'Building': Home,
     'Wilderness': Trees,
     'Mountains': Mountain,
     'Forest': Trees,
     'Academy': GraduationCap,
     'Palace': Crown,
-    'Village': Home,
-    'Caves': Mountain,
+    'Village': MapPin,
+    'Caves': Castle,
     'Harbor': Anchor,
-    'Ruins': Castle,
-    'Other': MapPin,
+    'Ruins': Building2,
+    'Other': Eye,
   };
   return icons[type as keyof typeof icons] || MapPin;
 };
