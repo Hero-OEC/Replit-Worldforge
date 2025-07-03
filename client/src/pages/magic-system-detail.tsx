@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +19,7 @@ export default function MagicSystemDetail() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { goBack } = useNavigation();
 
   const getCategoryIcon = (category: string) => {
     return category === "power" ? Zap : Sparkles;
@@ -159,7 +161,7 @@ export default function MagicSystemDetail() {
                 variant="ghost" 
                 size="sm" 
                 className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
+                onClick={goBack}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
