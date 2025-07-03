@@ -255,6 +255,32 @@ export default function SerpentineTimeline({
 
   return (
     <div ref={timelineContainerRef} className={`relative w-full ${className}`}>
+      {/* Priority Legend */}
+      <div className="mb-6 px-4">
+        <div className="bg-[var(--color-100)] rounded-lg p-4 border border-[var(--color-300)]">
+          <div className="flex flex-wrap items-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+              <span className="text-[var(--color-800)] font-medium">High Priority</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
+              <span className="text-[var(--color-800)] font-medium">Medium Priority</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
+              <span className="text-[var(--color-800)] font-medium">Low Priority</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
+                <Calendar className="w-2 h-2 text-[var(--color-50)]" />
+              </div>
+              <span className="text-[var(--color-800)] font-medium">Multiple Events</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Serpentine Timeline */}
       <div className="py-4 px-4">
         <div
