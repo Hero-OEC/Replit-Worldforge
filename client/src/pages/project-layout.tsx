@@ -76,6 +76,18 @@ export default function ProjectLayout() {
             <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-[var(--color-700)]">Timeline Events</p>
+                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.eventsCount || 0}</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
+              <div className="flex items-center">
+                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
                   <Users className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
@@ -93,18 +105,6 @@ export default function ProjectLayout() {
                 <div className="ml-4">
                   <p className="text-sm font-medium text-[var(--color-700)]">Locations</p>
                   <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.locationsCount || 0}</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6">
-              <div className="flex items-center">
-                <div className="p-3 bg-[var(--color-200)] text-[var(--color-700)] rounded-lg">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-[var(--color-700)]">Timeline Events</p>
-                  <p className="text-2xl font-bold text-[var(--color-950)]">{project.stats?.eventsCount || 0}</p>
                 </div>
               </div>
             </Card>
