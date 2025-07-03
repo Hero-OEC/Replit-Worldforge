@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, Save, X, FileText, BookOpen, Users } from "lucide-react";
+import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, FileText, BookOpen, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import Navbar from "@/components/layout/navbar";
@@ -42,14 +42,6 @@ export default function Notes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteNoteId, setDeleteNoteId] = useState<number | null>(null);
   const queryClient = useQueryClient();
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [editingNote, setEditingNote] = useState<any>(null);
-  const [noteData, setNoteData] = useState({
-    title: "",
-    content: "",
-    category: "",
-    tags: ""
-  });
 
   const { data: project } = useQuery<ProjectWithStats>({
     queryKey: [`/api/projects/${projectId}`],
@@ -84,31 +76,7 @@ export default function Notes() {
 
   const selectedNote = deleteNoteId ? notes.find((note: any) => note.id === deleteNoteId) : null;
 
-  const resetForm = () => {
-    setNoteData({
-      title: "",
-      content: "",
-      category: "",
-      tags: ""
-    });
-  };
 
-  const handleEdit = (note: any) => {
-    setEditingNote(note);
-    setNoteData({
-      title: note.title,
-      content: note.content,
-      category: note.category,
-      tags: note.tags.join(", ")
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log("Note data:", noteData);
-    setEditingNote(null);
-    setShowAddDialog(false);
-    resetForm();
-  };
 
   const handleDelete = (id: number) => {
     setDeleteNoteId(id);
@@ -147,7 +115,7 @@ export default function Notes() {
                 </div>
               </div>
               <Button
-                onClick={() => setShowAddDialog(true)}
+                onClick={() => setLocation(`/project/${projectId}/notes/new`)}
                 className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -241,78 +209,7 @@ export default function Notes() {
         </div>
       </main>
 
-      <Dialog open={showAddDialog || !!editingNote} onOpenChange={(open) => {
-        if (!open) {
-          setShowAddDialog(false);
-          setEditingNote(null);
-          resetForm();
-        }
-      }}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              {editingNote ? "Edit Note" : "Add New Note"}
-            </DialogTitle>
-          </DialogHeader>
 
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
-                <Input
-                  value={noteData.title}
-                  onChange={(e) => setNoteData({...noteData, title: e.target.value})}
-                  placeholder="Note title"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <Input
-                  value={noteData.category}
-                  onChange={(e) => setNoteData({...noteData, category: e.target.value})}
-                  placeholder="e.g., Plot, Characters, Research"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
-              <textarea
-                value={noteData.content}
-                onChange={(e) => setNoteData({...noteData, content: e.target.value})}
-                className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none"
-                placeholder="Write your note content..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
-              <Input
-                value={noteData.tags}
-                onChange={(e) => setNoteData({...noteData, tags: e.target.value})}
-                placeholder="Separate tags with commas: plot, character, idea"
-              />
-            </div>
-
-            <div className="flex justify-end space-x-3">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setShowAddDialog(false);
-                  setEditingNote(null);
-                  resetForm();
-                }}
-              >
-                Cancel
-              </Button>
-              <Button onClick={handleSubmit} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
-                <Save className="w-4 h-4 mr-2" />
-                {editingNote ? "Update" : "Create"} Note
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       <AlertDialog open={deleteNoteId !== null} onOpenChange={() => setDeleteNoteId(null)}>
         <AlertDialogContent className="bg-[var(--color-50)] border border-[var(--color-300)]">

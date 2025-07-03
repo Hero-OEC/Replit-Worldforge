@@ -26,6 +26,7 @@ import NewLoreEntry from "@/pages/lore-new";
 import EditLoreEntry from "@/pages/lore-edit";
 import Notes from "@/pages/notes";
 import NoteDetail from "@/pages/note-detail";
+import NewNote from "@/pages/note-new";
 import NotFound from "@/pages/not-found";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
             <Route path="/project/:projectId/lore/:loreId/edit" component={EditLoreEntry} />
             <Route path="/project/:projectId/lore/:loreId" component={LoreDetail} />
             <Route path="/project/:projectId/notes" component={Notes} />
+            <Route path="/project/:projectId/notes/new" component={NewNote} />
             <Route path="/project/:projectId/notes/:noteId" component={NoteDetail} />
             <Route component={NotFound} />
             </Switch>
