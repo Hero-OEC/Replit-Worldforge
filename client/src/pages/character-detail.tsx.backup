@@ -333,9 +333,6 @@ export default function CharacterDetail() {
       // Initialize power systems from character data
       if (character.powerSystems && Array.isArray(character.powerSystems)) {
         setSelectedPowerSystems(character.powerSystems);
-      } else {
-        // Fallback to empty array if no power systems
-        setSelectedPowerSystems([]);
       }
     }
   }, [character]);
@@ -698,9 +695,9 @@ export default function CharacterDetail() {
                             onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
                             projectId={projectId!}
                           />
-                        ) : selectedPowerSystems.length > 0 || character?.powerSystems?.length > 0 ? (
+                        ) : selectedPowerSystems.length > 0 ? (
                           <div className="grid grid-cols-1 gap-3">
-                            {(selectedPowerSystems.length > 0 ? selectedPowerSystems : character?.powerSystems || []).map((systemName, index) => {
+                            {selectedPowerSystems.map((systemName, index) => {
                               const system = magicSystems.find((s: any) => s.name === systemName);
                               const CategoryIcon = getCategoryIcon(system?.category || "magic");
                               const colorClass = getCategoryColor(system?.category || "magic");
