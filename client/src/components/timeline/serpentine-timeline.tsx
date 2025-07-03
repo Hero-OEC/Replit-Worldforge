@@ -148,7 +148,7 @@ export default function SerpentineTimeline({
   const availableWidth = timelineWidth - (bubbleMargin * 2);
   const bubbleSpacing = eventsPerRow > 1 ? availableWidth / (eventsPerRow - 1) : 0;
   const verticalSpacing = 150;
-  const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 200);
+  const timelineHeight = Math.max(400, Math.ceil(dateGroups.length / eventsPerRow) * verticalSpacing + 280);
 
   // Calculate path points for serpentine layout
   const pathPoints: [number, number][] = [];
@@ -254,13 +254,13 @@ export default function SerpentineTimeline({
   }
 
   return (
-    <div ref={timelineContainerRef} className={`relative w-full overflow-hidden ${className}`}>
+    <div ref={timelineContainerRef} className={`relative w-full ${className}`}>
       {/* Serpentine Timeline */}
-      <div className="py-4">
+      <div className="py-4 px-4">
         <div
           ref={timelineRef}
           className="relative w-full"
-          style={{ width: Math.min(timelineWidth, containerWidth), height: timelineHeight }}
+          style={{ width: Math.min(timelineWidth - 32, containerWidth - 32), height: timelineHeight }}
         >
           {/* Timeline Path */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
