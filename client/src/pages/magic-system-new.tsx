@@ -131,7 +131,7 @@ export default function NewMagicSystem() {
                   <Zap className="w-6 h-6 text-[var(--color-700)]" />
                 )}
               </div>
-              <div className="flex-1">
+              <div className="flex-1 max-w-md">
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
