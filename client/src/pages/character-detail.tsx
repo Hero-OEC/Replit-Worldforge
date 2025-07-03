@@ -288,10 +288,14 @@ export default function CharacterDetail() {
       return response.json();
     },
     onSuccess: () => {
+      console.log("Character deleted successfully, invalidating cache and navigating");
       // Invalidate and refetch characters list
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
+      queryClient.refetchQueries({ queryKey: ["/api/characters", projectId] });
       // Navigate back to characters list
-      setLocation(`/project/${projectId}/characters`);
+      console.log("Navigating to:", `/project/${projectId}/characters`);
+      // Force navigation using window.location as a fallback
+      window.location.href = `/project/${projectId}/characters`;
     },
   });
 
