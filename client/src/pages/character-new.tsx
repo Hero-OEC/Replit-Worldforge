@@ -24,6 +24,18 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Fetch magic systems from database
   const { data: magicSystems = [] } = useQuery({
@@ -57,7 +69,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
   return (
     <div className="space-y-3">
       {/* Search Input */}
-      <div className="relative">
+      <div className="relative" ref={searchRef}>
         <Input
           type="text"
           placeholder="Search power types..."
@@ -66,7 +78,7 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
           onFocus={() => setIsOpen(true)}
           className="w-full bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)]"
         />
-        {isOpen && filteredSystems.length > 0 && (
+        {isOpen && searchQuery && filteredSystems.length > 0 && (
           <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
             {filteredSystems.map((system: any) => {
               const CategoryIcon = getCategoryIcon(system.category);
@@ -185,10 +197,13 @@ export default function CharacterNew() {
         },
         body: JSON.stringify(newCharacter),
       });
+      
       if (!response.ok) {
         const errorText = await response.text();
+        console.error("API Error Response:", errorText);
         throw new Error(`Failed to create character: ${errorText}`);
       }
+      
       const result = await response.json();
       return result;
     },
