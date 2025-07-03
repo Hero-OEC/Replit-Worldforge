@@ -332,10 +332,10 @@ export default function LocationDetail() {
 
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group">
+              <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
                 {(() => {
                   const IconComponent = getTypeIcon(locationData.type || 'Other');
-                  return <IconComponent className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />;
+                  return <IconComponent className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />;
                 })()}
               </div>
               <div>
