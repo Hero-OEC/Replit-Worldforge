@@ -526,8 +526,8 @@ export default function SerpentineTimeline({
                               {event.title}
                             </h4>
                             <p className="text-sm text-[var(--color-700)] line-clamp-2 mb-2">
-                              {event.description.length > 80 
-                                ? `${event.description.substring(0, 80)}...`
+                              {event.description && event.description.length > 50 
+                                ? `${event.description.substring(0, 50)}...`
                                 : event.description || "No description"}
                             </p>
                             {event.location && (
@@ -630,8 +630,8 @@ export default function SerpentineTimeline({
               {/* Description */}
               <div className="mb-4">
                 <p className="text-sm text-[var(--color-700)] leading-relaxed">
-                  {hoveredEvent.description.length > 120 
-                    ? `${hoveredEvent.description.substring(0, 120)}...`
+                  {hoveredEvent.description.length > 80 
+                    ? `${hoveredEvent.description.substring(0, 80)}...`
                     : hoveredEvent.description}
                 </p>
               </div>
