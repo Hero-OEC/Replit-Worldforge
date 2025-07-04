@@ -78,7 +78,7 @@ export default function NewNote() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "notes"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/notes"] });
       toast({
         title: "Note created",
         description: "Your note has been created successfully.",
