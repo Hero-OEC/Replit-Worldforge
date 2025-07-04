@@ -14,8 +14,8 @@ interface MasonryGridProps {
 export function MasonryGrid({ 
   children, 
   className = '',
-  columnWidth = 300,
-  gutter = 24
+  columnWidth = 350,
+  gutter = 32
 }: MasonryGridProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const masonryRef = useRef<Masonry | null>(null);
@@ -77,7 +77,7 @@ export function MasonryItem({
   className?: string; 
 }) {
   return (
-    <div className={`masonry-item ${className}`} style={{ width: `${300}px` }}>
+    <div className={`masonry-item ${className}`} style={{ width: `350px` }}>
       {children}
     </div>
   );
