@@ -105,12 +105,12 @@ export default function Navbar({
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-[var(--color-200)] transition-colors duration-200"
+                className="p-2 rounded-lg bg-[var(--color-200)] hover:bg-[var(--color-300)] transition-colors duration-200 border border-[var(--color-400)]"
               >
                 {theme === "light" ? (
-                  <Moon className="w-5 h-5 text-[var(--color-700)] hover:text-[var(--color-900)]" />
+                  <Moon className="w-5 h-5 text-[var(--color-800)]" />
                 ) : (
-                  <Sun className="w-5 h-5 text-[var(--color-700)] hover:text-[var(--color-900)]" />
+                  <Sun className="w-5 h-5 text-[var(--color-800)]" />
                 )}
               </Button>
             )}
