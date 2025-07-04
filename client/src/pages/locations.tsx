@@ -208,12 +208,7 @@ export default function Locations() {
               </Button>
             </div>
           ) : (
-            <MasonryGrid 
-              columnWidth={300}
-              gutter={24}
-              fitWidth={true}
-              className="pb-8"
-            >
+            <MasonryGrid className="pb-8">
               {filteredLocations.map((location) => (
                 <MasonryItem key={location.id} className="w-80 mb-6">
                   <Card 

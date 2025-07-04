@@ -141,12 +141,7 @@ export default function Characters() {
               <div className="text-[var(--color-600)]">Loading characters...</div>
             </div>
           ) : (
-            <MasonryGrid 
-              columnWidth={280}
-              gutter={24}
-              fitWidth={true}
-              className="pb-8"
-            >
+            <MasonryGrid className="pb-8">
               {filteredCharacters.map((character: any) => {
               const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
               const RoleIcon = roleInfo.icon;

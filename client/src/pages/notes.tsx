@@ -136,7 +136,7 @@ export default function Notes() {
 
 
 
-          <MasonryGrid columnWidth={300} gutter={24} className="pb-8">
+          <MasonryGrid className="pb-8">
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;

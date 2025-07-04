@@ -155,12 +155,7 @@ export default function Lore() {
           </div>
 
           {/* Lore Entries Grid */}
-          <MasonryGrid 
-            columnWidth={300}
-            gutter={24}
-            fitWidth={true}
-            className="pb-8"
-          >
+          <MasonryGrid className="pb-8">
             {filteredEntries.map((entry) => {
               const categoryInfo = categoryConfig[entry.category as keyof typeof categoryConfig] || categoryConfig["History"];
               const CategoryIcon = categoryInfo.icon;

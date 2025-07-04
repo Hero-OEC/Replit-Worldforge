@@ -198,7 +198,7 @@ export default function MagicSystems() {
           </div>
 
           {isLoading ? (
-            <MasonryGrid columnWidth={300} gutter={24} className="pb-8">
+            <MasonryGrid className="pb-8">
               {[...Array(6)].map((_, i) => (
                 <MasonryItem key={i} className="mb-6">
                   <Card className="animate-pulse">
