@@ -19,7 +19,7 @@ export default function ProjectLayout() {
   const { projectId } = useParams();
   const [location] = useLocation();
 
-  const { data: project, isLoading } = useQuery<ProjectWithStats>({
+  const { data: project, isLoading, error } = useQuery<ProjectWithStats>({
     queryKey: ["/api/projects", projectId],
     queryFn: async () => {
       const response = await fetch(`/api/projects/${projectId}`);
@@ -34,6 +34,23 @@ export default function ProjectLayout() {
         <div className="text-center">
           <BookOpen className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4 animate-pulse" />
           <p className="text-[var(--color-700)]">Loading project...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)] flex items-center justify-center">
+        <div className="text-center">
+          <BookOpen className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+          <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">Error loading project</h3>
+          <p className="text-[var(--color-700)] mb-4">
+            {error instanceof Error ? error.message : "Something went wrong"}
+          </p>
+          <Link href="/">
+            <Button variant="outline">Back to Dashboard</Button>
+          </Link>
         </div>
       </div>
     );
