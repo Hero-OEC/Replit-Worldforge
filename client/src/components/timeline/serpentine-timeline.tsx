@@ -16,6 +16,9 @@ interface TimelineEventData {
   description: string;
   location: string;
   characters: string[];
+  writingStatus?: string;
+  targetWords?: number;
+  currentWords?: number;
 }
 
 interface SerpentineTimelineProps {
@@ -59,6 +62,23 @@ const priorityColors = {
   low: "bg-[var(--color-300)]",
 };
 
+// Writing status configuration
+const writingStatusColors = {
+  planning: "bg-[var(--color-200)] text-[var(--color-700)]",
+  writing: "bg-[var(--color-400)] text-[var(--color-950)]",
+  first_draft: "bg-[var(--color-500)] text-[var(--color-50)]",
+  editing: "bg-[var(--color-600)] text-[var(--color-50)]",
+  complete: "bg-[var(--color-700)] text-[var(--color-50)]"
+};
+
+const writingStatusLabels = {
+  planning: "Planning",
+  writing: "Writing",
+  first_draft: "First Draft",
+  editing: "Editing",
+  complete: "Complete"
+};
+
 export default function SerpentineTimeline({
   filterCharacter,
   filterLocation,
@@ -98,7 +118,10 @@ export default function SerpentineTimeline({
       category: event.category || "Other",
       description: event.description || "",
       location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : []
+      characters: Array.isArray(event.characters) ? event.characters : [],
+      writingStatus: event.writingStatus || "planning",
+      targetWords: event.targetWords || undefined,
+      currentWords: event.currentWords || 0
     }));
   };
 
@@ -612,6 +635,34 @@ export default function SerpentineTimeline({
                     : hoveredEvent.description}
                 </p>
               </div>
+
+              {/* Writing Progress */}
+              {hoveredEvent.writingStatus && (
+                <div className="mb-4 p-3 bg-[var(--color-50)] rounded-lg border border-[var(--color-200)]">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-[var(--color-600)]">Writing Progress</span>
+                    <Badge 
+                      className={`text-xs px-2 py-1 ${writingStatusColors[hoveredEvent.writingStatus as keyof typeof writingStatusColors]}`}
+                    >
+                      {writingStatusLabels[hoveredEvent.writingStatus as keyof typeof writingStatusLabels]}
+                    </Badge>
+                  </div>
+                  {hoveredEvent.targetWords && hoveredEvent.targetWords > 0 && (
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs text-[var(--color-600)]">
+                        <span>{hoveredEvent.currentWords || 0} / {hoveredEvent.targetWords} words</span>
+                        <span>{Math.min(Math.round(((hoveredEvent.currentWords || 0) / hoveredEvent.targetWords) * 100), 100)}%</span>
+                      </div>
+                      <div className="w-full bg-[var(--color-200)] rounded-full h-1.5">
+                        <div 
+                          className="bg-[var(--color-500)] h-1.5 rounded-full transition-all duration-300" 
+                          style={{ width: `${Math.min(((hoveredEvent.currentWords || 0) / hoveredEvent.targetWords) * 100, 100)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Location and Characters with Icons */}
               <div className="space-y-2 mb-4">
