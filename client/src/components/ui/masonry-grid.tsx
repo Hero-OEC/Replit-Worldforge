@@ -1,4 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
+import Masonry from 'masonry-layout';
+// @ts-ignore
+import imagesLoaded from 'imagesloaded';
 
 interface MasonryGridProps {
   children: ReactNode;
@@ -10,11 +13,54 @@ interface MasonryGridProps {
 
 export function MasonryGrid({ 
   children, 
-  className = ''
+  className = '',
+  columnWidth = 300,
+  gutter = 24
 }: MasonryGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const masonryRef = useRef<Masonry | null>(null);
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    // Initialize masonry
+    masonryRef.current = new Masonry(gridRef.current, {
+      itemSelector: '.masonry-item',
+      columnWidth: columnWidth,
+      gutter: gutter,
+      fitWidth: true
+    });
+
+    // Layout after images load
+    const imgLoad = imagesLoaded(gridRef.current);
+    imgLoad.on('progress', () => {
+      // @ts-ignore
+      masonryRef.current?.layout();
+    });
+
+    return () => {
+      // @ts-ignore
+      masonryRef.current?.destroy();
+    };
+  }, [columnWidth, gutter]);
+
+  useEffect(() => {
+    // Re-layout when children change
+    if (masonryRef.current) {
+      setTimeout(() => {
+        // @ts-ignore
+        masonryRef.current?.reloadItems();
+        // @ts-ignore
+        masonryRef.current?.layout();
+      }, 100);
+    }
+  }, [children]);
+
   return (
     <div 
-      className={`columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 ${className}`}
+      ref={gridRef}
+      className={`masonry-grid ${className}`}
+      style={{ margin: '0 auto' }}
     >
       {children}
     </div>
@@ -30,7 +76,7 @@ export function MasonryItem({
   className?: string; 
 }) {
   return (
-    <div className={`break-inside-avoid mb-6 ${className}`}>
+    <div className={`masonry-item ${className}`}>
       {children}
     </div>
   );
