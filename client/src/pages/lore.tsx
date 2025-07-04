@@ -163,7 +163,7 @@ export default function Lore() {
               return (
                 <MasonryItem key={entry.id} className="w-80 mb-6">
                   <Card 
-                  className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-1"
+                  className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-0.5"
                   onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
                 >
                   <div className="p-6">
