@@ -67,18 +67,18 @@
 }
 
 .dark {
-  /* Dark mode - inverted color palette */
-  --color-50: #382010;
-  --color-100: #613E22;
-  --color-200: #714A22;
-  --color-300: #885A20;
-  --color-400: #A97A25;
-  --color-500: #BF972C;
-  --color-600: #D4B13B;
-  --color-700: #DFC865;
-  --color-800: #EBDF9D;
-  --color-900: #F4F0CD;
-  --color-950: #FAF9EC;
+  /* Dark mode - using colors from user's screenshot */
+  --color-50: #1A1A37;
+  --color-100: #383A77;
+  --color-200: #3E3E95;
+  --color-300: #4B49B9;
+  --color-400: #595AD2;
+  --color-500: #747DE0;
+  --color-600: #8F93EA;
+  --color-700: #AFB2F2;
+  --color-800: #CED9F7;
+  --color-900: #E4EAFB;
+  --color-950: #F0F4FD;
   
   /* Semantic color mapping for dark mode */
   --background: var(--color-950);
