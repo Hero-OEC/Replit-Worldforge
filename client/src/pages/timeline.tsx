@@ -649,8 +649,8 @@ export default function Timeline() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-[var(--color-500)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-[var(--color-600)] cursor-pointer group">
-                  <Clock className="w-5 h-5 text-[var(--color-50)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg shadow-sm cursor-pointer group">
+                  <Clock className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-[var(--color-950)]">

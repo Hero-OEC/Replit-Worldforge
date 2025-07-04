@@ -98,6 +98,21 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 4, 2025. Updated page header icons to match card icon styling:
+  * Changed all page title icons from w-10 h-10 to w-12 h-12 for larger size matching card icons
+  * Updated icon backgrounds from bg-[var(--color-500)] to bg-[var(--color-200)] with shadow-sm
+  * Changed icon colors from text-[var(--color-50)] to text-[var(--color-700)] for consistency
+  * Applied uniform styling across timeline, notes, characters, locations, lore, and magic systems pages
+  * Page header icons now perfectly match the card icon design throughout the application
+- July 4, 2025. Fixed border colors in notes and lore page card footers:
+  * Updated footer borders from border-gray-100 to border-[var(--color-300)] for proper InkAlchemy color scheme
+  * Both notes and lore pages now use consistent color variables throughout
+- July 4, 2025. Updated notes page cards to match lore page design:
+  * Applied exact same card styling from lore page to notes page for visual consistency
+  * Fixed card backgrounds, icon styling, hover animations, and proper InkAlchemy color scheme
+  * Enhanced card hierarchy with larger icons (w-12 h-12) and better spacing
+  * Added beautiful hover animations and transitions matching lore page
+  * Fixed cache invalidation issue - new notes now appear immediately without page reload
 - July 4, 2025. Successfully implemented masonry layout across all card-based pages:
   * Created reusable MasonryGrid component using CSS columns for optimal performance and responsiveness
   * Applied masonry layout to dashboard project cards, eliminating spacing gaps between cards of different heights
