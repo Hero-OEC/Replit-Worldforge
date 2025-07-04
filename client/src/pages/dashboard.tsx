@@ -77,9 +77,10 @@ export default function Dashboard() {
               <MasonryItem 
                 key={project.id}
                 className="animate-scale-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <ProjectCard project={project} />
+                <div style={{ animationDelay: `${index * 0.1}s` }}>
+                  <ProjectCard project={project} />
+                </div>
               </MasonryItem>
             ))}
           </MasonryGrid>

@@ -5,7 +5,7 @@ import { useNavigation } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, X, Battery } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
@@ -300,18 +300,18 @@ export default function MagicSystemDetail() {
             </div>
             <div className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg p-4">
               {connectedCharacters.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <MasonryGrid>
                   {connectedCharacters.map((character) => {
                     const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
                     const RoleIcon = roleInfo.icon;
                     
                     return (
-                      <Link 
-                        key={character.id} 
-                        href={`/project/${projectId}/characters/${character.id}`}
-                        className="block"
-                      >
-                        <Card className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}>
+                      <MasonryItem key={character.id}>
+                        <Link 
+                          href={`/project/${projectId}/characters/${character.id}`}
+                          className="block"
+                        >
+                          <Card className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}>
                           {/* Character Image */}
                           <div className="relative aspect-[7/9] bg-[var(--color-200)] overflow-hidden">
                             <img 
@@ -354,10 +354,11 @@ export default function MagicSystemDetail() {
                             </div>
                           </div>
                         </Card>
-                      </Link>
+                        </Link>
+                      </MasonryItem>
                     );
                   })}
-                </div>
+                </MasonryGrid>
               ) : (
                 <div className="text-center py-8">
                   <Users className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
