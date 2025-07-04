@@ -28,7 +28,7 @@ export function MasonryGrid({
       itemSelector: '.masonry-item',
       columnWidth: columnWidth,
       gutter: gutter,
-      fitWidth: true
+      fitWidth: false
     });
 
     // Layout after images load
@@ -60,7 +60,7 @@ export function MasonryGrid({
     <div 
       ref={gridRef}
       className={`masonry-grid ${className}`}
-      style={{ margin: '0 auto' }}
+      style={{ width: '100%' }}
     >
       {children}
     </div>
