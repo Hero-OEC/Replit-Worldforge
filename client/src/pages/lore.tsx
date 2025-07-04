@@ -239,7 +239,7 @@ export default function Lore() {
                     )}
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-[var(--color-300)]">
                       <div className="flex items-center space-x-1">
                         <Clock className="w-3 h-3" />
                         <span>
