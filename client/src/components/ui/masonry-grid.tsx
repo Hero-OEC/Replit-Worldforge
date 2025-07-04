@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import Masonry from 'masonry-layout';
 // @ts-ignore
 import imagesLoaded from 'imagesloaded';
@@ -19,47 +19,28 @@ export function MasonryGrid({
 }: MasonryGridProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const masonryRef = useRef<Masonry | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (!gridRef.current) return;
 
-    // Hide grid initially to prevent jitter
-    setIsReady(false);
+    // Initialize masonry
+    masonryRef.current = new Masonry(gridRef.current, {
+      itemSelector: '.masonry-item',
+      columnWidth: columnWidth,
+      gutter: gutter,
+      fitWidth: true,
+      percentPosition: true,
+      transitionDuration: '0s' // Disable masonry animations
+    });
 
-    // Small delay to ensure DOM is ready
-    const timeout = setTimeout(() => {
-      if (!gridRef.current) return;
-
-      // Initialize masonry
-      masonryRef.current = new Masonry(gridRef.current, {
-        itemSelector: '.masonry-item',
-        columnWidth: columnWidth,
-        gutter: gutter,
-        fitWidth: true,
-        percentPosition: true,
-        transitionDuration: '0.3s'
-      });
-
-      // Layout after images load
-      const imgLoad = imagesLoaded(gridRef.current);
-      imgLoad.on('always', () => {
-        // @ts-ignore
-        masonryRef.current?.layout();
-        // Show grid after layout is complete
-        setTimeout(() => setIsReady(true), 100);
-      });
-
-      // If no images, show immediately after layout
-      if (imgLoad.images.length === 0) {
-        // @ts-ignore
-        masonryRef.current?.layout();
-        setTimeout(() => setIsReady(true), 100);
-      }
-    }, 50);
+    // Layout after images load
+    const imgLoad = imagesLoaded(gridRef.current);
+    imgLoad.on('progress', () => {
+      // @ts-ignore
+      masonryRef.current?.layout();
+    });
 
     return () => {
-      clearTimeout(timeout);
       // @ts-ignore
       masonryRef.current?.destroy();
     };
@@ -67,20 +48,20 @@ export function MasonryGrid({
 
   useEffect(() => {
     // Re-layout when children change
-    if (masonryRef.current && isReady) {
+    if (masonryRef.current) {
       setTimeout(() => {
         // @ts-ignore
         masonryRef.current?.reloadItems();
         // @ts-ignore
         masonryRef.current?.layout();
-      }, 100);
+      }, 50);
     }
   }, [children]);
 
   return (
     <div 
       ref={gridRef}
-      className={`masonry-grid ${className} transition-opacity duration-500 ${isReady ? 'opacity-100' : 'opacity-0'}`}
+      className={`masonry-grid ${className}`}
       style={{ margin: '0 auto' }}
     >
       {children}
