@@ -288,11 +288,11 @@ export default function SerpentineTimeline({
       <div className="flex justify-center mt-[0px] mb-[0px]">
         <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
+            <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
             <span className="text-sm text-[var(--color-700)]">High Priority</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
+            <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
             <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
           </div>
           <div className="flex items-center space-x-2">
