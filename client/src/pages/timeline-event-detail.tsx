@@ -65,6 +65,22 @@ const importanceLabels = {
   low: "Low Priority",
 };
 
+const writingStatusLabels = {
+  planning: "Planning",
+  writing: "Writing",
+  first_draft: "First Draft",
+  editing: "Editing",
+  complete: "Complete"
+};
+
+const writingStatusColors = {
+  planning: "bg-[var(--color-200)] text-[var(--color-800)]",
+  writing: "bg-blue-100 text-blue-800",
+  first_draft: "bg-yellow-100 text-yellow-800",
+  editing: "bg-orange-100 text-orange-800",
+  complete: "bg-green-100 text-green-800"
+};
+
 
 
 export default function TimelineEventDetail() {
@@ -119,7 +135,8 @@ export default function TimelineEventDetail() {
     category: timelineEvent.category || "Other",
     description: timelineEvent.description || "",
     location: timelineEvent.location || "",
-    characters: Array.isArray(timelineEvent.characters) ? timelineEvent.characters : []
+    characters: Array.isArray(timelineEvent.characters) ? timelineEvent.characters : [],
+    writingStatus: timelineEvent.writingStatus || "planning"
   } : null;
 
   if (isLoading) {
@@ -180,8 +197,24 @@ export default function TimelineEventDetail() {
                 Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
-                <p className="text-[var(--color-700)]">Timeline Event Details</p>
+                <div className="flex items-center space-x-3 mb-2">
+                  {IconComponent && (
+                    <div className="w-8 h-8 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-4 h-4 text-[var(--color-700)]" />
+                    </div>
+                  )}
+                  <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <p className="text-[var(--color-700)]">Timeline Event Details</p>
+                  {event.writingStatus && (
+                    <Badge 
+                      className={`text-xs px-2 py-1 ${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]}`}
+                    >
+                      {writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}
+                    </Badge>
+                  )}
+                </div>
               </div>
             </div>
             

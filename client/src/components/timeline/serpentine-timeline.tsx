@@ -17,8 +17,6 @@ interface TimelineEventData {
   location: string;
   characters: string[];
   writingStatus?: string;
-  targetWords?: number;
-  currentWords?: number;
 }
 
 interface SerpentineTimelineProps {
@@ -119,9 +117,7 @@ export default function SerpentineTimeline({
       description: event.description || "",
       location: event.location || "",
       characters: Array.isArray(event.characters) ? event.characters : [],
-      writingStatus: event.writingStatus || "planning",
-      targetWords: event.targetWords || undefined,
-      currentWords: event.currentWords || 0
+      writingStatus: event.writingStatus || "planning"
     }));
   };
 
@@ -636,31 +632,17 @@ export default function SerpentineTimeline({
                 </p>
               </div>
 
-              {/* Writing Progress */}
+              {/* Writing Status */}
               {hoveredEvent.writingStatus && (
-                <div className="mb-4 p-3 bg-[var(--color-50)] rounded-lg border border-[var(--color-200)]">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-[var(--color-600)]">Writing Progress</span>
+                <div className="mb-4">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs font-medium text-[var(--color-600)]">Writing Status:</span>
                     <Badge 
                       className={`text-xs px-2 py-1 ${writingStatusColors[hoveredEvent.writingStatus as keyof typeof writingStatusColors]}`}
                     >
                       {writingStatusLabels[hoveredEvent.writingStatus as keyof typeof writingStatusLabels]}
                     </Badge>
                   </div>
-                  {hoveredEvent.targetWords && hoveredEvent.targetWords > 0 && (
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs text-[var(--color-600)]">
-                        <span>{hoveredEvent.currentWords || 0} / {hoveredEvent.targetWords} words</span>
-                        <span>{Math.min(Math.round(((hoveredEvent.currentWords || 0) / hoveredEvent.targetWords) * 100), 100)}%</span>
-                      </div>
-                      <div className="w-full bg-[var(--color-200)] rounded-full h-1.5">
-                        <div 
-                          className="bg-[var(--color-500)] h-1.5 rounded-full transition-all duration-300" 
-                          style={{ width: `${Math.min(((hoveredEvent.currentWords || 0) / hoveredEvent.targetWords) * 100, 100)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 

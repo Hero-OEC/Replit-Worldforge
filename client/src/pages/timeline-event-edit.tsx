@@ -81,6 +81,16 @@ const importanceLabels = {
   low: "Low Importance",
 };
 
+const writingStatuses = ["planning", "writing", "first_draft", "editing", "complete"];
+
+const writingStatusLabels = {
+  planning: "Planning",
+  writing: "Writing",
+  first_draft: "First Draft",
+  editing: "Editing",
+  complete: "Complete"
+};
+
 // Removed hardcoded sample event - now using API data
 
 // Character tagging component
@@ -176,6 +186,7 @@ export default function EditTimelineEvent() {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+  const [writingStatus, setWritingStatus] = useState("planning");
   const [isLoading, setIsLoading] = useState(false);
   
   // Update form fields when event data loads
@@ -188,6 +199,7 @@ export default function EditTimelineEvent() {
       setDescription(timelineEvent.description || "");
       setLocation(timelineEvent.location || "");
       setSelectedCharacters(Array.isArray(timelineEvent.characters) ? timelineEvent.characters : []);
+      setWritingStatus(timelineEvent.writingStatus || "planning");
     }
   }, [timelineEvent]);
 
@@ -256,6 +268,7 @@ export default function EditTimelineEvent() {
         importance: importance,
         location: location || null,
         characters: selectedCharacters,
+        writingStatus: writingStatus,
       };
 
       const response = await fetch(`/api/timeline-events/${eventId}`, {
@@ -494,6 +507,30 @@ export default function EditTimelineEvent() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+          </div>
+
+          {/* Writing Status Section */}
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <Clock className="w-5 h-5 text-[var(--color-700)]" />
+              <span className="text-xl font-medium text-gray-700">Writing Status</span>
+            </div>
+            
+            <div>
+              <Label htmlFor="writingStatus" className="text-sm text-[var(--color-600)]">Writing Status</Label>
+              <Select onValueChange={setWritingStatus} value={writingStatus}>
+                <SelectTrigger className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {writingStatuses.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {writingStatusLabels[status as keyof typeof writingStatusLabels]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

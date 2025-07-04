@@ -56,8 +56,6 @@ export const timelineEvents = pgTable("timeline_events", {
   order: integer("order").notNull().default(0),
   // Writing progress fields
   writingStatus: text("writing_status").default("planning"), // planning, writing, first_draft, editing, complete
-  targetWords: integer("target_words"), // target word count for this event/chapter
-  currentWords: integer("current_words").default(0), // current word count written
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

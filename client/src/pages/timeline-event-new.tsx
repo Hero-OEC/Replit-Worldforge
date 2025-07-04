@@ -205,8 +205,6 @@ export default function NewTimelineEvent() {
   const [location, setLocation] = useState("");
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [writingStatus, setWritingStatus] = useState("planning");
-  const [targetWords, setTargetWords] = useState("");
-  const [currentWords, setCurrentWords] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: project } = useQuery<ProjectWithStats>({
@@ -262,8 +260,6 @@ export default function NewTimelineEvent() {
         characters: selectedCharacters.length > 0 ? selectedCharacters : null,
         order: 0,
         writingStatus: writingStatus,
-        targetWords: targetWords ? parseInt(targetWords) : null,
-        currentWords: currentWords ? parseInt(currentWords) : 0,
       };
 
       const response = await fetch(`/api/timeline-events`, {
@@ -521,66 +517,22 @@ export default function NewTimelineEvent() {
               <span className="text-xl font-medium text-gray-700">Writing Progress</span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Writing Status */}
-              <div>
-                <Label htmlFor="writingStatus" className="text-sm text-[var(--color-600)]">Writing Status</Label>
-                <Select onValueChange={setWritingStatus} value={writingStatus}>
-                  <SelectTrigger className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {writingStatuses.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {writingStatusLabels[status as keyof typeof writingStatusLabels]}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Target Word Count */}
-              <div>
-                <Label htmlFor="targetWords" className="text-sm text-[var(--color-600)]">Target Words</Label>
-                <Input
-                  id="targetWords"
-                  type="number"
-                  placeholder="2000"
-                  value={targetWords}
-                  onChange={(e) => setTargetWords(e.target.value)}
-                  className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
-                />
-              </div>
-
-              {/* Current Word Count */}
-              <div>
-                <Label htmlFor="currentWords" className="text-sm text-[var(--color-600)]">Current Words</Label>
-                <Input
-                  id="currentWords"
-                  type="number"
-                  placeholder="0"
-                  value={currentWords}
-                  onChange={(e) => setCurrentWords(e.target.value)}
-                  className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
-                />
-              </div>
+            {/* Writing Status */}
+            <div>
+              <Label htmlFor="writingStatus" className="text-sm text-[var(--color-600)]">Writing Status</Label>
+              <Select onValueChange={setWritingStatus} value={writingStatus}>
+                <SelectTrigger className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {writingStatuses.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {writingStatusLabels[status as keyof typeof writingStatusLabels]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-
-            {/* Progress bar if both values are set */}
-            {targetWords && parseInt(targetWords) > 0 && (
-              <div className="mt-4">
-                <div className="flex justify-between text-xs text-[var(--color-600)] mb-1">
-                  <span>Progress</span>
-                  <span>{Math.min(Math.round((parseInt(currentWords || "0") / parseInt(targetWords)) * 100), 100)}%</span>
-                </div>
-                <div className="w-full bg-[var(--color-200)] rounded-full h-2">
-                  <div 
-                    className="bg-[var(--color-500)] h-2 rounded-full transition-all duration-300" 
-                    style={{ width: `${Math.min((parseInt(currentWords || "0") / parseInt(targetWords)) * 100, 100)}%` }}
-                  ></div>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Characters Section */}

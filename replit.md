@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 4, 2025. Removed word count tracking from writing status feature:
+  * Removed targetWords and currentWords fields from database schema (timeline_events table)
+  * Removed word count inputs from timeline event creation form (timeline-event-new.tsx)
+  * Removed progress bars from timeline hover popups (serpentine-timeline.tsx)
+  * Simplified writing status to just status selection (Planning, Writing, First Draft, Editing, Complete)
+  * Added writing status as badge tag in timeline event detail page with event type icon next to title
+  * Added writing status selector to timeline event edit page for full editing capability
+  * Fixed timeline popup descriptions to be more concise: 80 characters (single) and 50 characters (multi)
+  * Writing status now displays as visual tags without progress tracking, focusing on workflow stages only
 - July 4, 2025. Removed dark mode feature completely:
   * Reverted to light mode only per user request
   * Removed ThemeProvider context and dark mode toggle button from navbar
