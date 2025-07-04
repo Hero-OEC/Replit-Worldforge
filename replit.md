@@ -103,6 +103,8 @@ Changelog:
   * Removed ThemeProvider context and dark mode toggle button from navbar
   * Cleaned up CSS to remove dark mode color variables
   * Restored original tag component styling with proper light mode contrast
+  * Fixed character detail page magic system cards to use proper InkAlchemy colors instead of hardcoded blue/purple
+  * Updated all text colors from text-gray-700 to text-[var(--color-700)] throughout character detail page
   * Application now uses only the original InkAlchemy color scheme (warm cream tones)
 - July 4, 2025. Enhanced timeline priority colors for better visual distinction:
   * Updated high priority from --color-500 to --color-700 for darker, more prominent appearance

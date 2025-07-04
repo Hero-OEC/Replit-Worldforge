@@ -98,11 +98,11 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-950)]" : "bg-[var(--color-300)] text-[var(--color-950)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
+    return category === "power" ? "border-[var(--color-300)]" : "border-[var(--color-400)]";
   };
 
   useEffect(() => {
@@ -285,11 +285,11 @@ export default function CharacterDetail() {
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-950)]" : "bg-[var(--color-300)] text-[var(--color-950)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
+    return category === "power" ? "border-[var(--color-300)]" : "border-[var(--color-400)]";
   };
 
   // All effects
@@ -630,7 +630,7 @@ export default function CharacterDetail() {
                 {/* Basic Info */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
-                    <span className="text-sm font-medium text-gray-700">Age:</span>
+                    <span className="text-sm font-medium text-[var(--color-700)]">Age:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.age}
@@ -643,7 +643,7 @@ export default function CharacterDetail() {
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3">
-                    <span className="text-sm font-medium text-gray-700">Race:</span>
+                    <span className="text-sm font-medium text-[var(--color-700)]">Race:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.race}
@@ -677,7 +677,7 @@ export default function CharacterDetail() {
                       <div>
                         <div className="flex items-center space-x-2 mb-3">
                           <User className="w-5 h-5 text-[var(--color-700)]" />
-                          <span className="text-xl font-medium text-gray-700">Brief Description</span>
+                          <span className="text-xl font-medium text-[var(--color-700)]">Brief Description</span>
                         </div>
                         {isEditing ? (
                           <textarea
@@ -688,14 +688,14 @@ export default function CharacterDetail() {
                             placeholder="Brief character description..."
                           />
                         ) : (
-                          <p className="text-gray-700">{character.description}</p>
+                          <p className="text-[var(--color-700)]">{character.description}</p>
                         )}
                       </div>
 
                       <div>
                         <div className="flex items-center space-x-2 mb-3">
                           <Heart className="w-5 h-5 text-[var(--color-700)]" />
-                          <span className="text-xl font-medium text-gray-700">Personality</span>
+                          <span className="text-xl font-medium text-[var(--color-700)]">Personality</span>
                         </div>
                         {isEditing ? (
                           <textarea
@@ -705,14 +705,14 @@ export default function CharacterDetail() {
                             placeholder="Character's personality traits..."
                           />
                         ) : (
-                          <p className="text-gray-700">{character.personality}</p>
+                          <p className="text-[var(--color-700)]">{character.personality}</p>
                         )}
                       </div>
 
                       <div>
                         <div className="flex items-center space-x-2 mb-3">
                           <Zap className="w-5 h-5 text-[var(--color-700)]" />
-                          <span className="text-xl font-medium text-gray-700">Power Type</span>
+                          <span className="text-xl font-medium text-[var(--color-700)]">Power Type</span>
                         </div>
                         {isEditing ? (
                           <PowerSystemSearch
@@ -766,7 +766,7 @@ export default function CharacterDetail() {
                     <div>
                       <div className="flex items-center space-x-2 mb-3">
                         <Eye className="w-5 h-5 text-[var(--color-700)]" />
-                        <span className="text-xl font-medium text-gray-700">Physical Appearance</span>
+                        <span className="text-xl font-medium text-[var(--color-700)]">Physical Appearance</span>
                       </div>
                       {isEditing ? (
                         <textarea
@@ -776,7 +776,7 @@ export default function CharacterDetail() {
                           placeholder="Describe the character's physical appearance..."
                         />
                       ) : (
-                        <p className="text-gray-700">{character.appearance}</p>
+                        <p className="text-[var(--color-700)]">{character.appearance}</p>
                       )}
                     </div>
                   </Card>
@@ -788,7 +788,7 @@ export default function CharacterDetail() {
                     <div>
                       <div className="flex items-center space-x-2 mb-3">
                         <Star className="w-5 h-5 text-[var(--color-700)]" />
-                        <span className="text-xl font-medium text-gray-700">Backstory</span>
+                        <span className="text-xl font-medium text-[var(--color-700)]">Backstory</span>
                       </div>
                       {isEditing ? (
                         <textarea
@@ -798,7 +798,7 @@ export default function CharacterDetail() {
                           placeholder="Character's background story..."
                         />
                       ) : (
-                        <p className="text-gray-700">{character.backstory}</p>
+                        <p className="text-[var(--color-700)]">{character.backstory}</p>
                       )}
                     </div>
                   </Card>
@@ -808,7 +808,7 @@ export default function CharacterDetail() {
                   <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="flex items-center space-x-2 mb-3">
                       <Sword className="w-5 h-5 text-[var(--color-700)]" />
-                      <span className="text-xl font-medium text-gray-700">Weapons & Equipment</span>
+                      <span className="text-xl font-medium text-[var(--color-700)]">Weapons & Equipment</span>
                     </div>
                     {isEditing ? (
                       <textarea
@@ -818,7 +818,7 @@ export default function CharacterDetail() {
                         placeholder="List the character's weapons, armor, and important equipment..."
                       />
                     ) : (
-                      <p className="text-gray-700">{character.weapons}</p>
+                      <p className="text-[var(--color-700)]">{character.weapons}</p>
                     )}
                   </Card>
                 </TabsContent>
