@@ -20,6 +20,8 @@ import {
   Sparkles,
   Zap,
   Plane,
+  Search,
+  Skull,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -31,16 +33,24 @@ import type { TimelineEvent, ProjectWithStats, Character, Location } from "@shar
 
 const eventTypeIcons = {
   "Character Arc": User,
-  Discovery: Eye,
+  Discovery: Search,
   Conflict: Swords,
-  Revelation: Lightbulb,
-  "Heroic Act": Award,
+  Revelation: Eye,
+  "Heroic Act": Crown,
   "Political Event": Crown,
   Romance: Heart,
-  Mystery: HelpCircle,
+  Mystery: Search,
   Magic: Sparkles,
-  Battle: Zap,
+  Battle: Swords,
   Traveling: Plane,
+  Death: Skull,
+  Birth: Heart,
+  Wedding: Heart,
+  Betrayal: User,
+  Alliance: Users,
+  Prophecy: Eye,
+  Quest: MapPin,
+  Tragedy: Heart,
 };
 
 const importanceColors = {

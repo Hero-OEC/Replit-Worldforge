@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2 } from "lucide-react";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2, Search, Skull } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,22 +25,28 @@ interface SerpentineTimelineProps {
   className?: string;
 }
 
-// Event type icons matching main timeline
+// Event type icons matching main timeline and edit forms
 const getEventIcon = (category: string) => {
   const iconMap: any = {
     "Character Arc": User,
-    Discovery: Eye,
+    Discovery: Search,
     Conflict: Swords,
-    Revelation: Lightbulb,
-    "Heroic Act": Award,
+    Revelation: Eye,
+    "Heroic Act": Crown,
     "Political Event": Crown,
     Romance: Heart,
-    Mystery: HelpCircle,
+    Mystery: Search,
     Magic: Sparkles,
-    Battle: Zap,
+    Battle: Swords,
     Traveling: Plane,
-    Prophecy: Eye,
+    Death: Skull,
+    Birth: Heart,
     Wedding: Heart,
+    Betrayal: User,
+    Alliance: Users,
+    Prophecy: Eye,
+    Quest: MapPin,
+    Tragedy: Heart,
     Other: Calendar,
   };
   return iconMap[category] || Calendar;
