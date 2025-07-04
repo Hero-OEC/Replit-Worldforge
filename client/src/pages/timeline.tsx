@@ -187,7 +187,7 @@ function TagSearch({
 }
 
 const priorityColors = {
-  high: "bg-[var(--color-500)]",
+  high: "bg-[var(--color-700)]",
   medium: "bg-[var(--color-400)]",
   low: "bg-[var(--color-300)]",
 };
