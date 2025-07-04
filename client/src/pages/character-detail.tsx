@@ -751,7 +751,7 @@ export default function CharacterDetail() {
                             })}
                           </div>
                         ) : (
-                          <div className="p-4 bg-[var(--color-100)] rounded-lg border border-gray-200">
+                          <div className="p-4 bg-[var(--color-100)] rounded-lg border border-[var(--color-200)]">
                             <span className="text-sm text-[var(--color-700)]">No power types assigned</span>
                           </div>
                         )}
