@@ -70,9 +70,9 @@ const categoryConfig = {
 // Remove hardcoded data - will fetch from database
 
 const importanceColors = {
-  high: "bg-destructive",
+  high: "bg-[var(--color-700)]",
   medium: "bg-[var(--color-500)]",
-  low: "bg-yellow-500",
+  low: "bg-[var(--color-300)]",
 };
 
 const importanceLabels = {

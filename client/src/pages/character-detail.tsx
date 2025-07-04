@@ -20,8 +20,8 @@ import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
-  high: "bg-[var(--color-500)]",
-  medium: "bg-[var(--color-400)]",
+  high: "bg-[var(--color-700)]",
+  medium: "bg-[var(--color-500)]",
   low: "bg-[var(--color-300)]",
 };
 

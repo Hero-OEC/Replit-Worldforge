@@ -98,6 +98,19 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 4, 2025. Enhanced timeline priority colors for better visual distinction:
+  * Updated high priority from --color-500 to --color-700 for darker, more prominent appearance
+  * Updated medium priority from --color-400 to --color-500 for better separation from high priority
+  * Applied consistent priority colors across all timeline components: main timeline, serpentine timeline, character/location detail pages
+  * Fixed timeline legend to display correct priority colors matching the actual event bubbles
+  * Updated timeline event creation, editing, and detail pages with matching color scheme
+  * Timeline now has clear visual hierarchy: High (700), Medium (500), Low (300) for consistent user experience
+- July 4, 2025. Fixed timeline icon consistency across all components:
+  * Updated main timeline page to use Search icon for Discovery and Mystery categories (matching edit forms)
+  * Changed Revelation from Lightbulb to Eye icon for consistency between timeline bubbles and edit forms
+  * Updated Battle from Zap to Swords icon to match edit form icons throughout
+  * Fixed serpentine timeline component and timeline event detail page with same consistent icon mappings
+  * Timeline bubble icons now perfectly match icons shown in event creation and edit forms
 - July 4, 2025. Updated page header icons to match card icon styling:
   * Changed all page title icons from w-10 h-10 to w-12 h-12 for larger size matching card icons
   * Updated icon backgrounds from bg-[var(--color-500)] to bg-[var(--color-200)] with shadow-sm

@@ -48,8 +48,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 const priorityColors = {
-  high: "bg-[var(--color-500)]",
-  medium: "bg-[var(--color-400)]",
+  high: "bg-[var(--color-700)]",
+  medium: "bg-[var(--color-500)]",
   low: "bg-[var(--color-300)]",
 };
 
