@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -169,6 +169,7 @@ export default function EditTimelineEvent() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const { goBack, navigateWithHistory } = useNavigation();
+  const queryClient = useQueryClient();
   
   // Track navigation history
   useNavigationTracker();
@@ -282,6 +283,10 @@ export default function EditTimelineEvent() {
       if (!response.ok) {
         throw new Error('Failed to update timeline event');
       }
+
+      // Invalidate relevant caches
+      queryClient.invalidateQueries({ queryKey: [`/api/timeline-events/${eventId}`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/timeline`] });
 
       toast({
         title: "Success",
