@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
@@ -154,14 +155,19 @@ export default function Lore() {
           </div>
 
           {/* Lore Entries Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <MasonryGrid 
+            columnWidth={300}
+            gutter={24}
+            fitWidth={true}
+            className="pb-8"
+          >
             {filteredEntries.map((entry) => {
               const categoryInfo = categoryConfig[entry.category as keyof typeof categoryConfig] || categoryConfig["History"];
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <Card 
-                  key={entry.id} 
+                <MasonryItem key={entry.id} className="w-80 mb-6">
+                  <Card 
                   className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-1"
                   onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
                 >
@@ -253,10 +259,11 @@ export default function Lore() {
                       )}
                     </div>
                   </div>
-                </Card>
+                  </Card>
+                </MasonryItem>
               );
             })}
-          </div>
+          </MasonryGrid>
 
           {/* Empty State */}
           {filteredEntries.length === 0 && (

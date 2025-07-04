@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -197,9 +198,10 @@ export default function MagicSystems() {
           </div>
 
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <MasonryGrid columnWidth={300} gutter={24} className="pb-8">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
+                <MasonryItem key={i} className="mb-6">
+                  <Card className="animate-pulse">
                   <CardHeader>
                     <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                   </CardHeader>
@@ -209,9 +211,10 @@ export default function MagicSystems() {
                       <div className="h-3 bg-gray-200 rounded w-2/3"></div>
                     </div>
                   </div>
-                </Card>
+                  </Card>
+                </MasonryItem>
               ))}
-            </div>
+            </MasonryGrid>
           ) : filteredMagicSystems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredMagicSystems.map((system) => (

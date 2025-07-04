@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import type { Character, ProjectWithStats } from "@shared/schema";
@@ -140,14 +141,19 @@ export default function Characters() {
               <div className="text-[var(--color-600)]">Loading characters...</div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <MasonryGrid 
+              columnWidth={280}
+              gutter={24}
+              fitWidth={true}
+              className="pb-8"
+            >
               {filteredCharacters.map((character: any) => {
               const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
               const RoleIcon = roleInfo.icon;
 
               return (
-                <Card 
-                  key={character.id} 
+                <MasonryItem key={character.id} className="w-72 mb-6">
+                  <Card 
                   className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}
                   onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                 >
@@ -229,10 +235,11 @@ export default function Characters() {
                       </span>
                     </div>
                   </div>
-                </Card>
+                  </Card>
+                </MasonryItem>
               );
               })}
-            </div>
+            </MasonryGrid>
           )}
 
           {!isLoading && filteredCharacters.length === 0 && (

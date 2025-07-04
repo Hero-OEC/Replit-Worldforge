@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
@@ -207,10 +208,15 @@ export default function Locations() {
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <MasonryGrid 
+              columnWidth={300}
+              gutter={24}
+              fitWidth={true}
+              className="pb-8"
+            >
               {filteredLocations.map((location) => (
-                <Card 
-                  key={location.id} 
+                <MasonryItem key={location.id} className="w-80 mb-6">
+                  <Card 
                   className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
                   onClick={() => handleView(location.id)}
                 >
@@ -270,9 +276,10 @@ export default function Locations() {
                     <span>Story significance</span>
                     <span className="font-medium">Click to view details</span>
                   </div>
-                </Card>
+                  </Card>
+                </MasonryItem>
               ))}
-            </div>
+            </MasonryGrid>
           )}
 
 

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import Navbar from "@/components/layout/navbar";
 import type { ProjectWithStats, Note } from "@shared/schema";
 
@@ -135,14 +136,14 @@ export default function Notes() {
 
 
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <MasonryGrid columnWidth={300} gutter={24} className="pb-8">
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <Card 
-                  key={note.id} 
+                <MasonryItem key={note.id} className="mb-6">
+                  <Card 
                   className="p-6 hover:shadow-md transition-shadow border border-amber-200 cursor-pointer bg-[#f4f0cd]" 
                   onClick={() => handleNoteClick(note.id)}
                 >
