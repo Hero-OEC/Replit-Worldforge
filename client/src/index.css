@@ -67,7 +67,20 @@
 }
 
 .dark {
-  /* Dark mode uses inverted palette */
+  /* Dark mode - inverted color palette */
+  --color-50: #382010;
+  --color-100: #613E22;
+  --color-200: #714A22;
+  --color-300: #885A20;
+  --color-400: #A97A25;
+  --color-500: #BF972C;
+  --color-600: #D4B13B;
+  --color-700: #DFC865;
+  --color-800: #EBDF9D;
+  --color-900: #F4F0CD;
+  --color-950: #FAF9EC;
+  
+  /* Semantic color mapping for dark mode */
   --background: var(--color-950);
   --foreground: var(--color-50);
   --muted: var(--color-900);
@@ -96,6 +109,10 @@
 
   body {
     @apply font-sans antialiased bg-[var(--color-50)] text-foreground;
+  }
+
+  .dark body {
+    @apply bg-[var(--color-50)];
   }
 }
 
