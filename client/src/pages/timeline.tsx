@@ -1120,8 +1120,10 @@ export default function Timeline() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">
-                    {hoveredEvent.description}
+                  <p className="text-sm text-gray-700 mb-3 line-clamp-3">
+                    {hoveredEvent.description && hoveredEvent.description.length > 200 
+                      ? `${hoveredEvent.description.substring(0, 200)}...`
+                      : hoveredEvent.description || "No description"}
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center space-x-2 text-[var(--color-700)]">
