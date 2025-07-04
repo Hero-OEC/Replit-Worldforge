@@ -67,18 +67,18 @@
 }
 
 .dark {
-  /* Dark mode - calming blue/teal color scheme */
-  --color-50: #102B38;
-  --color-100: #1B445F;
-  --color-200: #1A4F72;
-  --color-300: #91C5E8;
-  --color-400: #56A5DA;
-  --color-500: #308BC7;
-  --color-600: #2072A9;
-  --color-700: #1B5D89;
-  --color-800: #C4E0F3;
-  --color-900: #E5F1F9;
-  --color-950: #F2F9FD;
+  /* Dark mode - blue/purple gradient color scheme */
+  --color-50: #171E36;
+  --color-100: #2E427A;
+  --color-200: #334B9A;
+  --color-300: #A3C6ED;
+  --color-400: #77C7E3;
+  --color-500: #5689DB;
+  --color-600: #426DDF;
+  --color-700: #3858BD;
+  --color-800: #C8DCF5;
+  --color-900: #E0EBF9;
+  --color-950: #F1F6FD;
   
   /* Semantic color mapping for dark mode */
   --background: var(--color-950);
