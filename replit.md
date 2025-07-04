@@ -98,13 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
-- July 4, 2025. Implemented comprehensive dark mode feature with theme toggle:
-  * Created ThemeProvider context with localStorage persistence for theme switching
-  * Added dark mode CSS variables using purple/blue color scheme (#1A1A37 to #F0F4FD) from user's design
-  * Implemented dark mode toggle button on welcome page navbar only (disappears on project pages)
-  * Toggle switches between Sun/Moon icons based on current theme state
-  * Dark mode uses inverted semantic color mapping while maintaining visual consistency
-  * All existing InkAlchemy color variables (--color-50 to --color-950) work seamlessly in both light and dark modes
+- July 4, 2025. Removed dark mode feature completely:
+  * Reverted to light mode only per user request
+  * Removed ThemeProvider context and dark mode toggle button from navbar
+  * Cleaned up CSS to remove dark mode color variables
+  * Restored original tag component styling with proper light mode contrast
+  * Application now uses only the original InkAlchemy color scheme (warm cream tones)
 - July 4, 2025. Enhanced timeline priority colors for better visual distinction:
   * Updated high priority from --color-500 to --color-700 for darker, more prominent appearance
   * Updated medium priority from --color-400 to --color-500 for better separation from high priority

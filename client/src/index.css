@@ -66,41 +66,7 @@
   --radius: 0.5rem;
 }
 
-.dark {
-  /* Dark mode - blue/purple gradient color scheme */
-  --color-50: #171E36;
-  --color-100: #2E427A;
-  --color-200: #334B9A;
-  --color-300: #A3C6ED;
-  --color-400: #77C7E3;
-  --color-500: #5689DB;
-  --color-600: #426DDF;
-  --color-700: #3858BD;
-  --color-800: #C8DCF5;
-  --color-900: #E0EBF9;
-  --color-950: #F1F6FD;
-  
-  /* Semantic color mapping for dark mode */
-  --background: var(--color-50);
-  --foreground: var(--color-900);
-  --muted: var(--color-100);
-  --muted-foreground: var(--color-700);
-  --popover: var(--color-50);
-  --popover-foreground: var(--color-900);
-  --card: var(--color-100);
-  --card-foreground: var(--color-900);
-  --border: var(--color-400);
-  --input: var(--color-200);
-  --primary: var(--color-500);
-  --primary-foreground: var(--color-950);
-  --secondary: var(--color-800);
-  --secondary-foreground: var(--color-100);
-  --accent: var(--color-800);
-  --accent-foreground: var(--color-100);
-  --destructive: #DC2626;
-  --destructive-foreground: var(--color-50);
-  --ring: var(--color-500);
-}
+
 
 @layer base {
   * {
@@ -111,9 +77,7 @@
     @apply font-sans antialiased bg-[var(--color-50)] text-foreground;
   }
 
-  .dark body {
-    @apply bg-[var(--color-50)] text-[var(--color-900)];
-  }
+
 }
 
 @layer utilities {

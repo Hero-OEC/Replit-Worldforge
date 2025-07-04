@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown, Sun, Moon } from "lucide-react";
-import { useTheme } from "@/contexts/theme-context";
+import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import inkAlchemyLogo from "@assets/inkalchemy_1751051991309.png";
@@ -25,7 +24,6 @@ export default function Navbar({
 }: NavbarProps) {
   const [location] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
-  const { theme, toggleTheme } = useTheme();
 
   const projectNavItems = [
     { name: "Overview", href: `/project/${projectId}`, icon: BookOpen },
@@ -98,22 +96,6 @@ export default function Navbar({
                 className="pl-10 pr-4 py-2 w-80 border-[var(--color-300)] focus:border-[var(--color-500)] focus:ring-[var(--color-500)]"
               />
             </div>
-            
-            {/* Dark mode toggle - only show on welcome page */}
-            {!showProjectNav && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleTheme}
-                className="p-2 rounded-lg bg-[var(--color-200)] hover:bg-[var(--color-300)] transition-colors duration-200 border border-[var(--color-400)]"
-              >
-                {theme === "light" ? (
-                  <Moon className="w-5 h-5 text-[var(--color-800)]" />
-                ) : (
-                  <Sun className="w-5 h-5 text-[var(--color-800)]" />
-                )}
-              </Button>
-            )}
             
             {rightContent}
           </div>
