@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, FileText, BookOpen, Users } from "lucide-react";
+import { Plus, Search, Scroll, Edit3, MoreHorizontal, Trash2, FileText, BookOpen, Users, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -142,68 +142,99 @@ export default function Notes() {
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <MasonryItem key={note.id} className="mb-6">
+                <MasonryItem key={note.id} className="w-80 mb-6">
                   <Card 
-                  className="p-6 hover:shadow-md transition-shadow border border-amber-200 cursor-pointer bg-[#f4f0cd]" 
-                  onClick={() => handleNoteClick(note.id)}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3 flex-1">
-                      <div className={`w-10 h-10 ${categoryInfo.bgColor} rounded-lg flex items-center justify-center`}>
-                        <CategoryIcon className={`w-5 h-5 ${categoryInfo.textColor}`} />
+                    className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-1"
+                    onClick={() => handleNoteClick(note.id)}
+                  >
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-sm`}>
+                            <CategoryIcon className={`w-6 h-6 text-[var(--color-700)] group-hover:scale-110 transition-transform duration-300`} />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-[var(--color-950)] group-hover:text-orange-600 transition-colors duration-300">
+                              {note.title}
+                            </h3>
+                            <Badge 
+                              variant="secondary" 
+                              className={`bg-[var(--color-100)] text-[var(--color-700)] border-0 text-xs mt-1`}
+                            >
+                              {note.category || "Uncategorized"}
+                            </Badge>
+                          </div>
+                        </div>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                            <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => setLocation(`/project/${projectId}/notes/${note.id}/edit`)}
+                              className="text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                            >
+                              <Edit3 className="w-4 h-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setDeleteNoteId(note.id);
+                              }}
+                              className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{note.title}</h3>
-                        <Badge className="bg-amber-100 text-amber-700 border border-amber-300 hover:bg-amber-200">
-                          {note.category}
-                        </Badge>
+
+                      <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3 leading-relaxed">
+                        {note.content || "No content available"}
+                      </p>
+
+                      {/* Tags */}
+                      {note.tags && note.tags.length > 0 && (
+                        <div className="mb-4">
+                          <div className="flex flex-wrap gap-2">
+                            {note.tags.split(',').slice(0, 3).map((tag, index) => (
+                              <span 
+                                key={index}
+                                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
+                              >
+                                {tag.trim()}
+                              </span>
+                            ))}
+                            {note.tags.split(',').length > 3 && (
+                              <span className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-300)] border-[var(--color-400)] text-[var(--color-900)] hover:bg-[var(--color-200)]">
+                                +{note.tags.split(',').length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Footer */}
+                      <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-gray-100">
+                        <div className="flex items-center space-x-1">
+                          <Clock className="w-3 h-3" />
+                          <span>
+                            {note.createdAt instanceof Date ? note.createdAt.toLocaleDateString() : new Date(note.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        {note.tags && note.tags.split(',').length > 0 && (
+                          <div className="flex items-center space-x-1">
+                            <Tag className="w-3 h-3" />
+                            <span>{note.tags.split(',').length} tags</span>
+                          </div>
+                        )}
                       </div>
                     </div>
-
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onClick={() => setLocation(`/project/${projectId}/notes/${note.id}/edit`)}
-                            className="text-[var(--color-700)] hover:bg-[var(--color-100)]"
-                          >
-                            <Edit3 className="w-4 h-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDeleteNoteId(note.id);
-                            }}
-                            className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
-                  <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-4">{note.content}</p>
-
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {note.tags && typeof note.tags === 'string' && note.tags.split(',').map((tag: string, index: number) => (
-                      <span 
-                        key={index}
-                        className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-amber-100 border-amber-200 text-amber-800 hover:bg-amber-200"
-                      >
-                        {tag.trim()}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="text-xs text-[var(--color-600)]">
-                    {note.createdAt instanceof Date ? note.createdAt.toLocaleDateString() : new Date(note.createdAt).toLocaleDateString()}
-                  </div>
                   </Card>
                 </MasonryItem>
               );
