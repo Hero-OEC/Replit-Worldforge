@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/navbar";
 import ProjectCard from "@/components/project-card";
 import ProjectDialog from "@/components/project-dialog";
+import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import type { ProjectWithStats } from "@shared/schema";
 
 export default function Dashboard() {
@@ -50,36 +51,38 @@ export default function Dashboard() {
 
         {/* Projects Grid */}
         {projectsLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <MasonryGrid>
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-[var(--worldforge-card)] rounded-xl shadow-sm border border-[var(--border)] p-6 animate-pulse">
-                <div className="h-6 bg-gray-200 rounded mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded mb-6"></div>
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  {[...Array(3)].map((_, j) => (
-                    <div key={j} className="text-center">
-                      <div className="w-8 h-8 bg-gray-200 rounded-lg mx-auto mb-2"></div>
-                      <div className="h-6 bg-gray-200 rounded mb-1"></div>
-                      <div className="h-3 bg-gray-200 rounded"></div>
-                    </div>
-                  ))}
+              <MasonryItem key={i}>
+                <div className="bg-[var(--worldforge-card)] rounded-xl shadow-sm border border-[var(--border)] p-6 animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-6"></div>
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    {[...Array(3)].map((_, j) => (
+                      <div key={j} className="text-center">
+                        <div className="w-8 h-8 bg-gray-200 rounded-lg mx-auto mb-2"></div>
+                        <div className="h-6 bg-gray-200 rounded mb-1"></div>
+                        <div className="h-3 bg-gray-200 rounded"></div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
                 </div>
-                <div className="h-4 bg-gray-200 rounded"></div>
-              </div>
+              </MasonryItem>
             ))}
-          </div>
+          </MasonryGrid>
         ) : projects && projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <MasonryGrid>
             {projects.map((project, index) => (
-              <div 
-                key={project.id} 
+              <MasonryItem 
+                key={project.id}
                 className="animate-scale-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <ProjectCard project={project} />
-              </div>
+              </MasonryItem>
             ))}
-          </div>
+          </MasonryGrid>
         ) : (
           <div className="text-center py-20 animate-slide-up">
             <div className="max-w-md mx-auto">

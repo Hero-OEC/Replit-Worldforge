@@ -204,10 +204,11 @@ export default function Notes() {
                   <div className="text-xs text-[var(--color-600)]">
                     {note.createdAt instanceof Date ? note.createdAt.toLocaleDateString() : new Date(note.createdAt).toLocaleDateString()}
                   </div>
-                </Card>
+                  </Card>
+                </MasonryItem>
               );
             })}
-          </div>
+          </MasonryGrid>
 
           {filteredNotes.length === 0 && (
             <div className="text-center py-12">
