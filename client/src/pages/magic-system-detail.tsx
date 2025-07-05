@@ -184,13 +184,59 @@ export default function MagicSystemDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          
         />
-        <main className="p-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center py-12">
-              <h2 className="text-xl font-semibold text-[var(--color-950)] mb-2">Loading...</h2>
-              <p className="text-[var(--color-700)]">Fetching magic system details.</p>
+        <main className="pt-16">
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            {/* Header skeleton */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="h-4 bg-[var(--color-200)] rounded w-32 animate-pulse"></div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="h-9 bg-[var(--color-200)] rounded w-16 animate-pulse"></div>
+                  <div className="h-9 bg-[var(--color-200)] rounded w-16 animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Title and category skeleton */}
+            <div className="space-y-6 mb-8">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg animate-pulse"></div>
+                <div className="flex-1">
+                  <div className="space-y-2">
+                    <div className="h-8 bg-[var(--color-200)] rounded w-64 animate-pulse"></div>
+                    <div className="h-6 bg-[var(--color-200)] rounded w-32 animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs skeleton */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-3">
+                {/* Tab list skeleton */}
+                <div className="grid w-full grid-cols-5 bg-[var(--color-100)] rounded-lg p-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-9 bg-[var(--color-200)] rounded animate-pulse mx-1"></div>
+                  ))}
+                </div>
+                
+                {/* Tab content skeleton */}
+                <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                  <div className="space-y-4">
+                    <div className="h-4 bg-[var(--color-200)] rounded w-20 animate-pulse"></div>
+                    <div className="space-y-3">
+                      <div className="h-3 bg-[var(--color-200)] rounded animate-pulse"></div>
+                      <div className="h-3 bg-[var(--color-200)] rounded w-4/5 animate-pulse"></div>
+                      <div className="h-3 bg-[var(--color-200)] rounded w-3/4 animate-pulse"></div>
+                      <div className="h-3 bg-[var(--color-200)] rounded w-5/6 animate-pulse"></div>
+                      <div className="h-3 bg-[var(--color-200)] rounded w-2/3 animate-pulse"></div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
         </main>
