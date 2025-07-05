@@ -521,7 +521,6 @@ export default function SerpentineTimeline({
                               transition: 'stroke-dasharray 0.3s ease-in-out'
                             }}
                           />
-                          {console.log('Bubble writingStatus:', group.events[0].writingStatus, 'Color:', progressRingColors[group.events[0].writingStatus as keyof typeof progressRingColors])}
                         </svg>
                       </div>
                       

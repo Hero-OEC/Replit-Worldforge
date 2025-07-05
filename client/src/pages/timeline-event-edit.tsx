@@ -176,7 +176,7 @@ export default function EditTimelineEvent() {
   const { projectId, eventId } = useParams<{ projectId: string; eventId: string }>();
   const [, navigate] = useLocation();
   const { toast } = useToast();
-  const { goBack, navigateWithHistory } = useNavigation();
+  const { goBack, navigateWithHistory, navigateReplaceHistory } = useNavigation();
   const queryClient = useQueryClient();
   
   // Track navigation history
@@ -343,7 +343,7 @@ export default function EditTimelineEvent() {
         description: "Timeline event updated successfully",
       });
       
-      navigateWithHistory(`/project/${projectId}/timeline/${eventId}`);
+      navigateReplaceHistory(`/project/${projectId}/timeline/${eventId}`);
     } catch (error: any) {
       toast({
         title: "Error",
