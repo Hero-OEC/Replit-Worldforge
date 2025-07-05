@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle } from "lucide-react";
+import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Eye } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -241,70 +241,50 @@ export default function Characters() {
                 return (
                   <MasonryItem key={character.id}>
                     <Card 
-                      className="text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] hover:bg-[var(--color-50)]"
+                      className="shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
                       onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                     >
-                      {/* Character Role Badge */}
-                      <div className="p-3 pb-0">
-                        <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs`}>
+                      {/* Character Role Badge - top left */}
+                      <div className="p-4 pb-0">
+                        <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
                           <RoleIcon className="w-3 h-3 mr-1" />
                           {character.role}
                         </Badge>
                       </div>
 
-                      {/* Character Image */}
-                      <div className="px-6 py-4 flex justify-center">
+                      {/* Character Image Placeholder - large centered */}
+                      <div className="px-8 py-8 flex justify-center">
                         {character.imageUrl ? (
                           <img 
                             src={character.imageUrl} 
                             alt={character.name}
-                            className="w-24 h-32 object-cover opacity-80"
+                            className="w-32 h-40 object-cover rounded opacity-70"
                           />
                         ) : (
-                          <div className="w-24 h-32 bg-[var(--color-200)] flex items-center justify-center">
-                            <User className="w-12 h-12 text-[var(--color-500)] opacity-60" />
+                          <div className="w-32 h-40 bg-[var(--color-200)] rounded flex items-center justify-center">
+                            <div className="text-center">
+                              <div className="w-16 h-16 bg-[var(--color-300)] rounded-full mx-auto mb-2"></div>
+                              <div className="w-20 h-8 bg-[var(--color-300)] rounded mx-auto"></div>
+                            </div>
                           </div>
                         )}
                       </div>
 
-                      {/* Character Info */}
-                      <div className="px-6 pb-4">
-                        <h3 className="font-semibold text-[var(--color-950)] mb-2">{character.name}</h3>
-                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
-                          {character.description || "No description available"}
+                      {/* Character Name and Description */}
+                      <div className="px-4 pb-4">
+                        <h3 className="font-medium text-[var(--color-950)] mb-1">{character.name}</h3>
+                        <p className="text-sm text-[var(--color-700)] line-clamp-2">
+                          {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
                         </p>
                       </div>
 
-                      {/* Footer */}
-                      <div className="px-6 py-3 border-t border-[var(--color-300)] bg-[var(--color-50)]">
+                      {/* Simple Footer */}
+                      <div className="px-4 py-3 border-t border-[var(--color-300)]">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-[var(--color-600)]">Character Profile</span>
-                          <div className="flex items-center space-x-2">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setLocation(`/project/${projectId}/characters/${character.id}`);
-                              }}
-                              className="text-xs text-[var(--color-600)] hover:text-[var(--color-800)] h-auto p-1"
-                            >
-                              <Edit3 className="w-3 h-3 mr-1" />
-                              Edit
-                            </Button>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(character);
-                              }}
-                              className="text-xs text-red-500 hover:text-red-700 h-auto p-1"
-                            >
-                              <Trash2 className="w-3 h-3 mr-1" />
-                              Delete
-                            </Button>
+                          <div className="w-6 h-6 bg-[var(--color-300)] rounded-full flex items-center justify-center">
+                            <Eye className="w-3 h-3 text-[var(--color-600)]" />
                           </div>
+                          <span className="text-sm text-[var(--color-600)]">Click to view details</span>
                         </div>
                       </div>
                     </Card>
