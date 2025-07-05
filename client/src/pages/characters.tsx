@@ -244,8 +244,8 @@ export default function Characters() {
                       className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
                       onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                     >
-                      {/* Top Area: Image (4:3 ratio) */}
-                      <div className="relative aspect-[4/3] w-full">
+                      {/* Top Area: Image (larger ratio) */}
+                      <div className="relative aspect-[3/4] w-full">
                         {/* Role Badge overlay */}
                         <div className="absolute top-3 left-3 z-10">
                           <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
