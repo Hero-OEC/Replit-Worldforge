@@ -343,7 +343,9 @@ export default function EditTimelineEvent() {
         description: "Timeline event updated successfully",
       });
       
-      navigateReplaceHistory(`/project/${projectId}/timeline/${eventId}`);
+      // Navigate back to detail page and replace history entry
+      window.history.replaceState(null, '', `/project/${projectId}/timeline/${eventId}`);
+      navigate(`/project/${projectId}/timeline/${eventId}`);
     } catch (error: any) {
       toast({
         title: "Error",

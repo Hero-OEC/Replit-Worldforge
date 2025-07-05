@@ -9,7 +9,7 @@ export function useNavigation() {
   };
 
   const navigateReplaceHistory = (path: string) => {
-    // Replace current history entry instead of adding to it
+    // Use history.replaceState to replace the current entry instead of adding to it
     window.history.replaceState(null, '', path);
     setLocation(path);
   };
