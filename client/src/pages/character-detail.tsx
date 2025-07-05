@@ -101,14 +101,14 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
 
   const getCategoryColor = (category: string) => {
     return category === "power" 
-      ? "bg-sky-50 text-sky-900" 
-      : "bg-purple-50 text-purple-900";
+      ? "bg-[var(--color-100)] text-[var(--color-800)]" 
+      : "bg-[var(--color-200)] text-[var(--color-900)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
     return category === "power" 
-      ? "border-sky-200 hover:border-sky-300" 
-      : "border-purple-200 hover:border-purple-300";
+      ? "border-[var(--color-300)] hover:border-[var(--color-400)]" 
+      : "border-[var(--color-400)] hover:border-[var(--color-500)]";
   };
 
   useEffect(() => {
@@ -289,14 +289,14 @@ export default function CharacterDetail() {
 
   const getCategoryColor = (category: string) => {
     return category === "power" 
-      ? "bg-sky-50 text-sky-900" 
-      : "bg-purple-50 text-purple-900";
+      ? "bg-[var(--color-100)] text-[var(--color-800)]" 
+      : "bg-[var(--color-200)] text-[var(--color-900)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
     return category === "power" 
-      ? "border-sky-200 hover:border-sky-300" 
-      : "border-purple-200 hover:border-purple-300";
+      ? "border-[var(--color-300)] hover:border-[var(--color-400)]" 
+      : "border-[var(--color-400)] hover:border-[var(--color-500)]";
   };
 
   // All effects
