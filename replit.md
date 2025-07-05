@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Updated magic system new page to match detail page edit mode with tabbed layout:
+  * Converted single-form layout to tabbed interface matching magic system detail page edit mode
+  * Added 4-tab layout: Details, Rules, Limitations, and Source & Cost with proper InkAlchemy styling
+  * Replaced Input components with Textarea components and updated sizing to match detail page (min-h-96, min-h-48)
+  * Added Card containers with proper border and background styling matching detail page structure
+  * Updated tab styling with active states using InkAlchemy color scheme (bg-[var(--color-500)])
+  * New magic system creation page now provides identical user experience to editing existing magic systems
 - July 5, 2025. Added delete button to character detail page with automatic list updates:
   * Added delete button next to edit button in character detail page header using red text/icon with InkAlchemy hover background
   * Implemented character deletion mutation with proper API call and error handling  

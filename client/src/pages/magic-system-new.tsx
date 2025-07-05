@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
 import type { InsertMagicSystem, ProjectWithStats } from "@shared/schema";
@@ -166,77 +167,94 @@ export default function NewMagicSystem() {
             </div>
           </div>
 
-          <form id="magic-system-form" onSubmit={handleSubmit}>
-            {/* Description Section */}
-            <div className="mb-6">
-              <div className="flex items-center space-x-2 mb-3">
-                <Sparkles className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-[var(--color-700)]">Description</span>
-              </div>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                placeholder="Overview of this magical system..."
-              />
-            </div>
+          {/* Tabbed Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-3">
+              <Tabs defaultValue="details" className="w-full">
+                <TabsList className="grid w-full grid-cols-4 bg-[var(--color-100)]">
+                  <TabsTrigger value="details" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
+                  <TabsTrigger value="rules" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Rules</TabsTrigger>
+                  <TabsTrigger value="limitations" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Limitations</TabsTrigger>
+                  <TabsTrigger value="source" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Source & Cost</TabsTrigger>
+                </TabsList>
 
-            {/* Rules Section */}
-            <div className="mb-6">
-              <div className="flex items-center space-x-2 mb-3">
-                <Zap className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-[var(--color-700)]">Rules & Mechanics</span>
-              </div>
-              <textarea
-                value={formData.rules}
-                onChange={(e) => setFormData({ ...formData, rules: e.target.value })}
-                className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                placeholder="How this magic system works, its mechanics..."
-              />
-            </div>
+                <form id="magic-system-form" onSubmit={handleSubmit}>
+                  <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                          <Textarea
+                            value={formData.description}
+                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="Describe the magic system..."
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  </TabsContent>
 
-            {/* Limitations Section */}
-            <div className="mb-6">
-              <div className="flex items-center space-x-2 mb-3">
-                <X className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-[var(--color-700)]">Limitations</span>
-              </div>
-              <textarea
-                value={formData.limitations}
-                onChange={(e) => setFormData({ ...formData, limitations: e.target.value })}
-                className="w-full min-h-48 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                placeholder="What limits or restricts this magic..."
-              />
-            </div>
+                  <TabsContent value="rules" className="space-y-6 bg-[var(--worldforge-bg)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Rules</label>
+                          <Textarea
+                            value={formData.rules}
+                            onChange={(e) => setFormData({ ...formData, rules: e.target.value })}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="Define the rules of the magic system..."
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  </TabsContent>
 
-            {/* Source and Cost Section */}
-            <div className="mb-6">
-              <div className="flex items-center space-x-2 mb-3">
-                <Battery className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-[var(--color-700)]">Source & Cost</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Source</label>
-                  <Input
-                    value={formData.source}
-                    onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-                    className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                    placeholder="e.g., Natural energy, Divine blessing"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Cost</label>
-                  <Input
-                    value={formData.cost}
-                    onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
-                    className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                    placeholder="e.g., Life force, Mana crystals"
-                  />
-                </div>
-              </div>
+                  <TabsContent value="limitations" className="space-y-6 bg-[var(--worldforge-bg)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Limitations</label>
+                          <Textarea
+                            value={formData.limitations}
+                            onChange={(e) => setFormData({ ...formData, limitations: e.target.value })}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="What are the limitations and weaknesses..."
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  </TabsContent>
+
+                  <TabsContent value="source" className="space-y-6 bg-[var(--worldforge-bg)]">
+                    <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Source</label>
+                          <Textarea
+                            value={formData.source}
+                            onChange={(e) => setFormData({ ...formData, source: e.target.value })}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                            placeholder="Where does this power come from..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Cost</label>
+                          <Textarea
+                            value={formData.cost}
+                            onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                            placeholder="What does it cost to use..."
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  </TabsContent>
+                </form>
+              </Tabs>
             </div>
-          </form>
+          </div>
         </div>
       </main>
     </div>
