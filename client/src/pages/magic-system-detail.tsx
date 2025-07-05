@@ -169,7 +169,7 @@ export default function MagicSystemDetail() {
               <div className="flex items-center space-x-4">
                 <Button
                   variant="ghost" 
-                  onClick={goBack}
+                  onClick={() => setLocation(`/project/${projectId}/magic-systems`)}
                   className="text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-100)]"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />

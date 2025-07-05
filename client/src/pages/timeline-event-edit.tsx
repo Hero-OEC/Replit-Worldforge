@@ -434,7 +434,7 @@ export default function EditTimelineEvent() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={goBack}
+                  onClick={() => navigate(`/project/${projectId}/timeline/${eventId}`)}
                   className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
                 >
                   <X className="w-4 h-4 mr-2" />

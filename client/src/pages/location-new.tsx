@@ -112,7 +112,7 @@ export default function LocationNew() {
           <div className="mb-6">
             <Button
               variant="ghost" 
-              onClick={goBack}
+              onClick={() => setLocation(`/project/${projectId}/locations`)}
               className="text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-100)]"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />

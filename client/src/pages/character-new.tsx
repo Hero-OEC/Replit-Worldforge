@@ -282,7 +282,7 @@ export default function CharacterNew() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4">
                 <Button 
-                  onClick={goBack}
+                  onClick={() => setLocation(`/project/${projectId}/characters`)}
                   variant="ghost" 
                   size="sm"
                   className="text-[var(--color-700)] hover:text-[var(--color-950)]"

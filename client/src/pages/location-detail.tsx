@@ -132,7 +132,7 @@ const eventTypeIcons = {
 
 export default function LocationDetail() {
   const { projectId, locationId } = useParams<{ projectId: string; locationId: string }>();
-  const [location, navigate] = useLocation();
+  const [currentLocation, setLocation] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [locationFormData, setLocationFormData] = useState({
     name: "",
@@ -291,7 +291,7 @@ export default function LocationDetail() {
               <div className="flex items-center space-x-4">
                 <Button
                   variant="ghost" 
-                  onClick={() => goBack()}
+                  onClick={() => setLocation(`/project/${projectId}/locations`)}
                   className="text-[var(--color-700)] hover:text-[var(--color-950)] hover:bg-[var(--color-100)]"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />

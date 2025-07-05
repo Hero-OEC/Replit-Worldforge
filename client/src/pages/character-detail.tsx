@@ -533,7 +533,7 @@ export default function CharacterDetail() {
                   variant="ghost" 
                   size="sm" 
                   className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                  onClick={goBack}
+                  onClick={() => setLocation(`/project/${projectId}/characters`)}
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back

@@ -98,13 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
-- July 5, 2025. Fixed back button navigation issue after saving timeline event edits:
-  * Replaced browser history-based navigation with direct timeline page navigation
-  * Back button in timeline event detail pages now goes directly to main timeline page
-  * Eliminated multiple-click requirement by bypassing polluted browser history
-  * Removed complex navigation context and history manipulation attempts
-  * Timeline event detail page back button now provides consistent single-click navigation
-  * Edit → Save → Detail → Back flow now works reliably without navigation issues
+- July 5, 2025. Fixed back button navigation issue across all detail and edit pages:
+  * Applied navigation fix to all pages: timeline events, characters, locations, magic systems, lore, and notes
+  * Replaced browser history-based navigation (goBack) with direct page navigation using setLocation
+  * Back buttons now go directly to appropriate list pages instead of relying on browser history
+  * Fixed character detail, location detail, magic system detail, and all new/edit pages
+  * Eliminated multiple-click requirement by bypassing polluted browser history completely
+  * Cancel buttons in edit forms now navigate directly to detail or list pages
+  * All back button interactions now work with single click across entire application
+  * Edit → Save → Detail → Back flow works reliably without navigation issues throughout app
 - July 5, 2025. Implemented true masonry brick layout with JavaScript positioning and centering:
   * Replaced CSS grid with custom JavaScript masonry algorithm using shortest column positioning
   * Cards now pack tightly like bricks with shorter cards automatically fitting into gaps left by taller ones
