@@ -15,41 +15,41 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import Navbar from "@/components/layout/navbar";
 import { useNavigationTracker } from "@/contexts/navigation-context";
 import { useToast } from "@/hooks/use-toast";
 import type { ProjectWithStats } from "@shared/schema";
 
-// Category configuration for consistent styling
+// Category configuration matching lore detail page styling
 const categoryConfig = {
   "Plot": {
     icon: BookOpen,
-    color: "bg-blue-500",
-    bgColor: "bg-blue-100",
-    textColor: "text-blue-800",
-    borderColor: "border-blue-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "Characters": {
     icon: Users,
-    color: "bg-green-500",
-    bgColor: "bg-green-100",
-    textColor: "text-green-800",
-    borderColor: "border-green-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "World Building": {
     icon: Search,
-    color: "bg-purple-500",
-    bgColor: "bg-purple-100",
-    textColor: "text-purple-800",
-    borderColor: "border-purple-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "Research": {
     icon: Scroll,
-    color: "bg-yellow-500",
-    bgColor: "bg-yellow-100",
-    textColor: "text-yellow-800",
-    borderColor: "border-yellow-200"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   }
 };
 
@@ -102,7 +102,7 @@ export default function NoteDetail() {
     },
   });
 
-  const handleDelete = () => {
+  const confirmDelete = () => {
     deleteNoteMutation.mutate();
   };
 
@@ -156,7 +156,7 @@ export default function NoteDetail() {
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className="w-5 h-5 text-[var(--color-50)]" />
+                    <CategoryIcon className={`w-5 h-5 ${categoryInfo.textColor}`} />
                   </div>
                   <h1 className="text-3xl font-bold text-gray-800">{note.title}</h1>
                 </div>
@@ -207,7 +207,7 @@ export default function NoteDetail() {
                   {tagsArray.map((tag: string, index: number) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
+                      className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 hover:shadow-sm bg-[var(--color-200)] border-[var(--color-300)] text-[var(--color-800)] hover:bg-[var(--color-300)]"
                     >
                       {tag}
                     </span>
@@ -217,7 +217,7 @@ export default function NoteDetail() {
             ) : null;
           })()}
 
-          <Card>
+          <Card className="bg-transparent">
             <CardContent className="space-y-6 pt-6">
               {/* Content */}
               <div>
@@ -232,26 +232,17 @@ export default function NoteDetail() {
           </Card>
         </div>
       </main>
-       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-[var(--worldforge-cream)] text-[var(--color-950)] border-2 border-[var(--color-200)]">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this note.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="text-[var(--color-700)] border-[var(--color-200)] hover:bg-[var(--color-50)]">Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-red-500 text-white hover:bg-red-600"
-              onClick={handleDelete}
-              disabled={deleteNoteMutation.isPending}
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {note && (
+        <DeleteConfirmationDialog
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+          onConfirm={confirmDelete}
+          title="Delete Note"
+          itemName={note.title}
+          description={`Are you sure you want to delete "${note.title}"? This action cannot be undone and will permanently remove the note.`}
+          isDeleting={deleteNoteMutation.isPending}
+        />
+      )}
     </div>
   );
 }
