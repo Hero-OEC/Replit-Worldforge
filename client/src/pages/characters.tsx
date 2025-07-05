@@ -207,9 +207,9 @@ export default function Characters() {
                 >
                   {/* Character Image */}
                   <div className="relative aspect-[7/9] bg-[var(--color-200)] overflow-hidden">
-                    {character.image ? (
+                    {character.imageUrl ? (
                       <img 
-                        src={character.image} 
+                        src={character.imageUrl} 
                         alt={character.name}
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200"
                       />
