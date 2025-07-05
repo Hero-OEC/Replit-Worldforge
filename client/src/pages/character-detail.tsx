@@ -13,6 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link as WouterLink } from "wouter";
 import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
+import { uploadCharacterImage } from "@/lib/supabase";
+import { ImageUpload } from "@/components/ui/image-upload";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Character Timeline Component - using enhanced SerpentineTimeline
@@ -211,7 +213,6 @@ export default function CharacterDetail() {
 
   // All state declarations first
   const [isEditing, setIsEditing] = useState(false);
-  const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
 
   const [characterData, setCharacterData] = useState({
@@ -224,11 +225,9 @@ export default function CharacterDetail() {
     race: "",
     location: "",
     role: "",
-    appearance: ""
+    appearance: "",
+    imageUrl: ""
   });
-
-  // All refs
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Track navigation history
   useNavigationTracker();
@@ -306,7 +305,8 @@ export default function CharacterDetail() {
         race: character.race || "",
         location: character.location || "",
         role: character.role || "",
-        appearance: character.appearance || ""
+        appearance: character.appearance || "",
+        imageUrl: character.imageUrl || ""
       });
       
       // Initialize power systems from character data (this is the primary source)
@@ -349,16 +349,7 @@ export default function CharacterDetail() {
     return sortedEvents[0]?.location || character.location || "Unknown Location";
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setCharacterImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
   const handleSave = async () => {
     try {
@@ -411,7 +402,8 @@ export default function CharacterDetail() {
         race: character.race || "",
         location: character.location || "",
         role: character.role || "",
-        appearance: character.appearance || ""
+        appearance: character.appearance || "",
+        imageUrl: character.imageUrl || ""
       });
       
       // Reset power systems to original values
@@ -637,46 +629,36 @@ export default function CharacterDetail() {
                     <User className="w-5 h-5 mr-2" />
                     Portrait
                   </h2>
-                  {isEditing && (
-                    <div className="flex items-center space-x-3">
-                      <span className="text-xs text-[var(--color-600)]">Best: 7:9 ratio</span>
-                      <Button
-                        onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        size="sm"
-                        className="text-xs"
-                      >
-                        <Upload className="w-3 h-3 mr-1" />
-                        Upload
-                      </Button>
-                    </div>
-                  )}
                 </div>
 
                 {/* Character Portrait */}
                 <div className="relative mb-6 flex justify-center">
-                  <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
-                    {characterImage || character.image ? (
-                      <img 
-                        src={characterImage || character.image} 
-                        alt={character.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <img 
-                        src="/attached_assets/Placeholder_1750916543106.jpg" 
-                        alt="Character placeholder"
-                        className="w-full h-full object-cover opacity-30"
-                      />
-                    )}
-                  </div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
+                  {isEditing ? (
+                    <ImageUpload
+                      value={characterData.imageUrl}
+                      onChange={(url) => setCharacterData({...characterData, imageUrl: url || ""})}
+                      onUpload={async (file) => {
+                        return await uploadCharacterImage(file, character.id);
+                      }}
+                      placeholder="Upload character portrait"
+                    />
+                  ) : (
+                    <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+                      {characterData.imageUrl || character.imageUrl ? (
+                        <img 
+                          src={characterData.imageUrl || character.imageUrl} 
+                          alt={character.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img 
+                          src="/attached_assets/Placeholder_1750916543106.jpg" 
+                          alt="Character placeholder"
+                          className="w-full h-full object-cover opacity-30"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Basic Info */}

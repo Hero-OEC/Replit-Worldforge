@@ -26,6 +26,7 @@ export const characters = pgTable("characters", {
   race: text("race"), // character's race/species
   weapons: text("weapons"), // weapons and equipment
   powerSystems: json("power_systems").$type<string[]>().default([]), // array of power/magic system names
+  imageUrl: text("image_url"), // URL to character image in Supabase Storage
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

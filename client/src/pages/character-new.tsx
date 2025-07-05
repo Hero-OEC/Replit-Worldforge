@@ -10,6 +10,8 @@ import { Tag, getTagVariant } from "@/components/ui/tag";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiRequest } from "@/lib/queryClient";
+import { uploadCharacterImage } from "@/lib/supabase";
+import { ImageUpload } from "@/components/ui/image-upload";
 import Navbar from "@/components/layout/navbar";
 import type { InsertCharacter, ProjectWithStats } from "@shared/schema";
 
@@ -196,7 +198,8 @@ export default function CharacterNew() {
     race: "",
     location: "",
     role: "",
-    appearance: ""
+    appearance: "",
+    imageUrl: ""
   });
 
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
@@ -394,21 +397,18 @@ export default function CharacterNew() {
                 <div className="space-y-6">
                   {/* Portrait */}
                   <div className="text-center">
-                    <div className="relative inline-block">
-                      <div className="w-32 h-40 bg-[var(--color-200)] rounded-lg flex items-center justify-center border-2 border-dashed border-[var(--color-400)]">
-                        <User className="w-16 h-16 text-[var(--color-600)]" />
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white"
-                        onClick={() => {}}
-                      >
-                        <Upload className="w-3 h-3 mr-1" />
-                        Upload
-                      </Button>
-                    </div>
-                    <p className="text-xs text-gray-500 mt-2">Best 7:9 ratio</p>
+                    <ImageUpload
+                      value={characterData.imageUrl}
+                      onChange={(url) => setCharacterData({...characterData, imageUrl: url || ""})}
+                      onUpload={async (file) => {
+                        // We need to create a temporary character to get an ID for the upload
+                        // For now, we'll use a timestamp as a unique identifier
+                        const tempId = Date.now();
+                        return await uploadCharacterImage(file, tempId);
+                      }}
+                      placeholder="Upload character portrait"
+                    />
+                    <p className="text-xs text-[var(--color-600)] mt-2">Best 7:9 ratio, up to 5MB</p>
                   </div>
 
 
