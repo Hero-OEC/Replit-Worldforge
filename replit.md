@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Fixed character page layout and card design issues:
+  * Removed border radius and background card from character page header to match timeline/location pages
+  * Redesigned character cards to clean, simple layout with role badge, centered image, and footer actions
+  * Character cards now match the clean design style with proper spacing and visual hierarchy
+  * Fixed header placement consistency across all main pages (timeline, characters, locations, etc.)
+  * Character page layout now follows same pattern as other main pages throughout application
 - July 5, 2025. Updated character and location timeline tabs to use writing status instead of priority:
   * Removed old priorityColors and priorityLabels objects from character and location detail pages
   * Added writingStatusColors and writingStatusLabels to match main timeline page system

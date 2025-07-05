@@ -149,8 +149,8 @@ export default function Characters() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Page Header */}
-          <div className="bg-[var(--worldforge-card)] rounded-lg border border-[var(--color-300)] mb-8">
-            <div className="flex items-center justify-between p-8">
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center shadow-sm">
                   <Users className="w-6 h-6 text-[var(--color-700)]" />
@@ -241,61 +241,71 @@ export default function Characters() {
                 return (
                   <MasonryItem key={character.id}>
                     <Card 
-                      className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
+                      className="text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] hover:bg-[var(--color-50)]"
                       onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                     >
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
-                            <RoleIcon className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover/icon:bounce group-hover/icon:scale-110" />
+                      {/* Character Role Badge */}
+                      <div className="p-3 pb-0">
+                        <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs`}>
+                          <RoleIcon className="w-3 h-3 mr-1" />
+                          {character.role}
+                        </Badge>
+                      </div>
+
+                      {/* Character Image */}
+                      <div className="px-6 py-4 flex justify-center">
+                        {character.imageUrl ? (
+                          <img 
+                            src={character.imageUrl} 
+                            alt={character.name}
+                            className="w-24 h-32 object-cover opacity-80"
+                          />
+                        ) : (
+                          <div className="w-24 h-32 bg-[var(--color-200)] flex items-center justify-center">
+                            <User className="w-12 h-12 text-[var(--color-500)] opacity-60" />
                           </div>
-                          <div>
-                            <h3 className="text-lg font-semibold text-[var(--color-950)]">{character.name}</h3>
-                            <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
-                              {character.role}
-                            </Badge>
-                          </div>
-                        </div>
-                        
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
+                        )}
+                      </div>
+
+                      {/* Character Info */}
+                      <div className="px-6 pb-4">
+                        <h3 className="font-semibold text-[var(--color-950)] mb-2">{character.name}</h3>
+                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
+                          {character.description || "No description available"}
+                        </p>
+                      </div>
+
+                      {/* Footer */}
+                      <div className="px-6 py-3 border-t border-[var(--color-300)] bg-[var(--color-50)]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-[var(--color-600)]">Character Profile</span>
+                          <div className="flex items-center space-x-2">
                             <Button 
                               variant="ghost" 
                               size="sm"
-                              onClick={(e) => e.stopPropagation()}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setLocation(`/project/${projectId}/characters/${character.id}`);
+                              }}
+                              className="text-xs text-[var(--color-600)] hover:text-[var(--color-800)] h-auto p-1"
                             >
-                              <MoreHorizontal className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={(e) => {
-                              e.stopPropagation();
-                              setLocation(`/project/${projectId}/characters/${character.id}`);
-                            }}>
-                              <Edit3 className="w-4 h-4 mr-2" />
+                              <Edit3 className="w-3 h-3 mr-1" />
                               Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleDelete(character);
                               }}
-                              className="text-destructive"
+                              className="text-xs text-red-500 hover:text-red-700 h-auto p-1"
                             >
-                              <Trash2 className="w-4 h-4 mr-2" />
+                              <Trash2 className="w-3 h-3 mr-1" />
                               Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-
-                      <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3">
-                        {character.description}
-                      </p>
-
-                      <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
-                        <span>Character details</span>
-                        <span className="font-medium">Click to view profile</span>
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </Card>
                   </MasonryItem>
