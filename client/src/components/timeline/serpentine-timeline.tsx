@@ -53,11 +53,13 @@ const getEventIcon = (category: string) => {
   return iconMap[category] || Calendar;
 };
 
-// Priority colors matching main timeline
-const priorityColors = {
-  high: "bg-[var(--color-700)]",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-[var(--color-300)]",
+// Writing status colors for timeline bubbles
+const writingStatusBubbleColors = {
+  planning: "bg-[var(--color-200)]",
+  writing: "bg-[var(--color-400)]", 
+  first_draft: "bg-[var(--color-500)]",
+  editing: "bg-[var(--color-600)]",
+  complete: "bg-[var(--color-700)]"
 };
 
 // Writing status configuration
@@ -359,31 +361,30 @@ export default function SerpentineTimeline({
       <div className="flex justify-center mt-[0px] mb-[0px]">
         <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
-            <span className="text-sm text-[var(--color-700)]">High Priority</span>
+            <div className="w-4 h-4 bg-[var(--color-200)] rounded-full"></div>
+            <span className="text-sm text-[var(--color-700)]">Planning</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
+            <span className="text-sm text-[var(--color-700)]">Writing</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
-            <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
+            <span className="text-sm text-[var(--color-700)]">First Draft</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
-            <span className="text-sm text-[var(--color-700)]">Low Priority</span>
+            <div className="w-4 h-4 bg-[var(--color-600)] rounded-full"></div>
+            <span className="text-sm text-[var(--color-700)]">Editing</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
+            <span className="text-sm text-[var(--color-700)]">Complete</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
               <span className="text-[var(--color-50)] text-xs font-bold">3</span>
             </div>
             <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="relative w-4 h-4">
-              <svg className="w-4 h-4 transform -rotate-90" viewBox="0 0 16 16">
-                <circle cx="8" cy="8" r="7" fill="none" stroke="#E5E7EB" strokeWidth="1.5"/>
-                <circle cx="8" cy="8" r="7" fill="none" stroke="#0C4A6E" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="44 44"/>
-              </svg>
-            </div>
-            <span className="text-sm text-[var(--color-700)]">Writing Progress</span>
           </div>
         </div>
       </div>
@@ -526,7 +527,7 @@ export default function SerpentineTimeline({
                       
                       {/* Event bubble */}
                       <div
-                        className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors] || priorityColors.medium} rounded-full flex items-center justify-center shadow-lg`}
+                        className={`w-12 h-12 ${writingStatusBubbleColors[group.events[0].writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center shadow-lg`}
                       >
                         {React.createElement(
                           getEventIcon(group.events[0].category),
@@ -593,7 +594,7 @@ export default function SerpentineTimeline({
                 <div className="max-h-64 overflow-y-auto space-y-3">
                   {hoveredDateGroup.events.slice(0, 3).map((event: TimelineEventData) => {
                     const EventIcon = getEventIcon(event.category);
-                    const importance = event.importance as keyof typeof priorityColors;
+                    const writingStatus = event.writingStatus as keyof typeof writingStatusBubbleColors;
 
                     return (
                       <div
@@ -605,7 +606,7 @@ export default function SerpentineTimeline({
                         }}
                       >
                         <div className="flex items-start space-x-3">
-                          <div className={`w-10 h-10 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}>
+                          <div className={`w-10 h-10 ${writingStatusBubbleColors[writingStatus] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}>
                             <EventIcon className="w-5 h-5 text-white" />
                           </div>
                           <div className="flex-1 min-w-0">
@@ -682,7 +683,7 @@ export default function SerpentineTimeline({
             >
               <div className="flex items-start space-x-3 mb-3">
                 <div
-                  className={`w-10 h-10 ${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}
+                  className={`w-10 h-10 ${writingStatusBubbleColors[hoveredEvent.writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}
                 >
                   {React.createElement(
                     getEventIcon(hoveredEvent.category),
@@ -699,13 +700,12 @@ export default function SerpentineTimeline({
                     {hoveredEvent.date}
                   </p>
                   
-                  {/* Priority and Category Badges */}
+                  {/* Writing Status and Category Badges */}
                   <div className="flex items-center space-x-2 mb-3">
                     <Badge
-                      className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-[var(--color-50)] text-xs px-2 py-1`}
+                      className={`${writingStatusBubbleColors[hoveredEvent.writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} text-[var(--color-50)] text-xs px-2 py-1`}
                     >
-                      {hoveredEvent.importance === 'high' ? 'High Priority' : 
-                       hoveredEvent.importance === 'medium' ? 'Medium Priority' : 'Low Priority'}
+                      {writingStatusLabels[hoveredEvent.writingStatus as keyof typeof writingStatusLabels] || 'Planning'}
                     </Badge>
                     <Badge variant="outline" className="text-xs px-2 py-1">
                       {hoveredEvent.category}

@@ -186,16 +186,21 @@ function TagSearch({
   );
 }
 
-const priorityColors = {
-  high: "bg-[var(--color-700)]",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-[var(--color-300)]",
+// Writing status colors for timeline bubbles
+const writingStatusBubbleColors = {
+  planning: "bg-[var(--color-200)]",
+  writing: "bg-[var(--color-400)]", 
+  first_draft: "bg-[var(--color-500)]",
+  editing: "bg-[var(--color-600)]",
+  complete: "bg-[var(--color-700)]"
 };
 
-const priorityLabels = {
-  high: "High Priority",
-  medium: "Medium Priority",
-  low: "Low Priority",
+const writingStatusLabels = {
+  planning: "Planning",
+  writing: "Writing",
+  first_draft: "First Draft",
+  editing: "Editing",
+  complete: "Complete"
 };
 
 const eventTypeIcons = {
@@ -522,7 +527,8 @@ export default function Timeline() {
         category: event.category || "Other",
         description: event.description || "",
         location: event.location || "",
-        characters: Array.isArray(event.characters) ? event.characters : []
+        characters: Array.isArray(event.characters) ? event.characters : [],
+        writingStatus: event.writingStatus || "planning"
       };
     });
   };
@@ -798,16 +804,24 @@ export default function Timeline() {
           <div className="flex justify-center mt-[0px] mb-[0px]">
             <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">High Priority</span>
+                <div className="w-4 h-4 bg-[var(--color-200)] rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">Planning</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">Writing</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Medium Priority</span>
+                <span className="text-sm text-[var(--color-700)]">First Draft</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-[var(--color-300)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Low Priority</span>
+                <div className="w-4 h-4 bg-[var(--color-600)] rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">Editing</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
+                <span className="text-sm text-[var(--color-700)]">Complete</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
@@ -985,7 +999,7 @@ export default function Timeline() {
                           }}
                         >
                           <div
-                            className={`w-12 h-12 ${priorityColors[group.events[0].importance as keyof typeof priorityColors] || priorityColors.medium} rounded-full flex items-center justify-center shadow-lg`}
+                            className={`w-12 h-12 ${writingStatusBubbleColors[group.events[0].writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center shadow-lg`}
                           >
                             {React.createElement(
                               getEventIcon(group.events[0].category),
@@ -1064,8 +1078,8 @@ export default function Timeline() {
                       .slice(0, 3)
                       .map((event: any, index: number) => {
                         const EventIcon = getEventIcon(event.category);
-                        const importance =
-                          event.importance as keyof typeof priorityColors;
+                        const writingStatus =
+                          event.writingStatus as keyof typeof writingStatusBubbleColors;
 
                         return (
                           <div
@@ -1074,7 +1088,7 @@ export default function Timeline() {
                           >
                             <div className="flex items-start space-x-3">
                               <div
-                                className={`w-8 h-8 ${priorityColors[importance]} rounded-full flex items-center justify-center flex-shrink-0`}
+                                className={`w-8 h-8 ${writingStatusBubbleColors[writingStatus] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}
                               >
                                 <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
                               </div>
@@ -1150,7 +1164,7 @@ export default function Timeline() {
                 >
                   <div className="flex items-start space-x-3 mb-3">
                     <div
-                      className={`w-10 h-10 ${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} rounded-full flex items-center justify-center flex-shrink-0`}
+                      className={`w-10 h-10 ${writingStatusBubbleColors[hoveredEvent.writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}
                     >
                       {React.createElement(
                         getEventIcon(hoveredEvent.category),
@@ -1168,13 +1182,9 @@ export default function Timeline() {
                       </p>
                       <div className="flex items-center space-x-2 mb-2">
                         <Badge
-                          className={`${priorityColors[hoveredEvent.importance as keyof typeof priorityColors]} text-[var(--color-50)]`}
+                          className={`${writingStatusBubbleColors[hoveredEvent.writingStatus as keyof typeof writingStatusBubbleColors] || writingStatusBubbleColors.planning} text-[var(--color-50)]`}
                         >
-                          {
-                            priorityLabels[
-                              hoveredEvent.importance as keyof typeof priorityLabels
-                            ]
-                          }
+                          {writingStatusLabels[hoveredEvent.writingStatus as keyof typeof writingStatusLabels] || 'Planning'}
                         </Badge>
                         <Badge variant="outline">{hoveredEvent.category}</Badge>
                       </div>
