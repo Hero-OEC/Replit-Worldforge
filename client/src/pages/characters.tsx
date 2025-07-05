@@ -155,26 +155,33 @@ export default function Characters() {
             <MasonryGrid className="pb-8">
               {[...Array(6)].map((_, i) => (
                 <MasonryItem key={i}>
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
-                          <div>
-                            <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
-                            <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
-                          </div>
+                  <Card className="overflow-hidden shadow-sm border border-[var(--color-300)] bg-[var(--color-100)] animate-pulse">
+                    {/* Top Area: Image Placeholder (7:9 ratio) */}
+                    <div className="relative aspect-[7/9] w-full bg-[var(--color-200)]">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-[var(--color-300)] rounded-full mx-auto mb-2"></div>
+                          <div className="w-20 h-8 bg-[var(--color-300)] rounded mx-auto"></div>
                         </div>
-                        <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
+                      </div>
+                    </div>
+
+                    {/* Bottom Area: Character Info Placeholder */}
+                    <div className="p-4">
+                      <div className="flex items-start space-x-3 mb-2">
+                        <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                        <div>
+                          <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                          <div className="h-6 bg-[var(--color-200)] rounded-full w-20 mb-3"></div>
+                        </div>
                       </div>
                       <div className="space-y-2 mb-4">
                         <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
                         <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
                         <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
                       </div>
-                      <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--color-300)]">
-                        <div className="h-3 bg-[var(--color-200)] rounded w-20"></div>
-                        <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                      <div className="text-center">
+                        <div className="h-4 bg-[var(--color-200)] rounded w-24 mx-auto"></div>
                       </div>
                     </div>
                   </Card>
