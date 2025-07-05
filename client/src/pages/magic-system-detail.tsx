@@ -310,10 +310,11 @@ export default function MagicSystemDetail() {
                     </Button>
                     <Button 
                       onClick={handleSave} 
-                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                      disabled={updateMagicSystemMutation.isPending}
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Save className="w-4 h-4 mr-2" />
-                      Save Changes
+                      {updateMagicSystemMutation.isPending ? "Saving..." : "Save Changes"}
                     </Button>
                   </>
                 ) : (
