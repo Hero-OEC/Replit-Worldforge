@@ -119,7 +119,7 @@ export function ImageUpload({
           </Button>
           
           <p className="text-xs text-[var(--color-600)]">
-            PNG, JPG, JPEG, WebP up to 5MB
+            Use 7:9 aspect ratio for best results
           </p>
         </div>
       </div>
