@@ -259,7 +259,7 @@ export default function Characters() {
                           <img 
                             src={character.imageUrl} 
                             alt={character.name}
-                            className="w-full h-full object-contain"
+                            className="w-full h-full object-cover"
                           />
                         ) : (
                           <div className="w-full h-full bg-[var(--color-200)] flex items-center justify-center">
