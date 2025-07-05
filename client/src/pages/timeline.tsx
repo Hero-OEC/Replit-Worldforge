@@ -94,7 +94,7 @@ function TagSearch({
   onRemoveTag,
 }: TagSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
   useEffect(() => {
