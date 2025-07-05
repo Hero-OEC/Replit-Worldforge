@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Successfully completed all search functionality removal and fixed related errors:
+  * Fixed final search-related errors in timeline.tsx TagSearch component by removing broken search logic
+  * Replaced search input with dropdown button for tag selection without search functionality
+  * Fixed PowerSystemSearch component in character-detail.tsx by removing all search-related code
+  * Replaced power system search input with simple dropdown button for selection
+  * Updated both components to use availableItems/availableSystems filter instead of search-based filtering
+  * Application now runs completely error-free without any search functionality whatsoever
 - July 5, 2025. Successfully removed all search functionality from the application:
   * Removed search functionality from navbar component (removed search props, variables, and UI elements)
   * Removed search features from all page components including dashboard, characters, locations, timeline, magic systems, lore, and notes pages

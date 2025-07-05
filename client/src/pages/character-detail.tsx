@@ -102,43 +102,28 @@ function PowerSystemSelector({ selectedSystems, onAddSystem, onRemoveSystem, pro
     return category === "power" ? "border-[var(--color-400)]" : "border-[var(--color-500)]";
   };
 
-  useEffect(() => {
-    if (searchValue) {
-      const filtered = magicSystems.filter(
-        (system: any) =>
-          system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-          !selectedSystems.includes(system.name)
-      );
-      setFilteredSystems(filtered);
-      setIsOpen(filtered.length > 0);
-    } else {
-      setFilteredSystems([]);
-      setIsOpen(false);
-    }
-  }, [searchValue, selectedSystems, magicSystems]);
+  const availableSystems = magicSystems.filter(
+    (system: any) => !selectedSystems.includes(system.name)
+  );
 
   const handleSelectSystem = (systemName: string) => {
     onAddSystem(systemName);
-    setSearchValue("");
     setIsOpen(false);
   };
 
   return (
     <div className="space-y-3">
       <div className="relative">
-        <Input
-          placeholder="Search power types..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          onFocus={() => {
-            if (filteredSystems.length > 0) setIsOpen(true);
-          }}
-          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-[var(--color-100)] border-gray-300 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-        />
-        {isOpen && filteredSystems.length > 0 && (
+        <Button
+          variant="outline"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full justify-start bg-[var(--color-100)] border-gray-300 hover:bg-white"
+        >
+          Select power type...
+        </Button>
+        {isOpen && availableSystems.length > 0 && (
           <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {filteredSystems.map((system, index) => {
+            {availableSystems.map((system, index) => {
               const CategoryIcon = getCategoryIcon(system.category);
               return (
                 <div

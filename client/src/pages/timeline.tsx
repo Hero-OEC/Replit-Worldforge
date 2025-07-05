@@ -95,63 +95,30 @@ function TagSearch({
 }: TagSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [filteredItems, setFilteredItems] = useState<string[]>([]);
+  const availableItems = items.filter(item => !selectedTags.includes(item));
 
-  useEffect(() => {
-    if (searchValue) {
-      const filtered = items.filter(
-        (item) =>
-          item.toLowerCase().includes(searchValue.toLowerCase()) &&
-          !selectedTags.includes(item),
-      );
-      setFilteredItems(filtered);
-      setIsOpen(filtered.length > 0);
-    } else {
-      setFilteredItems([]);
-      setIsOpen(false);
-    }
-  }, [searchValue, items, selectedTags]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setSearchValue(newValue);
+  const handleButtonClick = () => {
+    setIsOpen(!isOpen);
   };
 
   const handleSelectItem = (item: string) => {
     onAddTag(item);
-    setSearchValue("");
     setIsOpen(false);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (
-      e.key === "Enter" &&
-      searchValue &&
-      !selectedTags.includes(searchValue)
-    ) {
-      onAddTag(searchValue);
-      setSearchValue("");
-      setIsOpen(false);
-    }
   };
 
   return (
     <div className="flex flex-col">
       <div className="relative">
-        <Input
-          placeholder={placeholder}
-          value={searchValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          onFocus={() => {
-            if (filteredItems.length > 0) setIsOpen(true);
-          }}
-          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
-        />
-        {isOpen && filteredItems.length > 0 && (
+        <Button
+          variant="outline"
+          onClick={handleButtonClick}
+          className="w-full justify-start bg-[var(--color-100)] border-[var(--color-400)] hover:bg-[var(--color-50)]"
+        >
+          {placeholder}
+        </Button>
+        {isOpen && availableItems.length > 0 && (
           <div className="absolute z-[999] w-full bg-[var(--color-100)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {filteredItems.map((item, index) => (
+            {availableItems.map((item, index) => (
               <div
                 key={index}
                 className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
