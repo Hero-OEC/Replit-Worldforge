@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Successfully fixed masonry layout column issues and optimized card spacing:
+  * Fixed container width constraints limiting masonry to 2 columns by increasing max-width from 6xl to 7xl on all card pages
+  * Resolved CSS grid card stretching issue by adding proper alignment (alignSelf: 'start', alignItems: 'start')
+  * Masonry layout now properly displays 3+ columns when screen space allows while preventing card height stretching
+  * Updated locations, lore, characters, notes, and magic systems pages with improved container widths
+  * Cards maintain natural height and proper 350px width with responsive column count based on available space
 - July 5, 2025. Fixed masonry layout and skeleton loading issues throughout application:
   * Replaced problematic CSS columns masonry with stable CSS grid layout using 320px-350px card widths
   * Fixed all skeleton loading components to use InkAlchemy color scheme (bg-[var(--color-200)]) instead of gray
