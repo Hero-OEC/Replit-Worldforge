@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Eye } from "lucide-react";
+import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Eye, Minus } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,48 +76,12 @@ export default function Characters() {
   });
 
   const roleConfig = {
-    "protagonist": {
-      icon: Crown,
-      color: "bg-gradient-to-r from-yellow-400 to-yellow-600",
-      bgColor: "bg-yellow-100",
-      textColor: "text-yellow-800",
-      borderColor: "border-yellow-200"
-    },
-    "antagonist": {
-      icon: Sword,
-      color: "bg-gradient-to-r from-red-500 to-red-700",
-      bgColor: "bg-red-100",
-      textColor: "text-red-800",
-      borderColor: "border-red-200"
-    },
-    "ally": {
-      icon: Shield,
-      color: "bg-gradient-to-r from-green-500 to-green-700",
-      bgColor: "bg-green-100",
-      textColor: "text-green-800",
-      borderColor: "border-green-200"
-    },
-    "enemy": {
-      icon: UserX,
-      color: "bg-gradient-to-r from-red-400 to-red-600",
-      bgColor: "bg-red-50",
-      textColor: "text-red-700",
-      borderColor: "border-red-200"
-    },
-    "supporting": {
-      icon: UserCheck,
-      color: "bg-gradient-to-r from-blue-500 to-blue-700",
-      bgColor: "bg-blue-100",
-      textColor: "text-blue-800",
-      borderColor: "border-blue-200"
-    },
-    "neutral": {
-      icon: User,
-      color: "bg-gradient-to-r from-gray-500 to-gray-700",
-      bgColor: "bg-gray-100",
-      textColor: "text-gray-800",
-      borderColor: "border-gray-200"
-    }
+    "Protagonist": { icon: Crown, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
+    "Antagonist": { icon: Sword, color: "bg-[var(--color-950)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-700)]" },
+    "Ally": { icon: Shield, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+    "Enemy": { icon: UserX, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-600)]" },
+    "Neutral": { icon: Minus, color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-600)]", borderColor: "border-[var(--color-300)]" },
+    "Supporting": { icon: UserCheck, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" }
   };
 
   const filteredCharacters = characters.filter((character: any) => {
@@ -235,7 +199,7 @@ export default function Characters() {
           ) : (
             <MasonryGrid className="pb-8">
               {filteredCharacters.map((character: any) => {
-                const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["supporting"];
+                const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
                 const RoleIcon = roleInfo.icon;
 
                 return (
@@ -265,16 +229,18 @@ export default function Characters() {
 
                       {/* Bottom Area: Character Info */}
                       <div className="p-4">
-                        <div className="flex items-center space-x-3 mb-2">
+                        <div className="flex items-start space-x-3 mb-2">
                           <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
                             <RoleIcon className="w-6 h-6 text-[var(--color-700)]" />
                           </div>
-                          <h3 className="text-lg font-semibold text-[var(--color-950)]">{character.name}</h3>
-                        </div>
-                        <div className="mb-3">
-                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
-                            {character.role}
-                          </span>
+                          <div>
+                            <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{character.name}</h3>
+                            <div className="mb-3">
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
+                                {character.role}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <p className="text-sm text-[var(--color-700)] line-clamp-3">
                           {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
