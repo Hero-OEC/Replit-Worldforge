@@ -141,8 +141,54 @@ export default function TimelineEventDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
-        <div className="text-[var(--color-700)]">Loading timeline event...</div>
+      <div className="min-h-screen bg-[var(--worldforge-bg)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle="Loading..."
+          showProjectNav={true}
+        />
+        <main className="pt-16">
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <div className="animate-pulse">
+              {/* Header Skeleton */}
+              <div className="mb-6">
+                <div className="h-10 bg-[var(--color-200)] rounded w-32 mb-4"></div>
+              </div>
+              
+              {/* Title and Category Skeleton */}
+              <div className="mb-8">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                  <div className="h-8 bg-[var(--color-200)] rounded w-64"></div>
+                </div>
+                <div className="w-24 h-6 bg-[var(--color-200)] rounded"></div>
+              </div>
+              
+              {/* Content Skeleton */}
+              <div className="space-y-6">
+                <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                  <div className="h-6 bg-[var(--color-200)] rounded w-32 mb-3"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                    <div className="h-6 bg-[var(--color-200)] rounded w-24 mb-3"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-32"></div>
+                  </div>
+                  <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                    <div className="h-6 bg-[var(--color-200)] rounded w-20 mb-3"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-28"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }

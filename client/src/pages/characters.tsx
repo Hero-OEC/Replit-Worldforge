@@ -137,9 +137,46 @@ export default function Characters() {
 
           {/* Characters Grid */}
           {isLoading ? (
-            <div className="text-center py-12">
-              <div className="text-[var(--color-600)]">Loading characters...</div>
-            </div>
+            <MasonryGrid className="pb-8">
+              {[...Array(6)].map((_, i) => (
+                <MasonryItem key={i} className="mb-6">
+                  <Card className="bg-[var(--color-100)] border-2 border-[var(--color-300)] animate-pulse">
+                    {/* Character Image Skeleton */}
+                    <div className="relative aspect-[7/9] bg-[var(--color-200)]">
+                      <div className="absolute top-3 left-3 w-16 h-6 bg-[var(--color-300)] rounded-full"></div>
+                      <div className="absolute top-3 right-3 w-8 h-8 bg-[var(--color-300)] rounded"></div>
+                    </div>
+                    
+                    {/* Character Info Skeleton */}
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="h-6 bg-[var(--color-200)] rounded w-24"></div>
+                        <div className="flex space-x-1">
+                          <div className="w-6 h-6 bg-[var(--color-200)] rounded"></div>
+                          <div className="w-6 h-6 bg-[var(--color-200)] rounded"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2 mb-4">
+                        <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                        <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                        <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="h-6 bg-[var(--color-200)] rounded w-16"></div>
+                        <div className="h-6 bg-[var(--color-200)] rounded w-20"></div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--color-300)]">
+                        <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                        <div className="h-3 bg-[var(--color-200)] rounded w-12"></div>
+                      </div>
+                    </div>
+                  </Card>
+                </MasonryItem>
+              ))}
+            </MasonryGrid>
           ) : (
             <MasonryGrid className="pb-8">
               {filteredCharacters.map((character: any) => {

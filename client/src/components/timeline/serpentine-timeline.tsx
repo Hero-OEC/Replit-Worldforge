@@ -273,9 +273,30 @@ export default function SerpentineTimeline({
 
   if (isLoading) {
     return (
-      <div className={`text-center py-12 ${className}`}>
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-600)] mx-auto"></div>
-        <p className="text-[var(--color-600)] mt-2">Loading timeline...</p>
+      <div className={`${className}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-[var(--color-200)] rounded-lg"></div>
+                    <div className="h-5 bg-[var(--color-200)] rounded w-24"></div>
+                  </div>
+                  <div className="w-16 h-6 bg-[var(--color-200)] rounded"></div>
+                </div>
+                <div className="space-y-2 mb-3">
+                  <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                  <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <div className="h-3 bg-[var(--color-200)] rounded w-20"></div>
+                  <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }

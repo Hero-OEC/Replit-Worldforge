@@ -224,11 +224,53 @@ export default function EditTimelineEvent() {
   // Loading state
   if (eventLoading) {
     return (
-      <div className="min-h-screen bg-[var(--worldforge-bg)] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-600)] mx-auto mb-4"></div>
-          <p className="text-[var(--color-700)]">Loading timeline event...</p>
-        </div>
+      <div className="min-h-screen bg-[var(--worldforge-bg)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle="Loading..."
+          showProjectNav={true}
+        />
+        <main className="pt-16">
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <div className="animate-pulse">
+              {/* Header Skeleton */}
+              <div className="mb-6">
+                <div className="h-10 bg-[var(--color-200)] rounded w-32 mb-4"></div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                    <div className="h-8 bg-[var(--color-200)] rounded w-48"></div>
+                  </div>
+                  <div className="h-10 bg-[var(--color-200)] rounded w-20"></div>
+                </div>
+              </div>
+              
+              {/* Form Skeleton */}
+              <div className="space-y-6">
+                <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                  <div className="h-6 bg-[var(--color-200)] rounded w-24 mb-3"></div>
+                  <div className="h-10 bg-[var(--color-200)] rounded w-full"></div>
+                </div>
+                
+                <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                  <div className="h-6 bg-[var(--color-200)] rounded w-32 mb-3"></div>
+                  <div className="h-32 bg-[var(--color-200)] rounded w-full"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                    <div className="h-6 bg-[var(--color-200)] rounded w-20 mb-3"></div>
+                    <div className="h-10 bg-[var(--color-200)] rounded w-full"></div>
+                  </div>
+                  <div className="bg-[var(--color-100)] p-6 rounded-lg border border-[var(--color-300)]">
+                    <div className="h-6 bg-[var(--color-200)] rounded w-24 mb-3"></div>
+                    <div className="h-10 bg-[var(--color-200)] rounded w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }

@@ -189,9 +189,35 @@ export default function Locations() {
 
           {/* Locations Grid */}
           {isLocationsLoading ? (
-            <div className="text-center py-12">
-              <p className="text-[var(--color-700)]">Loading locations...</p>
-            </div>
+            <MasonryGrid className="pb-8">
+              {[...Array(6)].map((_, i) => (
+                <MasonryItem key={i} className="mb-6">
+                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                          <div>
+                            <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                            <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
+                          </div>
+                        </div>
+                        <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
+                      </div>
+                      <div className="space-y-2 mb-4">
+                        <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                        <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                        <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                      </div>
+                      <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--color-300)]">
+                        <div className="h-3 bg-[var(--color-200)] rounded w-20"></div>
+                        <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                      </div>
+                    </div>
+                  </Card>
+                </MasonryItem>
+              ))}
+            </MasonryGrid>
           ) : filteredLocations.length === 0 ? (
             <div className="text-center py-12">
               <MapPin className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />

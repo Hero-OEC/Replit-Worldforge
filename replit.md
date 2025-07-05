@@ -102,9 +102,16 @@ Changelog:
   * Replaced problematic CSS columns masonry with stable CSS grid layout using 320px-350px card widths
   * Fixed all skeleton loading components to use InkAlchemy color scheme (bg-[var(--color-200)]) instead of gray
   * Updated magic systems, dashboard, notes, and lore pages with proper skeleton loading colors
+  * Implemented comprehensive skeleton loading for all remaining pages that were missing it:
+    - Locations page: Added card-based skeleton loading matching actual location card structure
+    - Characters page: Added character card skeletons with image placeholders and role badges
+    - Timeline component: Added timeline event card skeletons for serpentine timeline
+    - Timeline event detail page: Added full page skeleton with header, content sections, and metadata
+    - Timeline event edit page: Added form skeleton loading with input field placeholders
   * Removed all masonry animations to prevent card dragging and viewport overflow issues
   * Fixed notes page tag borders to use lighter border-[var(--color-300)] matching lore page styling
   * Improved card spacing and layout consistency across all pages with masonry grid implementation
+  * All pages now have consistent InkAlchemy-themed skeleton loading states for better user experience
 - July 4, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
   * Fixed missing tsx dependency for TypeScript execution
   * Connected to Supabase database successfully with persistent data storage
