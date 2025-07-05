@@ -274,3 +274,6 @@ export const editHistoryRelations = relations(editHistory, ({ one }) => ({
     references: [projects.id],
   }),
 }));
+
+// Constants
+export const noteCategories = ["Plot", "Characters", "World Building", "Research"] as const;
