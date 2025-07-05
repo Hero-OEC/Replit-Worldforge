@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords } from "lucide-react";
+import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords, PenTool, FileText, Edit, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,6 +89,14 @@ const writingStatusLabels = {
   first_draft: "First Draft",
   editing: "Editing",
   complete: "Complete"
+};
+
+const writingStatusIcons = {
+  planning: Clock,
+  writing: PenTool,
+  first_draft: FileText,
+  editing: Edit,
+  complete: CheckCircle
 };
 
 // Removed hardcoded sample event - now using API data
@@ -573,7 +581,12 @@ export default function EditTimelineEvent() {
                 <SelectContent>
                   {writingStatuses.map((status) => (
                     <SelectItem key={status} value={status}>
-                      {writingStatusLabels[status as keyof typeof writingStatusLabels]}
+                      <div className="flex items-center space-x-2">
+                        {React.createElement(writingStatusIcons[status as keyof typeof writingStatusIcons], {
+                          className: "w-4 h-4"
+                        })}
+                        <span>{writingStatusLabels[status as keyof typeof writingStatusLabels]}</span>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>

@@ -22,6 +22,11 @@ import {
   Plane,
   Search,
   Skull,
+  PenTool,
+  FileText,
+  Edit,
+  CheckCircle,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -71,6 +76,14 @@ const writingStatusLabels = {
   first_draft: "First Draft",
   editing: "Editing",
   complete: "Complete"
+};
+
+const writingStatusIcons = {
+  planning: Clock,
+  writing: PenTool,
+  first_draft: FileText,
+  editing: Edit,
+  complete: CheckCircle
 };
 
 const writingStatusColors = {
@@ -255,9 +268,12 @@ export default function TimelineEventDetail() {
                   <p className="text-[var(--color-700)]">Timeline Event Details</p>
                   {event.writingStatus && (
                     <Badge 
-                      className={`text-xs px-2 py-1 ${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]}`}
+                      className={`text-xs px-2 py-1 flex items-center space-x-1 ${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]}`}
                     >
-                      {writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}
+                      {React.createElement(writingStatusIcons[event.writingStatus as keyof typeof writingStatusIcons], {
+                        className: "w-3 h-3"
+                      })}
+                      <span>{writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}</span>
                     </Badge>
                   )}
                 </div>

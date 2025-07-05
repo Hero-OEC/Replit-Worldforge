@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2, Search, Skull } from "lucide-react";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2, Search, Skull, Clock, PenTool, FileText, CheckCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -75,6 +75,14 @@ const writingStatusLabels = {
   first_draft: "First Draft",
   editing: "Editing",
   complete: "Complete"
+};
+
+const writingStatusIcons = {
+  planning: Clock,
+  writing: PenTool,
+  first_draft: FileText,
+  editing: Edit,
+  complete: CheckCircle
 };
 
 export default function SerpentineTimeline({
