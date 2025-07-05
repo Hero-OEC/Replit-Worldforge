@@ -293,10 +293,7 @@ export default function Locations() {
                     {location.description}
                   </p>
 
-                  <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
-                    <span>Story significance</span>
-                    <span className="font-medium">Click to view details</span>
-                  </div>
+
                   </Card>
                 </MasonryItem>
               ))}
