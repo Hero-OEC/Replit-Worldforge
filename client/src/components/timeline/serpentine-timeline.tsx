@@ -135,17 +135,21 @@ export default function SerpentineTimeline({
 
   // Convert database events to timeline component format
   const convertToTimelineData = (events: TimelineEvent[]): TimelineEventData[] => {
-    return events.map(event => ({
-      id: event.id,
-      title: event.title,
-      date: event.date || "No Date",
-      importance: (event.importance || "medium") as "high" | "medium" | "low",
-      category: event.category || "Other",
-      description: event.description || "",
-      location: event.location || "",
-      characters: Array.isArray(event.characters) ? event.characters : [],
-      writingStatus: event.writingStatus || "planning"
-    }));
+    console.log('Raw events from database:', events);
+    return events.map(event => {
+      console.log('Event writingStatus:', event.writingStatus);
+      return {
+        id: event.id,
+        title: event.title,
+        date: event.date || "No Date",
+        importance: (event.importance || "medium") as "high" | "medium" | "low",
+        category: event.category || "Other",
+        description: event.description || "",
+        location: event.location || "",
+        characters: Array.isArray(event.characters) ? event.characters : [],
+        writingStatus: event.writingStatus || "planning"
+      };
+    });
   };
 
   const events = convertToTimelineData(timelineEvents);
