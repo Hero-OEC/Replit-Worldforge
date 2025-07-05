@@ -106,6 +106,78 @@ export default function Lore() {
   // Get unique categories for filter
   const categories = Array.from(new Set(loreEntries.map(entry => entry.category || "Uncategorized")));
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+        />
+        <main className="p-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="animate-pulse">
+              {/* Header skeleton */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                    <div>
+                      <div className="h-8 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-64"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-48 h-10 bg-[var(--color-200)] rounded"></div>
+                    <div className="w-32 h-10 bg-[var(--color-200)] rounded"></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Lore entries grid skeleton */}
+              <MasonryGrid className="pb-8">
+                {[...Array(6)].map((_, i) => (
+                  <MasonryItem key={i} className="mb-6">
+                    <Card className="bg-[var(--color-100)] border border-[var(--color-300)]">
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                            <div>
+                              <div className="h-6 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                              <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
+                            </div>
+                          </div>
+                          <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
+                        </div>
+                        
+                        <div className="space-y-2 mb-4">
+                          <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                          <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                          <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <div className="h-6 bg-[var(--color-200)] rounded w-16"></div>
+                          <div className="h-6 bg-[var(--color-200)] rounded w-20"></div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between text-xs pt-4 border-t border-[var(--color-300)]">
+                          <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                          <div className="h-3 bg-[var(--color-200)] rounded w-12"></div>
+                        </div>
+                      </div>
+                    </Card>
+                  </MasonryItem>
+                ))}
+              </MasonryGrid>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
