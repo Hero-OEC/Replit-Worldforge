@@ -87,24 +87,7 @@ const writingStatusIcons = {
   complete: CheckCircle
 };
 
-// Progress ring colors - using a different color scheme to avoid priority colors
-// Going from light blue to dark blue, darker than high priority
-const progressRingColors = {
-  planning: "#E0F2FE", // Very light blue
-  writing: "#7DD3FC", // Light blue  
-  first_draft: "#0284C7", // Medium blue
-  editing: "#0369A1", // Darker blue
-  complete: "#0C4A6E" // Very dark blue (darker than priority high)
-};
 
-// Progress ring completion percentages
-const progressRingCompletion = {
-  planning: 0.2, // 20%
-  writing: 0.4, // 40%
-  first_draft: 0.6, // 60%
-  editing: 0.8, // 80%
-  complete: 1.0 // 100%
-};
 
 export default function SerpentineTimeline({
   filterCharacter,
@@ -496,34 +479,7 @@ export default function SerpentineTimeline({
                         }
                       }}
                     >
-                      {/* Progress Ring */}
-                      <div className="absolute inset-0 w-12 h-12">
-                        <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
-                          {/* Background ring */}
-                          <circle
-                            cx="24"
-                            cy="24"
-                            r="20"
-                            fill="none"
-                            stroke="#E5E7EB"
-                            strokeWidth="3"
-                          />
-                          {/* Progress ring */}
-                          <circle
-                            cx="24"
-                            cy="24"
-                            r="20"
-                            fill="none"
-                            stroke={progressRingColors[group.events[0].writingStatus as keyof typeof progressRingColors] || "#7DD3FC"}
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeDasharray={`${2 * Math.PI * 20 * (progressRingCompletion[group.events[0].writingStatus as keyof typeof progressRingCompletion] || 0.2)} ${2 * Math.PI * 20}`}
-                            style={{
-                              transition: 'stroke-dasharray 0.3s ease-in-out'
-                            }}
-                          />
-                        </svg>
-                      </div>
+
                       
                       {/* Event bubble */}
                       <div
