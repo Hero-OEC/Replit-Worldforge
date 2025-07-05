@@ -206,7 +206,7 @@ export default function Characters() {
                   onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                 >
                   {/* Character Image */}
-                  <div className="relative aspect-[7/9] bg-[var(--color-200)] overflow-hidden">
+                  <div className="relative aspect-[3/4] bg-[var(--color-200)] overflow-hidden">
                     {character.imageUrl ? (
                       <img 
                         src={character.imageUrl} 
