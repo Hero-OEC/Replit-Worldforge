@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Fixed back button navigation issue after saving timeline event edits:
+  * Replaced browser history-based navigation with direct timeline page navigation
+  * Back button in timeline event detail pages now goes directly to main timeline page
+  * Eliminated multiple-click requirement by bypassing polluted browser history
+  * Removed complex navigation context and history manipulation attempts
+  * Timeline event detail page back button now provides consistent single-click navigation
+  * Edit → Save → Detail → Back flow now works reliably without navigation issues
 - July 5, 2025. Implemented true masonry brick layout with JavaScript positioning and centering:
   * Replaced CSS grid with custom JavaScript masonry algorithm using shortest column positioning
   * Cards now pack tightly like bricks with shorter cards automatically fitting into gaps left by taller ones
