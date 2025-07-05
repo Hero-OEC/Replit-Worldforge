@@ -231,21 +231,32 @@ export default function EditNote() {
                   <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="text-3xl font-bold border-none bg-transparent text-gray-800 p-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 max-w-md"
-                    placeholder="Note title..."
+                    className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] h-12 focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent max-w-md"
+                    placeholder="Note Title"
                   />
                 </div>
                 <div className="ml-13">
                   <Select value={category} onValueChange={setCategory}>
-                    <SelectTrigger className={`w-40 ${categoryInfo.bgColor} ${categoryInfo.textColor} border-0`}>
-                      <SelectValue />
+                    <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent">
+                      <SelectValue>
+                        <div className="flex items-center space-x-2">
+                          <CategoryIcon className="w-4 h-4" />
+                          <span>{category}</span>
+                        </div>
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      {categories.map((cat) => (
-                        <SelectItem key={cat} value={cat}>
-                          {cat}
-                        </SelectItem>
-                      ))}
+                      {Object.entries(categoryConfig).map(([cat, config]) => {
+                        const Icon = config.icon;
+                        return (
+                          <SelectItem key={cat} value={cat}>
+                            <div className="flex items-center space-x-2">
+                              <Icon className="w-4 h-4" />
+                              <span>{cat}</span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </div>
@@ -299,7 +310,7 @@ export default function EditNote() {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 placeholder="Add a tag..."
-                className="max-w-xs bg-[var(--color-50)] border-[var(--color-300)]"
+                className="max-w-xs bg-[var(--color-50)] border-[var(--color-300)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
                 onKeyPress={(e) => e.key === 'Enter' && addTag()}
               />
               <Button
