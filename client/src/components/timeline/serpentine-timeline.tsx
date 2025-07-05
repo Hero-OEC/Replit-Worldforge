@@ -502,25 +502,26 @@ export default function SerpentineTimeline({
                           <circle
                             cx="24"
                             cy="24"
-                            r="22"
+                            r="20"
                             fill="none"
                             stroke="#E5E7EB"
-                            strokeWidth="2"
+                            strokeWidth="3"
                           />
                           {/* Progress ring */}
                           <circle
                             cx="24"
                             cy="24"
-                            r="22"
+                            r="20"
                             fill="none"
-                            stroke={progressRingColors[group.events[0].writingStatus as keyof typeof progressRingColors] || progressRingColors.planning}
-                            strokeWidth="2"
+                            stroke={progressRingColors[group.events[0].writingStatus as keyof typeof progressRingColors] || "#7DD3FC"}
+                            strokeWidth="3"
                             strokeLinecap="round"
-                            strokeDasharray={`${2 * Math.PI * 22 * (progressRingCompletion[group.events[0].writingStatus as keyof typeof progressRingCompletion] || 0.2)} ${2 * Math.PI * 22}`}
+                            strokeDasharray={`${2 * Math.PI * 20 * (progressRingCompletion[group.events[0].writingStatus as keyof typeof progressRingCompletion] || 0.2)} ${2 * Math.PI * 20}`}
                             style={{
                               transition: 'stroke-dasharray 0.3s ease-in-out'
                             }}
                           />
+                          {console.log('Bubble writingStatus:', group.events[0].writingStatus, 'Color:', progressRingColors[group.events[0].writingStatus as keyof typeof progressRingColors])}
                         </svg>
                       </div>
                       
