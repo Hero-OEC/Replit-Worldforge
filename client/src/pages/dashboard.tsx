@@ -55,18 +55,18 @@ export default function Dashboard() {
             {[...Array(8)].map((_, i) => (
               <MasonryItem key={i}>
                 <div className="bg-[var(--worldforge-card)] rounded-xl shadow-sm border border-[var(--border)] p-6 animate-pulse">
-                  <div className="h-6 bg-gray-200 rounded mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-6"></div>
+                  <div className="h-6 bg-[var(--color-200)] rounded mb-4"></div>
+                  <div className="h-4 bg-[var(--color-200)] rounded mb-6"></div>
                   <div className="grid grid-cols-3 gap-4 mb-4">
                     {[...Array(3)].map((_, j) => (
                       <div key={j} className="text-center">
-                        <div className="w-8 h-8 bg-gray-200 rounded-lg mx-auto mb-2"></div>
-                        <div className="h-6 bg-gray-200 rounded mb-1"></div>
-                        <div className="h-3 bg-gray-200 rounded"></div>
+                        <div className="w-8 h-8 bg-[var(--color-200)] rounded-lg mx-auto mb-2"></div>
+                        <div className="h-6 bg-[var(--color-200)] rounded mb-1"></div>
+                        <div className="h-3 bg-[var(--color-200)] rounded"></div>
                       </div>
                     ))}
                   </div>
-                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-[var(--color-200)] rounded"></div>
                 </div>
               </MasonryItem>
             ))}

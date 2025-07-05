@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Fixed masonry layout and skeleton loading issues throughout application:
+  * Replaced problematic CSS columns masonry with stable CSS grid layout using 320px-350px card widths
+  * Fixed all skeleton loading components to use InkAlchemy color scheme (bg-[var(--color-200)]) instead of gray
+  * Updated magic systems, dashboard, notes, and lore pages with proper skeleton loading colors
+  * Removed all masonry animations to prevent card dragging and viewport overflow issues
+  * Fixed notes page tag borders to use lighter border-[var(--color-300)] matching lore page styling
+  * Improved card spacing and layout consistency across all pages with masonry grid implementation
 - July 4, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
   * Fixed missing tsx dependency for TypeScript execution
   * Connected to Supabase database successfully with persistent data storage
