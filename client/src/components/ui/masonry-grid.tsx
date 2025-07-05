@@ -18,8 +18,7 @@ export function MasonryGrid({
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 350px))',
-        columnGap: '32px',
-        rowGap: '12px',
+        gap: '32px',
         width: '100%',
         maxWidth: '100%',
         justifyContent: 'center'
