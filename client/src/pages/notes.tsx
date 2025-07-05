@@ -308,13 +308,13 @@ export default function Notes() {
                         {note.tags && (
                           <div className="flex flex-wrap gap-1">
                             {note.tags.split(',').slice(0, 3).map((tag: string, index: number) => (
-                              <Badge key={index} variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)]">
+                              <Badge key={index} variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)] border-[var(--color-300)]">
                                 <Tag className="h-3 w-3 mr-1" />
                                 {tag.trim()}
                               </Badge>
                             ))}
                             {note.tags.split(',').length > 3 && (
-                              <Badge variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)]">
+                              <Badge variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)] border-[var(--color-300)]">
                                 +{note.tags.split(',').length - 3} more
                               </Badge>
                             )}
