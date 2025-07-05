@@ -79,7 +79,24 @@ export function ImageUpload({
 
   return (
     <div className={`space-y-4 ${className}`}>
-      <div className="flex items-center space-x-4">
+      <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="flex items-center space-x-2"
+          >
+            <Upload className="w-4 h-4" />
+            <span>{isUploading ? 'Uploading...' : value ? 'Change Image' : 'Upload Image'}</span>
+          </Button>
+          
+          <p className="text-xs text-[var(--color-600)]">
+            Use 7:9 aspect ratio for best results
+          </p>
+        </div>
+
         {value ? (
           <div className="relative">
             <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
@@ -107,23 +124,6 @@ export function ImageUpload({
             </div>
           </div>
         )}
-
-        <div className="flex flex-col space-y-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
-            className="flex items-center space-x-2"
-          >
-            <Upload className="w-4 h-4" />
-            <span>{isUploading ? 'Uploading...' : value ? 'Change Image' : 'Upload Image'}</span>
-          </Button>
-          
-          <p className="text-xs text-[var(--color-600)]">
-            Use 7:9 aspect ratio for best results
-          </p>
-        </div>
       </div>
 
       <input
