@@ -171,7 +171,7 @@ export default function NewMagicSystem() {
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
                 <Sparkles className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-gray-700">Description</span>
+                <span className="text-xl font-medium text-[var(--color-700)]">Description</span>
               </div>
               <textarea
                 value={formData.description}
@@ -185,7 +185,7 @@ export default function NewMagicSystem() {
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
                 <Zap className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-gray-700">Rules & Mechanics</span>
+                <span className="text-xl font-medium text-[var(--color-700)]">Rules & Mechanics</span>
               </div>
               <textarea
                 value={formData.rules}
@@ -199,7 +199,7 @@ export default function NewMagicSystem() {
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
                 <X className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-gray-700">Limitations</span>
+                <span className="text-xl font-medium text-[var(--color-700)]">Limitations</span>
               </div>
               <textarea
                 value={formData.limitations}
@@ -213,7 +213,7 @@ export default function NewMagicSystem() {
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
                 <Battery className="w-5 h-5 text-[var(--color-700)]" />
-                <span className="text-xl font-medium text-gray-700">Source & Cost</span>
+                <span className="text-xl font-medium text-[var(--color-700)]">Source & Cost</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
