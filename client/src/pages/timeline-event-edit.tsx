@@ -343,8 +343,8 @@ export default function EditTimelineEvent() {
         description: "Timeline event updated successfully",
       });
       
-      // Navigate to detail page without adding to history
-      window.location.replace(`/project/${projectId}/timeline/${eventId}`);
+      // Navigate to detail page
+      navigate(`/project/${projectId}/timeline/${eventId}`);
     } catch (error: any) {
       toast({
         title: "Error",

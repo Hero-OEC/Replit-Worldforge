@@ -212,7 +212,7 @@ export default function TimelineEventDetail() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-[var(--color-950)] mb-4">Timeline Event Not Found</h1>
           <p className="text-[var(--color-700)] mb-6">The timeline event you're looking for doesn't exist.</p>
-          <Button onClick={goBack} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+          <Button onClick={() => navigate(`/project/${projectId}/timeline`)} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
             Go Back
           </Button>
         </div>
@@ -250,7 +250,7 @@ export default function TimelineEventDetail() {
                 variant="ghost" 
                 size="sm" 
                 className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={goBack}
+                onClick={() => navigate(`/project/${projectId}/timeline`)}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
