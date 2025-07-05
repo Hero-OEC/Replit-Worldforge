@@ -28,6 +28,32 @@ if (!supabaseUrl.startsWith('http')) {
 
 export const supabase = createClient(validatedUrl, supabaseAnonKey);
 
+// Initialize storage bucket for character images
+export const initializeStorage = async (): Promise<void> => {
+  try {
+    // Check if bucket exists
+    const { data: buckets } = await supabase.storage.listBuckets();
+    const bucketExists = buckets?.some(bucket => bucket.name === 'character-images');
+    
+    if (!bucketExists) {
+      // Create bucket with public access
+      const { error } = await supabase.storage.createBucket('character-images', {
+        public: true,
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+        fileSizeLimit: 5242880 // 5MB
+      });
+      
+      if (error) {
+        console.error('Failed to create storage bucket:', error);
+      } else {
+        console.log('Created character-images storage bucket');
+      }
+    }
+  } catch (error) {
+    console.error('Error initializing storage:', error);
+  }
+};
+
 // Storage helpers for character images
 export const uploadCharacterImage = async (file: File, characterId: number): Promise<string> => {
   const fileExt = file.name.split('.').pop();

@@ -194,7 +194,7 @@ export default function NoteDetail() {
           {/* Tags */}
           {note.tags && note.tags.length > 0 && (() => {
             const tagsArray = typeof note.tags === 'string' 
-              ? note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+              ? note.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0)
               : Array.isArray(note.tags) ? note.tags : [];
             
             return tagsArray.length > 0 ? (
@@ -204,7 +204,7 @@ export default function NoteDetail() {
                   <span className="text-sm font-medium text-gray-700">Tags</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {tagsArray.map((tag, index) => (
+                  {tagsArray.map((tag: string, index: number) => (
                     <span
                       key={index}
                       className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
