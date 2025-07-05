@@ -679,19 +679,7 @@ export default function SerpentineTimeline({
                 </p>
               </div>
 
-              {/* Writing Status */}
-              {hoveredEvent.writingStatus && (
-                <div className="mb-4">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-medium text-[var(--color-600)]">Writing Status:</span>
-                    <Badge 
-                      className={`text-xs px-2 py-1 ${writingStatusColors[hoveredEvent.writingStatus as keyof typeof writingStatusColors]}`}
-                    >
-                      {writingStatusLabels[hoveredEvent.writingStatus as keyof typeof writingStatusLabels]}
-                    </Badge>
-                  </div>
-                </div>
-              )}
+
 
               {/* Location and Characters with Icons */}
               <div className="space-y-2 mb-4">
