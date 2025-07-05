@@ -303,20 +303,20 @@ export default function LocationDetail() {
                 {isEditing ? (
                   <>
                     <Button
-                      onClick={handleSave}
-                      disabled={updateLocationMutation.isPending}
-                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                    >
-                      <Save className="w-4 h-4 mr-2" />
-                      {updateLocationMutation.isPending ? "Saving..." : "Save"}
-                    </Button>
-                    <Button
                       onClick={handleCancel}
                       variant="outline"
                       className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
                     >
                       <X className="w-4 h-4 mr-2" />
                       Cancel
+                    </Button>
+                    <Button
+                      onClick={handleSave}
+                      disabled={updateLocationMutation.isPending}
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      {updateLocationMutation.isPending ? "Saving..." : "Save Changes"}
                     </Button>
                   </>
                 ) : (
