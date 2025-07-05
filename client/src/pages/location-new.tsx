@@ -172,20 +172,20 @@ export default function LocationNew() {
               
               <div className="flex items-center space-x-3">
                 <Button 
+                  onClick={handleSave} 
+                  disabled={createLocationMutation.isPending || !locationData.name.trim()}
+                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {createLocationMutation.isPending ? "Creating..." : "Save Changes"}
+                </Button>
+                <Button 
                   onClick={handleCancel} 
                   variant="outline"
                   className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Cancel
-                </Button>
-                <Button 
-                  onClick={handleSave} 
-                  disabled={createLocationMutation.isPending || !locationData.name.trim()}
-                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  {createLocationMutation.isPending ? "Creating..." : "Create Location"}
                 </Button>
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function LocationNew() {
                         <Textarea
                           value={locationData.description}
                           onChange={(e) => setLocationData({...locationData, description: e.target.value})}
-                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                           placeholder="Describe the location..."
                         />
                       </div>
@@ -226,7 +226,7 @@ export default function LocationNew() {
                         <Textarea
                           value={locationData.geography}
                           onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
-                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                           placeholder="Describe the geographical features..."
                         />
                       </div>
@@ -242,7 +242,7 @@ export default function LocationNew() {
                         <Textarea
                           value={locationData.culture}
                           onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
-                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                           placeholder="Describe the cultural aspects..."
                         />
                       </div>
@@ -258,7 +258,7 @@ export default function LocationNew() {
                         <Textarea
                           value={locationData.significance}
                           onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
-                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                           placeholder="What makes this location significant..."
                         />
                       </div>

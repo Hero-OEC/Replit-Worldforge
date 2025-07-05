@@ -308,7 +308,7 @@ export default function LocationDetail() {
                       className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
                     >
                       <Save className="w-4 h-4 mr-2" />
-                      {updateLocationMutation.isPending ? "Saving..." : "Save"}
+                      {updateLocationMutation.isPending ? "Saving..." : "Save Changes"}
                     </Button>
                     <Button
                       onClick={handleCancel}
@@ -398,7 +398,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.description}
                               onChange={(e) => setLocationFormData({...locationFormData, description: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                               placeholder="Describe the location..."
                             />
                           ) : (
@@ -418,7 +418,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.geography}
                               onChange={(e) => setLocationFormData({...locationFormData, geography: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                               placeholder="Describe the geographical features..."
                             />
                           ) : (
@@ -438,7 +438,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.culture}
                               onChange={(e) => setLocationFormData({...locationFormData, culture: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                               placeholder="Describe the cultural aspects..."
                             />
                           ) : (
@@ -458,7 +458,7 @@ export default function LocationDetail() {
                             <Textarea
                               value={locationFormData.significance}
                               onChange={(e) => setLocationFormData({...locationFormData, significance: e.target.value})}
-                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                              className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
                               placeholder="What makes this location significant..."
                             />
                           ) : (
