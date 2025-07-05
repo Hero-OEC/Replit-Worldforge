@@ -192,19 +192,19 @@ export default function NoteDetail() {
           </div>
 
           {/* Tags */}
-          {note.tags && note.tags.length > 0 && (
+          {note.tags && note.tags.trim() && (
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-3">
                 <Tag className="w-4 h-4 text-[var(--color-700)]" />
                 <span className="text-sm font-medium text-gray-700">Tags</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {note.tags.map((tag, index) => (
+                {note.tags.split(',').map((tag, index) => (
                   <span
                     key={index}
                     className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
                   >
-                    {tag}
+                    {tag.trim()}
                   </span>
                 ))}
               </div>
