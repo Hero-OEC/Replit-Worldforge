@@ -30,11 +30,54 @@ export default function ProjectLayout() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--worldforge-cream)] flex items-center justify-center">
-        <div className="text-center">
-          <BookOpen className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4 animate-pulse" />
-          <p className="text-[var(--color-700)]">Loading project...</p>
-        </div>
+      <div className="min-h-screen bg-[var(--worldforge-cream)]">
+        <Navbar 
+          projectId={projectId}
+          projectTitle="Loading..."
+          showProjectNav={true}
+        />
+
+        {/* Project Overview Skeleton */}
+        <main className="p-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-8 animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-64 mb-2"></div>
+              <div className="h-6 bg-gray-200 rounded w-40 mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded w-full"></div>
+              <div className="h-4 bg-gray-200 rounded w-3/4 mt-2"></div>
+            </div>
+
+            {/* Quick Stats Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {[...Array(4)].map((_, i) => (
+                <Card key={i} className="bg-[var(--color-100)] border border-[var(--color-300)] p-6 animate-pulse">
+                  <div className="flex items-center">
+                    <div className="p-3 bg-gray-200 rounded-lg w-11 h-11"></div>
+                    <div className="ml-4 flex-1">
+                      <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                      <div className="h-8 bg-gray-200 rounded w-12"></div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Editing History Skeleton */}
+            <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6 animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
+              <div className="space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center space-x-4">
+                    <div className="w-6 h-6 bg-gray-200 rounded"></div>
+                    <div className="flex-1 h-4 bg-gray-200 rounded"></div>
+                    <div className="w-24 h-4 bg-gray-200 rounded"></div>
+                    <div className="w-20 h-4 bg-gray-200 rounded"></div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </main>
       </div>
     );
   }
