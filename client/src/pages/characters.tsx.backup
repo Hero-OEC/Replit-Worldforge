@@ -50,24 +50,28 @@ export default function Characters() {
       if (data?.imageUrl) {
         try {
           await deleteCharacterImage(data.imageUrl);
-        } catch (error) {
-          console.error("Failed to delete character image:", error);
+        } catch (cleanupError) {
+          console.error("Failed to cleanup character image:", cleanupError);
+          // Don't fail the deletion if image cleanup fails
         }
       }
-      
-      await queryClient.invalidateQueries({
-        queryKey: ['/api/projects', projectId, 'characters']
-      });
-      setDeleteDialogOpen(false);
-      setCharacterToDelete(null);
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
     },
-    onError: (error: any) => {
-      console.error('Delete failed:', error);
-    }
   });
 
-  const { data: characters = [], isLoading } = useQuery<Character[]>({
-    queryKey: ["/api/projects", projectId, "characters"],
+  // Character role icons and colors
+  const roleConfig = {
+    "Protagonist": { icon: Crown, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
+    "Antagonist": { icon: Sword, color: "bg-[var(--color-950)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-700)]" },
+    "Ally": { icon: Shield, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
+    "Enemy": { icon: UserX, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-200)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-600)]" },
+    "Neutral": { icon: HelpCircle, color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-50)]", textColor: "text-[var(--color-600)]", borderColor: "border-[var(--color-300)]" },
+    "Supporting": { icon: UserCheck, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-100)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" }
+  };
+
+  // Fetch characters from API
+  const { data: characters = [], isLoading } = useQuery({
+    queryKey: ["/api/characters", projectId],
     queryFn: async () => {
       const response = await fetch(`/api/projects/${projectId}/characters`);
       if (!response.ok) throw new Error("Failed to fetch characters");
@@ -75,54 +79,10 @@ export default function Characters() {
     },
   });
 
-  const roleConfig = {
-    "protagonist": {
-      icon: Crown,
-      color: "bg-gradient-to-r from-yellow-400 to-yellow-600",
-      bgColor: "bg-yellow-100",
-      textColor: "text-yellow-800",
-      borderColor: "border-yellow-200"
-    },
-    "antagonist": {
-      icon: Sword,
-      color: "bg-gradient-to-r from-red-500 to-red-700",
-      bgColor: "bg-red-100",
-      textColor: "text-red-800",
-      borderColor: "border-red-200"
-    },
-    "ally": {
-      icon: Shield,
-      color: "bg-gradient-to-r from-green-500 to-green-700",
-      bgColor: "bg-green-100",
-      textColor: "text-green-800",
-      borderColor: "border-green-200"
-    },
-    "enemy": {
-      icon: UserX,
-      color: "bg-gradient-to-r from-red-400 to-red-600",
-      bgColor: "bg-red-50",
-      textColor: "text-red-700",
-      borderColor: "border-red-200"
-    },
-    "supporting": {
-      icon: UserCheck,
-      color: "bg-gradient-to-r from-blue-500 to-blue-700",
-      bgColor: "bg-blue-100",
-      textColor: "text-blue-800",
-      borderColor: "border-blue-200"
-    },
-    "neutral": {
-      icon: User,
-      color: "bg-gradient-to-r from-gray-500 to-gray-700",
-      bgColor: "bg-gray-100",
-      textColor: "text-gray-800",
-      borderColor: "border-gray-200"
-    }
-  };
-
   const filteredCharacters = characters.filter((character: any) => {
-    const matchesSearch = character.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         character.description?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = character.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      character.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = selectedRole === "all" || character.role === selectedRole;
     return matchesSearch && matchesRole;
   });
@@ -135,29 +95,32 @@ export default function Characters() {
   const confirmDelete = () => {
     if (characterToDelete) {
       deleteCharacterMutation.mutate(characterToDelete.id);
+      setDeleteDialogOpen(false);
+      setCharacterToDelete(null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[var(--worldforge-bg)]">
+    <div className="min-h-screen bg-[var(--worldforge-cream)]">
       <Navbar 
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
+        
+        
       />
-      
-      <main className="container mx-auto px-4 py-8">
+      <main className="p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Page Header */}
-          <div className="bg-[var(--worldforge-card)] rounded-lg border border-[var(--color-300)] mb-8">
-            <div className="flex items-center justify-between p-8">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center shadow-sm">
-                  <Users className="w-6 h-6 text-[var(--color-700)]" />
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg shadow-sm cursor-pointer group">
+                  <Users className="w-6 h-6 text-[var(--color-700)] transition-transform duration-300 group-hover:bounce group-hover:scale-110" />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-[var(--color-950)]">Characters</h1>
-                  <p className="text-[var(--color-700)]">Manage the people in your story</p>
+                  <p className="text-[var(--color-700)]">Manage your story's characters and their development</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
@@ -167,12 +130,12 @@ export default function Characters() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Roles</SelectItem>
-                    <SelectItem value="protagonist">Protagonist</SelectItem>
-                    <SelectItem value="antagonist">Antagonist</SelectItem>
-                    <SelectItem value="ally">Ally</SelectItem>
-                    <SelectItem value="enemy">Enemy</SelectItem>
-                    <SelectItem value="supporting">Supporting</SelectItem>
-                    <SelectItem value="neutral">Neutral</SelectItem>
+                    <SelectItem value="Protagonist">Protagonist</SelectItem>
+                    <SelectItem value="Antagonist">Antagonist</SelectItem>
+                    <SelectItem value="Ally">Ally</SelectItem>
+                    <SelectItem value="Enemy">Enemy</SelectItem>
+                    <SelectItem value="Supporting">Supporting</SelectItem>
+                    <SelectItem value="Neutral">Neutral</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button 
@@ -185,6 +148,8 @@ export default function Characters() {
               </div>
             </div>
           </div>
+
+
 
           {/* Characters Grid */}
           {isLoading ? (
@@ -217,25 +182,10 @@ export default function Characters() {
                 </MasonryItem>
               ))}
             </MasonryGrid>
-          ) : filteredCharacters.length === 0 ? (
-            <div className="text-center py-12">
-              <User className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
-              <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No characters found</h3>
-              <p className="text-[var(--color-600)] mb-6">
-                {searchTerm ? 'Try adjusting your search terms.' : 'Start building your story by adding characters.'}
-              </p>
-              <Button 
-                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                onClick={() => setLocation(`/project/${projectId}/characters/new`)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Your First Character
-              </Button>
-            </div>
           ) : (
             <MasonryGrid className="pb-8">
               {filteredCharacters.map((character: any) => {
-                const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["supporting"];
+                const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
                 const RoleIcon = roleInfo.icon;
 
                 return (
@@ -302,6 +252,23 @@ export default function Characters() {
                 );
               })}
             </MasonryGrid>
+          )}
+
+          {!isLoading && filteredCharacters.length === 0 && (
+            <div className="text-center py-12">
+              <User className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+              <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No characters found</h3>
+              <p className="text-[var(--color-600)] mb-6">
+                {searchTerm ? 'Try adjusting your search terms.' : 'Start building your story by adding characters.'}
+              </p>
+              <Button 
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                onClick={() => setLocation(`/project/${projectId}/characters/new`)}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Your First Character
+              </Button>
+            </div>
           )}
         </div>
       </main>
