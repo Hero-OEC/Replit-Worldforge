@@ -8,6 +8,7 @@ import {
   MapPin,
   Clock,
   Filter,
+  Search,
   Plus,
   ChevronDown,
   Edit,
@@ -76,70 +77,107 @@ const sampleCharacters = [
   "Village Elder",
 ];
 
-// Simple Multi-Select Component
-interface MultiSelectProps {
+// Tag Search Component with separate search and tags
+interface TagSearchProps {
   items: string[];
   placeholder: string;
-  selectedItems: string[];
-  onSelect: (item: string) => void;
-  onRemove: (item: string) => void;
+  selectedTags: string[];
+  onAddTag: (tag: string) => void;
+  onRemoveTag: (tag: string) => void;
 }
 
-function MultiSelect({
+function TagSearch({
   items,
   placeholder,
-  selectedItems,
-  onSelect,
-  onRemove,
-}: MultiSelectProps) {
+  selectedTags,
+  onAddTag,
+  onRemoveTag,
+}: TagSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const availableItems = items.filter(item => !selectedItems.includes(item));
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredItems, setFilteredItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = items.filter(
+        (item) =>
+          item.toLowerCase().includes(searchValue.toLowerCase()) &&
+          !selectedTags.includes(item),
+      );
+      setFilteredItems(filtered);
+      setIsOpen(filtered.length > 0);
+    } else {
+      setFilteredItems([]);
+      setIsOpen(false);
+    }
+  }, [searchValue, items, selectedTags]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
+  };
+
+  const handleSelectItem = (item: string) => {
+    onAddTag(item);
+    setSearchValue("");
+    setIsOpen(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (
+      e.key === "Enter" &&
+      searchValue &&
+      !selectedTags.includes(searchValue)
+    ) {
+      onAddTag(searchValue);
+      setSearchValue("");
+      setIsOpen(false);
+    }
+  };
 
   return (
     <div className="flex flex-col">
       <div className="relative">
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full justify-between bg-[var(--color-100)] border-[var(--color-400)] hover:bg-[var(--color-50)]"
-        >
-          {selectedItems.length > 0 ? `${selectedItems.length} selected` : placeholder}
-          <ChevronDown className="w-4 h-4" />
-        </Button>
-        {isOpen && (
+        <Input
+          placeholder={placeholder}
+          value={searchValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            if (filteredItems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
+        />
+        {isOpen && filteredItems.length > 0 && (
           <div className="absolute z-[999] w-full bg-[var(--color-100)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {availableItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <div
                 key={index}
                 className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
-                onClick={() => {
-                  onSelect(item);
-                  setIsOpen(false);
-                }}
+                onClick={() => handleSelectItem(item)}
               >
-                {item}
+                <div className="flex items-center justify-between">
+                  <span>{item}</span>
+                  <Check className="w-4 h-4 text-[var(--color-600)]" />
+                </div>
               </div>
             ))}
-            {availableItems.length === 0 && (
-              <div className="px-3 py-2 text-sm text-[var(--color-600)]">
-                No more items available
-              </div>
-            )}
           </div>
         )}
       </div>
 
-      {/* Selected Items */}
-      {selectedItems.length > 0 && (
+      {/* Selected Tags - positioned right below input without extra spacing */}
+      {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-2">
-          {selectedItems.map((item, index) => (
+          {selectedTags.map((tag, index) => (
             <Tag
               key={index}
               variant="primary"
               removable
-              onRemove={() => onRemove(item)}
+              onRemove={() => onRemoveTag(tag)}
             >
-              {item}
+              {tag}
             </Tag>
           ))}
         </div>
@@ -162,13 +200,13 @@ const priorityLabels = {
 
 const eventTypeIcons = {
   "Character Arc": User,
-  Discovery: Eye,
+  Discovery: Search,
   Conflict: Swords,
   Revelation: Eye,
   "Heroic Act": Crown,
   "Political Event": Crown,
   Romance: Heart,
-  Mystery: HelpCircle,
+  Mystery: Search,
   Magic: Sparkles,
   Battle: Swords,
   Traveling: Plane,
@@ -333,7 +371,7 @@ export default function Timeline() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCharacterFilters, setSelectedCharacterFilters] = useState<string[]>([]);
   const [selectedLocationFilters, setSelectedLocationFilters] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -602,6 +640,8 @@ export default function Timeline() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
+        searchPlaceholder="Search timeline events..."
+        onSearch={setSearchTerm}
       />
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">
@@ -641,12 +681,12 @@ export default function Timeline() {
                   <User className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
                   <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Characters:</span>
                   <div className="w-64">
-                    <MultiSelect
+                    <TagSearch
                       items={characters.map(char => char.name)}
                       placeholder="Filter by character..."
-                      selectedItems={selectedCharacterFilters}
-                      onSelect={(character) => setSelectedCharacterFilters(prev => [...prev, character])}
-                      onRemove={(character) => setSelectedCharacterFilters(prev => prev.filter(c => c !== character))}
+                      selectedTags={selectedCharacterFilters}
+                      onAddTag={(character) => setSelectedCharacterFilters(prev => [...prev, character])}
+                      onRemoveTag={(character) => setSelectedCharacterFilters(prev => prev.filter(c => c !== character))}
                     />
                   </div>
                 </div>
@@ -654,12 +694,12 @@ export default function Timeline() {
                   <MapPin className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
                   <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Locations:</span>
                   <div className="w-64">
-                    <MultiSelect
+                    <TagSearch
                       items={locations.map(loc => loc.name)}
                       placeholder="Filter by location..."
-                      selectedItems={selectedLocationFilters}
-                      onSelect={(location) => setSelectedLocationFilters(prev => [...prev, location])}
-                      onRemove={(location) => setSelectedLocationFilters(prev => prev.filter(l => l !== location))}
+                      selectedTags={selectedLocationFilters}
+                      onAddTag={(location) => setSelectedLocationFilters(prev => [...prev, location])}
+                      onRemoveTag={(location) => setSelectedLocationFilters(prev => prev.filter(l => l !== location))}
                     />
                   </div>
                 </div>
@@ -1242,14 +1282,14 @@ export default function Timeline() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <MultiSelect
+                    <TagSearch
                       items={sampleLocations}
                       placeholder="Search locations..."
-                      selectedItems={selectedLocations}
-                      onSelect={(location) =>
+                      selectedTags={selectedLocations}
+                      onAddTag={(location) =>
                         setSelectedLocations([...selectedLocations, location])
                       }
-                      onRemove={(location) =>
+                      onRemoveTag={(location) =>
                         setSelectedLocations(
                           selectedLocations.filter((l) => l !== location),
                         )
@@ -1261,17 +1301,17 @@ export default function Timeline() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Characters
                     </label>
-                    <MultiSelect
+                    <TagSearch
                       items={sampleCharacters}
                       placeholder="Search characters..."
-                      selectedItems={selectedCharacters}
-                      onSelect={(character) =>
+                      selectedTags={selectedCharacters}
+                      onAddTag={(character) =>
                         setSelectedCharacters([
                           ...selectedCharacters,
                           character,
                         ])
                       }
-                      onRemove={(character) =>
+                      onRemoveTag={(character) =>
                         setSelectedCharacters(
                           selectedCharacters.filter((c) => c !== character),
                         )
@@ -1432,14 +1472,14 @@ export default function Timeline() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Locations
                   </label>
-                  <MultiSelect
+                  <TagSearch
                     items={sampleLocations}
                     placeholder="Search and add locations..."
-                    selectedItems={selectedLocations}
-                    onSelect={(location) =>
+                    selectedTags={selectedLocations}
+                    onAddTag={(location) =>
                       setSelectedLocations([...selectedLocations, location])
                     }
-                    onRemove={(location) =>
+                    onRemoveTag={(location) =>
                       setSelectedLocations(
                         selectedLocations.filter((l) => l !== location)
                       )
@@ -1452,14 +1492,14 @@ export default function Timeline() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Characters
                   </label>
-                  <MultiSelect
+                  <TagSearch
                     items={sampleCharacters}
                     placeholder="Search and add characters..."
-                    selectedItems={selectedCharacters}
-                    onSelect={(character) =>
+                    selectedTags={selectedCharacters}
+                    onAddTag={(character) =>
                       setSelectedCharacters([...selectedCharacters, character])
                     }
-                    onRemove={(character) =>
+                    onRemoveTag={(character) =>
                       setSelectedCharacters(
                         selectedCharacters.filter((c) => c !== character)
                       )
@@ -1612,14 +1652,14 @@ export default function Timeline() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Locations
                   </label>
-                  <MultiSelect
+                  <TagSearch
                     items={sampleLocations}
                     placeholder="Search and add locations..."
-                    selectedItems={selectedLocations}
-                    onSelect={(location) =>
+                    selectedTags={selectedLocations}
+                    onAddTag={(location) =>
                       setSelectedLocations([...selectedLocations, location])
                     }
-                    onRemove={(location) =>
+                    onRemoveTag={(location) =>
                       setSelectedLocations(
                         selectedLocations.filter((l) => l !== location)
                       )
@@ -1632,14 +1672,14 @@ export default function Timeline() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Characters
                   </label>
-                  <MultiSelect
+                  <TagSearch
                     items={sampleCharacters}
                     placeholder="Search and add characters..."
-                    selectedItems={selectedCharacters}
-                    onSelect={(character) =>
+                    selectedTags={selectedCharacters}
+                    onAddTag={(character) =>
                       setSelectedCharacters([...selectedCharacters, character])
                     }
-                    onRemove={(character) =>
+                    onRemoveTag={(character) =>
                       setSelectedCharacters(
                         selectedCharacters.filter((c) => c !== character)
                       )

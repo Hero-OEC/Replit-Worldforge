@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { BookOpen, Clock, Users, MapPin, Sparkles, Scroll } from "lucide-react";
+import { Search, BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import inkAlchemyLogo from "@assets/inkalchemy_1751051991309.png";
 
 interface NavbarProps {
   projectId?: string;
   projectTitle?: string;
   showProjectNav?: boolean;
+  searchPlaceholder?: string;
+  onSearch?: (term: string) => void;
   rightContent?: React.ReactNode;
 }
 
@@ -13,9 +18,12 @@ export default function Navbar({
   projectId, 
   projectTitle, 
   showProjectNav = false, 
+  searchPlaceholder = "Search projects...",
+  onSearch,
   rightContent 
 }: NavbarProps) {
   const [location] = useLocation();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const projectNavItems = [
     { name: "Overview", href: `/project/${projectId}`, icon: BookOpen },
@@ -74,6 +82,21 @@ export default function Navbar({
           </div>
           
           <div className="flex items-center space-x-4">
+            <div className="relative max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-600)] w-4 h-4 transition-transform duration-300 hover:rotate-12 hover:scale-110" />
+              <Input
+                placeholder={searchPlaceholder}
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  if (onSearch) {
+                    onSearch(e.target.value);
+                  }
+                }}
+                className="pl-10 pr-4 py-2 w-80 border-[var(--color-300)] focus:border-[var(--color-500)] focus:ring-[var(--color-500)]"
+              />
+            </div>
+            
             {rightContent}
           </div>
         </div>
