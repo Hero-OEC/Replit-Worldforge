@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Created reusable CharacterCard component and updated character displays:
+  * Built reusable CharacterCard component with consistent 7:9 aspect ratio image layout
+  * Component includes role icon, character name, role badge, description, and "Click to view details" text
+  * Applied new neutral character Scale icon and updated role badge colors throughout component
+  * Replaced character displays in main characters page with new reusable CharacterCard component
+  * Replaced character displays in magic system detail page "Connected Characters" section
+  * CharacterCard handles null/undefined values properly and supports both Link navigation and custom onClick
+  * Reduced character card size from 350px to 280px width for better 3-column masonry layout
+  * All character displays now use consistent design and behavior across the application
 - July 5, 2025. Fixed character page layout and card design issues:
   * Removed border radius and background card from character page header to match timeline/location pages
   * Redesigned character cards to clean, simple layout with role badge, centered image, and footer actions

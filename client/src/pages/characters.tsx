@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2, Crown, Shield, Sword, UserCheck, UserX, HelpCircle, Eye, Scale } from "lucide-react";
+import { Plus, Search, Filter, User, Edit3, MoreHorizontal, Users, Trash2 } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
+import { CharacterCard } from "@/components/ui/character-card";
 import { apiRequest } from "@/lib/queryClient";
 import { deleteCharacterImage } from "@/lib/supabase";
 import Navbar from "@/components/layout/navbar";
@@ -75,14 +76,7 @@ export default function Characters() {
     },
   });
 
-  const roleConfig = {
-    "Protagonist": { icon: Crown, color: "bg-[var(--color-600)]", bgColor: "bg-[var(--color-500)] text-[var(--color-50)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" },
-    "Antagonist": { icon: Sword, color: "bg-[var(--color-950)]", bgColor: "bg-[var(--color-700)] text-[var(--color-50)]", textColor: "text-[var(--color-950)]", borderColor: "border-[var(--color-700)]" },
-    "Ally": { icon: Shield, color: "bg-[var(--color-500)]", bgColor: "bg-[var(--color-400)] text-[var(--color-950)]", textColor: "text-[var(--color-700)]", borderColor: "border-[var(--color-300)]" },
-    "Enemy": { icon: UserX, color: "bg-[var(--color-800)]", bgColor: "bg-[var(--color-600)] text-[var(--color-50)]", textColor: "text-[var(--color-900)]", borderColor: "border-[var(--color-600)]" },
-    "Neutral": { icon: Scale, color: "bg-[var(--color-400)]", bgColor: "bg-[var(--color-300)] text-[var(--color-900)]", textColor: "text-[var(--color-600)]", borderColor: "border-[var(--color-300)]" },
-    "Supporting": { icon: UserCheck, color: "bg-[var(--color-700)]", bgColor: "bg-[var(--color-200)] text-[var(--color-800)]", textColor: "text-[var(--color-800)]", borderColor: "border-[var(--color-400)]" }
-  };
+
 
   const filteredCharacters = characters.filter((character: any) => {
     const matchesSearch = character.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -205,62 +199,15 @@ export default function Characters() {
             </div>
           ) : (
             <MasonryGrid className="pb-8">
-              {filteredCharacters.map((character: any) => {
-                const roleInfo = roleConfig[character.role as keyof typeof roleConfig] || roleConfig["Supporting"];
-                const RoleIcon = roleInfo.icon;
-
-                return (
-                  <MasonryItem key={character.id}>
-                    <Card 
-                      className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
-                      onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
-                    >
-                      {/* Top Area: Image (7:9 ratio) */}
-                      <div className="relative aspect-[7/9] w-full">
-                        {/* Image */}
-                        {character.imageUrl ? (
-                          <img 
-                            src={character.imageUrl} 
-                            alt={character.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-[var(--color-200)] flex items-center justify-center">
-                            <div className="text-center">
-                              <div className="w-16 h-16 bg-[var(--color-300)] rounded-full mx-auto mb-2"></div>
-                              <div className="w-20 h-8 bg-[var(--color-300)] rounded mx-auto"></div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Bottom Area: Character Info */}
-                      <div className="p-4">
-                        <div className="flex items-start space-x-3 mb-2">
-                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
-                            <RoleIcon className="w-6 h-6 text-[var(--color-700)]" />
-                          </div>
-                          <div>
-                            <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{character.name}</h3>
-                            <div className="mb-3">
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
-                                {character.role}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
-                          {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
-                        </p>
-                        
-                        <div className="text-center">
-                          <span className="text-sm text-[var(--color-600)] font-medium">Click to view details</span>
-                        </div>
-                      </div>
-                    </Card>
-                  </MasonryItem>
-                );
-              })}
+              {filteredCharacters.map((character: any) => (
+                <MasonryItem key={character.id}>
+                  <CharacterCard 
+                    character={character}
+                    projectId={projectId!}
+                    onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
+                  />
+                </MasonryItem>
+              ))}
             </MasonryGrid>
           )}
         </div>
