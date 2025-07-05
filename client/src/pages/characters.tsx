@@ -241,27 +241,28 @@ export default function Characters() {
                 return (
                   <MasonryItem key={character.id}>
                     <Card 
-                      className="shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
+                      className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
                       onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
                     >
-                      {/* Character Role Badge - top left */}
-                      <div className="p-4 pb-0">
-                        <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
-                          <RoleIcon className="w-3 h-3 mr-1" />
-                          {character.role}
-                        </Badge>
-                      </div>
-
-                      {/* Character Image Placeholder - large centered */}
-                      <div className="px-8 py-8 flex justify-center">
+                      {/* Top Area: Image (4:3 ratio) */}
+                      <div className="relative aspect-[4/3] w-full">
+                        {/* Role Badge overlay */}
+                        <div className="absolute top-3 left-3 z-10">
+                          <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
+                            <RoleIcon className="w-3 h-3 mr-1" />
+                            {character.role}
+                          </Badge>
+                        </div>
+                        
+                        {/* Image */}
                         {character.imageUrl ? (
                           <img 
                             src={character.imageUrl} 
                             alt={character.name}
-                            className="w-32 h-40 object-cover rounded opacity-70"
+                            className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-32 h-40 bg-[var(--color-200)] rounded flex items-center justify-center">
+                          <div className="w-full h-full bg-[var(--color-200)] flex items-center justify-center">
                             <div className="text-center">
                               <div className="w-16 h-16 bg-[var(--color-300)] rounded-full mx-auto mb-2"></div>
                               <div className="w-20 h-8 bg-[var(--color-300)] rounded mx-auto"></div>
@@ -270,21 +271,21 @@ export default function Characters() {
                         )}
                       </div>
 
-                      {/* Character Name and Description */}
-                      <div className="px-4 pb-4">
-                        <h3 className="font-medium text-[var(--color-950)] mb-1">{character.name}</h3>
-                        <p className="text-sm text-[var(--color-700)] line-clamp-2">
+                      {/* Bottom Area: Character Info */}
+                      <div className="p-4">
+                        <h3 className="font-medium text-[var(--color-950)] mb-2">{character.name}</h3>
+                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
                           {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
                         </p>
-                      </div>
-
-                      {/* Simple Footer */}
-                      <div className="px-4 py-3 border-t border-[var(--color-300)]">
-                        <div className="flex items-center justify-between">
-                          <div className="w-6 h-6 bg-[var(--color-300)] rounded-full flex items-center justify-center">
-                            <Eye className="w-3 h-3 text-[var(--color-600)]" />
+                        
+                        {/* Divider line and footer */}
+                        <div className="border-t border-[var(--color-300)] pt-3">
+                          <div className="flex items-center justify-between">
+                            <div className="w-6 h-6 bg-[var(--color-300)] rounded-full flex items-center justify-center">
+                              <Eye className="w-3 h-3 text-[var(--color-600)]" />
+                            </div>
+                            <span className="text-sm text-[var(--color-600)]">Click to view details</span>
                           </div>
-                          <span className="text-sm text-[var(--color-600)]">Click to view details</span>
                         </div>
                       </div>
                     </Card>
