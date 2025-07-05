@@ -192,24 +192,30 @@ export default function NoteDetail() {
           </div>
 
           {/* Tags */}
-          {note.tags && note.tags.length > 0 && (
-            <div className="mb-6">
-              <div className="flex items-center space-x-2 mb-3">
-                <Tag className="w-4 h-4 text-[var(--color-700)]" />
-                <span className="text-sm font-medium text-gray-700">Tags</span>
+          {note.tags && note.tags.length > 0 && (() => {
+            const tagsArray = typeof note.tags === 'string' 
+              ? note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+              : Array.isArray(note.tags) ? note.tags : [];
+            
+            return tagsArray.length > 0 ? (
+              <div className="mb-6">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Tag className="w-4 h-4 text-[var(--color-700)]" />
+                  <span className="text-sm font-medium text-gray-700">Tags</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {tagsArray.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {note.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-0.5 text-xs font-normal rounded-md bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 transition-colors duration-200"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+            ) : null;
+          })()}
 
           <Card>
             <CardContent className="space-y-6 pt-6">
