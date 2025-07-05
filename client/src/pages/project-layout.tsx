@@ -41,10 +41,10 @@ export default function ProjectLayout() {
         <main className="p-8">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8 animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-64 mb-2"></div>
-              <div className="h-6 bg-gray-200 rounded w-40 mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/4 mt-2"></div>
+              <div className="h-8 bg-[var(--color-200)] rounded w-64 mb-2"></div>
+              <div className="h-6 bg-[var(--color-200)] rounded w-40 mb-4"></div>
+              <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+              <div className="h-4 bg-[var(--color-200)] rounded w-3/4 mt-2"></div>
             </div>
 
             {/* Quick Stats Skeleton */}
@@ -52,10 +52,10 @@ export default function ProjectLayout() {
               {[...Array(4)].map((_, i) => (
                 <Card key={i} className="bg-[var(--color-100)] border border-[var(--color-300)] p-6 animate-pulse">
                   <div className="flex items-center">
-                    <div className="p-3 bg-gray-200 rounded-lg w-11 h-11"></div>
+                    <div className="p-3 bg-[var(--color-200)] rounded-lg w-11 h-11"></div>
                     <div className="ml-4 flex-1">
-                      <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
-                      <div className="h-8 bg-gray-200 rounded w-12"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-24 mb-2"></div>
+                      <div className="h-8 bg-[var(--color-200)] rounded w-12"></div>
                     </div>
                   </div>
                 </Card>
@@ -64,14 +64,14 @@ export default function ProjectLayout() {
 
             {/* Editing History Skeleton */}
             <Card className="bg-[var(--color-100)] border border-[var(--color-300)] p-6 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
+              <div className="h-6 bg-[var(--color-200)] rounded w-48 mb-4"></div>
               <div className="space-y-3">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className="flex items-center space-x-4">
-                    <div className="w-6 h-6 bg-gray-200 rounded"></div>
-                    <div className="flex-1 h-4 bg-gray-200 rounded"></div>
-                    <div className="w-24 h-4 bg-gray-200 rounded"></div>
-                    <div className="w-20 h-4 bg-gray-200 rounded"></div>
+                    <div className="w-6 h-6 bg-[var(--color-200)] rounded"></div>
+                    <div className="flex-1 h-4 bg-[var(--color-200)] rounded"></div>
+                    <div className="w-24 h-4 bg-[var(--color-200)] rounded"></div>
+                    <div className="w-20 h-4 bg-[var(--color-200)] rounded"></div>
                   </div>
                 ))}
               </div>
