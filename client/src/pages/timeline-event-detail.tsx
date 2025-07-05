@@ -266,16 +266,6 @@ export default function TimelineEventDetail() {
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-[var(--color-700)]">Timeline Event Details</p>
-                  {event.writingStatus && (
-                    <Badge 
-                      className={`text-xs px-2 py-1 flex items-center space-x-1 ${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]}`}
-                    >
-                      {React.createElement(writingStatusIcons[event.writingStatus as keyof typeof writingStatusIcons], {
-                        className: "w-3 h-3"
-                      })}
-                      <span>{writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}</span>
-                    </Badge>
-                  )}
                 </div>
               </div>
             </div>
