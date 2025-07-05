@@ -82,11 +82,13 @@ export function ImageUpload({
       <div className="flex items-center space-x-4">
         {value ? (
           <div className="relative">
-            <img 
-              src={value} 
-              alt="Character preview" 
-              className="w-32 h-32 object-cover rounded-lg border border-[var(--color-300)]"
-            />
+            <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+              <img 
+                src={value} 
+                alt="Character preview" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <Button
               type="button"
               variant="outline"
@@ -98,7 +100,7 @@ export function ImageUpload({
             </Button>
           </div>
         ) : (
-          <div className="w-32 h-32 border-2 border-dashed border-[var(--color-300)] rounded-lg flex items-center justify-center bg-[var(--color-50)]">
+          <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-dashed border-[var(--color-300)] flex items-center justify-center" style={{ width: '280px' }}>
             <div className="text-center">
               <Camera className="w-8 h-8 text-[var(--color-500)] mx-auto mb-2" />
               <p className="text-sm text-[var(--color-600)]">No image</p>
