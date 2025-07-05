@@ -98,6 +98,16 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Completely redesigned location new page to match character edit page layout:
+  * Replaced tabbed interface with clean single-page form matching character edit page structure
+  * Updated header layout to match character edit page with proper icon positioning and title input
+  * Converted location type selector to inline pill style with dynamic icon display
+  * Replaced tab sections with clean icon-labeled sections (Description, Geography, Culture, Story Significance)
+  * All textarea fields now use consistent InkAlchemy styling and min-h-48 height
+  * Section titles use text-xl (20px) with proper icon-text pairs (MapPin, Mountain, Users, Star)
+  * Save/cancel buttons positioned in header area matching all other edit pages
+  * Removed Card components and tab navigation for streamlined single-page experience
+  * Location new page now provides identical user experience to character edit page
 - July 5, 2025. Standardized edit page button design and placement across all pages:
   * Updated all edit pages to match character edit page save/cancel button styling and placement
   * Added cancel buttons to magic system new/edit pages and note new page in header area
