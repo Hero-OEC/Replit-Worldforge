@@ -95,11 +95,11 @@ function PowerSystemSelector({ selectedSystems, onAddSystem, onRemoveSystem, pro
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-800)]" : "bg-[var(--color-300)] text-[var(--color-800)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
+    return category === "power" ? "border-[var(--color-400)]" : "border-[var(--color-500)]";
   };
 
   useEffect(() => {
@@ -280,11 +280,11 @@ export default function CharacterDetail() {
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-800)]" : "bg-[var(--color-300)] text-[var(--color-800)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
+    return category === "power" ? "border-[var(--color-400)]" : "border-[var(--color-500)]";
   };
 
   // All effects
