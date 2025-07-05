@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Implemented tab-based layout for magic system detail page matching location detail page:
+  * Converted magic system detail page from vertical sections to 5-tab layout (Details, Rules, Limitations, Source & Cost, Characters)
+  * Added inline editing functionality with view/edit mode toggle using save/cancel buttons in header
+  * All content sections now editable with proper form controls (Input, Textarea, Select) matching location page structure
+  * Category badge repositioned directly under title instead of separate line for cleaner layout
+  * Maintained consistent styling and behavior with location detail page tab system
+  * Magic system editing now follows same UX pattern as location editing with tabbed organization
 - July 5, 2025. Created reusable CharacterCard component and updated character displays:
   * Built reusable CharacterCard component with consistent 7:9 aspect ratio image layout
   * Component includes role icon, character name, role badge, description, and "Click to view details" text

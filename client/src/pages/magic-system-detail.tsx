@@ -298,43 +298,43 @@ export default function MagicSystemDetail() {
                 <CategoryIcon className="w-6 h-6 text-[var(--color-700)]" />
               </div>
               <div className="flex-1">
-                {isEditing ? (
-                  <Input
-                    value={magicSystemFormData.name}
-                    onChange={(e) => setMagicSystemFormData({...magicSystemFormData, name: e.target.value})}
-                    className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] max-w-md"
-                    placeholder="Magic system name"
-                  />
-                ) : (
-                  <h1 className="text-2xl font-bold text-[var(--color-950)]">{magicSystem.name}</h1>
-                )}
-              </div>
-            </div>
-
-            {/* Category Display/Edit */}
-            <div className="ml-16">
-              {isEditing ? (
-                <Select 
-                  value={magicSystemFormData.category} 
-                  onValueChange={(value) => setMagicSystemFormData({...magicSystemFormData, category: value})}
-                >
-                  <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)]">
-                    <div className="flex items-center space-x-2">
+                <div className="space-y-2">
+                  {isEditing ? (
+                    <Input
+                      value={magicSystemFormData.name}
+                      onChange={(e) => setMagicSystemFormData({...magicSystemFormData, name: e.target.value})}
+                      className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] max-w-md"
+                      placeholder="Magic system name"
+                    />
+                  ) : (
+                    <h1 className="text-2xl font-bold text-[var(--color-950)]">{magicSystem.name}</h1>
+                  )}
+                  
+                  {/* Category Display/Edit directly under title */}
+                  {isEditing ? (
+                    <Select 
+                      value={magicSystemFormData.category} 
+                      onValueChange={(value) => setMagicSystemFormData({...magicSystemFormData, category: value})}
+                    >
+                      <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)]">
+                        <div className="flex items-center space-x-2">
+                          <CategoryIcon className="w-4 h-4" />
+                          <SelectValue placeholder="Select category" />
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="magic">Magic System</SelectItem>
+                        <SelectItem value="power">Power System</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
                       <CategoryIcon className="w-4 h-4" />
-                      <SelectValue placeholder="Select category" />
+                      <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
                     </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="magic">Magic System</SelectItem>
-                    <SelectItem value="power">Power System</SelectItem>
-                  </SelectContent>
-                </Select>
-              ) : (
-                <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
-                  <CategoryIcon className="w-4 h-4" />
-                  <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
