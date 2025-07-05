@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { useParams, useLocation, Link } from "wouter";
+import { useState, useEffect } from "react";
+import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@/contexts/navigation-context";
-import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, MoreHorizontal, X, Battery } from "lucide-react";
+import { ArrowLeft, Edit3, Trash2, Sparkles, Zap, Users, X, Battery, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { CharacterCard } from "@/components/ui/character-card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Navbar from "@/components/layout/navbar";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -17,6 +20,16 @@ export default function MagicSystemDetail() {
   const { projectId, magicSystemId } = useParams<{ projectId: string; magicSystemId: string }>();
   const [, setLocation] = useLocation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [magicSystemFormData, setMagicSystemFormData] = useState({
+    name: "",
+    category: "",
+    description: "",
+    rules: "",
+    limitations: "",
+    source: "",
+    cost: ""
+  });
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { goBack } = useNavigation();
@@ -61,6 +74,74 @@ export default function MagicSystemDetail() {
     },
     enabled: !!magicSystemId,
   });
+
+  // Initialize form data when magic system data loads
+  useEffect(() => {
+    if (magicSystem && !isEditing) {
+      setMagicSystemFormData({
+        name: magicSystem.name || "",
+        category: magicSystem.category || "",
+        description: magicSystem.description || "",
+        rules: magicSystem.rules || "",
+        limitations: magicSystem.limitations || "",
+        source: magicSystem.source || "",
+        cost: magicSystem.cost || ""
+      });
+    }
+  }, [magicSystem, isEditing]);
+
+  // Update magic system mutation
+  const updateMagicSystemMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/magic-systems/${magicSystemId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(magicSystemFormData),
+      });
+      if (!response.ok) throw new Error("Failed to update magic system");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/magic-systems", magicSystemId] });
+      toast({ title: "Magic system updated successfully!" });
+      setIsEditing(false);
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to update magic system", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const handleSave = () => {
+    if (!magicSystemFormData.name.trim()) {
+      toast({ 
+        title: "Name is required", 
+        description: "Please enter a magic system name",
+        variant: "destructive" 
+      });
+      return;
+    }
+    updateMagicSystemMutation.mutate();
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset form data to original values
+    if (magicSystem) {
+      setMagicSystemFormData({
+        name: magicSystem.name || "",
+        category: magicSystem.category || "",
+        description: magicSystem.description || "",
+        rules: magicSystem.rules || "",
+        limitations: magicSystem.limitations || "",
+        source: magicSystem.source || "",
+        cost: magicSystem.cost || ""
+      });
+    }
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -151,7 +232,6 @@ export default function MagicSystemDetail() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        
       />
       
       <main className="pt-16">
@@ -170,147 +250,227 @@ export default function MagicSystemDetail() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Button 
-                  onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}/edit`)}
-                  className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                >
-                  <Edit3 className="w-4 h-4 mr-2" />
-                  Edit
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleDelete}
-                  className="text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700 hover:border-red-400"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </Button>
+                {isEditing ? (
+                  <>
+                    <Button 
+                      onClick={handleCancel} 
+                      variant="outline"
+                      className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                    >
+                      <X className="w-4 h-4 mr-2" />
+                      Cancel
+                    </Button>
+                    <Button 
+                      onClick={handleSave} 
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      Save Changes
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      onClick={() => setIsEditing(true)}
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Edit3 className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={handleDelete}
+                      className="text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700 hover:border-red-400"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Header with Title Display */}
+          {/* Header with Title and Category */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
                 <CategoryIcon className="w-6 h-6 text-[var(--color-700)]" />
               </div>
-              <div className="flex-1 max-w-md">
-                <h1 className="text-2xl font-bold text-[var(--color-950)]">{magicSystem.name}</h1>
+              <div className="flex-1">
+                {isEditing ? (
+                  <Input
+                    value={magicSystemFormData.name}
+                    onChange={(e) => setMagicSystemFormData({...magicSystemFormData, name: e.target.value})}
+                    className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] max-w-md"
+                    placeholder="Magic system name"
+                  />
+                ) : (
+                  <h1 className="text-2xl font-bold text-[var(--color-950)]">{magicSystem.name}</h1>
+                )}
               </div>
             </div>
 
-            {/* Category Display */}
+            {/* Category Display/Edit */}
             <div className="ml-16">
-              <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
-                <CategoryIcon className="w-4 h-4" />
-                <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Description Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Sparkles className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Description</span>
-            </div>
-            <div className="bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg p-4 min-h-48">
-              {magicSystem.description ? (
-                <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.description}</p>
+              {isEditing ? (
+                <Select 
+                  value={magicSystemFormData.category} 
+                  onValueChange={(value) => setMagicSystemFormData({...magicSystemFormData, category: value})}
+                >
+                  <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)]">
+                    <div className="flex items-center space-x-2">
+                      <CategoryIcon className="w-4 h-4" />
+                      <SelectValue placeholder="Select category" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="magic">Magic System</SelectItem>
+                    <SelectItem value="power">Power System</SelectItem>
+                  </SelectContent>
+                </Select>
               ) : (
-                <p className="text-[var(--color-600)] italic">No description provided</p>
-              )}
-            </div>
-          </div>
-
-          {/* Rules Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Zap className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Rules & Mechanics</span>
-            </div>
-            <div className="bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg p-4 min-h-48">
-              {magicSystem.rules ? (
-                <p className="text-[var(--color-950)] leading-relaxed whitespace-pre-wrap">{magicSystem.rules}</p>
-              ) : (
-                <p className="text-[var(--color-600)] italic">No rules specified</p>
-              )}
-            </div>
-          </div>
-
-          {/* Limitations Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <X className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Limitations</span>
-            </div>
-            <div className="bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg p-4 min-h-48">
-              {magicSystem.limitations ? (
-                <p className="text-[var(--color-950)] leading-relaxed whitespace-pre-wrap">{magicSystem.limitations}</p>
-              ) : (
-                <p className="text-[var(--color-600)] italic">No limitations specified</p>
-              )}
-            </div>
-          </div>
-
-          {/* Source and Cost Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Battery className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Source & Cost</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Source</label>
-                <div className="bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg p-3">
-                  {magicSystem.source ? (
-                    <p className="text-[var(--color-950)]">{magicSystem.source}</p>
-                  ) : (
-                    <p className="text-[var(--color-600)] italic">No source specified</p>
-                  )}
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Cost</label>
-                <div className="bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg p-3">
-                  {magicSystem.cost ? (
-                    <p className="text-[var(--color-950)]">{magicSystem.cost}</p>
-                  ) : (
-                    <p className="text-[var(--color-600)] italic">No cost specified</p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Characters Section */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-3">
-              <Users className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Connected Characters ({connectedCharacters.length})</span>
-            </div>
-            <div className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg p-4">
-              {connectedCharacters.length > 0 ? (
-                <MasonryGrid>
-                  {connectedCharacters.map((character) => (
-                    <MasonryItem key={character.id}>
-                      <CharacterCard 
-                        character={character}
-                        projectId={projectId!}
-                      />
-                    </MasonryItem>
-                  ))}
-                </MasonryGrid>
-              ) : (
-                <div className="text-center py-8">
-                  <Users className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
-                  <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No Characters Yet</h3>
-                  <p className="text-[var(--color-600)]">
-                    No characters are currently using this {magicSystem.category === "power" ? "power" : "magic"} system.
-                  </p>
+                <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
+                  <CategoryIcon className="w-4 h-4" />
+                  <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Tabbed Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-3">
+              <Tabs defaultValue="details" className="w-full">
+                <TabsList className="grid w-full grid-cols-5 bg-[var(--color-100)]">
+                  <TabsTrigger value="details" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Details</TabsTrigger>
+                  <TabsTrigger value="rules" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Rules</TabsTrigger>
+                  <TabsTrigger value="limitations" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Limitations</TabsTrigger>
+                  <TabsTrigger value="source" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Source & Cost</TabsTrigger>
+                  <TabsTrigger value="characters" className="data-[state=active]:bg-[var(--color-500)] data-[state=active]:text-white">Characters</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="details" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
+                        {isEditing ? (
+                          <Textarea
+                            value={magicSystemFormData.description}
+                            onChange={(e) => setMagicSystemFormData({...magicSystemFormData, description: e.target.value})}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="Describe the magic system..."
+                          />
+                        ) : (
+                          <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.description || "No description provided"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="rules" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Rules</label>
+                        {isEditing ? (
+                          <Textarea
+                            value={magicSystemFormData.rules}
+                            onChange={(e) => setMagicSystemFormData({...magicSystemFormData, rules: e.target.value})}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="Define the rules of the magic system..."
+                          />
+                        ) : (
+                          <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.rules || "No rules specified"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="limitations" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Limitations</label>
+                        {isEditing ? (
+                          <Textarea
+                            value={magicSystemFormData.limitations}
+                            onChange={(e) => setMagicSystemFormData({...magicSystemFormData, limitations: e.target.value})}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-96"
+                            placeholder="What are the limitations and weaknesses..."
+                          />
+                        ) : (
+                          <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.limitations || "No limitations specified"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="source" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Source</label>
+                        {isEditing ? (
+                          <Textarea
+                            value={magicSystemFormData.source}
+                            onChange={(e) => setMagicSystemFormData({...magicSystemFormData, source: e.target.value})}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                            placeholder="Where does this power come from..."
+                          />
+                        ) : (
+                          <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.source || "No source specified"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Cost</label>
+                        {isEditing ? (
+                          <Textarea
+                            value={magicSystemFormData.cost}
+                            onChange={(e) => setMagicSystemFormData({...magicSystemFormData, cost: e.target.value})}
+                            className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                            placeholder="What does it cost to use..."
+                          />
+                        ) : (
+                          <p className="text-[var(--color-950)] leading-relaxed">{magicSystem.cost || "No cost specified"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="characters" className="space-y-6 bg-[var(--worldforge-bg)]">
+                  <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium text-[var(--color-950)]">Connected Characters ({connectedCharacters.length})</h3>
+                      {connectedCharacters.length > 0 ? (
+                        <MasonryGrid>
+                          {connectedCharacters.map((character) => (
+                            <MasonryItem key={character.id}>
+                              <CharacterCard 
+                                character={character}
+                                projectId={projectId!}
+                              />
+                            </MasonryItem>
+                          ))}
+                        </MasonryGrid>
+                      ) : (
+                        <div className="text-center py-8">
+                          <Users className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
+                          <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No Characters Yet</h3>
+                          <p className="text-[var(--color-600)]">
+                            No characters are currently using this {magicSystem.category === "power" ? "power" : "magic"} system.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </div>
