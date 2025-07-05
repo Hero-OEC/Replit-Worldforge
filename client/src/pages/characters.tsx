@@ -19,7 +19,7 @@ export default function Characters() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
   const { navigateWithHistory } = useNavigation();
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [selectedRole, setSelectedRole] = useState<string>("all");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [characterToDelete, setCharacterToDelete] = useState<any>(null);
@@ -64,11 +64,8 @@ export default function Characters() {
   });
 
   const filteredCharacters = characters.filter((character: any) => {
-    const matchesSearch = character.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      character.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      character.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = selectedRole === "all" || character.role === selectedRole;
-    return matchesSearch && matchesRole;
+    return matchesRole;
   });
 
   const handleDelete = (character: any) => {
@@ -90,8 +87,6 @@ export default function Characters() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search characters..."
-        onSearch={setSearchTerm}
       />
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
@@ -242,7 +237,7 @@ export default function Characters() {
               <User className="mx-auto h-12 w-12 text-[var(--color-600)] mb-4" />
               <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No characters found</h3>
               <p className="text-[var(--color-600)] mb-6">
-                {searchTerm ? 'Try adjusting your search terms.' : 'Start building your story by adding characters.'}
+                Start building your story by adding characters.
               </p>
               <Button 
                 className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"

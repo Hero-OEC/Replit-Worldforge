@@ -139,7 +139,6 @@ export default function NewNote() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search notes..."
       />
       
       <main className="pt-16">

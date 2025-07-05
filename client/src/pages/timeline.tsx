@@ -371,11 +371,8 @@ export default function Timeline() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCharacterFilters, setSelectedCharacterFilters] = useState<string[]>([]);
   const [selectedLocationFilters, setSelectedLocationFilters] = useState<string[]>([]);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -640,8 +637,6 @@ export default function Timeline() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search timeline events..."
-        onSearch={setSearchTerm}
       />
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">

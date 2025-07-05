@@ -159,7 +159,6 @@ export default function MagicSystems() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search magic systems..."
       />
       
       <main className="p-8">

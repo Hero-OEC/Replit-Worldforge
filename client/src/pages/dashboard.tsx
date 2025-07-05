@@ -19,7 +19,6 @@ export default function Dashboard() {
     <>
       <Navbar 
         showProjectNav={false}
-        searchPlaceholder="Search projects..."
         rightContent={
           <Button 
             onClick={() => setShowProjectDialog(true)}

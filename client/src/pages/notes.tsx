@@ -40,7 +40,7 @@ const categoryConfig = {
 export default function Notes() {
   const { projectId } = useParams();
   const [, setLocation] = useLocation();
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [deleteNoteId, setDeleteNoteId] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
@@ -91,12 +91,7 @@ export default function Notes() {
 
   const filteredNotes = (notes || []).filter((note: Note) => {
     const tags = note.tags ? note.tags.split(',').map(tag => tag.trim()) : [];
-    return (
-      note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    return true;
   });
 
   const handleNoteClick = (noteId: number) => {

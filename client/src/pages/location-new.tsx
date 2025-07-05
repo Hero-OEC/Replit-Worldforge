@@ -103,7 +103,6 @@ export default function LocationNew() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search locations..."
       />
 
       <main className="pt-16">
