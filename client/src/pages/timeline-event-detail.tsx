@@ -88,10 +88,10 @@ const writingStatusIcons = {
 
 const writingStatusColors = {
   planning: "bg-[var(--color-200)] text-[var(--color-800)]",
-  writing: "bg-blue-100 text-blue-800",
-  first_draft: "bg-yellow-100 text-yellow-800",
-  editing: "bg-orange-100 text-orange-800",
-  complete: "bg-green-100 text-green-800"
+  writing: "bg-[var(--color-400)] text-[var(--color-50)]",
+  first_draft: "bg-[var(--color-500)] text-[var(--color-50)]",
+  editing: "bg-[var(--color-600)] text-[var(--color-50)]",
+  complete: "bg-[var(--color-700)] text-[var(--color-50)]"
 };
 
 
@@ -302,9 +302,13 @@ export default function TimelineEventDetail() {
               </div>
               
               <Badge
-                className={`${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]} px-3 py-1 rounded-full`}
+                className={`${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]} px-3 py-1 rounded-full flex items-center space-x-1`}
               >
-                {writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}
+                {React.createElement(
+                  writingStatusIcons[event.writingStatus as keyof typeof writingStatusIcons] || Clock,
+                  { className: "w-3 h-3" }
+                )}
+                <span>{writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}</span>
               </Badge>
 
               <div className="flex items-center space-x-2 text-[var(--color-700)]">
