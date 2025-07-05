@@ -23,8 +23,8 @@ export function MasonryGrid({
       if (items.length === 0) return;
 
       const containerWidth = container.offsetWidth;
-      const itemWidth = 350;
-      const gap = 32;
+      const itemWidth = 280;
+      const gap = 24;
       const columns = Math.max(1, Math.floor((containerWidth + gap) / (itemWidth + gap)));
       
       // Calculate total width used by all columns
@@ -99,7 +99,7 @@ export function MasonryItem({
   className?: string; 
 }) {
   return (
-    <div className={`masonry-item ${className}`}>
+    <div className={`masonry-item ${className}`} style={{ width: '280px' }}>
       {children}
     </div>
   );
