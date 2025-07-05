@@ -16,7 +16,7 @@ export function MasonryGrid({
     <div 
       className={`masonry-grid ${className}`}
       style={{
-        columns: 'auto 350px',
+        columnWidth: '350px',
         columnGap: '32px',
         width: '100%',
         maxWidth: '100%'
