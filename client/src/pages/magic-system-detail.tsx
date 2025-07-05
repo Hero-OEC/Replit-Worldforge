@@ -365,10 +365,7 @@ export default function MagicSystemDetail() {
                       onValueChange={(value) => setMagicSystemFormData({...magicSystemFormData, category: value})}
                     >
                       <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)]">
-                        <div className="flex items-center space-x-2">
-                          <CategoryIcon className="w-4 h-4" />
-                          <SelectValue placeholder="Select category" />
-                        </div>
+                        <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="magic">Magic System</SelectItem>
