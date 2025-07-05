@@ -629,15 +629,6 @@ export default function CharacterDetail() {
                         <span>{character?.role}</span>
                       </div>
                     )}
-                    
-                    {/* Age and Race display */}
-                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
-                      <span className="text-sm">Age: {isEditing ? characterData.age : character?.age || 'Unknown'}</span>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
-                      <span className="text-sm">Race: {isEditing ? characterData.race : character?.race || 'Unknown'}</span>
-                    </div>
                   </div>
                 </div>
               </div>
