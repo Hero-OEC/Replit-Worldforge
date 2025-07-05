@@ -432,11 +432,63 @@ export default function CharacterDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          
         />
         <main className="p-8 bg-[var(--worldforge-cream)]">
-          <div className="max-w-6xl mx-auto text-center py-12">
-            <div className="text-[var(--color-600)]">Loading character...</div>
+          <div className="max-w-6xl mx-auto">
+            <div className="animate-pulse">
+              {/* Back button skeleton */}
+              <div className="h-10 bg-[var(--color-200)] rounded w-24 mb-6"></div>
+              
+              {/* Character header skeleton */}
+              <div className="bg-[var(--color-100)] rounded-lg border-2 border-[var(--color-300)] p-6 mb-6">
+                <div className="flex items-start space-x-6">
+                  <div className="w-48 h-64 bg-[var(--color-200)] rounded-lg"></div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
+                        <div className="h-8 bg-[var(--color-200)] rounded w-48"></div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <div className="w-16 h-8 bg-[var(--color-200)] rounded"></div>
+                        <div className="w-16 h-8 bg-[var(--color-200)] rounded"></div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-24"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Tabs skeleton */}
+              <div className="flex space-x-4 mb-6">
+                <div className="h-10 bg-[var(--color-200)] rounded w-20"></div>
+                <div className="h-10 bg-[var(--color-200)] rounded w-24"></div>
+                <div className="h-10 bg-[var(--color-200)] rounded w-20"></div>
+              </div>
+              
+              {/* Content skeleton */}
+              <div className="space-y-6">
+                <div className="bg-[var(--color-100)] rounded-lg border border-[var(--color-300)] p-6">
+                  <div className="h-6 bg-[var(--color-200)] rounded w-32 mb-4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                  </div>
+                </div>
+                
+                <div className="bg-[var(--color-100)] rounded-lg border border-[var(--color-300)] p-6">
+                  <div className="h-6 bg-[var(--color-200)] rounded w-28 mb-4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-2/3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>

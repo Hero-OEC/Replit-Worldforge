@@ -470,7 +470,7 @@ export default function Timeline() {
     enabled: !!projectId,
   });
 
-  const { data: timelineEvents = [] } = useQuery<TimelineEvent[]>({
+  const { data: timelineEvents = [], isLoading: timelineLoading } = useQuery<TimelineEvent[]>({
     queryKey: [`/api/projects/${projectId}/timeline`],
     enabled: !!projectId,
     refetchOnWindowFocus: true,
@@ -633,6 +633,68 @@ export default function Timeline() {
 
     pathPoints.push([x, y]);
   });
+
+  if (timelineLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--worldforge-bg)]">
+        <Navbar
+          projectId={projectId}
+          projectTitle={project?.title}
+          showProjectNav={true}
+        />
+        <main className="px-4 py-8 lg:px-8">
+          <div className="w-full max-w-7xl mx-auto">
+            <div className="animate-pulse">
+              {/* Header skeleton */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                    <div>
+                      <div className="h-8 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-64"></div>
+                    </div>
+                  </div>
+                  <div className="w-28 h-10 bg-[var(--color-200)] rounded"></div>
+                </div>
+              </div>
+              
+              {/* Filters skeleton */}
+              <div className="mb-6 flex justify-center">
+                <div className="bg-[var(--color-100)] rounded-lg p-6 border border-[var(--color-300)]">
+                  <div className="flex items-start gap-8">
+                    <div className="flex items-start space-x-2">
+                      <div className="w-5 h-5 bg-[var(--color-200)] rounded mt-2.5"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-20 mt-2.5"></div>
+                      <div className="w-64 h-10 bg-[var(--color-200)] rounded"></div>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <div className="w-5 h-5 bg-[var(--color-200)] rounded mt-2.5"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-20 mt-2.5"></div>
+                      <div className="w-64 h-10 bg-[var(--color-200)] rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Timeline skeleton */}
+              <div className="relative">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className="flex flex-col items-center">
+                      <div className="w-16 h-16 bg-[var(--color-200)] rounded-full mb-4"></div>
+                      <div className="w-24 h-4 bg-[var(--color-200)] rounded mb-2"></div>
+                      <div className="w-32 h-3 bg-[var(--color-200)] rounded"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[var(--worldforge-bg)]">

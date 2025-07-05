@@ -105,7 +105,9 @@ Changelog:
   * Implemented comprehensive skeleton loading for all remaining pages that were missing it:
     - Locations page: Added card-based skeleton loading matching actual location card structure
     - Characters page: Added character card skeletons with image placeholders and role badges
+    - Character detail page: Added full page skeleton with character header, tabs, and content sections
     - Timeline component: Added timeline event card skeletons for serpentine timeline
+    - Timeline page: Added main timeline skeleton with header, filters, and timeline bubble placeholders
     - Timeline event detail page: Added full page skeleton with header, content sections, and metadata
     - Timeline event edit page: Added form skeleton loading with input field placeholders
   * Removed all masonry animations to prevent card dragging and viewport overflow issues
