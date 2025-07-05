@@ -243,10 +243,9 @@ export default function Characters() {
                     <Card 
                       className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)]"
                       onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}
-                      style={{ width: '276.8px' }}
                     >
-                      {/* Top Area: Image (specific dimensions) */}
-                      <div className="relative w-full" style={{ height: '370.13px' }}>
+                      {/* Top Area: Image (4:5 ratio) */}
+                      <div className="relative aspect-[4/5] w-full">
                         {/* Role Badge overlay */}
                         <div className="absolute top-3 left-3 z-10">
                           <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
