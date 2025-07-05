@@ -271,8 +271,7 @@ export default function CharacterDetail() {
     enabled: !!characterId,
   });
 
-  // Debug logging
-  console.log("Character query state:", { isLoading, error, character, characterId });
+
 
   // Fetch timeline events to find character's latest location
   const { data: timelineEvents = [] } = useQuery({
@@ -430,7 +429,7 @@ export default function CharacterDetail() {
 
 
 
-  if (isLoading) {
+  if (isLoading && !character) {
     return (
       <div className="min-h-screen bg-[var(--worldforge-cream)]">
         <Navbar 
