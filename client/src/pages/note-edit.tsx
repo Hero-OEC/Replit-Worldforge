@@ -225,8 +225,8 @@ export default function EditNote() {
               </Button>
               <div>
                 <div className="flex items-center space-x-3 mb-2">
-                  <div className={`w-10 h-10 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className={`w-5 h-5 ${categoryInfo.textColor}`} />
+                  <div className={`w-12 h-12 ${categoryInfo.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                    <CategoryIcon className={`w-6 h-6 ${categoryInfo.textColor}`} />
                   </div>
                   <Input
                     value={title}

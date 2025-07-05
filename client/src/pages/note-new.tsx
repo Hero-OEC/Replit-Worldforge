@@ -14,23 +14,31 @@ import type { ProjectWithStats } from "@shared/schema";
 const categoryConfig = {
   "Plot": {
     icon: BookOpen,
-    bgColor: "bg-[var(--color-200)]",
-    textColor: "text-[var(--color-700)]"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "Characters": {
     icon: Users,
-    bgColor: "bg-[var(--color-200)]",
-    textColor: "text-[var(--color-700)]"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "World Building": {
     icon: Search,
-    bgColor: "bg-[var(--color-200)]",
-    textColor: "text-[var(--color-700)]"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   },
   "Research": {
     icon: Scroll,
-    bgColor: "bg-[var(--color-200)]",
-    textColor: "text-[var(--color-700)]"
+    color: "bg-[var(--color-200)]",
+    bgColor: "bg-[var(--color-100)]",
+    textColor: "text-[var(--color-800)]",
+    borderColor: "border-[var(--color-300)]"
   }
 };
 
@@ -183,8 +191,8 @@ export default function NewNote() {
             {/* Header with Title Input */}
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
-                  <CategoryIcon className="w-6 h-6 text-[var(--color-700)]" />
+                <div className={`w-12 h-12 ${categoryConfig[formData.category as keyof typeof categoryConfig]?.color || 'bg-[var(--color-200)]'} rounded-lg flex items-center justify-center`}>
+                  <CategoryIcon className={`w-6 h-6 ${categoryConfig[formData.category as keyof typeof categoryConfig]?.textColor || 'text-[var(--color-700)]'}`} />
                 </div>
                 <div className="flex-1 max-w-md">
                   <Input
