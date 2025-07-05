@@ -302,9 +302,9 @@ export default function TimelineEventDetail() {
               </div>
               
               <Badge
-                className={`${importanceColors[event.importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+                className={`${writingStatusColors[event.writingStatus as keyof typeof writingStatusColors]} px-3 py-1 rounded-full`}
               >
-                {importanceLabels[event.importance as keyof typeof importanceLabels]}
+                {writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}
               </Badge>
 
               <div className="flex items-center space-x-2 text-[var(--color-700)]">

@@ -69,27 +69,23 @@ const categoryConfig = {
 
 // Remove hardcoded data - will fetch from database
 
-const importanceColors = {
-  high: "bg-[var(--color-700)]",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-[var(--color-300)]",
+const writingStatusColors = {
+  planning: "bg-[var(--color-200)]",
+  writing: "bg-[var(--color-400)]",
+  first_draft: "bg-[var(--color-500)]",
+  editing: "bg-[var(--color-600)]",
+  complete: "bg-[var(--color-700)]",
 };
-
-const importanceLabels = {
-  high: "High Importance",
-  medium: "Medium Importance",
-  low: "Low Importance",
-};
-
-const writingStatuses = ["planning", "writing", "first_draft", "editing", "complete"];
 
 const writingStatusLabels = {
   planning: "Planning",
   writing: "Writing",
   first_draft: "First Draft",
   editing: "Editing",
-  complete: "Complete"
+  complete: "Complete",
 };
+
+const writingStatuses = ["planning", "writing", "first_draft", "editing", "complete"];
 
 const writingStatusIcons = {
   planning: Clock,
@@ -420,11 +416,11 @@ export default function EditTimelineEvent() {
                       <span>{date || "No date set"}</span>
                     </div>
                     
-                    {/* Importance badge */}
+                    {/* Writing Status badge */}
                     <Badge
-                      className={`${importanceColors[importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
                     >
-                      {importanceLabels[importance as keyof typeof importanceLabels]}
+                      {writingStatusLabels[writingStatus as keyof typeof writingStatusLabels]}
                     </Badge>
                   </div>
                 </div>
@@ -532,17 +528,19 @@ export default function EditTimelineEvent() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Importance Selector */}
+              {/* Writing Status Selector */}
               <div>
-                <Label htmlFor="importance" className="text-sm text-[var(--color-600)]">Priority</Label>
-                <Select onValueChange={setImportance} value={importance}>
+                <Label htmlFor="writingStatus" className="text-sm text-[var(--color-600)]">Writing Status</Label>
+                <Select onValueChange={setWritingStatus} value={writingStatus}>
                   <SelectTrigger className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all">
-                    <SelectValue placeholder="Select priority" />
+                    <SelectValue placeholder="Select writing status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="low">Low Priority</SelectItem>
-                    <SelectItem value="medium">Medium Priority</SelectItem>
-                    <SelectItem value="high">High Priority</SelectItem>
+                    <SelectItem value="planning">Planning</SelectItem>
+                    <SelectItem value="writing">Writing</SelectItem>
+                    <SelectItem value="first_draft">First Draft</SelectItem>
+                    <SelectItem value="editing">Editing</SelectItem>
+                    <SelectItem value="complete">Complete</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
