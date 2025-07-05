@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Standardized edit page button design and placement across all pages:
+  * Updated all edit pages to match character edit page save/cancel button styling and placement
+  * Added cancel buttons to magic system new/edit pages and note new page in header area
+  * All edit/new pages now use consistent button layout: Cancel (outline style) + Save (primary style) in header
+  * Buttons positioned using "flex items-center space-x-3" with proper InkAlchemy color scheme
+  * Cancel buttons use border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]
+  * Save buttons use bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]
+  * All buttons include proper icons (X for cancel, Save for save) and consistent spacing
+  * Standardized button placement ensures uniform user experience across all creation and editing workflows
 - July 5, 2025. Fixed back button navigation issue across all detail and edit pages:
   * Applied navigation fix to all pages: timeline events, characters, locations, magic systems, lore, and notes
   * Replaced browser history-based navigation (goBack) with direct page navigation using setLocation

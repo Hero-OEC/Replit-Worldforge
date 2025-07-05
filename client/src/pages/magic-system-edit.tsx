@@ -151,6 +151,14 @@ export default function EditMagicSystem() {
 
               <div className="flex items-center space-x-3">
                 <Button
+                  variant="outline"
+                  onClick={() => setLocation(`/project/${projectId}/magic-systems/${magicSystemId}`)}
+                  className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </Button>
+                <Button
                   type="submit"
                   form="magic-system-form"
                   disabled={updateMutation.isPending || !formData.name.trim()}
