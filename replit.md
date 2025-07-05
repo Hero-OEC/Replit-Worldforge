@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Added delete button to character detail page with automatic list updates:
+  * Added delete button next to edit button in character detail page header using red text/icon with InkAlchemy hover background
+  * Implemented character deletion mutation with proper API call and error handling  
+  * Added DeleteConfirmationDialog to prevent accidental character deletions
+  * Character deletion automatically navigates back to main characters page
+  * Cache invalidation ensures character list updates immediately after deletion without manual refresh
+  * Delete functionality integrated with existing button styling patterns throughout application
 - July 5, 2025. Fixed toast notifications to auto-dismiss after 4 seconds:
   * Updated toast timeout from 1,000,000ms (16 minutes) to 4 seconds for better user experience
   * Added automatic dismissal functionality to useToast hook preventing manual dismissal requirement

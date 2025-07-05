@@ -15,6 +15,7 @@ import Navbar from "@/components/layout/navbar";
 import SerpentineTimeline from "@/components/timeline/serpentine-timeline";
 import { uploadCharacterImage } from "@/lib/supabase";
 import { ImageUpload } from "@/components/ui/image-upload";
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Character Timeline Component - using enhanced SerpentineTimeline
@@ -220,6 +221,7 @@ export default function CharacterDetail() {
   // All state declarations first
   const [isEditing, setIsEditing] = useState(false);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [characterData, setCharacterData] = useState({
     name: "",
@@ -273,6 +275,24 @@ export default function CharacterDetail() {
     onError: (error: any) => {
       console.error('Error saving character:', error);
       // In a real app, you'd show a toast notification here
+    },
+  });
+
+  // Delete character mutation
+  const deleteCharacterMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete character');
+      }
+    },
+    onSuccess: () => {
+      // Invalidate the characters list to update the main page
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "characters"] });
+      // Navigate back to characters page
+      setLocation(`/project/${projectId}/characters`);
     },
   });
 
@@ -433,6 +453,11 @@ export default function CharacterDetail() {
         setSelectedPowerSystems([]);
       }
     }
+  };
+
+  const handleDelete = () => {
+    deleteCharacterMutation.mutate();
+    setDeleteDialogOpen(false);
   };
 
 
@@ -661,13 +686,23 @@ export default function CharacterDetail() {
                     </Button>
                   </>
                 ) : (
-                  <Button 
-                    onClick={() => setIsEditing(true)} 
-                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
-                  >
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    Edit Character
-                  </Button>
+                  <>
+                    <Button 
+                      onClick={() => setIsEditing(true)} 
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Edit3 className="w-4 h-4 mr-2" />
+                      Edit Character
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setDeleteDialogOpen(true)}
+                      className="border-red-300 text-red-600 hover:text-red-700 hover:bg-[var(--color-200)]"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
+                  </>
                 )}
               </div>
             </div>
@@ -941,7 +976,18 @@ export default function CharacterDetail() {
         </div>
       </main>
 
-
+      {/* Delete Confirmation Dialog */}
+      {character && (
+        <DeleteConfirmationDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={handleDelete}
+          title="Delete Character"
+          itemName={character.name}
+          description={`Are you sure you want to delete "${character.name}"? This action cannot be undone and will permanently remove the character and all associated data.`}
+          isDeleting={deleteCharacterMutation.isPending}
+        />
+      )}
     </div>
   );
 }
