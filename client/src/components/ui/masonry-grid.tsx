@@ -17,7 +17,7 @@ export function MasonryGrid({
       className={`masonry-grid ${className}`}
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 400px))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 350px))',
         gap: '32px',
         width: '100%',
         maxWidth: '100%',
