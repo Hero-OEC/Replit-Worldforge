@@ -268,7 +268,9 @@ export default function MagicSystemDetail() {
     );
   }
 
-  const CategoryIcon = getCategoryIcon(magicSystem.category || "magic");
+  // Get the appropriate icon based on current category (either from form data when editing or magic system data)
+  const currentCategory = isEditing ? magicSystemFormData.category : magicSystem.category;
+  const CategoryIcon = getCategoryIcon(currentCategory || "magic");
 
   // connectedCharacters now comes directly from the API with proper relationships
 
