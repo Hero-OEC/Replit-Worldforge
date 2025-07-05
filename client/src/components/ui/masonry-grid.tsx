@@ -42,7 +42,7 @@ export function MasonryItem({
       className={`masonry-item ${className}`} 
       style={{ 
         width: '100%',
-        minHeight: 'fit-content'
+        height: 'fit-content'
       }}
     >
       {children}
