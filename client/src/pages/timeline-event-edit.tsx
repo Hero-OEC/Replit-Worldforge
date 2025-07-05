@@ -418,9 +418,13 @@ export default function EditTimelineEvent() {
                     
                     {/* Writing Status badge */}
                     <Badge
-                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} text-[var(--color-50)] px-3 py-1 rounded-full flex items-center space-x-1`}
                     >
-                      {writingStatusLabels[writingStatus as keyof typeof writingStatusLabels]}
+                      {React.createElement(
+                        writingStatusIcons[writingStatus as keyof typeof writingStatusIcons] || Clock,
+                        { className: "w-3 h-3" }
+                      )}
+                      <span>{writingStatusLabels[writingStatus as keyof typeof writingStatusLabels]}</span>
                     </Badge>
                   </div>
                 </div>
