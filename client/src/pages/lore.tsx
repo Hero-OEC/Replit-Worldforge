@@ -137,7 +137,7 @@ export default function Lore() {
               {/* Lore entries grid skeleton */}
               <MasonryGrid className="pb-8">
                 {[...Array(6)].map((_, i) => (
-                  <MasonryItem key={i} className="mb-6">
+                  <MasonryItem key={i}>
                     <Card className="bg-[var(--color-100)] border border-[var(--color-300)]">
                       <div className="p-6">
                         <div className="flex items-start justify-between mb-4">
@@ -233,7 +233,7 @@ export default function Lore() {
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <MasonryItem key={entry.id} className="w-80 mb-6">
+                <MasonryItem key={entry.id}>
                   <Card 
                   className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-0.5"
                   onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}

@@ -200,7 +200,7 @@ export default function MagicSystems() {
           {isLoading ? (
             <MasonryGrid className="pb-8">
               {[...Array(6)].map((_, i) => (
-                <MasonryItem key={i} className="mb-6">
+                <MasonryItem key={i}>
                   <Card className="animate-pulse">
                   <CardHeader>
                     <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>

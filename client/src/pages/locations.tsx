@@ -191,7 +191,7 @@ export default function Locations() {
           {isLocationsLoading ? (
             <MasonryGrid className="pb-8">
               {[...Array(6)].map((_, i) => (
-                <MasonryItem key={i} className="mb-6">
+                <MasonryItem key={i}>
                   <Card className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-4">
@@ -236,7 +236,7 @@ export default function Locations() {
           ) : (
             <MasonryGrid className="pb-8">
               {filteredLocations.map((location) => (
-                <MasonryItem key={location.id} className="w-80 mb-6">
+                <MasonryItem key={location.id}>
                   <Card 
                   className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
                   onClick={() => handleView(location.id)}

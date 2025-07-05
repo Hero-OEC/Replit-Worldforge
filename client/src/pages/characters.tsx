@@ -139,7 +139,7 @@ export default function Characters() {
           {isLoading ? (
             <MasonryGrid className="pb-8">
               {[...Array(6)].map((_, i) => (
-                <MasonryItem key={i} className="mb-6">
+                <MasonryItem key={i}>
                   <Card className="bg-[var(--color-100)] border-2 border-[var(--color-300)] animate-pulse">
                     {/* Character Image Skeleton */}
                     <div className="relative aspect-[7/9] bg-[var(--color-200)]">
@@ -184,7 +184,7 @@ export default function Characters() {
               const RoleIcon = roleInfo.icon;
 
               return (
-                <MasonryItem key={character.id} className="w-72 mb-6">
+                <MasonryItem key={character.id}>
                   <Card 
                   className={`bg-[var(--color-100)] border-2 ${roleInfo.borderColor} hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer`}
                   onClick={() => navigateWithHistory(`/project/${projectId}/characters/${character.id}`)}

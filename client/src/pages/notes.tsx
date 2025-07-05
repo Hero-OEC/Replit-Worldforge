@@ -249,7 +249,7 @@ export default function Notes() {
               const selectedNote = notes.find(n => n.id === deleteNoteId);
 
               return (
-                <MasonryItem key={note.id} className="mb-6">
+                <MasonryItem key={note.id}>
                   <Card className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5">
                     <div className="p-6">
                       {/* Header */}

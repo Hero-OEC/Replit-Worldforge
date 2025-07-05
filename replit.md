@@ -114,6 +114,9 @@ Changelog:
   * Fixed notes page tag borders to use lighter border-[var(--color-300)] matching lore page styling
   * Improved card spacing and layout consistency across all pages with masonry grid implementation
   * All pages now have consistent InkAlchemy-themed skeleton loading states for better user experience
+  * Fixed vertical spacing issues with cards by reducing row gap from 32px to 16px in masonry grid layout
+  * Removed redundant margin-bottom classes (mb-6) from all MasonryItem components for cleaner spacing
+  * Cards now have proper vertical spacing without excessive gaps between rows
 - July 4, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
   * Fixed missing tsx dependency for TypeScript execution
   * Connected to Supabase database successfully with persistent data storage
