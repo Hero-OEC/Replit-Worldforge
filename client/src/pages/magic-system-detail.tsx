@@ -328,8 +328,7 @@ export default function MagicSystemDetail() {
                       </SelectContent>
                     </Select>
                   ) : (
-                    <div className={`inline-flex items-center space-x-2 px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
-                      <CategoryIcon className="w-4 h-4" />
+                    <div className={`inline-flex items-center px-3 py-1 ${getCategoryColor(magicSystem.category || "magic")} rounded-full text-sm font-medium`}>
                       <span>{magicSystem.category === "power" ? "Power System" : "Magic System"}</span>
                     </div>
                   )}
