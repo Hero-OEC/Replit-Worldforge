@@ -16,12 +16,11 @@ export function MasonryGrid({
     <div 
       className={`masonry-grid ${className}`}
       style={{
-        columns: 'auto 320px',
-        columnGap: '32px',
-        columnFill: 'balance',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: '32px',
         width: '100%',
-        maxWidth: '100%',
-        overflow: 'hidden'
+        maxWidth: '100%'
       }}
     >
       {children}
@@ -41,11 +40,8 @@ export function MasonryItem({
     <div 
       className={`masonry-item ${className}`} 
       style={{ 
-        breakInside: 'avoid',
-        pageBreakInside: 'avoid',
-        display: 'inline-block',
         width: '100%',
-        marginBottom: '32px'
+        minHeight: 'fit-content'
       }}
     >
       {children}
