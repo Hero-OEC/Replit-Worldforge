@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Created missing note edit page and completed search functionality removal:
+  * Created note-edit.tsx page with full editing capabilities matching lore edit page design
+  * Added route registration in App.tsx for /project/:projectId/notes/:noteId/edit
+  * Fixed note detail page tags to use proper InkAlchemy color scheme instead of slate colors
+  * Fixed note detail page error where tags were treated as arrays instead of comma-separated strings
+  * Note edit page includes title, category, content, and tag editing with proper form validation
+  * All edit buttons in notes pages now properly navigate to working edit functionality
 - July 5, 2025. Successfully completed all search functionality removal and fixed related errors:
   * Fixed final search-related errors in timeline.tsx TagSearch component by removing broken search logic
   * Replaced search input with dropdown button for tag selection without search functionality
