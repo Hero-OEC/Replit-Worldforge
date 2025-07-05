@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Updated character and location timeline tabs to use writing status instead of priority:
+  * Removed old priorityColors and priorityLabels objects from character and location detail pages
+  * Added writingStatusColors and writingStatusLabels to match main timeline page system
+  * Character timeline tab now displays writing status colors (Planning through Complete) instead of priority levels
+  * Location timeline tab now uses same writing status color scheme as main timeline
+  * All three timeline views (main, character, location) now consistently use writing status for bubble colors
+  * Timeline color scheme flows from lighter (Planning) to darker (Complete) across all timeline implementations
 - July 5, 2025. Completely redesigned location new page to match character edit page layout:
   * Replaced tabbed interface with clean single-page form matching character edit page structure
   * Updated header layout to match character edit page with proper icon positioning and title input

@@ -47,16 +47,20 @@ import type { Location, ProjectWithStats, TimelineEvent } from "@shared/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
-const priorityColors = {
-  high: "bg-[var(--color-700)]",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-[var(--color-300)]",
+const writingStatusColors = {
+  planning: "bg-[var(--color-200)]",
+  writing: "bg-[var(--color-400)]",
+  first_draft: "bg-[var(--color-500)]",
+  editing: "bg-[var(--color-600)]",
+  complete: "bg-[var(--color-700)]",
 };
 
-const priorityLabels = {
-  high: "High Priority",
-  medium: "Medium Priority",
-  low: "Low Priority",
+const writingStatusLabels = {
+  planning: "Planning",
+  writing: "Writing",
+  first_draft: "First Draft",
+  editing: "Editing",
+  complete: "Complete",
 };
 
 // Available location types
