@@ -246,14 +246,6 @@ export default function Characters() {
                     >
                       {/* Top Area: Image (7:9 ratio) */}
                       <div className="relative aspect-[7/9] w-full">
-                        {/* Role Badge overlay */}
-                        <div className="absolute top-3 left-3 z-10">
-                          <Badge className={`${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor} text-xs inline-flex items-center`}>
-                            <RoleIcon className="w-3 h-3 mr-1" />
-                            {character.role}
-                          </Badge>
-                        </div>
-                        
                         {/* Image */}
                         {character.imageUrl ? (
                           <img 
