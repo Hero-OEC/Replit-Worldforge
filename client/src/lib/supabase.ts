@@ -28,11 +28,18 @@ export const uploadCharacterImage = async (file: File, characterId: number): Pro
   const fileName = `character-${characterId}-${Date.now()}.${fileExt}`;
   const filePath = `characters/${fileName}`;
 
-  // Ensure bucket exists
-  const { data: buckets } = await supabase.storage.listBuckets();
-  const bucketExists = buckets?.some(bucket => bucket.name === 'character-images');
-  
-  if (!bucketExists) {
+  // First, try to upload the file
+  let { data, error } = await supabase.storage
+    .from('character-images')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  // If the bucket doesn't exist, try to create it
+  if (error && error.message.includes('Bucket not found')) {
+    console.log('Bucket not found, attempting to create character-images bucket...');
+    
     const { error: bucketError } = await supabase.storage.createBucket('character-images', {
       public: true,
       allowedMimeTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'],
@@ -40,18 +47,21 @@ export const uploadCharacterImage = async (file: File, characterId: number): Pro
     });
     
     if (bucketError) {
-      throw new Error(`Failed to create bucket: ${bucketError.message}`);
+      console.error('Failed to create bucket:', bucketError);
+      throw new Error(`Failed to create storage bucket: ${bucketError.message}`);
     }
+    
+    // Try uploading again after creating the bucket
+    ({ data, error } = await supabase.storage
+      .from('character-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      }));
   }
 
-  const { data, error } = await supabase.storage
-    .from('character-images')
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: false
-    });
-
   if (error) {
+    console.error('Upload error:', error);
     throw new Error(`Upload failed: ${error.message}`);
   }
 
