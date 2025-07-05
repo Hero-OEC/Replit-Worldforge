@@ -285,13 +285,13 @@ export default function Lore() {
                       </DropdownMenu>
                     </div>
 
-                    <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3 leading-relaxed">
+                    <p className="text-[var(--color-700)] text-sm mb-3 line-clamp-2 leading-relaxed">
                       {entry.content || "No content available"}
                     </p>
 
                     {/* Tags */}
                     {entry.tags && entry.tags.length > 0 && (
-                      <div className="mb-4">
+                      <div className="mb-3">
                         <div className="flex flex-wrap gap-2">
                           {entry.tags.slice(0, 3).map((tag, index) => (
                             <span 
@@ -311,7 +311,7 @@ export default function Lore() {
                     )}
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-3 border-t border-[var(--color-300)]">
+                    <div className="flex items-center justify-between text-xs text-[var(--color-600)] pt-2 border-t border-[var(--color-300)]">
                       <div className="flex items-center space-x-1">
                         <Clock className="w-3 h-3" />
                         <span>
