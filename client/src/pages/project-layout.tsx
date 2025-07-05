@@ -76,7 +76,7 @@ export default function ProjectLayout() {
         projectId={projectId}
         projectTitle={project.title}
         showProjectNav={true}
-        searchPlaceholder="Search project..."
+        
       />
 
       {/* Project Overview */}

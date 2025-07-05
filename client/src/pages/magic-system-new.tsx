@@ -89,7 +89,7 @@ export default function NewMagicSystem() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search magic systems..."
+        
       />
       
       <main className="pt-16">

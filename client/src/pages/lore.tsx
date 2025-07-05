@@ -112,7 +112,7 @@ export default function Lore() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search lore entries..."
+        
       />
 
       <main className="p-8">

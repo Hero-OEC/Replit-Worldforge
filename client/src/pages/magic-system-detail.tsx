@@ -111,7 +111,7 @@ export default function MagicSystemDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          searchPlaceholder="Search magic systems..."
+          
         />
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
@@ -132,7 +132,7 @@ export default function MagicSystemDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          searchPlaceholder="Search magic systems..."
+          
         />
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
@@ -159,7 +159,7 @@ export default function MagicSystemDetail() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search magic systems..."
+        
       />
       
       <main className="pt-16">

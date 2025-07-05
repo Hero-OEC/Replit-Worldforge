@@ -90,8 +90,8 @@ export default function Characters() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search characters..."
-        onSearch={setSearchTerm}
+        
+        
       />
       <main className="p-8">
         <div className="max-w-6xl mx-auto">

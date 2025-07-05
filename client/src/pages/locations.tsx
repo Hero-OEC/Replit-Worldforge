@@ -137,7 +137,7 @@ export default function Locations() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search locations..."
+        
       />
       <main className="p-8">
         <div className="max-w-6xl mx-auto">

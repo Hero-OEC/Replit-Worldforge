@@ -269,7 +269,7 @@ export default function CharacterNew() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search characters..."
+        
       />
       
       <main className="container mx-auto px-4 py-8">

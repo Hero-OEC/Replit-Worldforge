@@ -432,7 +432,7 @@ export default function CharacterDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          searchPlaceholder="Search characters..."
+          
         />
         <main className="p-8 bg-[var(--worldforge-cream)]">
           <div className="max-w-6xl mx-auto text-center py-12">
@@ -450,7 +450,7 @@ export default function CharacterDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          searchPlaceholder="Search characters..."
+          
         />
         <main className="p-8 bg-[var(--worldforge-cream)]">
           <div className="max-w-6xl mx-auto text-center py-12">
@@ -469,7 +469,7 @@ export default function CharacterDetail() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search characters..."
+        
       />
       <main className="p-8 bg-[var(--worldforge-cream)]">
         <div className="max-w-6xl mx-auto">

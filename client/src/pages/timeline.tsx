@@ -640,8 +640,6 @@ export default function Timeline() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        searchPlaceholder="Search timeline events..."
-        onSearch={setSearchTerm}
       />
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">
