@@ -265,11 +265,20 @@ export default function Characters() {
 
                       {/* Bottom Area: Character Info */}
                       <div className="p-4">
-                        <h3 className="font-medium text-[var(--color-950)] mb-2">{character.name}</h3>
-                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <div className="w-6 h-6 bg-[var(--color-200)] rounded flex items-center justify-center">
+                            <RoleIcon className="w-4 h-4 text-[var(--color-700)]" />
+                          </div>
+                          <h3 className="font-medium text-[var(--color-950)]">{character.name}</h3>
+                        </div>
+                        <div className="mb-3">
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
+                            {character.role}
+                          </span>
+                        </div>
+                        <p className="text-sm text-[var(--color-700)] line-clamp-3">
                           {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
                         </p>
-
                       </div>
                     </Card>
                   </MasonryItem>
