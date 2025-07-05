@@ -79,7 +79,7 @@ export function MasonryItem({
 }) {
   return (
     <div 
-      className={`masonry-item transform transition-all duration-300 ease-out ${className}`} 
+      className={`masonry-item ${className}`} 
       style={{ width: `320px` }}
     >
       {children}
