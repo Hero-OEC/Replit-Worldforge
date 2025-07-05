@@ -98,6 +98,11 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Fixed toast notifications to auto-dismiss after 4 seconds:
+  * Updated toast timeout from 1,000,000ms (16 minutes) to 4 seconds for better user experience
+  * Added automatic dismissal functionality to useToast hook preventing manual dismissal requirement
+  * Toast notifications now disappear automatically while still allowing manual dismissal via close button
+  * Improved user experience by eliminating persistent toast notifications throughout application
 - July 5, 2025. Implemented tab-based layout for magic system detail page matching location detail page:
   * Converted magic system detail page from vertical sections to 5-tab layout (Details, Rules, Limitations, Source & Cost, Characters)
   * Added inline editing functionality with view/edit mode toggle using save/cancel buttons in header

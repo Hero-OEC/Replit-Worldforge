@@ -235,6 +235,47 @@ export default function CharacterDetail() {
     imageUrl: ""
   });
 
+  // Update character mutation
+  const updateCharacterMutation = useMutation({
+    mutationFn: async () => {
+      const updateData = {
+        ...characterData,
+        powerSystems: selectedPowerSystems
+      };
+
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) throw new Error('Failed to update character');
+      return response.json();
+    },
+    onSuccess: () => {
+      // Refetch character data to update the display
+      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
+      
+      // Invalidate magic system character caches since power systems may have changed
+      queryClient.invalidateQueries({ 
+        queryKey: ["/api/magic-systems"], 
+        predicate: (query) => {
+          // Invalidate any magic system character queries
+          return query.queryKey.length === 3 && 
+                 query.queryKey[0] === "/api/magic-systems" && 
+                 query.queryKey[2] === "characters";
+        }
+      });
+      setIsEditing(false);
+    },
+    onError: (error: any) => {
+      console.error('Error saving character:', error);
+      // In a real app, you'd show a toast notification here
+    },
+  });
+
   // Track navigation history
   useNavigationTracker();
 
@@ -363,41 +404,8 @@ export default function CharacterDetail() {
 
 
 
-  const handleSave = async () => {
-    try {
-      const updateData = {
-        ...characterData,
-        powerSystems: selectedPowerSystems
-      };
-
-      const response = await fetch(`/api/characters/${characterId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updateData),
-      });
-
-      if (!response.ok) throw new Error('Failed to update character');
-
-      // Refetch character data to update the display
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
-      
-      // Invalidate magic system character caches since power systems may have changed
-      queryClient.invalidateQueries({ 
-        queryKey: ["/api/magic-systems"], 
-        predicate: (query) => {
-          // Invalidate any magic system character queries
-          return query.queryKey.length === 3 && 
-                 query.queryKey[0] === "/api/magic-systems" && 
-                 query.queryKey[2] === "characters";
-        }
-      });
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error saving character:', error);
-      // In a real app, you'd show a toast notification here
-    }
+  const handleSave = () => {
+    updateCharacterMutation.mutate();
   };
 
   const handleCancel = () => {
@@ -645,10 +653,11 @@ export default function CharacterDetail() {
                     </Button>
                     <Button 
                       onClick={handleSave} 
-                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                      disabled={updateCharacterMutation.isPending}
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Save className="w-4 h-4 mr-2" />
-                      Save Changes
+                      {updateCharacterMutation.isPending ? "Saving..." : "Save Changes"}
                     </Button>
                   </>
                 ) : (

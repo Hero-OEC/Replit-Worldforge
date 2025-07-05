@@ -267,7 +267,7 @@ export default function EditNote() {
               <Button 
                 onClick={handleSave} 
                 disabled={updateNoteMutation.isPending}
-                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {updateNoteMutation.isPending ? "Saving..." : "Save Changes"}
