@@ -293,7 +293,9 @@ export default function Locations() {
                     {location.description}
                   </p>
 
-
+                  <div className="text-center">
+                    <span className="text-sm text-[var(--color-600)] font-medium">Click to view details</span>
+                  </div>
                   </Card>
                 </MasonryItem>
               ))}

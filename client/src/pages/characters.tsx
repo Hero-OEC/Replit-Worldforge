@@ -242,9 +242,13 @@ export default function Characters() {
                             </div>
                           </div>
                         </div>
-                        <p className="text-sm text-[var(--color-700)] line-clamp-3">
+                        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
                           {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
                         </p>
+                        
+                        <div className="text-center">
+                          <span className="text-sm text-[var(--color-600)] font-medium">Click to view details</span>
+                        </div>
                       </div>
                     </Card>
                   </MasonryItem>
