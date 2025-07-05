@@ -292,7 +292,7 @@ export default function MagicSystemDetail() {
           </div>
 
           {/* Header with Title and Category */}
-          <div className="space-y-6">
+          <div className="space-y-6 mb-8">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
                 <CategoryIcon className="w-6 h-6 text-[var(--color-700)]" />
