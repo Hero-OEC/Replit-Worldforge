@@ -1,26 +1,32 @@
 import { createClient } from '@supabase/supabase-js';
 
-// The environment variables contain the anon key and service role key
-// We need to extract the project reference from the JWT and construct the URL
+// Get environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const serviceRoleKey = import.meta.env.VITE_SUPABASE_URL; // This is actually the service role key
 
-if (!supabaseAnonKey) {
-  throw new Error('Missing Supabase anon key');
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
 }
 
-// Extract project reference from the anon key JWT
-let projectRef = '';
-try {
-  const payload = JSON.parse(atob(supabaseAnonKey.split('.')[1]));
-  projectRef = payload.ref;
-} catch (error) {
-  throw new Error('Invalid Supabase anon key format');
+// Validate URL format
+let validatedUrl = supabaseUrl;
+if (!supabaseUrl.startsWith('http')) {
+  // If URL doesn't start with http, it might be a JWT token or project reference
+  // Try to extract project reference from JWT and construct URL
+  try {
+    const payload = JSON.parse(atob(supabaseUrl.split('.')[1]));
+    if (payload.ref) {
+      validatedUrl = `https://${payload.ref}.supabase.co`;
+    } else {
+      throw new Error('Invalid Supabase URL format: ' + supabaseUrl);
+    }
+  } catch (error) {
+    console.error('Invalid Supabase URL format:', supabaseUrl);
+    throw new Error('Invalid Supabase URL format: ' + supabaseUrl);
+  }
 }
 
-const supabaseUrl = `https://${projectRef}.supabase.co`;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(validatedUrl, supabaseAnonKey);
 
 // Storage helpers for character images
 export const uploadCharacterImage = async (file: File, characterId: number): Promise<string> => {
