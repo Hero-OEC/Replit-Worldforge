@@ -98,6 +98,14 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 5, 2025. Successfully removed all search functionality from the application:
+  * Removed search functionality from navbar component (removed search props, variables, and UI elements)
+  * Removed search features from all page components including dashboard, characters, locations, timeline, magic systems, lore, and notes pages
+  * Cleaned up search libraries and components (removed search.ts and global-search.tsx files)
+  * Replaced PowerSystemSearch components with simplified PowerSystemSelector components without search functionality
+  * Fixed character creation and detail pages to work without search features while preserving all other functionality
+  * Updated all timeline-related pages to remove search dependencies
+  * Application now runs cleanly without any search functionality per user request
 - July 4, 2025. Removed word count tracking from writing status feature:
   * Removed targetWords and currentWords fields from database schema (timeline_events table)
   * Removed word count inputs from timeline event creation form (timeline-event-new.tsx)
