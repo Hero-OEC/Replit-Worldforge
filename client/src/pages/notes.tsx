@@ -26,42 +26,42 @@ import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import type { Note, ProjectWithStats } from "@shared/schema";
 
-// Category configuration with icons and colors
+// Category configuration with icons and InkAlchemy colors
 const categoryConfig = {
   "Plot": {
     icon: Scroll,
     colors: {
-      light: "bg-amber-100",
-      medium: "bg-amber-200", 
-      dark: "bg-amber-500",
-      text: "text-amber-900"
+      light: "bg-[var(--color-200)]",
+      medium: "bg-[var(--color-300)]", 
+      dark: "bg-[var(--color-500)]",
+      text: "text-[var(--color-700)]"
     }
   },
   "Characters": {
     icon: Users,
     colors: {
-      light: "bg-blue-100",
-      medium: "bg-blue-200",
-      dark: "bg-blue-500", 
-      text: "text-blue-900"
+      light: "bg-[var(--color-200)]",
+      medium: "bg-[var(--color-300)]",
+      dark: "bg-[var(--color-500)]", 
+      text: "text-[var(--color-700)]"
     }
   },
   "World Building": {
     icon: MapPin,
     colors: {
-      light: "bg-green-100",
-      medium: "bg-green-200",
-      dark: "bg-green-500",
-      text: "text-green-900"
+      light: "bg-[var(--color-200)]",
+      medium: "bg-[var(--color-300)]",
+      dark: "bg-[var(--color-500)]",
+      text: "text-[var(--color-700)]"
     }
   },
   "Research": {
     icon: Search,
     colors: {
-      light: "bg-purple-100",
-      medium: "bg-purple-200",
-      dark: "bg-purple-500",
-      text: "text-purple-900"
+      light: "bg-[var(--color-200)]",
+      medium: "bg-[var(--color-300)]",
+      dark: "bg-[var(--color-500)]",
+      text: "text-[var(--color-700)]"
     }
   }
 };
@@ -242,14 +242,14 @@ export default function Notes() {
           </div>
 
           {/* Notes Grid */}
-          <MasonryGrid>
+          <MasonryGrid className="pb-8">
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;
               const selectedNote = notes.find(n => n.id === deleteNoteId);
 
               return (
-                <MasonryItem key={note.id}>
+                <MasonryItem key={note.id} className="mb-6">
                   <Card className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5">
                     <div className="p-6">
                       {/* Header */}
@@ -307,24 +307,15 @@ export default function Notes() {
                         {/* Tags */}
                         {note.tags && (
                           <div className="flex flex-wrap gap-1">
-                            {Array.isArray(note.tags) ? (
-                              note.tags.slice(0, 3).map((tag: string, index: number) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                  <Tag className="h-3 w-3 mr-1" />
-                                  {tag}
-                                </Badge>
-                              ))
-                            ) : (
-                              note.tags.split(',').slice(0, 3).map((tag: string, index: number) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                  <Tag className="h-3 w-3 mr-1" />
-                                  {tag.trim()}
-                                </Badge>
-                              ))
-                            )}
-                            {((Array.isArray(note.tags) ? note.tags.length : note.tags.split(',').length) > 3) && (
-                              <Badge variant="outline" className="text-xs">
-                                +{(Array.isArray(note.tags) ? note.tags.length : note.tags.split(',').length) - 3} more
+                            {note.tags.split(',').slice(0, 3).map((tag: string, index: number) => (
+                              <Badge key={index} variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)]">
+                                <Tag className="h-3 w-3 mr-1" />
+                                {tag.trim()}
+                              </Badge>
+                            ))}
+                            {note.tags.split(',').length > 3 && (
+                              <Badge variant="outline" className="text-xs bg-[var(--color-200)] text-[var(--color-700)]">
+                                +{note.tags.split(',').length - 3} more
                               </Badge>
                             )}
                           </div>
