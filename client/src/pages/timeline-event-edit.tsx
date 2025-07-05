@@ -531,24 +531,7 @@ export default function EditTimelineEvent() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Writing Status Selector */}
-              <div>
-                <Label htmlFor="writingStatus" className="text-sm text-[var(--color-600)]">Writing Status</Label>
-                <Select onValueChange={setWritingStatus} value={writingStatus}>
-                  <SelectTrigger className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all">
-                    <SelectValue placeholder="Select writing status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="planning">Planning</SelectItem>
-                    <SelectItem value="writing">Writing</SelectItem>
-                    <SelectItem value="first_draft">First Draft</SelectItem>
-                    <SelectItem value="editing">Editing</SelectItem>
-                    <SelectItem value="complete">Complete</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
+            <div className="grid grid-cols-1 gap-4">
               {/* Location Selector */}
               <div>
                 <Label htmlFor="location" className="text-sm text-[var(--color-600)]">Location</Label>
