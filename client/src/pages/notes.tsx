@@ -250,7 +250,10 @@ export default function Notes() {
 
               return (
                 <MasonryItem key={note.id}>
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5">
+                  <Card 
+                    className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
+                    onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
+                  >
                     <div className="p-6">
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
@@ -259,10 +262,7 @@ export default function Notes() {
                             <CategoryIcon className={`w-6 h-6 ${categoryInfo.colors.text} transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110`} />
                           </div>
                           <div className="flex-1">
-                            <h3 
-                              className="font-semibold text-[var(--color-950)] group-hover:text-[var(--color-500)] transition-colors cursor-pointer line-clamp-2 text-lg"
-                              onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
-                            >
+                            <h3 className="font-semibold text-[var(--color-950)] group-hover:text-[var(--color-500)] transition-colors line-clamp-2 text-lg">
                               {note.title}
                             </h3>
                             <div className="flex items-center space-x-2 mt-1">
@@ -275,20 +275,31 @@ export default function Notes() {
                         
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem 
-                              onClick={() => setLocation(`/project/${projectId}/notes/${note.id}/edit`)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setLocation(`/project/${projectId}/notes/${note.id}/edit`);
+                              }}
                               className="cursor-pointer"
                             >
                               <Edit3 className="h-4 w-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem 
-                              onClick={() => handleDelete(note.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(note.id);
+                              }}
                               className="cursor-pointer text-red-600 hover:text-red-700"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
