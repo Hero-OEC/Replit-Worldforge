@@ -265,11 +265,11 @@ export default function Characters() {
 
                       {/* Bottom Area: Character Info */}
                       <div className="p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <div className="w-6 h-6 bg-[var(--color-200)] rounded flex items-center justify-center">
-                            <RoleIcon className="w-4 h-4 text-[var(--color-700)]" />
+                        <div className="flex items-center space-x-3 mb-2">
+                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+                            <RoleIcon className="w-6 h-6 text-[var(--color-700)]" />
                           </div>
-                          <h3 className="font-medium text-[var(--color-950)]">{character.name}</h3>
+                          <h3 className="text-lg font-semibold text-[var(--color-950)]">{character.name}</h3>
                         </div>
                         <div className="mb-3">
                           <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} ${roleInfo.textColor} border ${roleInfo.borderColor}`}>
