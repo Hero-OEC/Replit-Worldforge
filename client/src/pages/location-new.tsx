@@ -6,6 +6,9 @@ import { ArrowLeft, Save, X, MapPin, Building, Trees, GraduationCap, Crown, Home
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/layout/navbar";
 import { useToast } from "@/hooks/use-toast";
@@ -204,11 +207,11 @@ export default function LocationNew() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Description</label>
-                        <textarea
+                        <Textarea
                           value={locationData.description}
                           onChange={(e) => setLocationData({...locationData, description: e.target.value})}
-                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                          placeholder="Brief description of the location. What makes this place unique and important?"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                          placeholder="Describe the location..."
                         />
                       </div>
                     </div>
@@ -219,12 +222,12 @@ export default function LocationNew() {
                   <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography & Environment</label>
-                        <textarea
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Geography</label>
+                        <Textarea
                           value={locationData.geography}
                           onChange={(e) => setLocationData({...locationData, geography: e.target.value})}
-                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                          placeholder="Describe the physical features, layout, climate, and notable landmarks of this location..."
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                          placeholder="Describe the geographical features..."
                         />
                       </div>
                     </div>
@@ -235,12 +238,12 @@ export default function LocationNew() {
                   <Card className="border border-[var(--color-300)] p-6 bg-[#f4f0cd00]">
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture & Society</label>
-                        <textarea
+                        <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Culture</label>
+                        <Textarea
                           value={locationData.culture}
                           onChange={(e) => setLocationData({...locationData, culture: e.target.value})}
-                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                          placeholder="Describe the people, customs, atmosphere, social structure, and way of life in this location..."
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-64"
+                          placeholder="Describe the cultural aspects..."
                         />
                       </div>
                     </div>
@@ -252,11 +255,11 @@ export default function LocationNew() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-[var(--color-700)] mb-2">Story Significance</label>
-                        <textarea
+                        <Textarea
                           value={locationData.significance}
                           onChange={(e) => setLocationData({...locationData, significance: e.target.value})}
-                          className="w-full min-h-96 px-4 py-3 bg-[var(--color-50)] border border-[var(--color-300)] text-[var(--color-950)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                          placeholder="Explain the role this location plays in your story. Why is it important to the plot or characters?"
+                          className="bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] min-h-48"
+                          placeholder="What makes this location significant..."
                         />
                       </div>
                     </div>
