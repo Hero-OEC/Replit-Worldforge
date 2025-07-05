@@ -624,8 +624,7 @@ export default function CharacterDetail() {
                         </SelectContent>
                       </Select>
                     ) : (
-                      <div className={`inline-flex items-center space-x-2 px-3 py-1 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
-                        <RoleIcon className="w-4 h-4" />
+                      <div className={`inline-flex items-center px-3 py-1 ${roleInfo.bgColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
                         <span>{character?.role}</span>
                       </div>
                     )}
