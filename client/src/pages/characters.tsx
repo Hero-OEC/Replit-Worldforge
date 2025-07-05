@@ -269,16 +269,7 @@ export default function Characters() {
                         <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
                           {character.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ex nec massa..."}
                         </p>
-                        
-                        {/* Divider line and footer */}
-                        <div className="border-t border-[var(--color-300)] pt-3">
-                          <div className="flex items-center justify-between">
-                            <div className="w-6 h-6 bg-[var(--color-300)] rounded-full flex items-center justify-center">
-                              <Eye className="w-3 h-3 text-[var(--color-600)]" />
-                            </div>
-                            <span className="text-sm text-[var(--color-600)]">Click to view details</span>
-                          </div>
-                        </div>
+
                       </div>
                     </Card>
                   </MasonryItem>
