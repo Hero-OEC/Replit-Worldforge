@@ -271,6 +271,9 @@ export default function CharacterDetail() {
     enabled: !!characterId,
   });
 
+  // Debug logging
+  console.log("Character query state:", { isLoading, error, character, characterId });
+
   // Fetch timeline events to find character's latest location
   const { data: timelineEvents = [] } = useQuery({
     queryKey: ["/api/projects", projectId, "timeline"],
