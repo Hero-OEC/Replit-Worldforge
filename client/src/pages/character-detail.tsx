@@ -651,7 +651,7 @@ export default function CharacterDetail() {
                       placeholder="Upload character portrait"
                     />
                   ) : (
-                    <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+                    <div className="aspect-[3/4] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
                       {characterData.imageUrl || character.imageUrl ? (
                         <img 
                           src={characterData.imageUrl || character.imageUrl} 
