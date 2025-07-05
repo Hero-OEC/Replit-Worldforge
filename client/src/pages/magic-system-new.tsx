@@ -131,7 +131,7 @@ export default function NewMagicSystem() {
           </div>
 
           {/* Header with Title Input */}
-          <div className="space-y-6">
+          <div className="space-y-6 mb-8">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
                 {formData.category === 'magic' ? (
@@ -140,30 +140,30 @@ export default function NewMagicSystem() {
                   <Zap className="w-6 h-6 text-[var(--color-700)]" />
                 )}
               </div>
-              <div className="flex-1 max-w-md">
-                <Input
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Magic System Name"
-                  className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] h-12 focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
-                />
+              <div className="flex-1">
+                <div className="space-y-2">
+                  <Input
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Magic System Name"
+                    className="text-2xl font-bold bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] h-12 max-w-md focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent"
+                  />
+                  
+                  {/* Category Selector directly under title */}
+                  <Select 
+                    value={formData.category} 
+                    onValueChange={(value) => setFormData({ ...formData, category: value })}
+                  >
+                    <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="magic">Magic System</SelectItem>
+                      <SelectItem value="power">Power System</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-
-            {/* Category Selector */}
-            <div className="ml-16">
-              <Select 
-                value={formData.category} 
-                onValueChange={(value) => setFormData({ ...formData, category: value })}
-              >
-                <SelectTrigger className="w-48 bg-[var(--color-50)] border-[var(--color-300)] text-[var(--color-950)] focus:outline-none focus:ring-2 focus:ring-[var(--color-500)] focus:border-transparent">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="magic">Magic System</SelectItem>
-                  <SelectItem value="power">Power System</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
 
