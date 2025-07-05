@@ -1227,7 +1227,7 @@ export default function Timeline() {
                           setEventToDelete(hoveredEvent);
                           setDeleteDialogOpen(true);
                         }}
-                        className="h-7 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="h-7 px-2 text-[var(--color-600)] hover:text-[var(--color-700)] hover:bg-[var(--color-200)]"
                       >
                         <Trash2 className="w-3 h-3 mr-1" />
                         Delete
