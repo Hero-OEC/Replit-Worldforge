@@ -27,6 +27,10 @@ export function MasonryGrid({
       const gap = 32;
       const columns = Math.max(1, Math.floor((containerWidth + gap) / (itemWidth + gap)));
       
+      // Calculate total width used by all columns
+      const totalUsedWidth = columns * itemWidth + (columns - 1) * gap;
+      const leftOffset = Math.max(0, (containerWidth - totalUsedWidth) / 2);
+      
       // Initialize column heights
       const columnHeights = new Array(columns).fill(0);
       
@@ -35,8 +39,8 @@ export function MasonryGrid({
         // Find the shortest column
         const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
         
-        // Calculate position
-        const x = shortestColumnIndex * (itemWidth + gap);
+        // Calculate position with centering offset
+        const x = leftOffset + shortestColumnIndex * (itemWidth + gap);
         const y = columnHeights[shortestColumnIndex];
         
         // Apply positioning
