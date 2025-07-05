@@ -98,28 +98,6 @@ The application manages several core entities:
 
 ```
 Changelog:
-- July 5, 2025. Created missing note edit page and completed search functionality removal:
-  * Created note-edit.tsx page with full editing capabilities matching lore edit page design
-  * Added route registration in App.tsx for /project/:projectId/notes/:noteId/edit
-  * Fixed note detail page tags to use proper InkAlchemy color scheme instead of slate colors
-  * Fixed note detail page error where tags were treated as arrays instead of comma-separated strings
-  * Note edit page includes title, category, content, and tag editing with proper form validation
-  * All edit buttons in notes pages now properly navigate to working edit functionality
-- July 5, 2025. Successfully completed all search functionality removal and fixed related errors:
-  * Fixed final search-related errors in timeline.tsx TagSearch component by removing broken search logic
-  * Replaced search input with dropdown button for tag selection without search functionality
-  * Fixed PowerSystemSearch component in character-detail.tsx by removing all search-related code
-  * Replaced power system search input with simple dropdown button for selection
-  * Updated both components to use availableItems/availableSystems filter instead of search-based filtering
-  * Application now runs completely error-free without any search functionality whatsoever
-- July 5, 2025. Successfully removed all search functionality from the application:
-  * Removed search functionality from navbar component (removed search props, variables, and UI elements)
-  * Removed search features from all page components including dashboard, characters, locations, timeline, magic systems, lore, and notes pages
-  * Cleaned up search libraries and components (removed search.ts and global-search.tsx files)
-  * Replaced PowerSystemSearch components with simplified PowerSystemSelector components without search functionality
-  * Fixed character creation and detail pages to work without search features while preserving all other functionality
-  * Updated all timeline-related pages to remove search dependencies
-  * Application now runs cleanly without any search functionality per user request
 - July 4, 2025. Removed word count tracking from writing status feature:
   * Removed targetWords and currentWords fields from database schema (timeline_events table)
   * Removed word count inputs from timeline event creation form (timeline-event-new.tsx)

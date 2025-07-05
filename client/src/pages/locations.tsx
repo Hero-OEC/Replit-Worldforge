@@ -21,7 +21,7 @@ export default function Locations() {
   const { projectId } = useParams<{ projectId: string }>();
   const [, setLocation] = useLocation();
   const { navigateWithHistory } = useNavigation();
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [locationToDelete, setLocationToDelete] = useState<any>(null);
@@ -89,8 +89,10 @@ export default function Locations() {
   };
 
   const filteredLocations = locations.filter(location => {
+    const matchesSearch = location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (location.description && location.description.toLowerCase().includes(searchTerm.toLowerCase()));
     // Since there's no type field in database, just show all for now
-    return true;
+    return matchesSearch;
   });
 
   const getTypeColor = (type: string) => {
@@ -135,6 +137,7 @@ export default function Locations() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
+        searchPlaceholder="Search locations..."
       />
       <main className="p-8">
         <div className="max-w-6xl mx-auto">
@@ -194,7 +197,7 @@ export default function Locations() {
               <MapPin className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
               <h3 className="text-lg font-medium text-[var(--color-950)] mb-2">No locations found</h3>
               <p className="text-[var(--color-700)] mb-6">
-                Start building your world by adding locations.
+                {searchTerm ? 'Try adjusting your search terms.' : 'Start building your world by adding locations.'}
               </p>
               <Button 
                 className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"

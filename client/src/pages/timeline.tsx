@@ -94,31 +94,64 @@ function TagSearch({
   onRemoveTag,
 }: TagSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
-  const availableItems = items.filter(item => !selectedTags.includes(item));
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = items.filter(
+        (item) =>
+          item.toLowerCase().includes(searchValue.toLowerCase()) &&
+          !selectedTags.includes(item),
+      );
+      setFilteredItems(filtered);
+      setIsOpen(filtered.length > 0);
+    } else {
+      setFilteredItems([]);
+      setIsOpen(false);
+    }
+  }, [searchValue, items, selectedTags]);
 
-  const handleButtonClick = () => {
-    setIsOpen(!isOpen);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
   };
 
   const handleSelectItem = (item: string) => {
     onAddTag(item);
+    setSearchValue("");
     setIsOpen(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (
+      e.key === "Enter" &&
+      searchValue &&
+      !selectedTags.includes(searchValue)
+    ) {
+      onAddTag(searchValue);
+      setSearchValue("");
+      setIsOpen(false);
+    }
   };
 
   return (
     <div className="flex flex-col">
       <div className="relative">
-        <Button
-          variant="outline"
-          onClick={handleButtonClick}
-          className="w-full justify-start bg-[var(--color-100)] border-[var(--color-400)] hover:bg-[var(--color-50)]"
-        >
-          {placeholder}
-        </Button>
-        {isOpen && availableItems.length > 0 && (
+        <Input
+          placeholder={placeholder}
+          value={searchValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            if (filteredItems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-[var(--color-100)] border-[var(--color-400)] focus:bg-[var(--color-50)]"
+        />
+        {isOpen && filteredItems.length > 0 && (
           <div className="absolute z-[999] w-full bg-[var(--color-100)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {availableItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <div
                 key={index}
                 className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
@@ -338,8 +371,11 @@ export default function Timeline() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [hoveredEvent, setHoveredEvent] = useState<any>(null);
   const [hoveredDateGroup, setHoveredDateGroup] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCharacterFilters, setSelectedCharacterFilters] = useState<string[]>([]);
   const [selectedLocationFilters, setSelectedLocationFilters] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -604,6 +640,8 @@ export default function Timeline() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
+        searchPlaceholder="Search timeline events..."
+        onSearch={setSearchTerm}
       />
       <main className="px-4 py-8 lg:px-8">
         <div className="w-full max-w-7xl mx-auto">

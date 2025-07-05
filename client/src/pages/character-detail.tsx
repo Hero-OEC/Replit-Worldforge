@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useLocation } from "wouter";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
 import { ArrowLeft, Edit3, Save, X, User, Upload, Sword, Wand2, Crown, Shield, UserCheck, UserX, HelpCircle, Check, Clock, Sparkles, Zap, Trash2, Star, Users, Calendar, MapPin, Eye, Swords, Lightbulb, Award, Heart, Plane } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -19,8 +20,8 @@ import type { Character, ProjectWithStats } from "@shared/schema";
 
 // Event type icons and colors (matching main timeline page)
 const priorityColors = {
-  high: "bg-[var(--color-500)]",
-  medium: "bg-[var(--color-400)]",
+  high: "bg-[var(--color-700)]",
+  medium: "bg-[var(--color-500)]",
   low: "bg-[var(--color-300)]",
 };
 
@@ -76,8 +77,10 @@ interface PowerSystemSearchProps {
   projectId: string;
 }
 
-function PowerSystemSelector({ selectedSystems, onAddSystem, onRemoveSystem, projectId }: PowerSystemSearchProps) {
+function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, projectId }: PowerSystemSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredSystems, setFilteredSystems] = useState<any[]>([]);
 
   // Fetch magic systems from database
   const { data: magicSystems = [] } = useQuery({
@@ -95,40 +98,55 @@ function PowerSystemSelector({ selectedSystems, onAddSystem, onRemoveSystem, pro
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-800)]" : "bg-[var(--color-300)] text-[var(--color-800)]";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-950)]" : "bg-[var(--color-300)] text-[var(--color-950)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-[var(--color-400)]" : "border-[var(--color-500)]";
+    return category === "power" ? "border-[var(--color-300)]" : "border-[var(--color-400)]";
   };
 
-  const availableSystems = magicSystems.filter(
-    (system: any) => !selectedSystems.includes(system.name)
-  );
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = magicSystems.filter(
+        (system: any) =>
+          system.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+          !selectedSystems.includes(system.name)
+      );
+      setFilteredSystems(filtered);
+      setIsOpen(filtered.length > 0);
+    } else {
+      setFilteredSystems([]);
+      setIsOpen(false);
+    }
+  }, [searchValue, selectedSystems, magicSystems]);
 
   const handleSelectSystem = (systemName: string) => {
     onAddSystem(systemName);
+    setSearchValue("");
     setIsOpen(false);
   };
 
   return (
     <div className="space-y-3">
       <div className="relative">
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full justify-start bg-[var(--color-100)] border-gray-300 hover:bg-white"
-        >
-          Select power type...
-        </Button>
-        {isOpen && availableSystems.length > 0 && (
-          <div className="absolute z-[999] w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
-            {availableSystems.map((system, index) => {
+        <Input
+          placeholder="Search power types..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onFocus={() => {
+            if (filteredSystems.length > 0) setIsOpen(true);
+          }}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+        />
+        {isOpen && filteredSystems.length > 0 && (
+          <div className="absolute z-[999] w-full bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredSystems.map((system, index) => {
               const CategoryIcon = getCategoryIcon(system.category);
               return (
                 <div
                   key={index}
-                  className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer"
+                  className="px-3 py-2 hover:bg-[var(--color-100)] cursor-pointer"
                   onClick={() => handleSelectSystem(system.name)}
                 >
                   <div className="flex items-center justify-between">
@@ -187,7 +205,7 @@ function PowerSystemSelector({ selectedSystems, onAddSystem, onRemoveSystem, pro
 
 export default function CharacterDetail() {
   const { projectId, characterId } = useParams<{ projectId: string; characterId: string }>();
-  const [location, navigate] = useLocation();
+  const [location, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const { goBack } = useNavigation();
 
@@ -195,7 +213,7 @@ export default function CharacterDetail() {
   const [isEditing, setIsEditing] = useState(false);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
-  const [characterMagicSystems, setCharacterMagicSystems] = useState<any[]>([]);
+
   const [characterData, setCharacterData] = useState({
     name: "",
     description: "",
@@ -259,44 +277,22 @@ export default function CharacterDetail() {
     enabled: !!projectId
   });
 
+
+
   // Helper functions for power system display
   const getCategoryIcon = (category: string) => {
     return category === "power" ? Zap : Sparkles;
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-800)]" : "bg-[var(--color-300)] text-[var(--color-800)]";
+    return category === "power" ? "bg-[var(--color-200)] text-[var(--color-950)]" : "bg-[var(--color-300)] text-[var(--color-950)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-[var(--color-400)]" : "border-[var(--color-500)]";
+    return category === "power" ? "border-[var(--color-300)]" : "border-[var(--color-400)]";
   };
 
   // All effects
-  // Get character magic systems
-  useEffect(() => {
-    if (characterId) {
-      fetch(`/api/characters/${characterId}/magic-systems`)
-        .then(res => res.json())
-        .then(data => {
-          // Ensure we always have an array
-          setCharacterMagicSystems(Array.isArray(data) ? data : []);
-        })
-        .catch(err => {
-          console.error('Error fetching character magic systems:', err);
-          setCharacterMagicSystems([]);
-        });
-    }
-  }, [characterId]);
-
-  // Initialize power systems when character magic systems load
-  useEffect(() => {
-    if (Array.isArray(characterMagicSystems)) {
-      const systemNames = characterMagicSystems.map((cms: any) => cms.magicSystem?.name || cms.name).filter(Boolean);
-      setSelectedPowerSystems(systemNames);
-    }
-  }, [characterMagicSystems]);
-
   // Initialize character data when character is loaded
   useEffect(() => {
     if (character) {
@@ -313,15 +309,19 @@ export default function CharacterDetail() {
         appearance: character.appearance || ""
       });
       
-      // Initialize power systems from character data
+      // Initialize power systems from character data (this is the primary source)
       if (character.powerSystems && Array.isArray(character.powerSystems)) {
         setSelectedPowerSystems(character.powerSystems);
+      } else {
+        // Fallback to empty array if no power systems
+        setSelectedPowerSystems([]);
       }
     }
   }, [character]);
 
-  // Get role configuration
-  const roleInfo = roleConfig[character?.role as keyof typeof roleConfig] || roleConfig["Supporting"];
+  // Get role configuration - use editing role if in edit mode
+  const currentRole = isEditing ? characterData.role : character?.role;
+  const roleInfo = roleConfig[currentRole as keyof typeof roleConfig] || roleConfig["Supporting"];
   const RoleIcon = roleInfo.icon;
 
   // Function to get character's latest location from timeline events
@@ -379,7 +379,17 @@ export default function CharacterDetail() {
 
       // Refetch character data to update the display
       queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId] });
-      queryClient.invalidateQueries({ queryKey: ["/api/characters", characterId, "magic-systems"] });
+      
+      // Invalidate magic system character caches since power systems may have changed
+      queryClient.invalidateQueries({ 
+        queryKey: ["/api/magic-systems"], 
+        predicate: (query) => {
+          // Invalidate any magic system character queries
+          return query.queryKey.length === 3 && 
+                 query.queryKey[0] === "/api/magic-systems" && 
+                 query.queryKey[2] === "characters";
+        }
+      });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving character:', error);
@@ -403,8 +413,17 @@ export default function CharacterDetail() {
         role: character.role || "",
         appearance: character.appearance || ""
       });
+      
+      // Reset power systems to original values
+      if (character.powerSystems && Array.isArray(character.powerSystems)) {
+        setSelectedPowerSystems(character.powerSystems);
+      } else {
+        setSelectedPowerSystems([]);
+      }
     }
   };
+
+
 
   if (isLoading) {
     return (
@@ -413,7 +432,7 @@ export default function CharacterDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          
+          searchPlaceholder="Search characters..."
         />
         <main className="p-8 bg-[var(--worldforge-cream)]">
           <div className="max-w-6xl mx-auto text-center py-12">
@@ -431,7 +450,7 @@ export default function CharacterDetail() {
           projectId={projectId}
           projectTitle={project?.title}
           showProjectNav={true}
-          
+          searchPlaceholder="Search characters..."
         />
         <main className="p-8 bg-[var(--worldforge-cream)]">
           <div className="max-w-6xl mx-auto text-center py-12">
@@ -450,94 +469,109 @@ export default function CharacterDetail() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
-        
+        searchPlaceholder="Search characters..."
       />
       <main className="p-8 bg-[var(--worldforge-cream)]">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-[var(--color-700)] hover:text-[var(--color-950)]"
-                onClick={goBack}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                {isEditing ? (
-                  <Input
-                    value={characterData.name}
-                    onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
-                    className="text-3xl font-bold text-gray-800 bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] h-12"
-                    placeholder="Character Name"
-                  />
-                ) : (
-                  <h1 className="text-3xl font-bold text-gray-800">{character?.name}</h1>
-                )}
-                <div className="mt-2">
-                  {isEditing ? (
-                    <Select 
-                      value={characterData.role} 
-                      onValueChange={(value) => setCharacterData({...characterData, role: value})}
-                    >
-                      <SelectTrigger className="w-48">
-                        <SelectValue placeholder="Select role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Protagonist">Protagonist</SelectItem>
-                        <SelectItem value="Antagonist">Antagonist</SelectItem>
-                        <SelectItem value="Ally">Ally</SelectItem>
-                        <SelectItem value="Enemy">Enemy</SelectItem>
-                        <SelectItem value="Neutral">Neutral</SelectItem>
-                        <SelectItem value="Supporting">Supporting</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <div className={`inline-flex items-center space-x-2 px-3 py-1 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
-                      <RoleIcon className="w-4 h-4" />
-                      <span>{character?.role}</span>
+          {/* Header - matching lore edit page layout */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-[var(--color-700)] hover:text-[var(--color-950)]"
+                  onClick={goBack}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back
+                </Button>
+                <div>
+                  <div className="flex items-center space-x-3 mb-2">
+                    {/* Role icon matching current role */}
+                    <div className={`w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <RoleIcon className="w-5 h-5 text-[var(--color-700)]" />
                     </div>
-                  )}
+                    <div className="flex-1">
+                      {isEditing ? (
+                        <Input
+                          value={characterData.name}
+                          onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
+                          placeholder="Enter character name..."
+                          className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                        />
+                      ) : (
+                        <h1 className="text-3xl font-bold text-gray-800">{character?.name}</h1>
+                      )}
+                    </div>
+                  </div>
+                  <div className="ml-13 flex items-center space-x-4">
+                    {/* Role selector */}
+                    {isEditing ? (
+                      <Select 
+                        value={characterData.role} 
+                        onValueChange={(value) => setCharacterData({...characterData, role: value})}
+                      >
+                        <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
+                          <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Protagonist">Protagonist</SelectItem>
+                          <SelectItem value="Antagonist">Antagonist</SelectItem>
+                          <SelectItem value="Ally">Ally</SelectItem>
+                          <SelectItem value="Enemy">Enemy</SelectItem>
+                          <SelectItem value="Neutral">Neutral</SelectItem>
+                          <SelectItem value="Supporting">Supporting</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <div className={`inline-flex items-center space-x-2 px-3 py-1 ${roleInfo.bgColor} ${roleInfo.textColor} rounded-full text-sm font-medium border ${roleInfo.borderColor}`}>
+                        <RoleIcon className="w-4 h-4" />
+                        <span>{character?.role}</span>
+                      </div>
+                    )}
+                    
+                    {/* Age and Race display */}
+                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
+                      <span className="text-sm">Age: {isEditing ? characterData.age : character?.age || 'Unknown'}</span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2 text-[var(--color-700)]">
+                      <span className="text-sm">Race: {isEditing ? characterData.race : character?.race || 'Unknown'}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              {isEditing ? (
-                <>
-                  <Button onClick={handleCancel} variant="outline">
-                    <X className="w-4 h-4 mr-2" />
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSave} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Changes
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button onClick={() => setIsEditing(true)} className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]">
+              
+              <div className="flex items-center space-x-3">
+                {isEditing ? (
+                  <>
+                    <Button 
+                      onClick={handleCancel} 
+                      variant="outline"
+                      className="border-[var(--color-300)] text-[var(--color-700)] hover:bg-[var(--color-100)]"
+                    >
+                      <X className="w-4 h-4 mr-2" />
+                      Cancel
+                    </Button>
+                    <Button 
+                      onClick={handleSave} 
+                      className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      Save Changes
+                    </Button>
+                  </>
+                ) : (
+                  <Button 
+                    onClick={() => setIsEditing(true)} 
+                    className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)]"
+                  >
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Character
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      if (confirm("Are you sure you want to delete this character?")) {
-                        // In real app, this would delete the character and redirect
-                        console.log("Delete character:", character.id);
-                      }
-                    }}
-                    className="text-destructive border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-destructive"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete
-                  </Button>
-                </>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
@@ -596,12 +630,12 @@ export default function CharacterDetail() {
                 {/* Basic Info */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-3 border-b border-[var(--color-300)]">
-                    <span className="text-sm font-medium text-gray-700">Age:</span>
+                    <span className="text-sm font-medium text-[var(--color-700)]">Age:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.age}
                         onChange={(e) => setCharacterData({...characterData, age: e.target.value})}
-                        className="w-20 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                        className="w-20 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                         placeholder="22"
                       />
                     ) : (
@@ -609,12 +643,12 @@ export default function CharacterDetail() {
                     )}
                   </div>
                   <div className="flex justify-between items-center py-3">
-                    <span className="text-sm font-medium text-gray-700">Race:</span>
+                    <span className="text-sm font-medium text-[var(--color-700)]">Race:</span>
                     {isEditing ? (
                       <Input
                         value={characterData.race}
                         onChange={(e) => setCharacterData({...characterData, race: e.target.value})}
-                        className="w-24 h-8 text-sm text-right bg-[var(--color-100)] border-gray-300 focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)]"
+                        className="w-20 h-8 text-sm text-right text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
                         placeholder="Human"
                       />
                     ) : (
@@ -641,46 +675,55 @@ export default function CharacterDetail() {
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Brief Description</h3>
+                        <div className="flex items-center space-x-2 mb-3">
+                          <User className="w-5 h-5 text-[var(--color-700)]" />
+                          <span className="text-xl font-medium text-[var(--color-700)]">Brief Description</span>
+                        </div>
                         {isEditing ? (
                           <textarea
                             value={characterData.description}
                             onChange={(e) => setCharacterData({...characterData, description: e.target.value})}
                             rows={3}
-                            className="w-full p-3 bg-[var(--color-100)] border border-gray-300 rounded-lg focus:bg-[var(--color-50)] focus:ring-2 focus:ring-[var(--color-500)] focus:border-[var(--color-500)] resize-none"
+                            className="w-full p-3 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                             placeholder="Brief character description..."
                           />
                         ) : (
-                          <p className="text-gray-700">{character.description}</p>
+                          <p className="text-[var(--color-700)]">{character.description}</p>
                         )}
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Personality</h3>
+                        <div className="flex items-center space-x-2 mb-3">
+                          <Heart className="w-5 h-5 text-[var(--color-700)]" />
+                          <span className="text-xl font-medium text-[var(--color-700)]">Personality</span>
+                        </div>
                         {isEditing ? (
                           <textarea
                             value={characterData.personality}
                             onChange={(e) => setCharacterData({...characterData, personality: e.target.value})}
-                            className="w-full h-20 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                            className="w-full h-20 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                             placeholder="Character's personality traits..."
                           />
                         ) : (
-                          <p className="text-gray-700">{character.personality}</p>
+                          <p className="text-[var(--color-700)]">{character.personality}</p>
                         )}
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Power Type</h3>
+                        <div className="flex items-center space-x-2 mb-3">
+                          <Zap className="w-5 h-5 text-[var(--color-700)]" />
+                          <span className="text-xl font-medium text-[var(--color-700)]">Power Type</span>
+                        </div>
                         {isEditing ? (
-                          <PowerSystemSelector
+                          <PowerSystemSearch
                             selectedSystems={selectedPowerSystems}
                             onAddSystem={(system) => setSelectedPowerSystems([...selectedPowerSystems, system])}
                             onRemoveSystem={(system) => setSelectedPowerSystems(selectedPowerSystems.filter(s => s !== system))}
                             projectId={projectId!}
                           />
-                        ) : selectedPowerSystems.length > 0 ? (
+                        ) : selectedPowerSystems.length > 0 || character?.powerSystems?.length > 0 ? (
                           <div className="grid grid-cols-1 gap-3">
-                            {selectedPowerSystems.map((systemName, index) => {
+                            {(selectedPowerSystems.length > 0 ? selectedPowerSystems : character?.powerSystems || []).map((systemName: string, index: number) => {
                               const system = magicSystems.find((s: any) => s.name === systemName);
                               const CategoryIcon = getCategoryIcon(system?.category || "magic");
                               const colorClass = getCategoryColor(system?.category || "magic");
@@ -708,7 +751,7 @@ export default function CharacterDetail() {
                             })}
                           </div>
                         ) : (
-                          <div className="p-4 bg-[var(--color-100)] rounded-lg border border-gray-200">
+                          <div className="p-4 bg-[var(--color-100)] rounded-lg border border-[var(--color-200)]">
                             <span className="text-sm text-[var(--color-700)]">No power types assigned</span>
                           </div>
                         )}
@@ -721,16 +764,19 @@ export default function CharacterDetail() {
                   <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Physical Appearance</h3>
+                      <div className="flex items-center space-x-2 mb-3">
+                        <Eye className="w-5 h-5 text-[var(--color-700)]" />
+                        <span className="text-xl font-medium text-[var(--color-700)]">Physical Appearance</span>
+                      </div>
                       {isEditing ? (
                         <textarea
                           value={characterData.appearance}
                           onChange={(e) => setCharacterData({...characterData, appearance: e.target.value})}
-                          className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                          className="w-full h-32 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                           placeholder="Describe the character's physical appearance..."
                         />
                       ) : (
-                        <p className="text-gray-700">{character.appearance}</p>
+                        <p className="text-[var(--color-700)]">{character.appearance}</p>
                       )}
                     </div>
                   </Card>
@@ -740,16 +786,19 @@ export default function CharacterDetail() {
                   <Card className="border border-[var(--color-300)] p-6"
                     style={{ backgroundColor: 'var(--worldforge-card)' }}>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-3">Backstory</h3>
+                      <div className="flex items-center space-x-2 mb-3">
+                        <Star className="w-5 h-5 text-[var(--color-700)]" />
+                        <span className="text-xl font-medium text-[var(--color-700)]">Backstory</span>
+                      </div>
                       {isEditing ? (
                         <textarea
                           value={characterData.backstory}
                           onChange={(e) => setCharacterData({...characterData, backstory: e.target.value})}
-                          className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                          className="w-full h-40 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                           placeholder="Character's background story..."
                         />
                       ) : (
-                        <p className="text-gray-700">{character.backstory}</p>
+                        <p className="text-[var(--color-700)]">{character.backstory}</p>
                       )}
                     </div>
                   </Card>
@@ -757,19 +806,19 @@ export default function CharacterDetail() {
 
                 <TabsContent value="weapons" className="space-y-6 bg-[var(--worldforge-cream)]">
                   <Card className="border border-[var(--color-300)] p-6" style={{ backgroundColor: 'var(--worldforge-card)' }}>
-                    <div className="flex items-center mb-4">
-                      <Sword className="w-5 h-5 mr-2 text-[var(--color-700)]" />
-                      <h3 className="text-lg font-semibold text-gray-800">Weapons & Equipment</h3>
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Sword className="w-5 h-5 text-[var(--color-700)]" />
+                      <span className="text-xl font-medium text-[var(--color-700)]">Weapons & Equipment</span>
                     </div>
                     {isEditing ? (
                       <textarea
                         value={characterData.weapons}
                         onChange={(e) => setCharacterData({...characterData, weapons: e.target.value})}
-                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md resize-none bg-[var(--color-100)] focus:bg-[var(--color-50)]"
+                        className="w-full h-32 px-3 py-2 text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all resize-none"
                         placeholder="List the character's weapons, armor, and important equipment..."
                       />
                     ) : (
-                      <p className="text-gray-700">{character.weapons}</p>
+                      <p className="text-[var(--color-700)]">{character.weapons}</p>
                     )}
                   </Card>
                 </TabsContent>
@@ -803,6 +852,8 @@ export default function CharacterDetail() {
           </div>
         </div>
       </main>
+
+
     </div>
   );
 }

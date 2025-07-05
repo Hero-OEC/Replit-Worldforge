@@ -311,6 +311,7 @@ export default function EditTimelineEvent() {
         projectId={projectId}
         projectTitle={project?.title}
         showProjectNav={true}
+        searchPlaceholder="Search timeline events..."
       />
       
       <main className="px-4 py-8 lg:px-8">
