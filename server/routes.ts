@@ -59,11 +59,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete("/api/projects/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
+      
+      // Get all characters in the project for image cleanup
+      const characters = await storage.getCharacters(id);
+      
       const deleted = await storage.deleteProject(id);
       if (!deleted) {
         return res.status(404).json({ message: "Project not found" });
       }
-      res.status(204).send();
+      
+      // Return character image URLs for frontend cleanup
+      const imageUrls = characters
+        .filter(char => char.imageUrl)
+        .map(char => char.imageUrl);
+      
+      res.status(200).json({ 
+        message: "Project deleted successfully",
+        imageUrls: imageUrls
+      });
     } catch (error) {
       res.status(500).json({ message: "Failed to delete project" });
     }
@@ -132,11 +145,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete("/api/characters/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
+      
+      // Get the character first to return its imageUrl for frontend cleanup
+      const character = await storage.getCharacter(id);
+      
       const deleted = await storage.deleteCharacter(id);
       if (!deleted) {
         return res.status(404).json({ message: "Character not found" });
       }
-      res.status(204).send();
+      
+      // Return the imageUrl so frontend can clean it up
+      res.status(200).json({ 
+        message: "Character deleted successfully",
+        imageUrl: character?.imageUrl || null 
+      });
     } catch (error) {
       res.status(500).json({ message: "Failed to delete character" });
     }

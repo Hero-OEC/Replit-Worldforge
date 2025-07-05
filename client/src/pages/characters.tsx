@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MasonryGrid, MasonryItem } from "@/components/ui/masonry-grid";
 import { apiRequest } from "@/lib/queryClient";
+import { deleteCharacterImage } from "@/lib/supabase";
 import Navbar from "@/components/layout/navbar";
 import type { Character, ProjectWithStats } from "@shared/schema";
 
@@ -36,9 +37,24 @@ export default function Characters() {
 
   const deleteCharacterMutation = useMutation({
     mutationFn: async (id: number) => {
-      return apiRequest("DELETE", `/api/characters/${id}`);
+      const response = await fetch(`/api/characters/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete character");
+      }
+      return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      // Clean up character image from Supabase Storage if it exists
+      if (data?.imageUrl) {
+        try {
+          await deleteCharacterImage(data.imageUrl);
+        } catch (cleanupError) {
+          console.error("Failed to cleanup character image:", cleanupError);
+          // Don't fail the deletion if image cleanup fails
+        }
+      }
       queryClient.invalidateQueries({ queryKey: ["/api/characters", projectId] });
     },
   });

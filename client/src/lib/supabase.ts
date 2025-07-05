@@ -28,6 +28,22 @@ export const uploadCharacterImage = async (file: File, characterId: number): Pro
   const fileName = `character-${characterId}-${Date.now()}.${fileExt}`;
   const filePath = `characters/${fileName}`;
 
+  // Ensure bucket exists
+  const { data: buckets } = await supabase.storage.listBuckets();
+  const bucketExists = buckets?.some(bucket => bucket.name === 'character-images');
+  
+  if (!bucketExists) {
+    const { error: bucketError } = await supabase.storage.createBucket('character-images', {
+      public: true,
+      allowedMimeTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'],
+      fileSizeLimit: 5242880 // 5MB
+    });
+    
+    if (bucketError) {
+      throw new Error(`Failed to create bucket: ${bucketError.message}`);
+    }
+  }
+
   const { data, error } = await supabase.storage
     .from('character-images')
     .upload(filePath, file, {
@@ -50,17 +66,70 @@ export const uploadCharacterImage = async (file: File, characterId: number): Pro
 export const deleteCharacterImage = async (imageUrl: string): Promise<void> => {
   if (!imageUrl) return;
   
-  // Extract the file path from the URL
-  const url = new URL(imageUrl);
-  const filePath = url.pathname.split('/character-images/')[1];
-  
-  if (filePath) {
-    const { error } = await supabase.storage
-      .from('character-images')
-      .remove([filePath]);
+  try {
+    // Extract the file path from the URL
+    const url = new URL(imageUrl);
+    const filePath = url.pathname.split('/character-images/')[1];
     
-    if (error) {
-      console.error('Failed to delete image:', error.message);
+    if (filePath) {
+      const { error } = await supabase.storage
+        .from('character-images')
+        .remove([filePath]);
+      
+      if (error) {
+        console.error('Failed to delete image:', error.message);
+      }
     }
+  } catch (error) {
+    console.error('Error parsing image URL for deletion:', error);
+  }
+};
+
+// Cleanup all images for a character (useful when deleting a character)
+export const deleteAllCharacterImages = async (characterId: number): Promise<void> => {
+  try {
+    const { data: files, error } = await supabase.storage
+      .from('character-images')
+      .list('characters', {
+        search: `character-${characterId}-`
+      });
+
+    if (error) {
+      console.error('Error listing character images:', error.message);
+      return;
+    }
+
+    if (files && files.length > 0) {
+      const filePaths = files.map(file => `characters/${file.name}`);
+      const { error: deleteError } = await supabase.storage
+        .from('character-images')
+        .remove(filePaths);
+
+      if (deleteError) {
+        console.error('Error deleting character images:', deleteError.message);
+      }
+    }
+  } catch (error) {
+    console.error('Error in deleteAllCharacterImages:', error);
+  }
+};
+
+// Cleanup all images for a project (useful when deleting a project)
+export const deleteAllProjectImages = async (projectId: number): Promise<void> => {
+  try {
+    // Get all characters for this project first
+    const response = await fetch(`/api/projects/${projectId}/characters`);
+    if (!response.ok) return;
+    
+    const characters = await response.json();
+    
+    // Delete images for each character
+    for (const character of characters) {
+      if (character.imageUrl) {
+        await deleteCharacterImage(character.imageUrl);
+      }
+    }
+  } catch (error) {
+    console.error('Error in deleteAllProjectImages:', error);
   }
 };

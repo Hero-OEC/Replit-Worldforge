@@ -61,11 +61,11 @@ function PowerSystemSearch({ selectedSystems, onAddSystem, onRemoveSystem, proje
   };
 
   const getCategoryColor = (category: string) => {
-    return category === "power" ? "bg-blue-50 border-blue-200" : "bg-purple-50 border-purple-200";
+    return category === "power" ? "bg-[var(--color-100)] text-[var(--color-800)] border-[var(--color-300)]" : "bg-[var(--color-200)] text-[var(--color-900)] border-[var(--color-400)]";
   };
 
   const getCategoryBorderColor = (category: string) => {
-    return category === "power" ? "border-blue-200" : "border-purple-200";
+    return category === "power" ? "border-[var(--color-300)]" : "border-[var(--color-400)]";
   };
 
   return (

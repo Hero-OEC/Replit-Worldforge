@@ -47,6 +47,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import EditProjectDialog from "@/components/edit-project-dialog";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
+import { deleteAllProjectImages } from "@/lib/supabase";
 import type { ProjectWithStats } from "@shared/schema";
 import { useLocation } from "wouter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -203,7 +204,16 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       }
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      // Clean up all project images from Supabase Storage if they exist
+      if (data?.imageUrls && data.imageUrls.length > 0) {
+        try {
+          await deleteAllProjectImages(project.id);
+        } catch (cleanupError) {
+          console.error("Failed to cleanup project images:", cleanupError);
+          // Don't fail the deletion if image cleanup fails
+        }
+      }
       queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
       queryClient.refetchQueries({ queryKey: ["/api/projects"] });
       toast({ title: "Project deleted successfully!" });
