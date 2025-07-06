@@ -1,0 +1,149 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Move, RotateCcw } from 'lucide-react';
+import { Button } from './button';
+
+interface DraggableImageProps {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+  onPositionChange?: (x: number, y: number) => void;
+  initialX?: number;
+  initialY?: number;
+  aspectRatio?: string;
+  containerWidth?: string;
+}
+
+export function DraggableImage({
+  src,
+  alt,
+  width = 280,
+  height,
+  className = '',
+  onPositionChange,
+  initialX = 0,
+  initialY = 0,
+  aspectRatio = '7/9',
+  containerWidth = '280px'
+}: DraggableImageProps) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: initialX, y: initialY });
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setPosition({ x: initialX, y: initialY });
+  }, [initialX, initialY]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!imageLoaded) return;
+    
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    });
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !imageLoaded) return;
+
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+
+    // Get container and image dimensions to constrain movement
+    const container = containerRef.current;
+    const image = imageRef.current;
+    
+    if (container && image) {
+      const containerRect = container.getBoundingClientRect();
+      const imageRect = image.getBoundingClientRect();
+      
+      // Calculate bounds to prevent moving image completely out of view
+      const maxX = Math.max(0, (imageRect.width - containerRect.width) / 2);
+      const maxY = Math.max(0, (imageRect.height - containerRect.height) / 2);
+      
+      const constrainedX = Math.max(-maxX, Math.min(maxX, newX));
+      const constrainedY = Math.max(-maxY, Math.min(maxY, newY));
+      
+      setPosition({ x: constrainedX, y: constrainedY });
+      onPositionChange?.(constrainedX, constrainedY);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleReset = () => {
+    setPosition({ x: 0, y: 0 });
+    onPositionChange?.(0, 0);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = 'grabbing';
+      
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.body.style.cursor = 'auto';
+      };
+    }
+  }, [isDragging, dragStart, position]);
+
+  return (
+    <div className={`relative ${className}`}>
+      <div 
+        ref={containerRef}
+        className={`aspect-[${aspectRatio}] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden relative`}
+        style={{ width: containerWidth }}
+      >
+        <img 
+          ref={imageRef}
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover transition-transform duration-100 ${
+            imageLoaded ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
+          }`}
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            userSelect: 'none'
+          }}
+          onLoad={() => setImageLoaded(true)}
+          onMouseDown={handleMouseDown}
+          draggable={false}
+        />
+        
+        {/* Drag overlay and controls */}
+        {imageLoaded && (
+          <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200">
+            <div className="absolute top-2 right-2 flex space-x-1">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 w-8 p-0 bg-black/50 hover:bg-black/70 text-white border-gray-600"
+                onClick={handleReset}
+                title="Reset position"
+              >
+                <RotateCcw className="h-3 w-3" />
+              </Button>
+            </div>
+            
+            <div className="absolute bottom-2 left-2 flex items-center space-x-1 text-white bg-black/50 px-2 py-1 rounded text-xs">
+              <Move className="h-3 w-3" />
+              <span>Drag to reposition</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

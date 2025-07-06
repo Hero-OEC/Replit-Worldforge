@@ -201,7 +201,9 @@ export default function CharacterNew() {
     location: "",
     role: "",
     appearance: "",
-    imageUrl: ""
+    imageUrl: "",
+    imagePositionX: 0,
+    imagePositionY: 0
   });
 
   const [selectedPowerSystems, setSelectedPowerSystems] = useState<string[]>([]);
@@ -423,6 +425,8 @@ export default function CharacterNew() {
                         return await uploadCharacterImage(file, tempId);
                       }}
                       placeholder="Upload character portrait"
+                      onPositionChange={(x, y) => setCharacterData({...characterData, imagePositionX: x, imagePositionY: y})}
+                      imagePosition={{ x: characterData.imagePositionX, y: characterData.imagePositionY }}
                     />
                     <p className="text-xs text-[var(--color-600)] mt-2">Use 7:9 aspect ratio for best results</p>
                   </div>

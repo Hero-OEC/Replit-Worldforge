@@ -236,7 +236,9 @@ export default function CharacterDetail() {
     location: "",
     role: "",
     appearance: "",
-    imageUrl: ""
+    imageUrl: "",
+    imagePositionX: 0,
+    imagePositionY: 0
   });
 
   // Update character mutation
@@ -383,7 +385,9 @@ export default function CharacterDetail() {
         location: character.location || "",
         role: character.role || "",
         appearance: character.appearance || "",
-        imageUrl: character.imageUrl || ""
+        imageUrl: character.imageUrl || "",
+        imagePositionX: character.imagePositionX || 0,
+        imagePositionY: character.imagePositionY || 0
       });
       
       // Initialize power systems from character data (this is the primary source)
@@ -449,7 +453,9 @@ export default function CharacterDetail() {
         location: character.location || "",
         role: character.role || "",
         appearance: character.appearance || "",
-        imageUrl: character.imageUrl || ""
+        imageUrl: character.imageUrl || "",
+        imagePositionX: character.imagePositionX || 0,
+        imagePositionY: character.imagePositionY || 0
       });
       
       // Reset power systems to original values
@@ -758,6 +764,8 @@ export default function CharacterDetail() {
                         return await uploadCharacterImage(file, character.id);
                       }}
                       placeholder="Upload character portrait"
+                      onPositionChange={(x, y) => setCharacterData({...characterData, imagePositionX: x, imagePositionY: y})}
+                      imagePosition={{ x: characterData.imagePositionX, y: characterData.imagePositionY }}
                     />
                   ) : (
                     <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
@@ -766,6 +774,9 @@ export default function CharacterDetail() {
                           src={characterData.imageUrl || character.imageUrl} 
                           alt={character.name}
                           className="w-full h-full object-cover"
+                          style={{
+                            transform: `translate(${character.imagePositionX || 0}px, ${character.imagePositionY || 0}px)`
+                          }}
                         />
                       ) : (
                         <img 
