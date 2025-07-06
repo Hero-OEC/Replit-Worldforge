@@ -482,10 +482,16 @@ export default function EditTimelineEvent() {
                       <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="max-h-[300px] overflow-y-auto">
                         {eventCategories.map((cat) => (
-                          <SelectItem key={cat} value={cat}>
-                            {cat}
+                          <SelectItem key={cat} value={cat} className="cursor-pointer hover:bg-[var(--color-100)] focus:bg-[var(--color-200)] py-3">
+                            <div className="flex items-center space-x-2">
+                              {React.createElement(
+                                categoryConfig[cat as keyof typeof categoryConfig]?.icon || Eye,
+                                { className: "w-4 h-4 text-[var(--color-600)]" }
+                              )}
+                              <span>{cat}</span>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
