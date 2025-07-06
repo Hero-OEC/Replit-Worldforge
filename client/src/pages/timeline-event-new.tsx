@@ -5,7 +5,8 @@ import { useNavigation, useNavigationTracker } from "@/contexts/navigation-conte
 import { ArrowLeft, Save, MapPin, Users, X, Check, Calendar, 
          User, Crown, Sword, Shield, Heart, Search, Wand2, 
          Zap, Swords, Plane, Skull, Baby, Church, UserMinus, 
-         Handshake, Eye, Map, Frown, Edit3 } from "lucide-react";
+         Handshake, Eye, Map, Frown, Edit3, FileText, Edit, 
+         CheckCircle, Clock, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -71,17 +72,7 @@ const categoryConfig = {
 };
 
 // Importance configurations matching edit page
-const importanceLabels = {
-  high: "High Priority",
-  medium: "Medium Priority", 
-  low: "Low Priority",
-};
 
-const importanceColors = {
-  high: "bg-[var(--color-700)]",
-  medium: "bg-[var(--color-500)]",
-  low: "bg-[var(--color-300)]",
-};
 
 // Writing status configuration
 const writingStatuses = [
@@ -106,6 +97,14 @@ const writingStatusColors = {
   first_draft: "bg-[var(--color-500)] text-[var(--color-50)]",
   editing: "bg-[var(--color-600)] text-[var(--color-50)]",
   complete: "bg-[var(--color-700)] text-[var(--color-50)]"
+};
+
+const writingStatusIcons = {
+  planning: PenTool,
+  writing: Edit3,
+  first_draft: FileText,
+  editing: Edit,
+  complete: CheckCircle
 };
 
 
@@ -199,7 +198,6 @@ export default function NewTimelineEvent() {
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [importance, setImportance] = useState("medium");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -255,7 +253,7 @@ export default function NewTimelineEvent() {
         date: date || null,
         category: category || null,
         description: description || null,
-        importance: importance,
+        importance: "medium", // Default importance value
         location: location || null,
         characters: selectedCharacters.length > 0 ? selectedCharacters : null,
         order: 0,
@@ -364,11 +362,15 @@ export default function NewTimelineEvent() {
                       <span>{date || "No date set"}</span>
                     </div>
                     
-                    {/* Importance badge */}
+                    {/* Writing Status badge */}
                     <Badge
-                      className={`${importanceColors[importance as keyof typeof importanceColors]} text-[var(--color-50)] px-3 py-1 rounded-full`}
+                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} px-3 py-1 rounded-full flex items-center space-x-1`}
                     >
-                      {importanceLabels[importance as keyof typeof importanceLabels]}
+                      {React.createElement(
+                        writingStatusIcons[writingStatus as keyof typeof writingStatusIcons] || Clock,
+                        { className: "w-3 h-3" }
+                      )}
+                      <span>{writingStatusLabels[writingStatus as keyof typeof writingStatusLabels]}</span>
                     </Badge>
                   </div>
                 </div>
@@ -475,22 +477,7 @@ export default function NewTimelineEvent() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Importance Selector */}
-              <div>
-                <Label htmlFor="importance" className="text-sm text-[var(--color-600)]">Priority</Label>
-                <Select onValueChange={setImportance} value={importance}>
-                  <SelectTrigger className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all">
-                    <SelectValue placeholder="Select priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low Priority</SelectItem>
-                    <SelectItem value="medium">Medium Priority</SelectItem>
-                    <SelectItem value="high">High Priority</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
+            <div className="grid grid-cols-1 gap-4">
               {/* Location Selector */}
               <div>
                 <Label htmlFor="location" className="text-sm text-[var(--color-600)]">Location</Label>
