@@ -39,16 +39,14 @@ export function DraggableImage({
   }, [initialX, initialY]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    console.log('Mouse down event fired!', { imageLoaded, e });
+
     e.preventDefault();
     e.stopPropagation();
     
     if (!imageLoaded) {
-      console.log('Image not loaded yet');
       return;
     }
     
-    console.log('Starting drag', { position });
     setIsDragging(true);
     setDragStart({
       x: e.clientX - position.x,
@@ -57,16 +55,30 @@ export function DraggableImage({
   };
 
   const handleMouseMove = React.useCallback((e: MouseEvent) => {
-    if (!isDragging) return;
+    if (!isDragging || !imageRef.current || !containerRef.current) return;
     
-    console.log('Mouse moving', { isDragging, clientX: e.clientX, clientY: e.clientY });
-
     const newX = e.clientX - dragStart.x;
     const newY = e.clientY - dragStart.y;
 
-    console.log('Setting new position', { newX, newY });
-    setPosition({ x: newX, y: newY });
-    onPositionChange?.(newX, newY);
+    // Calculate bounds to prevent empty space
+    const image = imageRef.current;
+    const container = containerRef.current;
+    
+    const imageRect = image.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    
+    // Calculate the max bounds where image can move without showing empty space
+    const maxX = Math.max(0, containerRect.width - imageRect.width);
+    const maxY = Math.max(0, containerRect.height - imageRect.height);
+    const minX = Math.min(0, containerRect.width - imageRect.width);
+    const minY = Math.min(0, containerRect.height - imageRect.height);
+    
+    // Constrain position to image bounds
+    const constrainedX = Math.max(minX, Math.min(maxX, newX));
+    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+
+    setPosition({ x: constrainedX, y: constrainedY });
+    onPositionChange?.(constrainedX, constrainedY);
   }, [isDragging, dragStart.x, dragStart.y, onPositionChange]);
 
   const handleMouseUp = React.useCallback(() => {
@@ -92,23 +104,16 @@ export function DraggableImage({
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
-  console.log('DraggableImage rendering', { src, imageLoaded, position });
-  
   return (
     <div className={`relative ${className}`}>
-      <div className="text-red-500 text-xs mb-2">DRAGGABLE IMAGE COMPONENT</div>
       <div 
         ref={containerRef}
-        className="bg-[var(--color-200)] rounded-lg border-2 border-red-500 flex items-center justify-center overflow-hidden relative cursor-grab"
+        className="bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden relative cursor-grab"
         style={{ 
           width: containerWidth,
           aspectRatio: aspectRatio.replace('/', ' / ')
         }}
-        onMouseDown={(e) => {
-          console.log('Container mouse down!');
-          handleMouseDown(e);
-        }}
-        onClick={() => console.log('Container clicked!')}
+        onMouseDown={handleMouseDown}
       >
         <img 
           ref={imageRef}
@@ -119,10 +124,7 @@ export function DraggableImage({
             transform: `translate(${position.x}px, ${position.y}px)`,
             userSelect: 'none'
           }}
-          onLoad={() => {
-            console.log('Image loaded successfully');
-            setImageLoaded(true);
-          }}
+          onLoad={() => setImageLoaded(true)}
           draggable={false}
         />
         
