@@ -106,7 +106,10 @@ Changelog:
   * Implemented clean 3-input layout: prefix (narrow), name (flexible), suffix (narrow) with helpful placeholders
   * All character displays throughout app now show complete names (e.g., "Sir John Smith Jr.")
   * Fields are completely optional - users can leave them empty for characters without titles
-  * Updated character card component to handle new prefix/suffix fields in character interface
+  * Updated character card component to handle new prefix/suffix fields with smaller, lighter styling
+  * Prefix/suffix text appears smaller (text-sm) and with 75% opacity compared to main name
+  * Applied consistent styling across all character displays: cards, detail pages, timeline descriptions, and magic system connected characters
+  * CharacterCard component automatically handles prefix/suffix display throughout all pages that use it
 - July 5, 2025. Updated magic system new page to match detail page edit mode with tabbed layout:
   * Converted single-form layout to tabbed interface matching magic system detail page edit mode
   * Added 4-tab layout: Details, Rules, Limitations, and Source & Cost with proper InkAlchemy styling
