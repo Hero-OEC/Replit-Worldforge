@@ -181,14 +181,16 @@ export default function ProjectDialog({ open, onOpenChange }: ProjectDialogProps
                     <SelectContent>
                       {genres.map((genre) => (
                         <SelectItem key={genre.name} value={genre.name}>
-                          <div className="flex flex-col">
-                            <span className="font-medium">{genre.name}</span>
-                            <span className="text-sm text-[var(--color-600)]">{genre.description}</span>
-                          </div>
+                          {genre.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  {field.value && (
+                    <p className="text-sm text-[var(--color-600)] mt-1">
+                      {genres.find(g => g.name === field.value)?.description}
+                    </p>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
