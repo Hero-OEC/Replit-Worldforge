@@ -329,7 +329,7 @@ export default function TimelineEventDetail() {
                   <MapPin className="w-5 h-5 text-[var(--color-600)]" />
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Location</h3>
                 </div>
-                {(() => {
+                {event.location ? (() => {
                   const locationId = findLocationIdByName(event.location);
                   return locationId ? (
                     <Link href={`/project/${projectId}/locations/${locationId}`}>
@@ -342,7 +342,9 @@ export default function TimelineEventDetail() {
                       {event.location}
                     </Tag>
                   );
-                })()}
+                })() : (
+                  <span className="text-[var(--color-600)] text-sm italic">No location chosen</span>
+                )}
               </Card>
 
               {/* Characters */}
@@ -352,20 +354,24 @@ export default function TimelineEventDetail() {
                   <h3 className="text-lg font-semibold text-[var(--color-950)]">Characters</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {event.characters.map((character, index) => {
-                    const characterId = findCharacterIdByName(character);
-                    return characterId ? (
-                      <Link key={index} href={`/project/${projectId}/characters/${characterId}`}>
-                        <Tag variant="supporting" className="cursor-pointer">
+                  {event.characters && event.characters.length > 0 ? (
+                    event.characters.map((character, index) => {
+                      const characterId = findCharacterIdByName(character);
+                      return characterId ? (
+                        <Link key={index} href={`/project/${projectId}/characters/${characterId}`}>
+                          <Tag variant="supporting" className="cursor-pointer">
+                            {character}
+                          </Tag>
+                        </Link>
+                      ) : (
+                        <Tag key={index} variant="supporting" className="opacity-60">
                           {character}
                         </Tag>
-                      </Link>
-                    ) : (
-                      <Tag key={index} variant="supporting" className="opacity-60">
-                        {character}
-                      </Tag>
-                    );
-                  })}
+                      );
+                    })
+                  ) : (
+                    <span className="text-[var(--color-600)] text-sm italic">No characters chosen</span>
+                  )}
                 </div>
               </Card>
 
