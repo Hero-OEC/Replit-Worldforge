@@ -39,10 +39,16 @@ export function DraggableImage({
   }, [initialX, initialY]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (!imageLoaded) return;
-    
-    console.log('Mouse down triggered', { imageLoaded, position, src });
+    console.log('Mouse down event fired!', { imageLoaded, e });
     e.preventDefault();
+    e.stopPropagation();
+    
+    if (!imageLoaded) {
+      console.log('Image not loaded yet');
+      return;
+    }
+    
+    console.log('Starting drag', { position });
     setIsDragging(true);
     setDragStart({
       x: e.clientX - position.x,
@@ -115,9 +121,21 @@ export function DraggableImage({
           draggable={false}
         />
         
+        {/* Test overlay to check mouse events */}
+        <div 
+          className="absolute inset-0 bg-transparent cursor-grab hover:bg-blue-500/10"
+          onMouseDown={(e) => {
+            console.log('Overlay mouse down!');
+            handleMouseDown(e);
+          }}
+          onClick={() => console.log('Overlay clicked!')}
+          style={{ zIndex: 1 }}
+          title="Drag to reposition image"
+        />
+        
         {/* Drag overlay and controls */}
         {imageLoaded && (
-          <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200">
+          <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200" style={{ zIndex: 2 }}>
             <div className="absolute top-2 right-2 flex space-x-1">
               <Button
                 type="button"
