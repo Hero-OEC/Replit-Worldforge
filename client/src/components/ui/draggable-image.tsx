@@ -57,18 +57,17 @@ export function DraggableImage({
   };
 
   const handleMouseMove = React.useCallback((e: MouseEvent) => {
-    if (!isDragging || !imageLoaded) return;
+    if (!isDragging) return;
+    
+    console.log('Mouse moving', { isDragging, clientX: e.clientX, clientY: e.clientY });
 
     const newX = e.clientX - dragStart.x;
     const newY = e.clientY - dragStart.y;
 
-    // Simple bounds constraint - allow some movement but not too far
-    const constrainedX = Math.max(-100, Math.min(100, newX));
-    const constrainedY = Math.max(-100, Math.min(100, newY));
-    
-    setPosition({ x: constrainedX, y: constrainedY });
-    onPositionChange?.(constrainedX, constrainedY);
-  }, [isDragging, imageLoaded, dragStart.x, dragStart.y, onPositionChange]);
+    console.log('Setting new position', { newX, newY });
+    setPosition({ x: newX, y: newY });
+    onPositionChange?.(newX, newY);
+  }, [isDragging, dragStart.x, dragStart.y, onPositionChange]);
 
   const handleMouseUp = React.useCallback(() => {
     setIsDragging(false);
@@ -100,17 +99,22 @@ export function DraggableImage({
       <div className="text-red-500 text-xs mb-2">DRAGGABLE IMAGE COMPONENT</div>
       <div 
         ref={containerRef}
-        className="bg-[var(--color-200)] rounded-lg border-2 border-red-500 flex items-center justify-center overflow-hidden relative"
+        className="bg-[var(--color-200)] rounded-lg border-2 border-red-500 flex items-center justify-center overflow-hidden relative cursor-grab"
         style={{ 
           width: containerWidth,
           aspectRatio: aspectRatio.replace('/', ' / ')
         }}
+        onMouseDown={(e) => {
+          console.log('Container mouse down!');
+          handleMouseDown(e);
+        }}
+        onClick={() => console.log('Container clicked!')}
       >
         <img 
           ref={imageRef}
           src={src}
           alt={alt}
-          className="w-full h-full object-cover cursor-grab"
+          className="w-full h-full object-cover pointer-events-none"
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             userSelect: 'none'
@@ -119,21 +123,7 @@ export function DraggableImage({
             console.log('Image loaded successfully');
             setImageLoaded(true);
           }}
-          onMouseDown={handleMouseDown}
-          onClick={() => console.log('Image clicked!')}
           draggable={false}
-        />
-        
-        {/* Test overlay to check mouse events */}
-        <div 
-          className="absolute inset-0 bg-transparent cursor-grab hover:bg-blue-500/10"
-          onMouseDown={(e) => {
-            console.log('Overlay mouse down!');
-            handleMouseDown(e);
-          }}
-          onClick={() => console.log('Overlay clicked!')}
-          style={{ zIndex: 1 }}
-          title="Drag to reposition image"
         />
         
         {/* Drag overlay and controls */}
