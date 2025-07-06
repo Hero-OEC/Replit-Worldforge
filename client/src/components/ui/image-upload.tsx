@@ -93,13 +93,13 @@ export function ImageUpload({
           </Button>
           
           <p className="text-xs text-[var(--color-600)]">
-            Use 7:9 aspect ratio for best results
+            Use 1:1 aspect ratio for best results
           </p>
         </div>
 
         {value ? (
           <div className="relative">
-            <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+            <div className="aspect-square bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
               <img 
                 src={value} 
                 alt="Character preview" 
@@ -117,7 +117,7 @@ export function ImageUpload({
             </Button>
           </div>
         ) : (
-          <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-dashed border-[var(--color-300)] flex items-center justify-center" style={{ width: '280px' }}>
+          <div className="aspect-square bg-[var(--color-200)] rounded-lg border-2 border-dashed border-[var(--color-300)] flex items-center justify-center" style={{ width: '280px' }}>
             <div className="text-center">
               <Camera className="w-8 h-8 text-[var(--color-500)] mx-auto mb-2" />
               <p className="text-sm text-[var(--color-600)]">No image</p>

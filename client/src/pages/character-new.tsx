@@ -424,7 +424,7 @@ export default function CharacterNew() {
                       }}
                       placeholder="Upload character portrait"
                     />
-                    <p className="text-xs text-[var(--color-600)] mt-2">Use 7:9 aspect ratio for best results</p>
+                    <p className="text-xs text-[var(--color-600)] mt-2">Use 1:1 aspect ratio for best results</p>
                   </div>
 
 

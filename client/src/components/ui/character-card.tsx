@@ -36,8 +36,8 @@ export function CharacterCard({ character, projectId, onClick, className = "" }:
       className={`overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] ${className}`}
       onClick={onClick}
     >
-      {/* Top Area: Image (7:9 ratio) */}
-      <div className="relative aspect-[7/9] w-full">
+      {/* Top Area: Image (1:1 ratio) */}
+      <div className="relative aspect-square w-full">
         {/* Image */}
         {character.imageUrl ? (
           <img 
