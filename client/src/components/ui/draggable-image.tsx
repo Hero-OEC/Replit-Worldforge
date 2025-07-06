@@ -55,41 +55,14 @@ export function DraggableImage({
   };
 
   const handleMouseMove = React.useCallback((e: MouseEvent) => {
-    if (!isDragging || !imageRef.current || !containerRef.current) return;
+    if (!isDragging) return;
     
     const newX = e.clientX - dragStart.x;
     const newY = e.clientY - dragStart.y;
 
-    // Get the natural size of the image and container
-    const container = containerRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const image = imageRef.current;
-    
-    // Calculate image dimensions when it covers the container
-    const imageAspectRatio = image.naturalWidth / image.naturalHeight;
-    const containerAspectRatio = containerRect.width / containerRect.height;
-    
-    let imageWidth, imageHeight;
-    
-    if (imageAspectRatio > containerAspectRatio) {
-      // Image is wider than container - fit by height
-      imageHeight = containerRect.height;
-      imageWidth = imageHeight * imageAspectRatio;
-    } else {
-      // Image is taller than container - fit by width  
-      imageWidth = containerRect.width;
-      imageHeight = imageWidth / imageAspectRatio;
-    }
-    
-    // Calculate bounds to prevent empty space
-    const maxX = 0;
-    const maxY = 0;
-    const minX = containerRect.width - imageWidth;
-    const minY = containerRect.height - imageHeight;
-    
-    // Constrain position to prevent empty space
-    const constrainedX = Math.max(minX, Math.min(maxX, newX));
-    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    // Simple constraints to allow reasonable movement
+    const constrainedX = Math.max(-100, Math.min(100, newX));
+    const constrainedY = Math.max(-100, Math.min(100, newY));
 
     setPosition({ x: constrainedX, y: constrainedY });
     onPositionChange?.(constrainedX, constrainedY);
@@ -133,13 +106,14 @@ export function DraggableImage({
           ref={imageRef}
           src={src}
           alt={alt}
-          className="absolute inset-0 w-auto h-auto max-w-none max-h-none pointer-events-none"
+          className="absolute pointer-events-none"
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             userSelect: 'none',
-            minWidth: '100%',
-            minHeight: '100%',
-            objectFit: 'cover'
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center'
           }}
           onLoad={() => setImageLoaded(true)}
           draggable={false}
