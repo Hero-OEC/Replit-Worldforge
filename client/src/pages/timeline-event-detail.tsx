@@ -258,8 +258,8 @@ export default function TimelineEventDetail() {
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   {IconComponent && (
-                    <div className="w-8 h-8 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
-                      <IconComponent className="w-4 h-4 text-[var(--color-700)]" />
+                    <div className="w-10 h-10 bg-[var(--color-200)] rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 text-[var(--color-700)]" />
                     </div>
                   )}
                   <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
