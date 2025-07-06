@@ -63,7 +63,13 @@ export function CharacterCard({ character, projectId, onClick, className = "" }:
           </div>
           <div>
             <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">
-              {[character.prefix, character.name, character.suffix].filter(Boolean).join(' ')}
+              {character.prefix && (
+                <span className="text-sm font-normal opacity-75 mr-1">{character.prefix}</span>
+              )}
+              <span>{character.name}</span>
+              {character.suffix && (
+                <span className="text-sm font-normal opacity-75 ml-1">{character.suffix}</span>
+              )}
             </h3>
             <div className="mb-3">
               <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} border ${roleInfo.borderColor}`}>

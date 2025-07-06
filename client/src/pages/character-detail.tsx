@@ -654,7 +654,13 @@ export default function CharacterDetail() {
                         </div>
                       ) : (
                         <h1 className="text-3xl font-bold text-gray-800">
-                          {[character?.prefix, character?.name, character?.suffix].filter(Boolean).join(' ')}
+                          {character?.prefix && (
+                            <span className="text-2xl font-normal opacity-75 mr-2">{character.prefix}</span>
+                          )}
+                          <span>{character?.name}</span>
+                          {character?.suffix && (
+                            <span className="text-2xl font-normal opacity-75 ml-2">{character.suffix}</span>
+                          )}
                         </h1>
                       )}
                     </div>
@@ -977,7 +983,7 @@ export default function CharacterDetail() {
                       <div>
                         <h3 className="text-lg font-semibold text-[var(--color-950)]">Character Timeline</h3>
                         <p className="text-sm text-[var(--color-700)]">
-                          Events where {character.name} appears throughout the story
+                          Events where {[character.prefix, character.name, character.suffix].filter(Boolean).join(' ')} appears throughout the story
                         </p>
                       </div>
                     </div>
