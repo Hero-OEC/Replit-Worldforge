@@ -29,8 +29,6 @@ export const characters = pgTable("characters", {
   weapons: text("weapons"), // weapons and equipment
   powerSystems: json("power_systems").$type<string[]>().default([]), // array of power/magic system names
   imageUrl: text("image_url"), // URL to character image in Supabase Storage
-  imagePositionX: integer("image_position_x").default(0), // X offset for image positioning
-  imagePositionY: integer("image_position_y").default(0), // Y offset for image positioning
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

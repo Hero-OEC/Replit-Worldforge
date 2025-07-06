@@ -98,16 +98,6 @@ The application manages several core entities:
 
 ```
 Changelog:
-- July 6, 2025. Successfully implemented draggable image positioning for character images:
-  * Created DraggableImage component with full mouse event handling for repositioning character images
-  * Added imagePositionX and imagePositionY fields to characters database schema for storing image positions
-  * Implemented smooth dragging functionality with visual feedback (blue border during drag, cursor changes)
-  * Character images now use proper sizing (minWidth/minHeight 100%) without automatic cropping on upload
-  * Dragging allows -200px to +200px movement in both directions for precise image positioning
-  * Position changes automatically save to database and persist across page reloads
-  * Fixed mouse event capture issues by using container-based event handling with pointer-events-none on images
-  * Users can now upload images and drag them to choose which part shows in the 7:9 aspect ratio frame
-  * Original image files remain completely unchanged - only display positioning is adjusted
 - July 6, 2025. Standardized writing status icons across all timeline event pages:
   * Updated writing status icons to match new event page configuration throughout application
   * Changed planning icon from Clock to PenTool across all pages (detail, edit, serpentine timeline)

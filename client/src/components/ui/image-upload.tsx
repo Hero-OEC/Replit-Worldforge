@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import { Upload, X, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { DraggableImage } from './draggable-image';
 
 interface ImageUploadProps {
   value?: string;
@@ -10,8 +9,6 @@ interface ImageUploadProps {
   onUpload: (file: File) => Promise<string>;
   className?: string;
   placeholder?: string;
-  onPositionChange?: (x: number, y: number) => void;
-  imagePosition?: { x: number; y: number };
 }
 
 export function ImageUpload({ 
@@ -19,9 +16,7 @@ export function ImageUpload({
   onChange, 
   onUpload, 
   className = '',
-  placeholder = "Upload character image",
-  onPositionChange,
-  imagePosition = { x: 0, y: 0 }
+  placeholder = "Upload character image"
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -104,20 +99,18 @@ export function ImageUpload({
 
         {value ? (
           <div className="relative">
-            <DraggableImage
-              src={value}
-              alt="Character preview"
-              onPositionChange={onPositionChange}
-              initialX={imagePosition.x}
-              initialY={imagePosition.y}
-              aspectRatio="7/9"
-              containerWidth="280px"
-            />
+            <div className="aspect-[7/9] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden" style={{ width: '280px' }}>
+              <img 
+                src={value} 
+                alt="Character preview" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <Button
               type="button"
               variant="outline"
               size="sm"
-              className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 bg-red-500 hover:bg-red-600 text-white border-red-500 z-10"
+              className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 bg-red-500 hover:bg-red-600 text-white border-red-500"
               onClick={handleRemove}
             >
               <X className="h-3 w-3" />
