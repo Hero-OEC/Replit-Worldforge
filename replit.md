@@ -98,6 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 6, 2025. Updated card layouts to use wider responsive grid system:
+  * Replaced narrow 280px masonry grid with responsive CSS grid layout (1/2/3 columns) matching magic systems page
+  * Updated locations, notes, lore, and project cards to use same grid layout as magic systems page
+  * Cards now span wider and fill available space more effectively on larger screens
+  * Maintained consistent gap-6 spacing and responsive breakpoints (md:grid-cols-2 lg:grid-cols-3)
+  * All card-based pages now use uniform grid layout providing better visual consistency
 - July 6, 2025. Added optional prefix/suffix functionality to character names:
   * Added prefix and suffix fields to characters database schema with optional text columns
   * Updated character creation page to include prefix/suffix input fields next to character name

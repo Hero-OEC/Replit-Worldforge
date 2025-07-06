@@ -227,14 +227,14 @@ export default function Lore() {
           </div>
 
           {/* Lore Entries Grid */}
-          <MasonryGrid className="pb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredEntries.map((entry) => {
               const categoryInfo = categoryConfig[entry.category as keyof typeof categoryConfig] || categoryConfig["History"];
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <MasonryItem key={entry.id}>
-                  <Card 
+                <Card 
+                  key={entry.id}
                   className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-0.5"
                   onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
                 >
@@ -326,11 +326,10 @@ export default function Lore() {
                       )}
                     </div>
                   </div>
-                  </Card>
-                </MasonryItem>
+                </Card>
               );
             })}
-          </MasonryGrid>
+          </div>
 
           {/* Empty State */}
           {filteredEntries.length === 0 && (

@@ -158,36 +158,34 @@ export default function Notes() {
             </div>
 
             {/* Skeleton Loading */}
-            <MasonryGrid>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <MasonryItem key={`skeleton-${i}`}>
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
-                          <div>
-                            <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
-                            <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
-                          </div>
+                <Card key={`skeleton-${i}`} className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                        <div>
+                          <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                          <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
                         </div>
-                        <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
                       </div>
-                      <div className="space-y-2 mb-4">
-                        <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
-                        <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
-                        <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
-                      </div>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <div className="h-6 bg-[var(--color-200)] rounded w-16"></div>
-                        <div className="h-6 bg-[var(--color-200)] rounded w-20"></div>
-                      </div>
-                      <div className="h-4 bg-[var(--color-200)] rounded w-24"></div>
+                      <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
                     </div>
-                  </Card>
-                </MasonryItem>
+                    <div className="space-y-2 mb-4">
+                      <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="h-6 bg-[var(--color-200)] rounded w-16"></div>
+                      <div className="h-6 bg-[var(--color-200)] rounded w-20"></div>
+                    </div>
+                    <div className="h-4 bg-[var(--color-200)] rounded w-24"></div>
+                  </div>
+                </Card>
               ))}
-            </MasonryGrid>
+            </div>
           </div>
         </main>
       </div>
@@ -242,18 +240,18 @@ export default function Notes() {
           </div>
 
           {/* Notes Grid */}
-          <MasonryGrid className="pb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;
               const selectedNote = notes.find(n => n.id === deleteNoteId);
 
               return (
-                <MasonryItem key={note.id}>
-                  <Card 
-                    className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
-                    onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
-                  >
+                <Card 
+                  key={note.id}
+                  className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
+                  onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
+                >
                     <div className="p-6">
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
@@ -348,10 +346,9 @@ export default function Notes() {
                       </div>
                     </div>
                   </Card>
-                </MasonryItem>
               );
             })}
-          </MasonryGrid>
+          </div>
 
           {/* Empty State */}
           {filteredNotes.length === 0 && (

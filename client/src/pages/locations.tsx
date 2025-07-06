@@ -189,35 +189,33 @@ export default function Locations() {
 
           {/* Locations Grid */}
           {isLocationsLoading ? (
-            <MasonryGrid className="pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <MasonryItem key={i}>
-                  <Card className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
-                          <div>
-                            <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
-                            <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
-                          </div>
+                <Card key={i} className="bg-[var(--color-100)] border border-[var(--color-300)] animate-pulse">
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg"></div>
+                        <div>
+                          <div className="h-5 bg-[var(--color-200)] rounded w-32 mb-2"></div>
+                          <div className="h-4 bg-[var(--color-200)] rounded w-20"></div>
                         </div>
-                        <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
                       </div>
-                      <div className="space-y-2 mb-4">
-                        <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
-                        <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
-                        <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
-                      </div>
-                      <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--color-300)]">
-                        <div className="h-3 bg-[var(--color-200)] rounded w-20"></div>
-                        <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
-                      </div>
+                      <div className="w-8 h-8 bg-[var(--color-200)] rounded"></div>
                     </div>
-                  </Card>
-                </MasonryItem>
+                    <div className="space-y-2 mb-4">
+                      <div className="h-4 bg-[var(--color-200)] rounded w-full"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-3/4"></div>
+                      <div className="h-4 bg-[var(--color-200)] rounded w-1/2"></div>
+                    </div>
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--color-300)]">
+                      <div className="h-3 bg-[var(--color-200)] rounded w-20"></div>
+                      <div className="h-3 bg-[var(--color-200)] rounded w-16"></div>
+                    </div>
+                  </div>
+                </Card>
               ))}
-            </MasonryGrid>
+            </div>
           ) : filteredLocations.length === 0 ? (
             <div className="text-center py-12">
               <MapPin className="w-12 h-12 text-[var(--color-600)] mx-auto mb-4" />
@@ -234,10 +232,10 @@ export default function Locations() {
               </Button>
             </div>
           ) : (
-            <MasonryGrid className="pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredLocations.map((location) => (
-                <MasonryItem key={location.id}>
-                  <Card 
+                <Card 
+                  key={location.id}
                   className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
                   onClick={() => handleView(location.id)}
                 >
@@ -296,10 +294,9 @@ export default function Locations() {
                   <div className="text-center">
                     <span className="text-sm text-[var(--color-600)] font-medium">Click to view details</span>
                   </div>
-                  </Card>
-                </MasonryItem>
+                </Card>
               ))}
-            </MasonryGrid>
+            </div>
           )}
 
 
