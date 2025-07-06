@@ -70,11 +70,11 @@ const categoryConfig = {
 // Remove hardcoded data - will fetch from database
 
 const writingStatusColors = {
-  planning: "bg-[var(--color-200)]",
-  writing: "bg-[var(--color-400)]",
-  first_draft: "bg-[var(--color-500)]",
-  editing: "bg-[var(--color-600)]",
-  complete: "bg-[var(--color-700)]",
+  planning: "bg-[var(--color-200)] text-[var(--color-800)]",
+  writing: "bg-[var(--color-400)] text-[var(--color-50)]",
+  first_draft: "bg-[var(--color-500)] text-[var(--color-50)]",
+  editing: "bg-[var(--color-600)] text-[var(--color-50)]",
+  complete: "bg-[var(--color-700)] text-[var(--color-50)]"
 };
 
 const writingStatusLabels = {
@@ -418,7 +418,7 @@ export default function EditTimelineEvent() {
                     
                     {/* Writing Status badge */}
                     <Badge
-                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} text-[var(--color-50)] px-3 py-1 rounded-full flex items-center space-x-1`}
+                      className={`${writingStatusColors[writingStatus as keyof typeof writingStatusColors]} px-3 py-1 rounded-full flex items-center space-x-1`}
                     >
                       {React.createElement(
                         writingStatusIcons[writingStatus as keyof typeof writingStatusIcons] || Clock,
