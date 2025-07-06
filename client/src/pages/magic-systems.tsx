@@ -216,14 +216,15 @@ export default function MagicSystems() {
               ))}
             </MasonryGrid>
           ) : filteredMagicSystems.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
               {filteredMagicSystems.map((system) => (
-                <MagicSystemCard
-                  key={system.id}
-                  system={system}
-                  onDelete={handleDelete}
-                  projectId={projectId!}
-                />
+                <div key={system.id} className="break-inside-avoid mb-6">
+                  <MagicSystemCard
+                    system={system}
+                    onDelete={handleDelete}
+                    projectId={projectId!}
+                  />
+                </div>
               ))}
             </div>
           ) : (

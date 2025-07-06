@@ -240,18 +240,18 @@ export default function Notes() {
           </div>
 
           {/* Notes Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {filteredNotes.map((note) => {
               const categoryInfo = categoryConfig[note.category as keyof typeof categoryConfig] || categoryConfig["Plot"];
               const CategoryIcon = categoryInfo.icon;
               const selectedNote = notes.find(n => n.id === deleteNoteId);
 
               return (
-                <Card 
-                  key={note.id}
-                  className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
-                  onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
-                >
+                <div key={note.id} className="break-inside-avoid mb-6">
+                  <Card 
+                    className="bg-[var(--color-100)] border border-[var(--color-300)] hover:shadow-md transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
+                    onClick={() => setLocation(`/project/${projectId}/notes/${note.id}`)}
+                  >
                     <div className="p-6">
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
@@ -346,6 +346,7 @@ export default function Notes() {
                       </div>
                     </div>
                   </Card>
+                </div>
               );
             })}
           </div>

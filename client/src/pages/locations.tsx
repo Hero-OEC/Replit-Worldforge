@@ -232,13 +232,13 @@ export default function Locations() {
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
               {filteredLocations.map((location) => (
-                <Card 
-                  key={location.id}
-                  className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
-                  onClick={() => handleView(location.id)}
-                >
+                <div key={location.id} className="break-inside-avoid mb-6">
+                  <Card 
+                    className="rounded-lg text-card-foreground shadow-sm p-6 hover:shadow-md transition-shadow border border-[var(--color-300)] cursor-pointer bg-[#f4f0cd]"
+                    onClick={() => handleView(location.id)}
+                  >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-[var(--color-200)] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg group/icon">
@@ -294,7 +294,8 @@ export default function Locations() {
                   <div className="text-center">
                     <span className="text-sm text-[var(--color-600)] font-medium">Click to view details</span>
                   </div>
-                </Card>
+                  </Card>
+                </div>
               ))}
             </div>
           )}

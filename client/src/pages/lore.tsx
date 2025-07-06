@@ -227,17 +227,17 @@ export default function Lore() {
           </div>
 
           {/* Lore Entries Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {filteredEntries.map((entry) => {
               const categoryInfo = categoryConfig[entry.category as keyof typeof categoryConfig] || categoryConfig["History"];
               const CategoryIcon = categoryInfo.icon;
 
               return (
-                <Card 
-                  key={entry.id}
-                  className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-0.5"
-                  onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
-                >
+                <div key={entry.id} className="break-inside-avoid mb-6">
+                  <Card 
+                    className="rounded-lg text-card-foreground shadow-sm hover:shadow-md transition-all duration-200 border border-[var(--color-300)] cursor-pointer bg-[var(--color-100)] group hover:-translate-y-0.5"
+                    onClick={() => setLocation(`/project/${projectId}/lore/${entry.id}`)}
+                  >
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
@@ -326,7 +326,8 @@ export default function Lore() {
                       )}
                     </div>
                   </div>
-                </Card>
+                  </Card>
+                </div>
               );
             })}
           </div>
