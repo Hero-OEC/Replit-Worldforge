@@ -97,6 +97,87 @@ const writingStatusIcons = {
 
 // Removed hardcoded sample event - now using API data
 
+// Location selector component
+interface LocationSelectorProps {
+  selectedLocation: string;
+  onLocationChange: (location: string) => void;
+  availableLocations: Location[];
+}
+
+function LocationSelector({ selectedLocation, onLocationChange, availableLocations }: LocationSelectorProps) {
+  const [searchValue, setSearchValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const filteredLocations = (availableLocations || []).filter(
+    (loc: Location) =>
+      loc.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  const handleSelectLocation = (locationName: string) => {
+    onLocationChange(locationName);
+    setSearchValue(locationName);
+    setIsOpen(false);
+  };
+
+  const handleClearLocation = () => {
+    onLocationChange("");
+    setSearchValue("");
+  };
+
+  // Update search value when selectedLocation changes from outside
+  React.useEffect(() => {
+    setSearchValue(selectedLocation || "");
+  }, [selectedLocation]);
+
+  return (
+    <div className="space-y-2">
+      <div className="relative">
+        <Input
+          placeholder="Search and select location..."
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            if (!e.target.value) {
+              onLocationChange("");
+            }
+          }}
+          onFocus={() => setIsOpen(true)}
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all"
+        />
+        {isOpen && filteredLocations.length > 0 && (
+          <div className="absolute z-50 w-full bg-[var(--color-50)] border border-[var(--color-300)] rounded-md shadow-lg max-h-48 overflow-y-auto mt-1">
+            {filteredLocations.map((location: Location) => (
+              <div
+                key={location.id}
+                className="px-3 py-2 hover:bg-[var(--color-200)] cursor-pointer text-sm"
+                onClick={() => handleSelectLocation(location.name)}
+              >
+                <div className="flex items-center justify-between">
+                  <span>{location.name}</span>
+                  <Check className="w-4 h-4 text-[var(--color-600)]" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {selectedLocation && (
+        <div className="flex flex-wrap gap-2">
+          <Tag
+            variant="location"
+            removable
+            onRemove={handleClearLocation}
+          >
+            {selectedLocation}
+          </Tag>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Character tagging component
 interface CharacterTagProps {
   selectedCharacters: string[];
@@ -535,18 +616,11 @@ export default function EditTimelineEvent() {
               {/* Location Selector */}
               <div>
                 <Label htmlFor="location" className="text-sm text-[var(--color-600)]">Location</Label>
-                <Select onValueChange={setLocation} value={location}>
-                  <SelectTrigger className="bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] transition-all">
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {locations.map((loc: Location) => (
-                      <SelectItem key={loc.id} value={loc.name}>
-                        {loc.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <LocationSelector
+                  selectedLocation={location}
+                  onLocationChange={setLocation}
+                  availableLocations={locations}
+                />
               </div>
             </div>
           </div>
