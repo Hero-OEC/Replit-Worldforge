@@ -59,17 +59,19 @@ export function DraggableImage({
     const newX = e.clientX - dragStart.x;
     const newY = e.clientY - dragStart.y;
 
-    // Allow generous movement for better positioning
-    const constrainedX = Math.max(-200, Math.min(200, newX));
-    const constrainedY = Math.max(-200, Math.min(200, newY));
+    // More reasonable constraints for scaled image
+    const constrainedX = Math.max(-100, Math.min(100, newX));
+    const constrainedY = Math.max(-100, Math.min(100, newY));
 
     setPosition({ x: constrainedX, y: constrainedY });
     onPositionChange?.(constrainedX, constrainedY);
   }, [isDragging, dragStart.x, dragStart.y, onPositionChange]);
 
   const handleMouseUp = React.useCallback(() => {
-    setIsDragging(false);
-  }, []);
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  }, [isDragging]);
 
   const handleReset = () => {
     setPosition({ x: 0, y: 0 });
@@ -80,11 +82,13 @@ export function DraggableImage({
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mouseleave', handleMouseUp);
       document.body.style.cursor = 'grabbing';
       
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('mouseleave', handleMouseUp);
         document.body.style.cursor = 'auto';
       };
     }
@@ -105,16 +109,12 @@ export function DraggableImage({
           ref={imageRef}
           src={src}
           alt={alt}
-          className="absolute top-0 left-0 pointer-events-none"
+          className="absolute top-0 left-0 pointer-events-none object-cover"
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             userSelect: 'none',
-            width: 'auto',
-            height: 'auto',
-            minWidth: '100%',
-            minHeight: '100%',
-            maxWidth: 'none',
-            maxHeight: 'none'
+            width: '100%',
+            height: '100%'
           }}
           onLoad={() => setImageLoaded(true)}
           draggable={false}
