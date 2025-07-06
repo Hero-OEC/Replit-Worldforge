@@ -93,11 +93,14 @@ export function DraggableImage({
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
+  console.log('DraggableImage rendering', { src, imageLoaded, position });
+  
   return (
     <div className={`relative ${className}`}>
+      <div className="text-red-500 text-xs mb-2">DRAGGABLE IMAGE COMPONENT</div>
       <div 
         ref={containerRef}
-        className="bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden relative"
+        className="bg-[var(--color-200)] rounded-lg border-2 border-red-500 flex items-center justify-center overflow-hidden relative"
         style={{ 
           width: containerWidth,
           aspectRatio: aspectRatio.replace('/', ' / ')
