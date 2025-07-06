@@ -150,8 +150,8 @@ export default function Characters() {
               {[...Array(6)].map((_, i) => (
                 <MasonryItem key={i}>
                   <Card className="overflow-hidden shadow-sm border border-[var(--color-300)] bg-[var(--color-100)] animate-pulse">
-                    {/* Top Area: Image Placeholder (7:9 ratio) */}
-                    <div className="relative aspect-[7/9] w-full bg-[var(--color-200)]">
+                    {/* Top Area: Image Placeholder (1:1 ratio) */}
+                    <div className="relative aspect-square w-full bg-[var(--color-200)]">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center">
                           <div className="w-16 h-16 bg-[var(--color-300)] rounded-full mx-auto mb-2"></div>

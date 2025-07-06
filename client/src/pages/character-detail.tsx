@@ -515,7 +515,7 @@ export default function CharacterDetail() {
                     
                     {/* Character Portrait Skeleton */}
                     <div className="mb-6 flex justify-center">
-                      <div className="w-70 h-80 bg-[var(--color-200)] rounded-lg"></div>
+                      <div className="w-70 h-70 bg-[var(--color-200)] rounded-lg"></div>
                     </div>
 
                     {/* Basic Info Skeleton */}
