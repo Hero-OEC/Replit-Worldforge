@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2, Search, Skull, Clock, PenTool, FileText, CheckCircle } from "lucide-react";
+import { Calendar, User, Eye, Swords, Lightbulb, Award, Crown, Heart, HelpCircle, Sparkles, Zap, Plane, MapPin, Users, ChevronRight, Edit, Trash2, Search, Skull, Clock, PenTool, FileText, CheckCircle, Edit3 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,8 +80,8 @@ const writingStatusLabels = {
 };
 
 const writingStatusIcons = {
-  planning: Clock,
-  writing: PenTool,
+  planning: PenTool,
+  writing: Edit3,
   first_draft: FileText,
   editing: Edit,
   complete: CheckCircle

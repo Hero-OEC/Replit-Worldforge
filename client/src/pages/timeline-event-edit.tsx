@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation, useNavigationTracker } from "@/contexts/navigation-context";
-import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords, PenTool, FileText, Edit, CheckCircle } from "lucide-react";
+import { ArrowLeft, Save, Calendar, MapPin, Users, X, Check, Clock, AlertCircle, Star, Sword, Heart, Eye, Crown, Zap, Shield, Skull, Baby, Church, UserX, Handshake, Scroll, Target, Frown, Swords, PenTool, FileText, Edit, CheckCircle, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -88,8 +88,8 @@ const writingStatusLabels = {
 const writingStatuses = ["planning", "writing", "first_draft", "editing", "complete"];
 
 const writingStatusIcons = {
-  planning: Clock,
-  writing: PenTool,
+  planning: PenTool,
+  writing: Edit3,
   first_draft: FileText,
   editing: Edit,
   complete: CheckCircle

@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 6, 2025. Standardized writing status icons across all timeline event pages:
+  * Updated writing status icons to match new event page configuration throughout application
+  * Changed planning icon from Clock to PenTool across all pages (detail, edit, serpentine timeline)
+  * Changed writing icon from PenTool to Edit3 across all pages for consistency
+  * Writing status icons now consistent: planning (PenTool), writing (Edit3), first_draft (FileText), editing (Edit), complete (CheckCircle)
+  * Updated timeline event detail page, edit page, and serpentine timeline component (hover cards)
+  * All timeline interfaces now show matching icons for writing status badges and selectors
 - July 6, 2025. Updated card layouts to use wider responsive grid system:
   * Replaced narrow 280px masonry grid with responsive CSS grid layout (1/2/3 columns) matching magic systems page
   * Updated locations, notes, lore, and project cards to use same grid layout as magic systems page

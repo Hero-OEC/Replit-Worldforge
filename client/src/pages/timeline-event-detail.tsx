@@ -79,8 +79,8 @@ const writingStatusLabels = {
 };
 
 const writingStatusIcons = {
-  planning: Clock,
-  writing: PenTool,
+  planning: PenTool,
+  writing: Edit3,
   first_draft: FileText,
   editing: Edit,
   complete: CheckCircle
