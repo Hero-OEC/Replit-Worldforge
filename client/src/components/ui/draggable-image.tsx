@@ -41,6 +41,7 @@ export function DraggableImage({
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!imageLoaded) return;
     
+    console.log('Mouse down triggered', { imageLoaded, position, src });
     e.preventDefault();
     setIsDragging(true);
     setDragStart({
@@ -49,35 +50,23 @@ export function DraggableImage({
     });
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = React.useCallback((e: MouseEvent) => {
     if (!isDragging || !imageLoaded) return;
 
     const newX = e.clientX - dragStart.x;
     const newY = e.clientY - dragStart.y;
 
-    // Get container and image dimensions to constrain movement
-    const container = containerRef.current;
-    const image = imageRef.current;
+    // Simple bounds constraint - allow some movement but not too far
+    const constrainedX = Math.max(-100, Math.min(100, newX));
+    const constrainedY = Math.max(-100, Math.min(100, newY));
     
-    if (container && image) {
-      const containerRect = container.getBoundingClientRect();
-      const imageRect = image.getBoundingClientRect();
-      
-      // Calculate bounds to prevent moving image completely out of view
-      const maxX = Math.max(0, (imageRect.width - containerRect.width) / 2);
-      const maxY = Math.max(0, (imageRect.height - containerRect.height) / 2);
-      
-      const constrainedX = Math.max(-maxX, Math.min(maxX, newX));
-      const constrainedY = Math.max(-maxY, Math.min(maxY, newY));
-      
-      setPosition({ x: constrainedX, y: constrainedY });
-      onPositionChange?.(constrainedX, constrainedY);
-    }
-  };
+    setPosition({ x: constrainedX, y: constrainedY });
+    onPositionChange?.(constrainedX, constrainedY);
+  }, [isDragging, imageLoaded, dragStart.x, dragStart.y, onPositionChange]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = React.useCallback(() => {
     setIsDragging(false);
-  };
+  }, []);
 
   const handleReset = () => {
     setPosition({ x: 0, y: 0 });
@@ -96,28 +85,33 @@ export function DraggableImage({
         document.body.style.cursor = 'auto';
       };
     }
-  }, [isDragging, dragStart, position]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
     <div className={`relative ${className}`}>
       <div 
         ref={containerRef}
-        className={`aspect-[${aspectRatio}] bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden relative`}
-        style={{ width: containerWidth }}
+        className="bg-[var(--color-200)] rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden relative"
+        style={{ 
+          width: containerWidth,
+          aspectRatio: aspectRatio.replace('/', ' / ')
+        }}
       >
         <img 
           ref={imageRef}
           src={src}
           alt={alt}
-          className={`w-full h-full object-cover transition-transform duration-100 ${
-            imageLoaded ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
-          }`}
+          className="w-full h-full object-cover cursor-grab"
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             userSelect: 'none'
           }}
-          onLoad={() => setImageLoaded(true)}
+          onLoad={() => {
+            console.log('Image loaded successfully');
+            setImageLoaded(true);
+          }}
           onMouseDown={handleMouseDown}
+          onClick={() => console.log('Image clicked!')}
           draggable={false}
         />
         
