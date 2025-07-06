@@ -344,7 +344,7 @@ export default function NewTimelineEvent() {
                   <div className="ml-13 flex items-center space-x-4">
                     {/* Category selector */}
                     <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger className="w-auto bg-[var(--color-100)] text-[var(--color-800)] border-0 focus:ring-0 h-auto p-2 rounded-full text-sm font-medium">
+                      <SelectTrigger className="text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px] overflow-y-auto">
