@@ -190,6 +190,8 @@ export default function CharacterNew() {
 
   const [characterData, setCharacterData] = useState({
     name: "",
+    prefix: "",
+    suffix: "",
     description: "",
     personality: "",
     backstory: "",
@@ -299,12 +301,26 @@ export default function CharacterNew() {
                       })()}
                     </div>
                     <div className="flex-1">
-                      <Input
-                        value={characterData.name}
-                        onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
-                        placeholder="Enter character name..."
-                        className="text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
-                      />
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          value={characterData.prefix}
+                          onChange={(e) => setCharacterData({...characterData, prefix: e.target.value})}
+                          placeholder="Sir, Dr., Lady..."
+                          className="w-24 text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-2 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                        />
+                        <Input
+                          value={characterData.name}
+                          onChange={(e) => setCharacterData({...characterData, name: e.target.value})}
+                          placeholder="Enter character name..."
+                          className="flex-1 text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-3 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                        />
+                        <Input
+                          value={characterData.suffix}
+                          onChange={(e) => setCharacterData({...characterData, suffix: e.target.value})}
+                          placeholder="Jr., III, the Great..."
+                          className="w-32 text-3xl font-bold text-[var(--color-950)] bg-[var(--color-50)] border border-[var(--color-300)] rounded-lg px-2 py-2 focus:border-[var(--color-500)] focus:bg-[var(--color-100)] focus:ring-2 focus:ring-[var(--color-200)] focus:outline-none transition-all"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="ml-13">

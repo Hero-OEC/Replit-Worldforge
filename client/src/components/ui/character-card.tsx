@@ -6,6 +6,8 @@ interface CharacterCardProps {
   character: {
     id: number;
     name: string;
+    prefix?: string | null;
+    suffix?: string | null;
     description?: string | null;
     role?: string | null;
     race?: string | null;
@@ -60,7 +62,9 @@ export function CharacterCard({ character, projectId, onClick, className = "" }:
             <RoleIcon className="w-6 h-6 text-[var(--color-700)]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">{character.name}</h3>
+            <h3 className="text-lg font-semibold text-[var(--color-950)] mb-1">
+              {[character.prefix, character.name, character.suffix].filter(Boolean).join(' ')}
+            </h3>
             <div className="mb-3">
               <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${roleInfo.bgColor} border ${roleInfo.borderColor}`}>
                 {character.role}

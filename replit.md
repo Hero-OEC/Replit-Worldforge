@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 6, 2025. Added optional prefix/suffix functionality to character names:
+  * Added prefix and suffix fields to characters database schema with optional text columns
+  * Updated character creation page to include prefix/suffix input fields next to character name
+  * Enhanced character edit page with same prefix/suffix editing capability in dedicated input fields
+  * Character cards and detail pages now display full names combining prefix + name + suffix when present
+  * Implemented clean 3-input layout: prefix (narrow), name (flexible), suffix (narrow) with helpful placeholders
+  * All character displays throughout app now show complete names (e.g., "Sir John Smith Jr.")
+  * Fields are completely optional - users can leave them empty for characters without titles
+  * Updated character card component to handle new prefix/suffix fields in character interface
 - July 5, 2025. Updated magic system new page to match detail page edit mode with tabbed layout:
   * Converted single-form layout to tabbed interface matching magic system detail page edit mode
   * Added 4-tab layout: Details, Rules, Limitations, and Source & Cost with proper InkAlchemy styling

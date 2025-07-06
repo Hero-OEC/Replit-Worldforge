@@ -17,6 +17,8 @@ export const characters = pgTable("characters", {
   id: serial("id").primaryKey(),
   projectId: integer("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
+  prefix: text("prefix"), // optional prefix like "Sir", "Dr.", "Lady", etc.
+  suffix: text("suffix"), // optional suffix like "Jr.", "III", "the Great", etc.
   description: text("description"),
   appearance: text("appearance"),
   personality: text("personality"),
