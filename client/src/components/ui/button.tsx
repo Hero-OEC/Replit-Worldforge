@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] dark:bg-[var(--color-600)] dark:text-[var(--color-50)] dark:hover:bg-[var(--color-700)]",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:text-white dark:hover:bg-red-700",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-[var(--color-300)] bg-transparent text-[var(--color-700)] hover:bg-[var(--color-100)] hover:text-[var(--color-900)] dark:border-[var(--color-600)] dark:text-[var(--color-300)] dark:hover:bg-[var(--color-800)] dark:hover:text-[var(--color-100)]",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-[var(--color-200)] text-[var(--color-700)] hover:bg-[var(--color-300)] dark:bg-[var(--color-700)] dark:text-[var(--color-200)] dark:hover:bg-[var(--color-600)]",
+        ghost: "hover:bg-[var(--color-100)] hover:text-[var(--color-900)] dark:hover:bg-[var(--color-800)] dark:hover:text-[var(--color-100)]",
+        link: "text-[var(--color-600)] underline-offset-4 hover:underline dark:text-[var(--color-400)]",
       },
       size: {
         default: "h-10 px-4 py-2",

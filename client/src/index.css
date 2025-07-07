@@ -132,6 +132,17 @@
     color: var(--color-700);
   }
 
+  /* WorldForge/InkAlchemy primary button styling with theme support */
+  .worldforge-primary {
+    background-color: var(--color-500);
+    color: var(--color-50);
+  }
+
+  .dark .worldforge-primary {
+    background-color: var(--color-600);
+    color: var(--color-50);
+  }
+
   /* Animation utilities */
   .animate-bounce-gentle {
     animation: bounce-gentle 0.6s ease-out;
