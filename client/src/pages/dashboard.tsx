@@ -23,7 +23,7 @@ export default function Dashboard() {
         rightContent={
           <Button 
             onClick={() => setShowProjectDialog(true)}
-            className="bg-[var(--color-500)] text-[var(--color-950)] hover:bg-[var(--color-600)] hover-glow animate-ripple hover-scale"
+            className="bg-[var(--color-500)] text-[var(--color-50)] hover:bg-[var(--color-600)] hover-glow animate-ripple hover-scale"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Project
@@ -93,7 +93,7 @@ export default function Dashboard() {
               <Button
                 onClick={() => setShowProjectDialog(true)}
                 size="lg"
-                className="worldforge-primary text-[var(--color-950)] hover:bg-[var(--color-600)] px-8 py-3 text-lg hover-glow animate-ripple hover-scale"
+                className="worldforge-primary text-[var(--color-50)] hover:bg-[var(--color-600)] px-8 py-3 text-lg hover-glow animate-ripple hover-scale"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Create Your First Project
