@@ -315,7 +315,7 @@ export default function TimelineEventDetail() {
                 <h2 className="text-xl font-semibold text-[var(--color-950)] mb-4">
                   Description
                 </h2>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-[var(--color-700)] leading-relaxed">
                   {event.description}
                 </p>
               </Card>
