@@ -500,7 +500,7 @@ export default function SerpentineTimeline({
                 <div className="absolute top-[70px] left-1/2 transform -translate-x-1/2 pointer-events-none">
                   <div className="text-center">
                     <div className="bg-[var(--color-100)] px-3 py-2 rounded-lg shadow-sm border border-[var(--color-300)] min-w-[140px] max-w-[180px]">
-                      <div className="text-sm font-semibold text-gray-800 mb-1 leading-tight truncate">
+                      <div className="text-sm font-semibold text-[var(--color-800)] mb-1 leading-tight truncate">
                         {group.isMultiEvent
                           ? `${group.events.length} Events`
                           : group.events[0].title}
