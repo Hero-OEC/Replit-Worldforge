@@ -543,7 +543,7 @@ export default function EditTimelineEvent() {
           <div className="mb-6">
             <div className="flex items-center space-x-2 mb-3">
               <Clock className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Description</span>
+              <span className="text-xl font-medium text-[var(--color-700)]">Description</span>
             </div>
             <Textarea
               value={description}
@@ -557,7 +557,7 @@ export default function EditTimelineEvent() {
           <div className="mb-6">
             <div className="flex items-center space-x-2 mb-3">
               <Calendar className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Event Details</span>
+              <span className="text-xl font-medium text-[var(--color-700)]">Event Details</span>
             </div>
             
             {/* Date Input - Separated Fields */}
@@ -635,7 +635,7 @@ export default function EditTimelineEvent() {
           <div className="mb-6">
             <div className="flex items-center space-x-2 mb-3">
               <Clock className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Writing Status</span>
+              <span className="text-xl font-medium text-[var(--color-700)]">Writing Status</span>
             </div>
             
             <div>
@@ -664,7 +664,7 @@ export default function EditTimelineEvent() {
           <div className="mb-6">
             <div className="flex items-center space-x-2 mb-3">
               <Users className="w-5 h-5 text-[var(--color-700)]" />
-              <span className="text-xl font-medium text-gray-700">Characters</span>
+              <span className="text-xl font-medium text-[var(--color-700)]">Characters</span>
             </div>
             
             <CharacterTag
