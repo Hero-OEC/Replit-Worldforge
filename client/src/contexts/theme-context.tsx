@@ -12,12 +12,13 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first, then system preference
+    // Check localStorage first, then default to light theme
     const stored = localStorage.getItem("inkalchemy-theme");
     if (stored === "light" || stored === "dark") {
       return stored;
     }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    // Default to light theme instead of system preference
+    return "light";
   });
 
   useEffect(() => {

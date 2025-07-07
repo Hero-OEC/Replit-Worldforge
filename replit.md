@@ -98,6 +98,15 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 7, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
+  * Fixed missing tsx dependency for TypeScript execution
+  * Connected to Supabase database successfully with persistent data storage
+  * Configured Supabase environment variables (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, DATABASE_URL)
+  * Database schema automatically synchronized - all tables created and API endpoints working
+  * Updated default theme to light mode instead of following system preference
+  * Application now running cleanly on port 5000 with hot reloading and proper client/server separation
+  * All functionality preserved with enhanced security practices and Replit compatibility
+  * Migration completed successfully with full database connectivity and authentication
 - July 7, 2025. Fixed planning timeline bubble icon visibility:
   * Changed planning stage icons from white to dark color (text-[var(--color-700)]) for better contrast
   * Updated timeline bubbles, multi-event popups, and single event popups to use conditional icon colors
