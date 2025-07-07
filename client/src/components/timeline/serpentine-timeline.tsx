@@ -488,7 +488,7 @@ export default function SerpentineTimeline({
                         {React.createElement(
                           getEventIcon(group.events[0].category),
                           {
-                            className: "w-6 h-6 text-white",
+                            className: `w-6 h-6 ${group.events[0].writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-white'}`,
                           },
                         )}
                       </div>
@@ -563,7 +563,7 @@ export default function SerpentineTimeline({
                       >
                         <div className="flex items-start space-x-3">
                           <div className={`w-10 h-10 ${writingStatusBubbleColors[writingStatus] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}>
-                            <EventIcon className="w-5 h-5 text-white" />
+                            <EventIcon className={`w-5 h-5 ${writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-white'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <h4 className="font-semibold text-[var(--color-950)] mb-1">
@@ -644,7 +644,7 @@ export default function SerpentineTimeline({
                   {React.createElement(
                     getEventIcon(hoveredEvent.category),
                     {
-                      className: "w-5 h-5 text-white",
+                      className: `w-5 h-5 ${hoveredEvent.writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-white'}`,
                     },
                   )}
                 </div>
