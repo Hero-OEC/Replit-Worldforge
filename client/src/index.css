@@ -7,22 +7,22 @@
   * {
     font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
   }
-  
+
   html {
     font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
   }
-  
+
   body {
     font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
     line-height: 1.5;
   }
-  
+
   /* Ensure form elements use Cairo font */
   input, textarea, select, button {
     font-family: 'Cairo', ui-sans-serif, system-ui, sans-serif !important;
   }
-  
+
   /* Timeline container background fix */
   .timeline-container-bg {
     background-color: var(--color-100) !important;
@@ -42,12 +42,12 @@
   --color-800: #714A22;
   --color-900: #613E22;
   --color-950: #382010;
-  
+
   /* Semantic color mapping for light mode */
   --background: var(--color-50);
   --foreground: var(--color-950);
   --muted: var(--color-100);
-  --muted-foreground: var(--color-700);
+  --muted-foreground: var(--color-800);
   --popover: var(--color-50);
   --popover-foreground: var(--color-950);
   --card: var(--color-100);
@@ -79,12 +79,12 @@
   --color-800: #EBDF9D;
   --color-900: #F4F0CD;
   --color-950: #FAF9EC;
-  
+
   /* Semantic color mapping for dark mode */
   --background: var(--color-50);
   --foreground: var(--color-950);
   --muted: var(--color-100);
-  --muted-foreground: var(--color-700);
+  --muted-foreground: var(--color-800);
   --popover: var(--color-50);
   --popover-foreground: var(--color-950);
   --card: var(--color-100);
@@ -121,12 +121,12 @@
     background-color: var(--color-500);
     color: var(--color-50);
   }
-  
+
   .ink-secondary {
     background-color: var(--color-200);
     color: var(--color-800);
   }
-  
+
   .ink-muted {
     background-color: var(--color-100);
     color: var(--color-700);
@@ -136,24 +136,24 @@
   .animate-bounce-gentle {
     animation: bounce-gentle 0.6s ease-out;
   }
-  
+
   .animate-scale-in {
     animation: scale-in 0.3s ease-out;
   }
-  
+
   .animate-slide-up {
     animation: slide-up 0.4s ease-out;
   }
-  
+
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
-  
+
   .animate-ripple {
     position: relative;
     overflow: hidden;
   }
-  
+
   .animate-ripple::before {
     content: '';
     position: absolute;
@@ -166,34 +166,34 @@
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
   }
-  
+
   .animate-ripple:active::before {
     width: 300px;
     height: 300px;
   }
-  
+
   /* Hover animations */
   .hover-lift {
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   }
-  
+
   .hover-lift:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(56, 32, 16, 0.15);
   }
-  
+
   .hover-scale {
     transition: transform 0.2s ease-out;
   }
-  
+
   .hover-scale:hover {
     transform: scale(1.02);
   }
-  
+
   .hover-glow {
     transition: box-shadow 0.3s ease-out;
   }
-  
+
   .hover-glow:hover {
     box-shadow: 0 0 20px rgba(191, 151, 44, 0.3);
   }
@@ -251,11 +251,11 @@
   button, .cursor-pointer, [role="button"] {
     transition: all 0.2s ease-out;
   }
-  
+
   input, textarea, select {
     transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
   }
-  
+
   input:focus, textarea:focus, select:focus {
     box-shadow: 0 0 0 2px rgba(191, 151, 44, 0.2);
   }

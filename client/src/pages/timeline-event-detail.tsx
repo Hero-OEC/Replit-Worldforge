@@ -265,7 +265,7 @@ export default function TimelineEventDetail() {
                   <h1 className="text-3xl font-bold text-[var(--color-950)]">{event.title}</h1>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <p className="text-[var(--color-700)]">Timeline Event Details</p>
+                  <p className="text-[var(--color-800)]">Timeline Event Details</p>
                 </div>
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function TimelineEventDetail() {
 
             {/* Event metadata */}
             <div className="flex flex-wrap items-center gap-6 mb-8">
-              <div className="flex items-center space-x-2 text-[var(--color-700)]">
+              <div className="flex items-center space-x-2 text-[var(--color-800)]">
                 <Calendar className="w-4 h-4" />
                 <span>{event.date}</span>
               </div>
@@ -301,7 +301,7 @@ export default function TimelineEventDetail() {
                 <span>{writingStatusLabels[event.writingStatus as keyof typeof writingStatusLabels]}</span>
               </Badge>
 
-              <div className="flex items-center space-x-2 text-[var(--color-700)]">
+              <div className="flex items-center space-x-2 text-[var(--color-800)]">
                 <span>{event.category}</span>
               </div>
             </div>
@@ -315,7 +315,7 @@ export default function TimelineEventDetail() {
                 <h2 className="text-xl font-semibold text-[var(--color-950)] mb-4">
                   Description
                 </h2>
-                <p className="text-[var(--color-700)] leading-relaxed">
+                <p className="text-[var(--color-800)] leading-relaxed">
                   {event.description}
                 </p>
               </Card>

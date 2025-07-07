@@ -296,7 +296,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             {project.description}
           </p>
 
-          <div className="flex items-center justify-between text-sm text-[var(--color-600)]">
+          <div className="flex items-center justify-between text-sm text-[var(--color-800)]">
             <span>
               Last modified: {format(new Date(project.updatedAt), "M/d/yyyy")}
             </span>
