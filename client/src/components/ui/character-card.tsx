@@ -78,7 +78,7 @@ export function CharacterCard({ character, projectId, onClick, className = "" }:
             </div>
           </div>
         </div>
-        <p className="text-sm text-[var(--color-700)] line-clamp-3 mb-4">
+        <p className="text-sm text-[var(--color-800)] line-clamp-3 mb-4">
           {character.description || "No description provided"}
         </p>
         

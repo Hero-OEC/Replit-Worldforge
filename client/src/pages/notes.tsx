@@ -309,7 +309,7 @@ export default function Notes() {
 
                       {/* Content */}
                       <div className="space-y-3">
-                        <p className="text-sm text-[var(--color-700)] line-clamp-3">
+                        <p className="text-sm text-[var(--color-800)] line-clamp-3">
                           {note.content || "No content"}
                         </p>
 

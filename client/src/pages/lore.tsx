@@ -285,7 +285,7 @@ export default function Lore() {
                       </DropdownMenu>
                     </div>
 
-                    <p className="text-[var(--color-700)] text-sm mb-4 line-clamp-3 leading-relaxed">
+                    <p className="text-[var(--color-800)] text-sm mb-4 line-clamp-3 leading-relaxed">
                       {entry.content || "No content available"}
                     </p>
 

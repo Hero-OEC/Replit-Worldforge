@@ -71,7 +71,7 @@ function MagicSystemCard({ system, onDelete, projectId }: {
         </CardHeader>
         <CardContent className="pt-0">
           {system.description && (
-            <p className="text-sm text-[var(--color-700)] leading-relaxed">
+            <p className="text-sm text-[var(--color-800)] leading-relaxed">
               {truncateText(system.description, 150)}
             </p>
           )}

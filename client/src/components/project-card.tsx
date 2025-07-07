@@ -292,7 +292,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             </div>
           </div>
 
-          <p className="text-[var(--color-700)] text-sm mb-6 line-clamp-3">
+          <p className="text-[var(--color-800)] text-sm mb-6 line-clamp-3">
             {project.description}
           </p>
 
