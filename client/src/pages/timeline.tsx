@@ -1004,7 +1004,7 @@ export default function Timeline() {
                             {React.createElement(
                               getEventIcon(group.events[0].category),
                               {
-                                className: "w-6 h-6 text-white",
+                                className: `w-6 h-6 ${group.events[0].writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-white'}`,
                               },
                             )}
                           </div>
@@ -1090,7 +1090,7 @@ export default function Timeline() {
                               <div
                                 className={`w-8 h-8 ${writingStatusBubbleColors[writingStatus] || writingStatusBubbleColors.planning} rounded-full flex items-center justify-center flex-shrink-0`}
                               >
-                                <EventIcon className="w-4 h-4 text-[var(--color-50)]" />
+                                <EventIcon className={`w-4 h-4 ${writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-[var(--color-50)]'}`} />
                               </div>
                               <div
                                 className="flex-1 min-w-0 cursor-pointer"
@@ -1169,7 +1169,7 @@ export default function Timeline() {
                       {React.createElement(
                         getEventIcon(hoveredEvent.category),
                         {
-                          className: "w-5 h-5 text-white",
+                          className: `w-5 h-5 ${hoveredEvent.writingStatus === 'planning' ? 'text-[var(--color-700)]' : 'text-white'}`,
                         },
                       )}
                     </div>
