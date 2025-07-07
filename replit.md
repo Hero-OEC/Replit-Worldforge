@@ -98,6 +98,13 @@ The application manages several core entities:
 
 ```
 Changelog:
+- July 7, 2025. Completely removed dark theme functionality from application:
+  * Removed ThemeToggle component and theme-context.tsx files completely
+  * Removed ThemeProvider from App.tsx component structure
+  * Cleaned up all dark: CSS classes from all components throughout application
+  * Removed .dark CSS class definitions from index.css file
+  * Application now uses only light mode with InkAlchemy color scheme (--color-50 to --color-950)
+  * Simplified UI to single theme approach per user request for cleaner, focused design
 - July 7, 2025. Successfully completed migration from Replit Agent to standard Replit environment:
   * Fixed missing tsx dependency for TypeScript execution
   * Connected to Supabase database successfully with persistent data storage

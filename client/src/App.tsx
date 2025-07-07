@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NavigationProvider } from "@/contexts/navigation-context";
-import { ThemeProvider } from "@/contexts/theme-context";
+
 import Dashboard from "@/pages/dashboard";
 import ProjectLayout from "@/pages/project-layout";
 import Timeline from "@/pages/timeline";
@@ -34,7 +34,6 @@ import NotFound from "@/pages/not-found";
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
         <NavigationProvider>
           <TooltipProvider>
             <div className="h-screen flex flex-col bg-[var(--color-50)] animate-fade-in">
@@ -69,7 +68,6 @@ function App() {
             <Toaster />
           </TooltipProvider>
         </NavigationProvider>
-      </ThemeProvider>
     </QueryClientProvider>
   );
 }

@@ -66,41 +66,7 @@
   --radius: 0.5rem;
 }
 
-.dark {
-  /* InkAlchemy Dark Mode Color Palette - Inverted hierarchy */
-  --color-50: #382010;
-  --color-100: #613E22;
-  --color-200: #714A22;
-  --color-300: #885A20;
-  --color-400: #A97A25;
-  --color-500: #BF972C;
-  --color-600: #D4B13B;
-  --color-700: #DFC865;
-  --color-800: #EBDF9D;
-  --color-900: #F4F0CD;
-  --color-950: #FAF9EC;
 
-  /* Semantic color mapping for dark mode */
-  --background: var(--color-50);
-  --foreground: var(--color-950);
-  --muted: var(--color-100);
-  --muted-foreground: var(--color-800);
-  --popover: var(--color-50);
-  --popover-foreground: var(--color-950);
-  --card: var(--color-100);
-  --card-foreground: var(--color-950);
-  --border: var(--color-600);
-  --input: var(--color-200);
-  --primary: var(--color-500);
-  --primary-foreground: var(--color-50);
-  --secondary: var(--color-200);
-  --secondary-foreground: var(--color-800);
-  --accent: var(--color-200);
-  --accent-foreground: var(--color-800);
-  --destructive: #DC2626;
-  --destructive-foreground: var(--color-50);
-  --ring: var(--color-500);
-}
 
 
 

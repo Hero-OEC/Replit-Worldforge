@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { BookOpen, Clock, Users, MapPin, Sparkles, Scroll, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ThemeToggle from "@/components/theme-toggle";
+
 
 import inkAlchemyLogo from "@assets/inkalchemy_1751051991309.png";
 
@@ -78,7 +78,6 @@ export default function Navbar({
           </div>
           
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             {rightContent}
           </div>
         </div>
