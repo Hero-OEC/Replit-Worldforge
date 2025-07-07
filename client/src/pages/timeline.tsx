@@ -728,7 +728,7 @@ export default function Timeline() {
                 </div>
               </div>
               <Button 
-                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)]"
+                className="bg-[var(--color-500)] hover:bg-[var(--color-600)] text-[var(--color-50)] dark:bg-[var(--color-600)] dark:hover:bg-[var(--color-700)] dark:text-[var(--color-50)]"
                 onClick={() => navigateWithHistory(`/project/${projectId}/timeline/new`)}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -745,7 +745,7 @@ export default function Timeline() {
               <div className="flex items-start gap-8">
                 <div className="flex items-start space-x-2">
                   <User className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
-                  <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Characters:</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] dark:text-[var(--color-50)] whitespace-nowrap mt-2.5">Characters:</span>
                   <div className="w-64">
                     <TagSearch
                       items={characters.map(char => char.name)}
@@ -758,7 +758,7 @@ export default function Timeline() {
                 </div>
                 <div className="flex items-start space-x-2">
                   <MapPin className="w-5 h-5 text-[var(--color-600)] mt-2.5" />
-                  <span className="text-sm font-medium text-[var(--color-950)] whitespace-nowrap mt-2.5">Locations:</span>
+                  <span className="text-sm font-medium text-[var(--color-950)] dark:text-[var(--color-50)] whitespace-nowrap mt-2.5">Locations:</span>
                   <div className="w-64">
                     <TagSearch
                       items={locations.map(loc => loc.name)}
@@ -790,7 +790,7 @@ export default function Timeline() {
                       setSelectedCharacterFilters([]);
                       setSelectedLocationFilters([]);
                     }}
-                    className="text-[var(--color-700)] border-[var(--color-300)] hover:bg-[var(--color-50)]"
+                    className="text-[var(--color-700)] dark:text-[var(--color-300)] border-[var(--color-300)] dark:border-[var(--color-600)] hover:bg-[var(--color-50)] dark:hover:bg-[var(--color-800)]"
                   >
                     <X className="w-4 h-4 mr-1" />
                     Clear Filters
@@ -805,29 +805,29 @@ export default function Timeline() {
             <div className="rounded-lg p-4 shadow-sm border border-[var(--color-300)] flex items-center space-x-6 bg-[var(--color-100)]">
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-200)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Planning</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">Planning</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-400)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Writing</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">Writing</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-500)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">First Draft</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">First Draft</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-600)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Editing</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">Editing</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-700)] rounded-full"></div>
-                <span className="text-sm text-[var(--color-700)]">Complete</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">Complete</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-[var(--color-600)] rounded-full flex items-center justify-center">
-                  <span className="text-[var(--color-50)] text-xs font-bold">3</span>
+                  <span className="text-[var(--color-50)] dark:text-[var(--color-50)] text-xs font-bold">3</span>
                 </div>
-                <span className="text-sm text-[var(--color-700)]">Multiple Events</span>
+                <span className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">Multiple Events</span>
               </div>
             </div>
           </div>
@@ -1066,10 +1066,10 @@ export default function Timeline() {
                   }}
                 >
                   <div className="mb-3">
-                    <h3 className="font-semibold text-[var(--color-950)] text-lg mb-2">
+                    <h3 className="font-semibold text-[var(--color-950)] dark:text-[var(--color-50)] text-lg mb-2">
                       {hoveredDateGroup.date}
                     </h3>
-                    <p className="text-sm text-[var(--color-700)]">
+                    <p className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)]">
                       {hoveredDateGroup.events.length} events on this date
                     </p>
                   </div>
@@ -1099,7 +1099,7 @@ export default function Timeline() {
                                   navigate(`/project/${projectId}/timeline/${event.id}`);
                                 }}
                               >
-                                <h4 className="font-medium text-[var(--color-950)] text-sm">
+                                <h4 className="font-medium text-[var(--color-950)] dark:text-[var(--color-50)] text-sm">
                                   {event.title}
                                 </h4>
                                 <p className="text-xs text-[var(--color-700)] mt-1">
@@ -1174,10 +1174,10 @@ export default function Timeline() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-[var(--color-950)] text-lg">
+                      <h3 className="font-semibold text-[var(--color-950)] dark:text-[var(--color-50)] text-lg">
                         {hoveredEvent.title}
                       </h3>
-                      <p className="text-sm text-[var(--color-700)] mb-2">
+                      <p className="text-sm text-[var(--color-700)] dark:text-[var(--color-300)] mb-2">
                         {hoveredEvent.date}
                       </p>
                       <div className="flex items-center space-x-2 mb-2">
