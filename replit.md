@@ -98,13 +98,12 @@ The application manages several core entities:
 
 ```
 Changelog:
-- July 7, 2025. Fixed planning timeline bubble icon visibility across all timeline components:
+- July 7, 2025. Fixed planning timeline bubble icon visibility:
   * Changed planning stage icons from white to dark color (text-[var(--color-700)]) for better contrast
-  * Updated main timeline bubbles, multi-event popups, and single event popups to use conditional icon colors
-  * Updated SerpentineTimeline component used in character and location detail pages with same fix
+  * Updated timeline bubbles, multi-event popups, and single event popups to use conditional icon colors
   * Planning stage now uses dark icons while all other stages keep white icons on darker backgrounds
   * Fixed icon visibility issue where white icons were nearly invisible on light planning background (--color-200)
-  * Applied consistent icon color logic across all timeline components (main, character, location) for optimal readability
+  * Applied consistent icon color logic across all timeline components for optimal readability
 - July 6, 2025. Standardized writing status icons across all timeline event pages:
   * Updated writing status icons to match new event page configuration throughout application
   * Changed planning icon from Clock to PenTool across all pages (detail, edit, serpentine timeline)
