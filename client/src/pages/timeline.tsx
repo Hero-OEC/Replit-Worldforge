@@ -1059,7 +1059,7 @@ export default function Timeline() {
               {hoveredDateGroup && hoveredDateGroup.isMultiEvent ? (
                 // Multi-event popup
                 (<Card
-                  className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
+                  className="border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[var(--color-100)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/project/${projectId}/timeline/${hoveredDateGroup.events[0].id}`);
@@ -1156,7 +1156,7 @@ export default function Timeline() {
               ) : hoveredEvent ? (
                 // Single event popup
                 (<Card
-                  className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[#faf9ec]"
+                  className="rounded-lg text-card-foreground border shadow-xl p-4 w-80 cursor-pointer hover:shadow-2xl transition-shadow bg-[var(--color-100)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigateWithHistory(`/project/${projectId}/timeline/${hoveredEvent.id}`);
