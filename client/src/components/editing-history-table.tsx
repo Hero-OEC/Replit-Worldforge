@@ -126,7 +126,7 @@ export default function EditingHistoryTable({ projectId }: EditingHistoryTablePr
               return (
                 <div
                   key={entry.id}
-                  className="flex items-center space-x-4 p-4 rounded-lg border border-[var(--color-200)] hover:shadow-sm transition-shadow bg-[#f4f0cd]"
+                  className="flex items-center space-x-4 p-4 rounded-lg border border-[var(--color-200)] hover:shadow-sm transition-shadow bg-[var(--color-100)]"
                 >
                   <div className="flex items-center justify-center w-10 h-10 bg-[var(--color-200)] rounded-lg">
                     <EntityIcon className="w-5 h-5 text-[var(--color-700)]" />
