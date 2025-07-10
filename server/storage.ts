@@ -108,42 +108,6 @@ export class MemStorage implements IStorage {
     this.currentLoreEntryId = 1;
     this.currentNoteId = 1;
     this.currentEditHistoryId = 1;
-
-    // Add sample notes data for testing
-    this.notes.set(1, {
-      id: 1,
-      title: "Character Development Ideas",
-      content: "Elena needs a stronger motivation for pursuing shadow magic. Consider adding a family tragedy that drives her quest for power. Perhaps her younger brother was killed by someone who used corrupted light magic.",
-      category: "Characters",
-      tags: "Elena,motivation,backstory",
-      projectId: 1,
-      createdAt: new Date(Date.now() - 86400000), // 1 day ago
-      updatedAt: new Date(Date.now() - 86400000),
-    });
-
-    this.notes.set(2, {
-      id: 2,
-      title: "Plot Twist Concepts",
-      content: "What if Marcus Shadowbane is actually Elena's father? This would explain his protective nature and deep knowledge of shadow magic. The revelation could come during the confrontation with Lord Vex.",
-      category: "Plot",
-      tags: "plot twist,Marcus,Elena,family",
-      projectId: 1,
-      createdAt: new Date(Date.now() - 172800000), // 2 days ago
-      updatedAt: new Date(Date.now() - 172800000),
-    });
-
-    this.notes.set(3, {
-      id: 3,
-      title: "Magic System Balance",
-      content: "The shadow magic system needs more limitations to prevent it from being overpowered. Consider: 1) Physical exhaustion after use, 2) Risk of corruption with overuse, 3) Inability to use in pure light environments.",
-      category: "World Building",
-      tags: "magic system,balance,limitations",
-      projectId: 1,
-      createdAt: new Date(Date.now() - 259200000), // 3 days ago
-      updatedAt: new Date(Date.now() - 259200000),
-    });
-
-    this.currentNoteId = 4;
   }
   // Projects
   async getProjects(): Promise<Project[]> {
