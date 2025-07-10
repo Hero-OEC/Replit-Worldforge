@@ -103,7 +103,10 @@ Changelog:
   * Removed backup page files (character-detail.tsx.backup, characters.tsx.backup)
   * Removed old database files (inkalchemy.db*, worldforge.db*)
   * Cleaned up sample data from MemStorage - now starts with empty data
-  * Migration completed successfully with clean codebase and working Electron setup
+  * Removed entire Electron folder (electron/) and all Electron Forge setup per user request
+  * Configured .env file system instead of Replit environment variables for better portability
+  * Updated .gitignore to exclude environment files (.env, .env.local, .env.production)
+  * Migration completed successfully with clean codebase focused on web application
   * All functionality preserved with Supabase database connectivity
 - July 7, 2025. Completely removed dark theme functionality from application:
   * Removed ThemeToggle component and theme-context.tsx files completely
